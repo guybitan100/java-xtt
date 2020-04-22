@@ -33,9 +33,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
-import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+//import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.mobixell.xtt.FunctionModule;
-import com.mobixell.xtt.FunctionModule_Remote;
+//import com.mobixell.xtt.FunctionModule_Remote;
 import com.mobixell.xtt.ModuleList;
 import com.mobixell.xtt.Parser;
 import com.mobixell.xtt.XTT;
@@ -109,7 +109,7 @@ public class XTTGui extends JFrame implements WindowListener,ActionListener
        updateIcon(true);
 
     	try {
-			UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
+			//UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
 			SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e) {
 			System.out.println("Error setting UI Look and Feel");

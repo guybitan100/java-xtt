@@ -1,7 +1,8 @@
 /*
 javac -cp /home/erkans/xmp/lib/mig.jar XTTCustModule.java
 jar -cvf XTTCustModule.jar XTTCustModule.class
-*/
+*//*
+
 
 import com.mobixell.cee.Trace;
 import com.mobixell.intf.cust.CustModuleIntf;
@@ -41,4 +42,4 @@ public class XTTCustModule implements CustModuleIntf
 	public void resetStatistics()
 	{	return;
 	}
-}
+}*/
