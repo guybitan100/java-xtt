@@ -1,0 +1,31 @@
+<test>
+    <name>BZ.TC.12958</name>
+    <description>Test for BZ12958</description>
+    
+    <function name="startWebServer" module="HTTP"/>
+    
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>    
+    
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+        	<parameter>http://</parameter>
+        	<configuration>system/ip</configuration>
+        	<parameter>?adv_id=14042&amp;campaign=&amp;origin=tgp&amp;program_id=10&amp;subprogram_id=1&amp;site_id=1&amp;skin_id=0&amp;second_click=1&amp;lang=en&amp;ref_url=&amp;bypass_popups=1&amp;bypass_f=1</parameter>
+        </parameter>
+    </function>
+    
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>400</parameter>
+	</function>
+  
+    <function name="stopWebServer" module="HTTP"/>
+    
+    <function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>      
+        
+</test>

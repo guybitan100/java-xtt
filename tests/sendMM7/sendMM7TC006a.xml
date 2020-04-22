@@ -1,0 +1,94 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.006a</parameter>
+    </function>
+    <description>MM7 Client cancels 1 MM</description>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <parameter>VASPID001</parameter>
+            <parameter>VASID002</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>0796022207</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>EarliestDeliveryTime</parameter>
+            <parameter>2038-01-18T00:00:00Z</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM7data.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+        <function name="sleep" module="basic">
+            <parameter>1000</parameter>
+        </function>
+        <function name="createMM7Soap" module="VASP">
+            <parameter>CancelReq</parameter>
+            <parameter>VASPID001</parameter>
+            <parameter>VASID002</parameter>
+        </function>
+        <function name="clearContent" module="VASP">
+        </function>
+
+        <function name="setHeader" module="VASP">
+            <parameter>content-type</parameter>
+            <parameter>text/xml</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='CancelReq']</parameter>
+            <parameter>MessageID</parameter>
+            <variable>MessageID</variable>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

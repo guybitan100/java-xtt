@@ -1,0 +1,82 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>EAIF_Msg-MM1_Msg.TC.034</name>
+    <description>In the incoming MM Message there is no HTTP POST body
+				[X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes]
+	</description>
+
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_TO</parameter>
+       <configuration>XMA/POSTPAY/ENABLED/MSISDN2</configuration>
+    </function> 
+   
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+        <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+	<function name="startWebServer" module="HTTP">
+        <configuration>EAIF/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+	<function name="setServerReturnCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+        <parameter> No content</parameter>
+    </function>
+
+    <function name="startSMSCServer" module="SMS"/>
+    
+    <function name="waitForBind" module="SMS"/>
+
+   <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+	 <function name="setHeader" module="HTTP">
+        <parameter>X-NOKIA-MMSC-From</parameter>
+        <variable>ADDR_FROM</variable>
+    </function>
+
+	 <function name="setHeader" module="HTTP">
+        <parameter>X-NOKIA-MMSC-To</parameter>
+        <variable>ADDR_TO</variable>
+    </function>
+
+	<function name="setBase64PostData" module="HTTP">
+        <parameter></parameter>
+    </function>
+
+	<function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>400</parameter>
+    </function>
+
+	<!-- Restore VASP File -->
+    <subtest>../restoreVASP.xml</subtest>
+
+	<function name="stopSMSCServer" module="SMS"/>
+
+	<function name="stopwebServer" module="HTTP"/>
+
+</test>

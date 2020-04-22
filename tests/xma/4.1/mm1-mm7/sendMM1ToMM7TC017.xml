@@ -1,0 +1,91 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM1.MM7.TC.017</name>
+    <description>Corrupted PDUs in the incoming MM1 requests are properly realized and handled by XMA</description>
+
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <function name="startSMSCServer" module="SMS"/>
+    
+    <function name="waitForBind" module="SMS"/>
+
+
+    <function name="setHeader" module="HTTP">
+        <configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+        <variable>MSISDN/0</variable>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>invalidPacket</parameter>
+        <parameter>
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+        </parameter>
+    </function>
+    
+    <function name="setBase64PostData" module="HTTP">
+        <bytestringtobase64>
+            <variable>invalidPacket</variable>
+        </bytestringtobase64>
+    </function>
+    <!--function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <bytestringtobase64>
+            <variable>invalidPacket</variable>
+        </bytestringtobase64>
+    </function-->
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SMSCSERVER/MM1Ip</configuration>
+            <parameter>:</parameter>
+            <configuration>SMSCSERVER/MM1Port</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>400</parameter>
+    </function>
+    <!--function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Response</parameter>
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>PACKET1Response/MMS/x_mms_response_status</parameter>
+        <parameter>dev/null</parameter>
+        <parameter>Error</parameter>
+    </function-->
+
+    <function name="sleep" module="Basic">
+        <parameter>10000</parameter>
+    </function>
+    <function name="stopSMSCServer" module="SMS"/>
+    
+</test>

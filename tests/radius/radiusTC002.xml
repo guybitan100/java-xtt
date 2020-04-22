@@ -1,0 +1,47 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>RADIUS.TC.002</parameter>
+	</function>
+	<function name="executeRemoteXMSCommand" module="Remote">
+	    <parameter>
+		    <configuration>remote/command</configuration>
+    		<parameter>pse3cli da! TI:F.CEE.PSE:PSE3</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+    	<parameter>[Dd]eleted</parameter>
+    	<parameter>temp</parameter>
+    </function>
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+	    <parameter/>
+    </function>
+	<function name="executeRemoteXMSCommand" module="Remote">
+	    <parameter>
+		    <configuration>remote/command</configuration>
+    		<parameter>pse3cli rbng TI:F.CEE.PSE:PSE3</parameter>
+        </parameter>
+    </function>
+    <function name="sleep" module="basic"><parameter>2000</parameter></function>
+	<function name="radiusUpdate" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    <function name="sleep" module="basic"><parameter>2000</parameter></function>
+	<function name="executeRemoteXMSCommand" module="Remote">
+	    <parameter>
+		    <configuration>remote/command</configuration>
+    		<parameter>pse3cli rbng TI:F.CEE.PSE:PSE3</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+    	<parameter>(\074name\076)xttuser(\074/name\076)</parameter>
+    	<parameter>test</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+</test>

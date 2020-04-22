@@ -1,0 +1,115 @@
+<test>
+	
+	<name>UnconditionalForwarding.TC.003.b</name>
+    <description>Validate the subscriber can independently enable/disable the feature and define an alternate address (to Disable)
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+1. Using Subscriber MMS Extra web portal.
+2. Define an alternate address for any specific number to forward all the message
+3. Now update UnconditionalForwarding field name from disable to enable.
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  2. Remote
+	  3. Basic -->
+</description> 
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceForward subscriberId=5001  serviceEnabled=false serviceConditional=true forwardingMsisdn="0891115101" forwardingAll=true subjectPrefix="Fwd"
+	</parameter>
+	</function>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/FORWARD/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/NOTINDB/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a test message </parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "pass" response from Application to MMS proxy server due to no feature available for Sender-->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>pass</parameter>
+	</function>
+
+	<!-- Check for No MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Reset values in DB -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceForward subscriberId=5001  serviceEnabled=true serviceConditional=true forwardingMsisdn="0891115101" forwardingAll=false subjectPrefix="Fwd"
+	</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+
+</test>

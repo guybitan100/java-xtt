@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appConfig>
+
+<!-- $Id: mmsx_Appconfig.xml,v 1.1 2010/07/16 11:24:04 mbhopale Exp $ -->
+ 
+<!-- This is the example appconfig file for MMSX. -->
+
+<!-- 
+This is used to warn a subscriber that their free disk space on the database is getting low.
+You use the archiveMaxDiskSpaceKb parameter to configure the maximum disk space that each subscriber can use for their archive folders and their autoreply messages.
+
+When the free space falls below the value you configure with archiveFreeSpaceThresholdKb, the subscriber portal displays some text on the screen to tell the subscriber that they are running out of disk space and that they should delete messages to free up some space.-->
+<parameter name="archiveFreeSpaceThresholdKb">
+    <value>0</value>
+</parameter>
+
+<!-- 
+This is the maximum amount of disk space that each subscriber can use for their archived messages and their autoreply messages.
+
+When a subscriber reaches this limit, MMSX stops archiving messages for that subscriber. -->
+<parameter name="archiveMaxDiskSpaceKb">
+    <value>15000</value>
+</parameter>
+
+<!--
+The text of the message status that is shown in the outbox if the message was successfully delivered to all of the target recipients. -->
+<parameter name="archiveStatusDelivered">
+    <value>Delivered</value>
+</parameter>
+
+<!--
+The text of the message status that is shown in the inbox if the message was forwarded to the subscriber’s forwarding address. 
+
+MMSX sets the status to forwarded when it successfully sends the message to the local MMSC. It means that the MMSC has accepted responsibility for delivering the message but MMSX does not know whether the forwarded message was delivered. -->
+<parameter name="archiveStatusForwarded">
+    <value>Forwarded</value>
+</parameter>
+
+<!--
+The text of the message status that is shown in the outbox if the message was not delivered to any of the target recipients..  -->
+<parameter name="archiveStatusNotDelivered">
+    <value>Not delivered</value>
+</parameter>
+
+<!--
+The text of the message status that is shown in the outbox if MMSX has stored the message in its message store, but has not yet managed to send the message to its local MMSC. -->
+<parameter name="archiveStatusSending">
+    <value>Sending</value>
+</parameter>
+
+<!--
+The text of the message status that is shown in the outbox if MMSX successfully sent the message to the local MMSC and the MMSC accepted responsibility for delivering the message, but MMSX does not yet know whether the message got to the target recipients. -->
+<parameter name= >
+    <value>Sent</value>
+</parameter>
+
+<!-- 
+This is a list of nicknames that are banned. MMSX does not allow subscribers to select any of these nicknames. -->
+<parameter name="bannedNicknames">
+    <value>bannedNickName1</value>
+    <value>bannedNickName2</value>
+    <value>bannedNickName3</value>
+</parameter>
+
+<!--
+The string that a subscriber uses in the prefix of the subject of an MMS message that says that this is a calendar message that is to be delivered at a specified time and date.
+
+It is followed by a string that species the date and time in the following format, where "HH" is the hours in 24 hour format:
+
+    <HH:mm DD.MM.YY> 
+-->
+<parameter name="calendarDateSubjectPrefix">
+    <value>T</value>
+</parameter>
+
+<!--
+The string that a subscriber uses in the prefix of the subject of an MMS message that says that this is a calendar message that is to be delivered after a specified number of minutes.
+
+It is followed by a string that species the number of minutes in the following format, where "n" is a value between 1 and 9999:
+
+    <n>
+-->
+<parameter name="calendarDurationSubjectPrefix">
+    <value>D</value>
+</parameter>
+
+<!--
+This defines how far into the future a subscriber can ask for a message to be sent.  -->
+<parameter name="calendarMaxFutureDays">
+    <value>7</value>
+</parameter>
+
+<!--
+Parameters whose names begin with "errorMm1Text" define various error messages that
+the MMSX application may return to the Advanced MM1 proxy -->
+
+<parameter name="errorMm1TextExpressMultipleRecipients">
+    <value>MMSX: Express message rejected because you can only send a express message to a single target recipient.</value>
+</parameter>
+<parameter name="errorMm1TextInsufficientFunds">
+    <value>MMSX: Message rejected because the balance in your account is too low.</value>
+</parameter>
+<parameter name="errorMm1TextInvalidCalendarTime">
+    <value>MMSX: Calendar message rejected because the calendar time was invalid (the time format was invalid, or the time was in the past or too far ahead in the future)</value>
+</parameter>
+<parameter name="errorMm1TextRecipientOnBlacklist">
+    <value>MMSX: Secret message rejected because the recipient is on our global backlist.</value>
+</parameter>
+<parameter name="errorMm1TextSecretMultipleRecipients">
+    <value>MMSX: Secret message rejected because you can only send a secret message to a single target recipient.</value>
+</parameter>
+<parameter name="errorMm1TextSecretNoPassword">
+    <value>MMSX: Secret message rejected because you have not configured a password for the target recipient.</value>
+</parameter>
+<parameter name="errorMm1TextSecretUnknownRecipient">
+    <value>MMSX: Secret message rejected because the target recipient has not registered for MMS Extra services.</value>
+</parameter>
+<parameter name="errorMm1TextUnknownGroup">
+    <value>MMSX: Message to a group rejected because you have not configured the specified group.</value>
+</parameter>
+<parameter name="errorMm1TextUnknownSender">
+    <value>MMSX: Message rejected because its subject started with an MMS Extra keyword but you have not registered for MMS Extra services.</value>
+</parameter>
+
+
+<!--
+This says how long an express message can stay in the message store. After this time, it is deleted from the message store.  -->
+<parameter name="expressExpiryHours">
+    <value>168</value>
+</parameter>
+
+<!--
+The start of the text of the WAP push message that MMSX sends to the recipient of an express message. It is followed by the URL that the subscriber clicks to display the MMS message.  -->
+<parameter name="expressNotificationText">
+    <value>MMS Extra: New message from $from, click URL to display the message: </value>
+</parameter>
+
+<!--
+The prefix of the URL that identifies an express message. This has the format:
+
+   http[s]://<domain>[:<port>]/<path>
+
+   where:
+
+   *  <domain> and <port> are the domain name (or IP address) and port of the load balancer in front of MMSX that receives incoming requests to access the subscriber portal.
+
+   *  <path> is any string you want.
+
+It does not include the search string part of the URL, which uniquely identifies the message within the store. -->
+<parameter name="expressRetrievalUrl">
+    <value>http://telco.example:8888/ExpressRetrieval</value>
+</parameter>
+
+<!--
+The string that a subscriber uses in the prefix of the subject of an MMS message that says that this is an express message.  -->
+<parameter name="expressSubjectPrefix">
+    <value>!</value>
+</parameter>
+
+<!--
+The text of the SMS message that is sent back to the subscriber when they use an SMS or USSD message to turn on the forwarding service and to change their forwarding address to something that doesn’t look like an MSISDN. -->
+<parameter name="forwardingInvalidAddress">
+    <value>MMSX Extra: Request failed - invalid forwarding phone number.</value>
+</parameter>
+
+<!-- 
+The text that the subscriber puts in an SMS message that they send to the shortcode configured by forwardingOnOffShortcode in order to turn off the forwarding service.
+
+The text is case insensitive. For example, if the value is "off", a subscriber can use "OFF", "off", "OfF" and so on. -->
+<parameter name="forwardingOffText">
+    <value>off</value>
+</parameter>
+
+<!--
+The shortcode to which subscribers send SMS messages in order to turn the forwarding service on 
+or off. This parameter is optional. If it’s missing then subscribers can’t use SMS to turn the service 
+on and off.  -->
+<parameter name="forwardingOnOffShortcode">
+    <value>22222</value>
+</parameter>
+
+<!-- 
+The text that the subscriber puts in an SMS message that they send to the shortcode configured by forwardingOnOffShortcode in order to turn on the forwarding service. 
+
+The text can optionally be following by one or more space characters, then the subscriber’s new forwarding address. The text is case insensitive. For example, if the value is "on", a subscriber can use "ON", "on", "On" and so on.  -->
+<parameter name="forwardingOnText">
+    <value>on</value>
+</parameter>
+
+<!--
+The text of the SMS message that is sent back to the subscriber when they use the portal or an SMS message to turn off the forwarding service. -->
+<parameter name="forwardingStatusOffText">
+    <value>The MMS Extra forwarding service is now turned off.</value>
+</parameter>
+
+<!--
+The prefix of the text of the SMS message that is sent back to the subscriber when they use the portal or an SMS message to turn on the forwarding service. This text is followed by the subscriber’s current forwarding address. -->
+<parameter name="forwardingStatusOnText">
+    <value>The MMS Extra forwarding service is now turned on. Your forwarding address is: </value>
+</parameter>
+
+<!--
+The text that is added to the start of the subject line for a forwarded message. -->
+<parameter name="forwardingSubjectPrefix">
+    <value>Fwd: </value>
+</parameter>
+
+<!--
+The text of the SMS message that MMSX sends to a subscriber when they try to use an SMS or USSD message to turn the forwarding service on or off but the first word of the message matches neither the forwardingOffText or forwardingOnText parameter.  -->
+<parameter name="forwardingUnknownStatusText">
+    <value>MMSX: request failed. Invalid message text to configure forwarding (see the help on the website www.mts.ru for more information).</value>
+</parameter>
+
+<!-- 
+This is the global blacklist. It is a list of shortcodes and normalized MSISDNs that:
+
+*  Cannot be used as the target recipient for a secret message.
+*  Are not to be archived in any subscriber’s outbox when the subscriber sends a message to an MSISDN or shortcode on this list.
+ -->
+<parameter name="globalBlacklist">
+    <value>447739751723</value>
+    <value>447898654014</value>
+</parameter>
+
+<!--
+The shortcode that subscribers put as a recipient address in an MMS message that is to be sent to a group. MMSX replaces this shortcode with the list of the MSISDNs of all the subscribers in the group whose name is specified as the prefix of the subject of the incoming message.  -->
+<parameter name="groupShortcode">
+    <value>44444</value>
+</parameter>
+
+<!-- 
+The maximum number of entries that can be in a subscriber’s black or white list. -->
+<parameter name="maxEntriesPerSubscriberFilterList">
+    <value>100</value>
+</parameter>
+
+<!-- 
+The maximum number of MMS groups that a subscriber can configure. -->
+<parameter name="maxGroupsPerSubscriber">
+    <value>5</value>
+</parameter>
+
+<!-- 
+The maximum number of characters that can be in a group name. -->
+<parameter name="maxLengthGroupName">
+    <value>10</value>
+</parameter>
+
+<!-- 
+The maximum number of phone numbers that can be in a single MMS group. -->
+<parameter name="maxMembersPerGroup">
+    <value>30</value>
+</parameter>
+
+<!-- 
+The shortcode that is used as the "from" address when MMSX sends a submission request via MM7. -->
+<parameter name="mm7FromAddressShortcode">
+    <value>33333</value>
+</parameter>
+
+<!--
+The text that a subscriber puts when they send an SMS message to turn on the conditional nickname service. This text is followed by one or more space characters, then the nickname the subscriber wants to use.
+The text is case insensitive. For example, if the value is "cond", a subscriber can use "COND", "cond", "Cond" and so on. -->
+<parameter name="nicknameConditionalText">
+    <value>cond</value>
+</parameter>
+
+<!--
+The text of the SMS message that MMSX sends back to the subscriber when they use an SMS message to turn on the nickname service and try to select an invalid nickname, which is:
+
+*  A string that looks like an MSISDN.
+
+*  A string that is longer than 8 characters or that contains characters other than alphanumeric characters.
+
+*  A string that is on the list of banned nicknames configured by the bannedNicknames parameter in the appconfig file. 
+ -->
+<parameter name="nicknameInvalidNickname">
+    <value>MMSX Extra: Request failed - invalid nickname.</value>
+</parameter>
+
+<!--
+This is the text that the subscriber puts in an SMS or USSD message that they send to the shortcode configured by nicknameShortcode in order to turn off the nickname service.  -->
+<parameter name="nicknameOffText">
+    <value>off</value>
+</parameter>
+
+<!--
+The shortcode to which subscribers send an SMS or USSD message to configure the nickname service. -->
+<parameter name="nicknameShortcode">
+    <value>77777</value>
+</parameter>
+
+<!--
+When a subscriber has turned on the conditional nickname service, the subscriber puts this string in the prefix of the subject of an MMS message if they want to use the nickname service for that message. -->
+<parameter name="nicknameSubjectPrefix">
+    <value>?</value>
+</parameter>
+
+<!--
+This is the text that the subscriber puts in an SMS message that they send to the shortcode configured by nicknameShortcode in order to turn on the unconditional nickname service. 
+The text is case insensitive. For example, if the value is "on", a subscriber can use "ON", "on", "On" and so on. -->
+<parameter name="nicknameUnconditionalText">
+    <value>on</value>
+</parameter>
+
+<!--
+The text of the SMS message that MMSX sends to a subscriber when they try to configure the nickname service but the format of the text of the SMS or USSD message was invalid. -->
+<parameter name="nicknameUnknownStatusText">
+    <value>MMS Extra: Invalid request to change status of nickname service.</value>
+</parameter>
+
+<!--
+ The text that the subscriber puts at the start of an SMS message that they send to the shortcode configured by serviceSmsShortcode in order to identify the service as the autoreply service.
+The text is case insensitive. For example, if the value is "ooo", a subscriber can use "OOO", "ooo", "oOO" and so on. -->
+<parameter name="oooSmsMessagePrefix">
+    <value>ooo</value>
+</parameter>
+
+<!-- 
+The text that subscribers put after the text configured by oooSmsMessagePrefix when they send SMS messages to turn off the autoreply service.
+The text is case insensitive. For example, if the value is "off", a subscriber can use "OFF", "off", "OfF" and so on. -->
+<parameter name="oooSmsOffText">
+    <value>off</value>
+</parameter>
+
+<!--
+The text that subscribers put after the text configured by oooSmsMessagePrefix when they send SMS messages to turn on the autoreply service.
+The text is case insensitive. For example, if the value is "on", a subscriber can use "ON", "on", "On" and so on.  -->
+<parameter name="oooSmsOnText">
+    <value>on</value>
+</parameter>
+
+<!--
+The text of the SMS message that is sent back to the subscriber when they use an SMS or USSD message or the portal to turn off the autoreply service. -->
+<parameter name="oooStatusOffText">
+    <value>MMS Extra: Autoreply service is now turned off.</value>
+</parameter>
+
+<!-- 
+The text of the SMS message that is sent back to the subscriber when they use an SMS or USSD message or the portal to turn on the autoreply service. -->
+<parameter name="oooStatusOnText">
+    <value>MMS Extra: Autoreply service is now turned on.</value>
+</parameter>
+
+<!--
+The text of the SMS message that MMSX sends to a subscriber when they send an SMS or USSD message to configure the autoreply service (MMSX recognized the autoreply prefix at the start of the message) but MMSX did not recognize the requested service status (it did not recognize the string after that prefix). -->
+<parameter name="oooUnknownStatusText">
+    <value>MMS Extra: Invalid request to change status of autoreply service.</value>
+</parameter>
+
+<!--
+The string at the start of a USSD message that identifies the service as the autoreply service. -->
+<parameter name="oooUssdMessagePrefix">
+    <value>3</value>
+</parameter>
+
+<!-- 
+This specifies how long a subscriber’s portal session can be idle before they are automatically logged off.-->
+<parameter name="portalSessionTimeoutMins">
+    <value>180</value>
+</parameter>
+
+<!--
+The maximum length of time that MMSX will store a secret MMS message in the message store. After this time elapses the message is deleted from the store. 
+-->
+<parameter name="secretExpiryHours">
+    <value>240</value>
+</parameter>
+
+<!--
+The text of the SMS message that MMSX sends back to a recipient when they send an SMS message that contains the password, but that recipient address and password pair don’t match any items in the message store. -->
+<parameter name="secretNoMatchText">
+    <value>MMS Extra secret message service. The password you sent us did not match any secret messages, maybe because you sent the wrong password or you have already retrieved the message.</value>
+</parameter>
+
+<!--
+The text of the SMS message that MMSX sends to the sender if a secret message expires before a recipient has collected it.  -->
+<parameter name="secretNotCollectedText">
+    <value>MMS Extra: Secret message sent to $to was not collected (sent: $date, subject: "$subject").</value>
+</parameter>
+
+<!--
+The MSISDN that MMSX uses as the "from" address when it sends a subscriber a notification message to tell them that they have a secret message waiting for them. This is the MSISDN to which the subscriber must send the SMS message that contains their password. -->
+<parameter name="secretNotificationReplyAddress">
+    <value>11111111111</value>
+</parameter>
+
+<!--
+The text of the SMS message that MMSX sends to a subscriber to notify them that they have a new secret message.
+-->
+<parameter name="secretNotificationText">
+    <value>MMS Extra: You have a new secret MMS from $from. To receive it, please reply to this message with your password.</value>
+</parameter>
+
+<!--
+The string that a subscriber puts in the prefix of the subject of an MMS message that says that this is a secret MMS message.  -->
+<parameter name="secretSubjectPrefix">
+    <value>#</value>
+</parameter>
+
+<!--
+The text of the SMS message that MMSX sends to the subscriber when they send an SMS to serviceSmsShortcode or a USSD message and either:
+
+*  For an incoming SMS message, the start of the message did not match any of the service prefixes (configured by fwdSmsMessagePrefix, nickSmsMessagePrefix, and oooSmsMessagePrefix) and the message store did not contain any secret messages for that subscriber whose password matched the first word of the message.
+
+*  For an incoming USSD message, the message did not start with any of the service prefixes (configured by fwdUssdMessagePrefix, nickUssdMessagePrefix, and oooUssdMessagePrefix).
+-->
+<parameter name="serviceInvalidSmsUssdInputText">
+    <value>MMS Extra: Invalid input, please send the request again.</value>
+</parameter>
+
+<!--
+The shortcode to which subscribers send SMS messages in order to configure MMS Extra services, and messages that contain the passwords for secret messages.-->
+<parameter name="serviceSmsShortcode">
+    <value>11111</value>
+</parameter>
+
+<!--
+The string after the text configured by nickUssdMessagePrefix, fwdUssdMessagePrefix or oooUssdMessagePrefix in USSD messages to turn off a service. Any characters after this string are ignored. -->
+<parameter name="serviceUssdOff">
+    <value>0</value>
+</parameter>
+
+<!--
+The string after the text configured by fwdUssdMessagePrefix or oooUssdMessagePrefix in USSD messages to turn on a service. 
+For the forwarding service, this string can be followed by any number of space characters and then the forwarding address. Any characters after the forwarding address are ignored.
+For the autoreply service, any characters after this string are ignored. -->
+<parameter name="serviceUssdOn">
+    <value>1</value>
+</parameter>
+
+<!--
+The SSO logout URL. This is the URL that is used when a subscriber clicks the logout button in the portal. -->
+<parameter name="ssoLogoutUrl">
+    <value>http://10.0.1.113:9080/amserver/UI/Logout</value>
+</parameter>
+
+<!--
+This is used as the "from" address for any outgoing messages that MMSX sends to subscribers to provide some information but where MMSX does not want to process their replies. -->
+<parameter name="systemShortcode">
+    <value>55555</value>
+</parameter>
+
+<!-- 
+The value of the key for reading the MSISDN that the SSO server returns in its response to the subscriber portal at the start of a session. -->
+<parameter name="userMsisdnKey">
+    <value>usermsisdn</value>
+</parameter>
+
+<!-- 
+The value of the key for reading the user name that the SSO server returns for the customer care user in its response to the subscriber portal at the start of a session. -->
+<parameter name="userNameKey">
+    <value>username</value>
+</parameter>
+
+<!-- 
+The value of the key for reading the user role that the SSO server returns in its response to the subscriber portal at the start of a session. There are two roles, one for a subscriber and one for an operator. -->
+<parameter name="userRoleKey">
+    <value>userrole</value>
+</parameter>
+</appConfig>

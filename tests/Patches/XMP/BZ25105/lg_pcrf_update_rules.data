@@ -1,0 +1,9 @@
+S("<soapenv:Envelope xmlns:soapenv=") 22 S("http://schemas.xmlsoap.org/soap/envelope/") 22 S(" xmlns:pcrf=") 22 S("http://pcrf.intf.mobilgw.com/") 22 S(">")
+S("   <soapenv:Header/>")
+S("   <soapenv:Body>")
+S("      <pcrf:updateRules>")
+S("         <subscriberId>") S([SOAP_REQUEST/params/subscriberId]) S("</subscriberId>")
+S("      </pcrf:updateRules>")
+S("   </soapenv:Body>")
+S("</soapenv:Envelope>")
+

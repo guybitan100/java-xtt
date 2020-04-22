@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productView>
+  <configuration description="X-treme light-speed accelerator configuration" name="XMA"/>
+  <systemEnvironment jdkDirectory="/usr/local/java" operatingSystem="Linux" userId="danielk" workspaceDirectory="/home/danielk/XMA/XMA_40-branch"/>
+  <systemScaling>
+    <protocolScaling protocol="DEFAULT">
+      <in concurrency="64"/>
+      <out concurrency="64"/>
+    </protocolScaling>
+  </systemScaling>
+  <logging logDirectory="/home/danielk/XMA/XMA_40-branch/log" logPeriod="Midnight" maxLogFileSizeMBytes="100">
+    <customLogging interval="15" startPastHour="0"/>
+  </logging>
+  <messageStores>
+    <messageStore maxStoreMinutes="4319" minStoreMinutes="20" name="One" type="InMemoryWithPaging">
+      <mm1 userIdHeader="x-724-msisdn"/>
+      <mm4>
+        <mta ipAddress="172.20.4.120" port="25"/>
+      </mm4>
+      <mm3>
+        <mta ipAddress="172.20.4.120" port="25"/>
+      </mm3>
+    </messageStore>
+  </messageStores>
+  <monitoring>
+    <alerts logInSysLog="true"/>
+    <snmp>
+      <accept>
+        <inet>
+          <sourceNms accessRight="READ_WRITE" community="public" manager="255!255!255!255"/>
+        </inet>
+      </accept>
+      <send udpPort="1620">
+       <targetNms community="public" manager="172.20.4.120"/>
+      </send>
+    </snmp>
+  </monitoring>
+    <smsc>
+        <channels>
+            <channel name="TestChannel"/>
+        </channels>
+        <connections>
+            <connection name="TestConnection" network="GSM" maxMessagesPerSecond="0">
+                <connectionProtocol>
+		<!--
+                <ucp>
+                    <connectionOptions>
+                        <option name="address">12345</option>
+                        <option name="authenticationCode" />
+                        <option name="npi">1</option>
+                        <option name="password">password</option>
+                        <option name="ton">6</option>
+                    </connectionOptions>
+                    <messageOptions>
+                        <option name="messageClass">1</option>
+                        <option name="messageType">4</option>
+                        <option name="originatorTypeOfAddress" />
+                        <option name="priorityRequest">0</option>
+                        <option name="sendOperation">51</option>
+                        <option name="sourceAddr">12345</option>
+                        <option name="validityPeriod" />
+                    </messageOptions>
+                    <options>
+                        <option name="maxConcurrentReq">1</option>
+                        <option name="maxPduSize">4096</option>
+                        <option name="mode">1</option>
+                        <option name="use60Open">true</option>
+                    </options>
+                </ucp>
+		-->
+                <!-- -->
+                <cimd2>
+                	<connectionOptions>
+                		<option name="address">12345</option>
+                		<option name="password">password</option>
+                		<option name="userID">test</option>
+                	</connectionOptions>
+                	<messageOptions>
+                		<option name="cimdMessageType">0</option>
+                		<option name="dataCoding">4</option>
+                		<option name="priorityFlag">0</option>
+                		<option name="protocolId">0</option>
+                		<option name="serviceDescription"/>
+                		<option name="sourceAddr">12345</option>
+                		<option name="tariffClass"/>
+                		<option name="transportType">0</option>
+                		<option name="validityPeriod"/>
+                	</messageOptions>
+                	<options>
+                		<option name="maxConcurrentReq">1</option>
+                		<option name="maxPduSize">4096</option>
+                	</options>
+                </cimd2>
+                <!-- -->
+                </connectionProtocol>
+                <sendAddress port="2775" ipAddress="172.20.4.120"/>
+            </connection>
+        </connections>
+    </smsc>  
+
+<machines>
+    <machine hostName="lanta" hostEmbeddedDatabase="true" isManagementServer="true">
+      <mgmtWebServer ipAddress="0.0.0.0" port="9999"/>
+      <titaniumIpAddresses>
+        <titaniumIpAddress>172.20.2.89</titaniumIpAddress>
+      </titaniumIpAddresses>
+      <processes>
+        <in messageStoreName="One" protocol="MM1">
+          <nonsecureAddress ipAddress="0.0.0.0" port="4001"/>
+          <mm1 cacheSizeMBytes="2000"/>
+        </in>
+        <in messageStoreName="One" protocol="MM3">
+          <nonsecureAddress ipAddress="0.0.0.0" port="4003"/>
+        </in>
+        <in messageStoreName="One" protocol="MM4">
+          <nonsecureAddress ipAddress="0.0.0.0" port="4004"/>
+        </in>
+        <in messageStoreName="One" protocol="MM7">
+          <secureAddress ipAddress="0.0.0.0" port="14007"/>
+          <nonsecureAddress ipAddress="0.0.0.0" port="4007"/>
+        </in>
+        <msp messageStoreName="One" partitionNumber="1">
+          <inMemoryWithPaging maxMemorySizeMBytes="1200"/>
+        </msp>
+        <out messageStoreName="One" messageStorePartitionNumber="1" protocol="MM1">
+          <mm1 channelType="SMS" mmscHost="lanta.len.tantau.com" mmscPort="4001" mmscProtocol="http">
+            <sms channel="TestChannel"/>
+          </mm1>
+        </out>
+        <out messageStoreName="One" messageStorePartitionNumber="1" protocol="MM3"/>
+        <out messageStoreName="One" messageStorePartitionNumber="1" protocol="MM4"/>
+        <out messageStoreName="One" messageStorePartitionNumber="1" protocol="MM7"/>
+        <sms channel="TestChannel">
+          <connections>
+            <connection name="TestConnection"/>
+          </connections>
+        </sms>
+        <webApplication enableCustomProvApi="true" processNameSuffix="1">
+          <listenAddress ipAddress="0.0.0.0" port="8080"/>
+        </webApplication>
+        <appServices/>
+      </processes>
+      <managementServer>
+        <snmpAgentAddress ipAddress="172.20.2.89" port="1610"/>
+        <dashboardListenAddress ipAddress="172.20.2.89" port="7777"/>
+      </managementServer>
+    </machine>
+  </machines>
+
+  <contentConversion>
+    <externalConversion originatorId="724 ECC" >
+      <remoteAddress ipAddress="172.20.4.120" port="7890" />
+    </externalConversion>
+  </contentConversion>
+ 
+  <customization>
+    <xupdates>
+      <xupdate description="MemoryDebug">
+        <fileName>xupdates/MemoryDebugXupdate.xml</fileName>
+      </xupdate>
+      <xupdate description="Fixes">
+        <fileName>xupdates/xma-workflow-xupdate.xml</fileName>
+      </xupdate>
+      <xupdate description="License">
+        <fileName>xupdates/license-XMA-lanta-xupdate.xml</fileName>
+      </xupdate>
+    </xupdates>
+  </customization>
+
+</productView>

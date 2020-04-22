@@ -1,0 +1,47 @@
+<test>
+
+    <function name="testName" module="Basic">
+        <parameter>RADIUS.TC.002c</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <configuration>xmg/tool</configuration>
+        <parameter>pse3cli da! TI:F.CEE.PSE:PSE3</parameter>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>12346</parameter>
+        <parameter>12346</parameter>
+        <parameter/>
+    </function>
+    
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.google.com/</parameter>
+    </function>    
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>403</parameter>
+    </function>    
+    
+    <!-- CHANGE THIS SLEEP VALUE IF YOU WANT TO CHANGE THE TIME YOU WAIT BETWEEN THE LOGON AND UPDATE -->
+    <function name="sleep" module="basic"><parameter>2000</parameter></function>
+    
+    <function name="radiusUpdate" module="Radius">
+        <parameter>12346</parameter>
+        <parameter>12346</parameter>
+    </function>
+    
+    <!-- CHANGE THIS URL IF YOU NEED TO DO REQMOD TESTS -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.google.com/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>    
+    <function name="sleep" module="basic"><parameter>2000</parameter></function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>12346</parameter>
+        <parameter>12346</parameter>
+    </function>
+</test>

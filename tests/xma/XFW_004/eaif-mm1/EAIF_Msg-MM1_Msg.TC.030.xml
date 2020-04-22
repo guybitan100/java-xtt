@@ -1,0 +1,153 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>EAIF_Msg-MM1_Msg.TC.030</name>
+    <description>In the incoming MM Message Content-Length HTTP Header is invalid (contains alpha characters) [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes]</description>
+
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_TO</parameter>
+       <configuration>XMA/POSTPAY/ENABLED/MSISDN2</configuration>
+    </function> 
+   
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+        <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+	<function name="startWebServer" module="HTTP">
+        <configuration>EAIF/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+	
+	<function name="setServerReturnCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+        <parameter> No content</parameter>
+    </function>
+
+    <function name="startSMSCServer" module="SMS"/>
+    
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>ADDR_TO</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+   
+    <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World!</base64encode>
+    </function>
+
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+     
+     <function name="setVariableLines" module="Basic">
+        <parameter>1</parameter>
+        <parameter>headers</parameter>
+        <parameter>
+            <parameter>POST http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/ HTTP/1.1</parameter>
+        </parameter>
+        <parameter>
+            <parameter>host: </parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+        </parameter>
+        <parameter>date: Tue, 21 Oct 2008 12:39:22 GMT</parameter>
+        <parameter>connection: keep-alive</parameter>
+        <parameter>accept: text/html, image/gif, image/jpeg, image/png, *; q=.2, */*; q=.2</parameter>
+        <parameter>user-agent: XTT/Private Build (testing; Java/1.5.0_08-b03; Windows XP x86 5.1; rsoder; HTTP; $Revision: 1.2 $)</parameter>
+        <parameter>content-length: two hundred bytes</parameter>
+		<parameter>content-type: application/vnd.wap.mms-message</parameter>
+        <parameter></parameter>
+    </function>
+
+    <function name="sendPacket" module="TCP">
+        <configuration>XMA/EAIFIP</configuration>
+        <configuration>XMA/EAIFPORT</configuration>
+        <parameter>
+            <bytestringencode><variable>headers</variable></bytestringencode>
+            <base64tobytestring><variable>sendPacket1Base64</variable></base64tobytestring>
+        </parameter>
+    </function>
+
+   <function name="responseToVariable" module="TCP">
+        <parameter>response</parameter>
+    </function>
+
+    <function name="queryText" module="Basic">
+        <variable>response</variable>
+        <parameter>dev/null</parameter>
+        <parameter>^HTTP/1.1 400 Bad request\r\n</parameter>
+    </function>
+
+	<!-- Restore VASP File -->
+    <subtest>../restoreVASP.xml</subtest>
+
+	<function name="stopSMSCServer" module="SMS"/>
+
+	<function name="stopWebServer" module="HTTP"/>
+
+</test>

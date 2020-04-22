@@ -1,0 +1,28 @@
+<configuration>
+    <MM5TC>
+        <msisdnPrefix1>447879</msisdnPrefix1>
+        <imsiPrefix1>23415</imsiPrefix1>
+        
+        <msisdnPrefix2>01234</msisdnPrefix2>
+        <imsiPrefix2>23433</imsiPrefix2>
+        
+        <msisdnPrefix3>01233</msisdnPrefix3>
+        <imsiPrefix3>67890</imsiPrefix3>        
+        
+        <domain1>xma.724.com</domain1>
+        <domain2>xma.734.com</domain2>
+        <domain3>xma.744.com</domain3>
+        
+        <msisdn11>447879120</msisdn11>
+        <msisdn12>447879127</msisdn12>
+        <msisdn13>447879129</msisdn13>
+        
+        <msisdn21>01234560</msisdn21>
+        <msisdn22>01234567</msisdn22>
+        <msisdn23>01234569</msisdn23>
+
+        <msisdn31>0123567</msisdn31> 
+        
+        <email>gavin</email>
+    </MM5TC>
+</configuration>

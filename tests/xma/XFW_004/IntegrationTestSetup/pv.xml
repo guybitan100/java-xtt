@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productView>
+   <configuration description="XMA_Postbuild_Tests"  name="XMA" />
+   <systemEnvironment jdkDirectory="UPDATE_XFW_HOST_JDK" operatingSystem="UPDATE_XFW_HOST_OS" userId="UPDATE_XFW_HOST_USER" workspaceDirectory="UPDATE_XFW_INSTALL_DIR" />
+
+  <systemScaling>
+    <protocolScaling protocol="DEFAULT">
+      <in concurrency="64"/>
+      <out concurrency="64"/>
+    </protocolScaling>
+  </systemScaling>
+  <logging logDirectory="UPDATE_XFW_LOG" logPeriod="Midnight" maxLogFileSizeMBytes="100" >
+    <customLogging interval="15" startPastHour="0"/>
+  </logging>
+  <messageStores>
+    <messageStore maxStoreMinutes="4319" minStoreMinutes="20" name="One" type="InMemoryWithPaging">
+      <mm1 userIdHeader="x-724-msisdn" />
+      <mm4>
+        <mta ipAddress="UPDATE_XFW_HOST_IP" port="2525"/>
+      </mm4>
+      <mm3>
+        <mta ipAddress="UPDATE_XFW_HOST_IP" port="2525"/>
+      </mm3>
+    </messageStore>
+  </messageStores>
+  <monitoring>
+    <alerts logInSysLog="true"/>
+    <snmp>
+      <accept>
+        <inet>
+          <sourceNms accessRight="READ_WRITE" community="public" manager="255!255!255!255"/>
+        </inet>
+      </accept>
+      <send udpPort="1620">
+       <targetNms community="public" manager="UPDATE_XFW_HOST_IP"/>
+      </send>
+    </snmp>
+  </monitoring>
+    <smsc>
+        <channels>
+            <channel name="TestChannel"/>
+        </channels>
+        <connections>
+            <connection name="TestConnection" network="GSM" maxMessagesPerSecond="0">
+                <connectionProtocol>
+                    <ucp>
+                        <connectionOptions>
+                            <option name="address">12345</option>
+                            <option name="authenticationCode" />
+                            <option name="npi">1</option>
+                            <option name="password">UPDATE_UCP_ENCRYPTED_PASSWORD</option>
+                            <option name="ton">6</option>
+                        </connectionOptions>
+                        <messageOptions>
+                            <option name="messageClass">1</option>
+                            <option name="messageType">4</option>
+                            <option name="originatorTypeOfAddress" />
+                            <option name="priorityRequest">0</option>
+                            <option name="sendOperation">51</option>
+                            <option name="sourceAddr">12345</option>
+                            <option name="validityPeriod" />
+                        </messageOptions>
+                        <options>
+                            <option name="maxConcurrentReq">1</option>
+                            <option name="maxPduSize">4096</option>
+                            <option name="mode">1</option>
+                            <option name="use60Open">true</option>
+                        </options>
+                    </ucp>
+                </connectionProtocol>
+                <sendAddress port="2775" ipAddress="UPDATE_XFW_HOST_IP"/>
+            </connection>
+        </connections>
+    </smsc>
+    <virusScanning>
+	<kaspersky installDirectory="/opt/kaspersky/KAV_Server-Linux-5.5.4.116"/>
+    </virusScanning>
+    <diameter originRealm="originalRealm">
+      <channel application="Gx" ipAddress="UPDATE_XFW_HOST_IP" name="VGW" portSecure="6868"/>
+    </diameter>
+<machines>
+    <machine hostName="UPDATE_XFW_HOST_NM" hostEmbeddedDatabase="true" isManagementServer="true">
+      <mgmtWebServer ipAddress="0.0.0.0" port="9999"/>
+      <titaniumIpAddresses>
+        <titaniumIpAddress>UPDATE_XFW_HOST_IP</titaniumIpAddress>
+      </titaniumIpAddresses>
+      <processes>
+        <in messageStoreName="One" protocol="MM1">
+          <nonsecureAddress ipAddress="0.0.0.0" port="4001"/>
+          <mm1 cacheSizeMBytes="2000"/>
+        </in>
+        <in messageStoreName="One" protocol="MM3">
+          <nonsecureAddress ipAddress="0.0.0.0" port="4003"/>
+        </in>
+        <in messageStoreName="One" protocol="MM4">
+          <nonsecureAddress ipAddress="0.0.0.0" port="4004"/>
+        </in>
+        <in messageStoreName="One" protocol="MM7">
+          <secureAddress ipAddress="0.0.0.0" port="14007"/>
+          <nonsecureAddress ipAddress="0.0.0.0" port="4007"/>
+        </in>
+        <in messageStoreName="One" protocol="EAIF">
+          <secureAddress ipAddress="0.0.0.0" port="14008"/>
+          <nonsecureAddress ipAddress="0.0.0.0" port="4008"/>
+        </in>
+        <msp messageStoreName="One" partitionNumber="1">
+          <inMemoryWithPaging maxMemorySizeMBytes="1200"/>
+        </msp>
+        <out messageStoreName="One" messageStorePartitionNumber="1" protocol="MM1">
+          <mm1 channelType="SMS" mmscHost="UPDATE_XFW_HOST_NM" mmscPort="4001" mmscProtocol="http">
+            <sms channel="TestChannel"/>
+          </mm1>
+        </out>
+		<vasgkGW channel="VGW" destinationRealm="vasgk.telecomitalia.it" serviceContextId="vasgk@telecomitalia.it" processNameSuffix="1">
+		<listenAddress ipAddress="UPDATE_XFW_HOST_IP" port="4009"/>
+		</vasgkGW>
+        <out messageStoreName="One" messageStorePartitionNumber="1" protocol="MM3"/>
+        <out messageStoreName="One" messageStorePartitionNumber="1" protocol="MM4"/>
+		<out messageStoreName="One" messageStorePartitionNumber="1" protocol="MM7">
+		<secureAddress ipAddress="UPDATE_XFW_HOST_IP"/>
+		<nonsecureAddress ipAddress="UPDATE_XFW_HOST_IP"/>
+		</out>
+        <out messageStoreName="One" messageStorePartitionNumber="1" protocol="EAIF"/>
+        <sms channel="TestChannel">
+          <connections>
+            <connection name="TestConnection"/>
+          </connections>
+        </sms>
+      	<diameterTransport channel="VGW" mode="client" processNameSuffix="1">
+          <hostIpAddress ipAddress="UPDATE_XFW_HOST_IP"/>
+        </diameterTransport>
+        <webApplication enableCustomProvApi="true" processNameSuffix="1">
+          <listenAddress ipAddress="0.0.0.0" port="8080"/>
+        </webApplication>
+        <appServices/>
+	<kasperskyDaemon>
+	  <listenAddress ipAddress="UPDATE_XFW_HOST_IP" port="9001"/>
+	</kasperskyDaemon>
+      </processes>
+      <managementServer>
+        <snmpAgentAddress ipAddress="UPDATE_XFW_HOST_IP" port="1610"/>
+   <dashboardListenAddress ipAddress="UPDATE_XFW_HOST_IP" port="6767"/>
+      </managementServer>
+    </machine>
+  </machines>
+
+  <contentConversion>
+    <externalConversion originatorId="724 ECC" >
+      <remoteAddress ipAddress="UPDATE_XFW_HOST_IP" port="7890" />
+    </externalConversion>
+  </contentConversion>
+ 
+  <customization>
+    <xupdates>
+      <xupdate description="License">
+        <fileName>UPDATE_XFW_LICENSE_DIR/xupdate_UPDATE_XFW_LICENSE_FILE</fileName>
+      </xupdate>
+      <!--
+      <xupdate description="MemoryDebugOn">
+        <fileName>UPDATE_XFW_INSTALL_DIR/cfg/xupdate-memory-debug-on.xml</fileName>
+      </xupdate>
+      -->
+      <xupdate description="Fixes">
+        <fileName>UPDATE_XFW_INSTALL_DIR/cfg/xma-workflow-xupdate.xml</fileName>
+      </xupdate>
+      <xupdate description="Keep more than 7 logfiles since logs/cores otherwise get rotated out too fast for the integration tests" >
+        <fileName>UPDATE_XFW_INSTALL_DIR/cfg/xupdate-keep-logfiles.xml</fileName>
+      </xupdate>
+    </xupdates>
+  </customization>
+
+</productView>

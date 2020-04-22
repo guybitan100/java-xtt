@@ -1,0 +1,63 @@
+<Configuration>
+	<IMS>
+		<IP>172.20.14.5</IP>
+		<SCSCF_IPPORT>172.20.14.5:5071</SCSCF_IPPORT>
+		<SLM_IP>172.20.9.67</SLM_IP>
+		<SCSCF_PORT>5071</SCSCF_PORT>
+		
+		<NAME_URI1>bob</NAME_URI1>
+		<USER_URI1>bob@swisscom.com</USER_URI1>
+		<PUBLIC_URI1_1>sip:bob@swisscom.com</PUBLIC_URI1_1>
+		<PUBLIC_URI1_2>sip:+41793454150@swisscom.com</PUBLIC_URI1_2>
+		<PUBLIC_URI1_NUMBER>41793454150</PUBLIC_URI1_NUMBER>
+		
+		<NAME_URI2>testuser2</NAME_URI2>
+		<USER_URI2>testuser2@swisscom.com</USER_URI2>
+		<PUBLIC_URI2_1>sip:testuser2@swisscom.com</PUBLIC_URI2_1>
+		<PUBLIC_URI2_2>sip:+41795120002@swisscom.com</PUBLIC_URI2_2>
+		<PUBLIC_URI2_NUMBER>41795120002</PUBLIC_URI2_NUMBER>
+		
+		<NAME_URI3>testuser3</NAME_URI3>
+		<USER_URI3>testuser3@swisscom.com</USER_URI3>
+		<PUBLIC_URI3_1>sip:testuser3@swisscom.com</PUBLIC_URI3_1>
+		<PUBLIC_URI3_2>sip:+41795120003@swisscom.com</PUBLIC_URI3_2>	
+		
+		<NAME_URI4>testuser4</NAME_URI4>
+		<USER_URI4>testuser4@swisscom.com</USER_URI4>
+		<PUBLIC_URI4_1>sip:testuser4@swisscom.com</PUBLIC_URI4_1>
+		<PUBLIC_URI4_2>sip:+41795120004@swisscom.com</PUBLIC_URI4_2>	
+		
+		<NAME_URI5>testuser5</NAME_URI5>
+		<USER_URI5>testuser5@swisscom.com</USER_URI5>
+		<PUBLIC_URI5_1>sip:testuser5@swisscom.com</PUBLIC_URI5_1>
+		<PUBLIC_URI5_2>sip:+41795120005@swisscom.com</PUBLIC_URI5_2>	
+		
+		<NAME_URI6>testuser6</NAME_URI6>
+		<USER_URI6>testuser6@swisscom.com</USER_URI6>
+		<PUBLIC_URI6_1>sip:testuser6@swisscom.com</PUBLIC_URI6_1>
+		<PUBLIC_URI6_2>sip:+41795120006@swisscom.com</PUBLIC_URI6_2>	
+		
+		<NAME_URI7>testuser7</NAME_URI7>
+		<USER_URI7>testuser7@swisscom.com</USER_URI7>
+		<PUBLIC_URI7_1>sip:testuser7@swisscom.com</PUBLIC_URI7_1>
+		<PUBLIC_URI7_2>sip:+41795120007@swisscom.com</PUBLIC_URI7_2>	
+		
+		<NAME_URI8>testuser8</NAME_URI8>
+		<USER_URI8>testuser8@swisscom.com</USER_URI8>
+		<PUBLIC_URI8_1>sip:testuser8@swisscom.com</PUBLIC_URI8_1>
+		<PUBLIC_URI8_2>sip:+41795120008@swisscom.com</PUBLIC_URI8_2>	
+		
+		<NAME_URI9>testuser9</NAME_URI9>
+		<USER_URI9>testuser9@swisscom.com</USER_URI9>
+		<PUBLIC_URI9_1>sip:testuser9@swisscom.com</PUBLIC_URI9_1>
+		<PUBLIC_URI9_2>sip:+41795120009@swisscom.com</PUBLIC_URI9_2>	
+		
+		<NAME_URI10>testuser10</NAME_URI10>
+		<USER_URI10>testuser10@swisscom.com</USER_URI10>
+		<PUBLIC_URI10_1>sip:testuser10@swisscom.com</PUBLIC_URI10_1>
+		<PUBLIC_URI10_2>sip:+41795120010@swisscom.com</PUBLIC_URI10_2>	
+	</IMS>
+	
+	<VARIABLEWAITTIMEOUT>5000</VARIABLEWAITTIMEOUT>
+	
+</Configuration>

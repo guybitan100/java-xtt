@@ -1,0 +1,94 @@
+<test>
+    <name>BZ.TC.10162</name>
+    
+    <description>Test if HTG_CFG_PriorityHeaders is working</description>
+    
+    <!-- add this to the HTG_CFG section of you cv: 
+         <PriorityHeaders>host accept xtttestorder1 xtttestorder2</PriorityHeaders> 
+    -->
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms extract data requestmodifications </parameter>
+        <configuration>XMG/PATH</configuration>
+        <parameter>cfg/bzTC11237.test.xml</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC11237.rule.xml </parameter>
+        <xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestModifications.xsd">
+	<table name="SetMobileAccelerationDefaults">
+		<selector>
+			<bypassContentCache value="true"/>
+			<disableMimeMultipart value="true"/>
+			<disablePrefetch value="true"/>
+			<disableCompression algorithm="gzip" value="false"/>
+			<disableCompression algorithm="deflate" value="false"/>
+			<disableCompression algorithm="lzw" value="false"/>
+			<removeInterlacing value="false"/>
+		</selector>
+	</table>
+    <table name="xttheader">
+        <selector>
+            <modifyHeader name="xtttestorder2" value="'last'"/>
+            <modifyHeader name="xtttestorder1" value="'first'"/>
+        </selector>
+    </table>
+</requestModifications>
+        </xml>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data bzTC11237.rule.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>123456789</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+    <function name="queryText" module="Basic">
+        <variable>webserver/headers</variable>
+        <parameter>dev/null</parameter>
+        <parameter>
+            <parameter>GET / HTTP/1.1\r\n</parameter>
+            <parameter>[Hh]ost: </parameter><configuration>SYSTEM/IP</configuration><parameter>(:</parameter><configuration>WEBSERVER/PORT</configuration><parameter>){0,1}\r\n</parameter>
+            <parameter>accept: text/html, image/gif, image/jpeg, \*; q=\.2, \*/\*; q=\.2\r\n</parameter>
+            <parameter>xtttestorder1: first\r\n</parameter>
+            <parameter>xtttestorder2: last\r\n</parameter>
+        </parameter>
+    </function>
+
+    <!-- load the old reqmod configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms load data </parameter>
+        <configuration>XMG/PATH</configuration>
+        <parameter>cfg/bzTC11237.test.xml</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>123456789</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+</test>

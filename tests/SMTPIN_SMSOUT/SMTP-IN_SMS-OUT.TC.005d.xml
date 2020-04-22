@@ -1,0 +1,44 @@
+<test>
+	<name>SMTP-IN_SMS-OUT.TC.005d</name>
+	<description>SMTP-IN -> SMS-OUT Scenario - Validate default routing policy in case presence or preferences or contextual Ids are not available to make a routing decision - MSISDN of Sender Subscriber is Missing</description>
+	
+	<!-- 1st Message -->
+	<!-- Create SMTP-IN Message -->
+	<function name="createDateString" module="Basic">
+		<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+		<parameter>date</parameter>
+	</function>
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To:</parameter>
+		<parameter>erkan.sutculer@gmail.com</parameter>
+		<parameter>From:</parameter>
+		<parameter>MISSING-MSISDN@mail.com</parameter>
+		<parameter>Date:</parameter>
+		<variable>date</variable>
+		<parameter>Content-Type:</parameter>
+		<parameter>text/plain</parameter>
+	</function>
+	
+	<!-- Send SMTP-IN Message -->
+	<function name="setDATA" module="SMTP">
+		<variable>headers</variable>
+		<parameter>This is a single line message1.</parameter>
+	</function>
+	<function name="connectMailServer" module="SMTP">
+		<configuration>XMA/MM4Ip</configuration>
+		<configuration>XMA/MM4Port</configuration>
+	</function>
+	<function name="sendHELO" module="SMTP">
+		<parameter>xtttestmachine</parameter>
+	</function>
+	<function name="sendMAILFROM" module="SMTP">
+		<parameter>MISSING-MSISDN@mail.com</parameter>
+	</function>
+	<function name="sendRCPTTO" module="SMTP">
+		<parameter>erkan.sutculer@gmail.com</parameter>
+	</function>
+	<function name="sendDATA" module="SMTP"/>
+	<function name="disconnectMailServer" module="SMTP"/>
+</test>

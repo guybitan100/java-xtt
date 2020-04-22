@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://policy.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:create>
+      <arg0/>
+      <arg1>
+        <userId>100001</userId>
+        <wantsNotifications>true</wantsNotifications>
+        <wantsAudit>true</wantsAudit>
+      </arg1>
+      <arg2>
+        <userId>100002</userId>
+      </arg2>
+    </tns:create>
+  </soap:Body>
+</soap:Envelope>

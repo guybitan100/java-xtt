@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+<!-- $Id: reqmodTC004.rule.xml,v 1.3 2007/05/20 17:35:58 esutculer Exp $ -->
+    <table name="Proxy rules 1" >
+        <selector context="Internal_Groups contains 'SILVER'" >
+            <modifyContext name="Internal_HTGProxySetName" value="'TEST_SET_1'"/>
+        </selector>
+    </table>
+    <table name="Proxy rules 2" >
+        <selector urlPattern="*://proxy1.xtt724.com/*" >
+            <modifyContext name="Internal_HTGProxySetName" value="'TEST_SET_1'"/>
+        </selector>
+
+        <selector urlPattern="*://proxy2.xtt724.com/*" >
+            <modifyContext name="Internal_HTGProxySetName" value="'TEST_SET_2'"/>
+        </selector>
+    </table>
+    <table name="Proxy rules 3a" >
+        <selector urlPattern="*://proxy3.xtt724.com/*" >
+            <modifyContext name="Internal_HTGProxySetName" value="'TEST_SET_1'"/>
+        </selector>
+    </table>
+    <table name="Proxy rules 3b" >
+        <selector urlPattern="*://proxy3.xtt724.com/*" >
+            <modifyHeader name="ExternalUseridProxy3" value="Internal_NAI"/>
+            <modifyHeader name="ProxyRewriteTest3" value="'ProxyTest3'"/>
+        </selector>
+    </table>
+    <table name="Proxy rules 3c" >
+        <selector urlPattern="*://proxy3.xtt724.com/*" >
+            <modifyUrl newUrl="http://www.xtt724.com/" />
+        </selector>
+    </table>
+    <table name="Proxy rules 4a" >
+        <selector urlPattern="*://proxy4.xtt724.com/*" >
+            <modifyContext name="Internal_HTGProxySetName" value="'TEST_SET_3'"/>
+        </selector>
+    </table>
+    <table name="Proxy rules 4b" >
+        <selector urlPattern="*://*.proxy4.xtt724.com/*" >
+            <modifyContext name="Internal_HTGProxySetName" value="'TEST_SET_3'"/>
+        </selector>
+    </table>
+    <table name="Proxy rules 4c" >
+        <selector urlPattern="*://*.proxy4.xtt724.com/*" >
+            <modifyUrl newUrl="http://proxy4.xtt724.com/" />
+        </selector>
+    </table>
+</requestModifications>

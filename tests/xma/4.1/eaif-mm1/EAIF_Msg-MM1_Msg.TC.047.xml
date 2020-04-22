@@ -1,0 +1,173 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>EAIF_Msg-MM1_Msg.TC.047</name>
+    <description>Maximum number of M-Notification.ind Retries (SMSC is not accessible)
+	[X-Mms-Delivery-Report=No, X-Mms-Read-Report=No]
+	[Sn's DB_Prepaid=true]
+	[Rc's DB_MmsDisabled=false]
+	[Rc's DB_ExternalContentConversionDisabled=true]
+	[Rc's DB_UseEmail=false]
+	[Rc's DB_Email=user@domain]</description>
+
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_TO</parameter>
+       <configuration>XMA/PREPAY/ENABLED/MSISDN1</configuration>
+    </function> 
+   
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+        <configuration>EAIF/NUMBER</configuration>
+    </function>
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <!--  <function name="startSMSCServer" module="SMS">
+        <configuration>SMSCSERVER/PORT</configuration>
+        <configuration>SMSCSERVER/PROTOCOL</configuration>
+        <parameter>0</parameter>
+    </function>  -->
+    
+    <subtest>../loadRetryPolicy.xml</subtest>
+    
+   <!--  <function name="waitForBind" module="SMS"/> -->
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>ADDR_TO</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_EXPIRY</parameter>
+		<parameter>false</parameter>
+		<parameter>80</parameter>
+	</function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+   <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World!</base64encode>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+        
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+    
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+   <function name="setVariable" module="BASIC">
+        <parameter>MessageID</parameter>
+        <variable>HTTP/HEADER/x-nokia-mmsc-message-id</variable>
+    </function>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+
+   <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>run command amocli -k -e (MMS_Rsp_Message-ID=='</parameter>
+            <variable>MessageID</variable>
+            <parameter>') search TI:F.CEE.</parameter>
+            <variable>msp</variable>
+            <parameter>:AMO</parameter>
+        </parameter>
+    </function>
+     <function name="queryResponse" module="Remote">
+        <parameter>RETRY_ControlRetry=Failed m-notification-ind -1</parameter>
+        <parameter>status</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>MMS_ProtocolOut=MM1</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="sleep" module="basic">
+        <parameter>61000</parameter>
+    </function>
+   
+   <!--  <function name="stopSMSCServer" module="SMS"/> -->
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="waitForTimeoutWSPMessages" module="SMS">
+	        <parameter>80000</parameter>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+    <!-- Restore VASP File -->
+    <subtest>../restoreVASP.xml</subtest>
+
+	<!-- Restore VASP File -->
+    <subtest>../restoreRetryPolicy.xml</subtest>
+        
+</test>

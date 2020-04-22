@@ -1,0 +1,114 @@
+<test>
+       
+      <description> SOAP-API-Operator {(ByName( )}: Search for the existing operator by using wildcards * or ?. </description>
+      
+	 <function name="testName" module="Basic">
+		<parameter>XMA-Operator-2.3.4.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>create-a.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>create-ab.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>create-abc.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>byName-with-wildcards.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>500</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>delete-a.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>delete-ab.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>delete-abc.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+        
+ </test>

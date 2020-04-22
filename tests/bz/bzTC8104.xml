@@ -1,0 +1,60 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.8104</parameter>
+    </function>
+    <subtest>deleteMessagestoreAll.xml</subtest>
+    <thread>
+        <function name="sleep" module="basic">
+            <parameter>2000</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>000061201</parameter>
+        </function>
+        <loop name="toaddress" start="2" stop="160" step="1">        
+            <function name="addSoapData" module="VASP">
+                <parameter>//*[local-name()='To'][last()]</parameter>
+                <parameter>Number</parameter>
+                <parameter>
+                    <parameter>000061</parameter>
+                    <variable>toaddress</variable>
+                </parameter>
+            </function>    
+        </loop>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>bzTC8104-data.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+
+
+</test>

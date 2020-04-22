@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd">
+  <vasp id="VASPID001" address="11111111" mm7Url="http://ipVasp:portVasp/"/>
+  <vasp id="VASPID001" address="22222222" mm7Url="http://ipVasp:portVasp/"/>
+  <vasp id="VASPID001" address="33333333" mm7Url="http://ipVasp:portVasp/"/>
+  <vasp id="VASPID001" address="44444444" mm7Url="http://ipVasp:portVasp/"/>
+  <vasp id="VASPID001" address="55555555" mm7Url="http://ipVasp:portVasp/"/>
+  <vasp id="VASPID001" address="+66666666" mm7Url="http://ipVasp:portVasp/"/>
+</vasps>
+

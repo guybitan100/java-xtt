@@ -1,0 +1,119 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>HTTP-IN-Channel.TC.044</parameter>
+	</function>
+
+	<description>Proxy sends correctly formatted "Message-Body" request to Application via HTTP GET / Application replies with proper error code (Application may discard the message)</description>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<!-- Set To field as recipient mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/FORWARD/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<!-- Set From field as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/FORWARD/SENDER/MSISDN1</configuration>
+	</function>
+
+         <function name="setHeader" module="HTTP">
+<parameter>Content-Type</parameter>
+<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+</function>
+
+	<!-- Set Subject in message for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a  Message with empty  headers</parameter>
+	</function>
+
+	<!-- Send Metadeta Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Proxy-Transaction-Id as TransactionID -->
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/X-Application-Context-Id</variable>
+		<parameter>TransactionID</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>TransactionID=</parameter>
+		<variable>TransactionID</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>TransactionID</variable>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Get request again for second time with transaction ID to application -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!--<function name="checkHeader" module="HTTP">
+		<parameter>x-mmsx-error-text</parameter>
+		<parameter>Transaction not found:</parameter>
+	</function>-->
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-proxy-handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+</test>

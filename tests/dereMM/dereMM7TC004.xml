@@ -1,0 +1,1069 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>DERE.MM7.TC.004</parameter>
+    </function>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="startWebServer" module="HTTP">
+        <configuration>VASP/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <!-- this is for supporting new VASP configuration files with mm7 or tpi tag -->
+    <function name="setVariable" module="Basic">
+        <parameter>protocolOpen</parameter>
+        <parameter>&lt;mm7&gt;</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>protocolClose</parameter>
+        <parameter>&lt;/mm7&gt;</parameter>
+    </function>
+
+    <!-- this is for supporting old VASP configuration files with NO mm7 or tpi tag add VASP/NOPROTOCOLTAG to configuration -->
+    <conditional configuration="VASP/NOPROTOCOLTAG" targetValue="">
+        <function name="setVariable" module="Basic">
+            <parameter>protocolOpen</parameter>
+            <parameter></parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>protocolClose</parameter>
+            <parameter></parameter>
+        </function>
+    </conditional>
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile vasp.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd"&gt;</parameter>
+    <variable>protocolOpen</variable>
+    <parameter>
+    &lt;vasp id="VASP_A" addressPattern="123.*" mm7Url="http://</parameter>
+    <configuration>SYSTEM/IP</configuration>
+    <parameter>:</parameter>
+    <configuration>VASP/PORT</configuration>
+    <parameter>/VASPA"/&gt;
+    &lt;vasp id="VASP_B" addressPattern="^[648]" mm7Url="http://</parameter>
+    <configuration>SYSTEM/IP</configuration>
+    <parameter>:</parameter>
+    <configuration>VASP/PORT</configuration>
+    <parameter>/VASPB"/&gt;
+    &lt;vasp id="VASP_C" address="1111111111" mm7Url="http://</parameter>
+    <configuration>SYSTEM/IP</configuration>
+    <parameter>:</parameter>
+    <configuration>VASP/PORT</configuration>
+    <parameter>/VASPC"/&gt;
+    &lt;vasp id="VASP_D" addressPattern="^2001" mm7Url="http://</parameter>
+    <configuration>SYSTEM/IP</configuration>
+    <parameter>:</parameter>
+    <configuration>VASP/PORT</configuration>
+    <parameter>/VASPD_1"/&gt;
+    &lt;vasp id="VASP_D" addressPattern="^2002" mm7Url="http://</parameter>
+    <configuration>SYSTEM/IP</configuration>
+    <parameter>:</parameter>
+    <configuration>VASP/PORT</configuration>
+    <parameter>/VASPD_2"/&gt;</parameter>
+    <variable>protocolClose</variable>
+    <parameter>
+&lt;/vasps&gt;
+</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/vasp</configuration>
+        <parameter>vasp.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+    <function name="createMM7Soap" module="VASP">
+        <parameter>DeliveryReportRsp</parameter>
+    </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliveryReportRsp']</parameter>
+            <parameter>Status</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Status']</parameter>
+            <parameter>StatusCode</parameter>
+            <parameter>1000</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Status']</parameter>
+            <parameter>StatusText</parameter>
+            <parameter>Success</parameter>
+        </function>
+    <function name="soapToVariable" module="VASP">
+        <parameter>SOAP</parameter>
+    </function>
+    <function name="setCacheFile" module="HTTP">
+        <parameter>VASPA</parameter>
+        <variable>SOAP</variable>
+    </function>
+    <function name="setCacheFile" module="HTTP">
+        <parameter>VASPB</parameter>
+        <variable>SOAP</variable>
+    </function>
+    <function name="setCacheFile" module="HTTP">
+        <parameter>VASPC</parameter>
+        <variable>SOAP</variable>
+    </function>
+    <function name="setCacheFile" module="HTTP">
+        <parameter>VASPD_1</parameter>
+        <variable>SOAP</variable>
+    </function>
+    <function name="setCacheFile" module="HTTP">
+        <parameter>VASPD_2</parameter>
+        <variable>SOAP</variable>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>content-type</parameter>
+        <parameter>text/xml; charset="utf-8"</parameter>
+    </function>
+
+
+<thread>
+    <function name="waitForBind" module="SMS"/>
+
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <parameter>VASP_A</parameter>
+            <parameter>VASIDA</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>1234567890</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>000061201</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>false</parameter>
+        </function>
+         <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <!--<file>MMdata.txt</file>-->
+            <parameter>Content-Type: text/plain; name=test2.txt; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=test2.txt
+Content-ID: &lt;test2.txt&gt;
+
+this is a text content file
+which has just two lines
+</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>000061201</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/000061201/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/000061201/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <parameter>000061201</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+     <function name="waitForPOSTs" module="HTTP">
+        <parameter>1</parameter>
+     </function>
+    <function name="sleep" module="basic">
+        <parameter>1000</parameter>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/TEXT/XML</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+    </function>
+     <function name="compareString" module="BASIC">
+         <variable>MessageID2</variable>
+         <variable>MessageID</variable>
+     </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/MM7/DELIVERYREPORTRSP/000061201</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MMStatus&gt;Retrieved&lt;/MMStatus&gt;</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/VASPA</parameter>
+    </function>
+
+
+
+
+
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <parameter>VASP_C</parameter>
+            <parameter>VASIDC</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>1111111111</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>000061201</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>false</parameter>
+        </function>
+         <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <!--<file>MMdata.txt</file>-->
+            <parameter>Content-Type: text/plain; name=test2.txt; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=test2.txt
+Content-ID: &lt;test2.txt&gt;
+
+this is a text content file
+which has just two lines
+</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>2</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>000061201</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/000061201/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/000061201/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <parameter>000061201</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+     <function name="waitForPOSTs" module="HTTP">
+        <parameter>2</parameter>
+     </function>
+    <function name="sleep" module="basic">
+        <parameter>1000</parameter>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/TEXT/XML</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+    </function>
+     <function name="compareString" module="BASIC">
+         <variable>MessageID2</variable>
+         <variable>MessageID</variable>
+     </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/MM7/DELIVERYREPORTRSP/000061201</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MMStatus&gt;Retrieved&lt;/MMStatus&gt;</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/VASPC</parameter>
+    </function>
+
+
+
+
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <parameter>VASP_B</parameter>
+            <parameter>VASIDB</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>6111111111</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>000061201</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>false</parameter>
+        </function>
+         <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <!--<file>MMdata.txt</file>-->
+            <parameter>Content-Type: text/plain; name=test2.txt; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=test2.txt
+Content-ID: &lt;test2.txt&gt;
+
+this is a text content file
+which has just two lines
+</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>3</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>000061201</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/000061201/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/000061201/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <parameter>000061201</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+     <function name="waitForPOSTs" module="HTTP">
+        <parameter>3</parameter>
+     </function>
+    <function name="sleep" module="basic">
+        <parameter>1000</parameter>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/TEXT/XML</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+    </function>
+     <function name="compareString" module="BASIC">
+         <variable>MessageID2</variable>
+         <variable>MessageID</variable>
+     </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/MM7/DELIVERYREPORTRSP/000061201</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MMStatus&gt;Retrieved&lt;/MMStatus&gt;</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/VASPB</parameter>
+    </function>
+
+
+
+
+
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <parameter>VASP_B</parameter>
+            <parameter>VASIDB</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>4111111111</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>000061201</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>false</parameter>
+        </function>
+         <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <!--<file>MMdata.txt</file>-->
+            <parameter>Content-Type: text/plain; name=test2.txt; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=test2.txt
+Content-ID: &lt;test2.txt&gt;
+
+this is a text content file
+which has just two lines
+</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>4</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>000061201</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/000061201/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/000061201/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <parameter>000061201</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+     <function name="waitForPOSTs" module="HTTP">
+        <parameter>4</parameter>
+     </function>
+    <function name="sleep" module="basic">
+        <parameter>1000</parameter>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/TEXT/XML</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+    </function>
+     <function name="compareString" module="BASIC">
+         <variable>MessageID2</variable>
+         <variable>MessageID</variable>
+     </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/MM7/DELIVERYREPORTRSP/000061201</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MMStatus&gt;Retrieved&lt;/MMStatus&gt;</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/VASPB</parameter>
+    </function>
+
+
+
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <parameter>VASP_D</parameter>
+            <parameter>VASIDD1</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>2001012345</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>010602001</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>false</parameter>
+        </function>
+         <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <!--<file>MMdata.txt</file>-->
+            <parameter>Content-Type: text/plain; name=test2.txt; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=test2.txt
+Content-ID: &lt;test2.txt&gt;
+
+this is a text content file
+which has just two lines
+</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>5</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>010602001</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/010602001/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/010602001/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <parameter>010602001</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+     <function name="waitForPOSTs" module="HTTP">
+        <parameter>5</parameter>
+     </function>
+    <function name="sleep" module="basic">
+        <parameter>1000</parameter>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/TEXT/XML</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+    </function>
+     <function name="compareString" module="BASIC">
+         <variable>MessageID2</variable>
+         <variable>MessageID</variable>
+     </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/MM7/DELIVERYREPORTRSP/010602001</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MMStatus&gt;Retrieved&lt;/MMStatus&gt;</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/VASPD_1</parameter>
+    </function>
+
+
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <parameter>VASP_D</parameter>
+            <parameter>VASIDD2</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>2002012345</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>010602002</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>false</parameter>
+        </function>
+         <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <!--<file>MMdata.txt</file>-->
+            <parameter>Content-Type: text/plain; name=test2.txt; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=test2.txt
+Content-ID: &lt;test2.txt&gt;
+
+this is a text content file
+which has just two lines
+</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>6</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>010602002</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/010602002/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/010602002/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <parameter>010602002</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+     <function name="waitForPOSTs" module="HTTP">
+        <parameter>6</parameter>
+     </function>
+    <function name="sleep" module="basic">
+        <parameter>1000</parameter>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/TEXT/XML</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+    </function>
+     <function name="compareString" module="BASIC">
+         <variable>MessageID2</variable>
+         <variable>MessageID</variable>
+     </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>WEBSERVER/POST/MM7/DELIVERYREPORTRSP/010602002</parameter>
+        <parameter>MessageID2</parameter>
+        <parameter>&lt;MMStatus&gt;Retrieved&lt;/MMStatus&gt;</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/VASPD_2</parameter>
+    </function>
+
+
+</thread>
+    <function name="waitOnThreads" module="Basic"/>
+    <subtest>restoreVASP.xml</subtest>
+    <function name="stopWebServer" module="HTTP"/>
+    <function name="stopSMSCServer" module="SMS"/>
+
+</test>

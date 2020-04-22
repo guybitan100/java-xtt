@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<modifications xmlns="http://www.xmldb.org/xupdate" version="1.0">
+	<update select="//processgroup[starts-with(@name,'SMS.')]/component[@name='SMS']/SMS_CFG[@prefix='SMS_CFG']//reconnectAfter">30</update>
+	<!-- $Id: xma-workflow-xupdate.xml,v 1.2 2009/08/31 15:52:06 esutculer Exp $ -->
+    <!-- Add tracing -->
+    <append select="//processgroup">
+        <element name="env-variable">
+            <attribute name="extensible">false</attribute>
+            <attribute name="name">CEECFG_TraceFail</attribute>
+            <element name="value">.</element>
+        </element>
+    </append>
+    <append select="//processgroup">
+        <element name="env-variable">
+            <attribute name="extensible">false</attribute>
+            <attribute name="name">CEECFG_TraceExternal</attribute>
+            <element name="value">.</element>
+        </element>
+    </append>
+    <append select="//processgroup[starts-with(@name,'OUT')]">
+        <element name="env-variable">
+            <attribute name="extensible">false</attribute>
+            <attribute name="name">CEECFG_TraceVerbose</attribute>
+            <element name="value">MM|DELIVERY|MMSC|WPE|RETRY</element>
+        </element>
+    </append>
+    <append select="//processgroup[starts-with(@name,'SMS')]">
+        <element name="env-variable">
+            <attribute name="extensible">false</attribute>
+            <attribute name="name">CEECFG_TraceVerbose</attribute>
+            <element name="value">SMS|UCP|WTP|WSP|WPA|TCP|RETRY</element>
+        </element>
+    </append>
+    <append select="//processgroup[starts-with(@name,'IN')]">
+        <element name="env-variable">
+            <attribute name="extensible">false</attribute>
+            <attribute name="name">CEECFG_TraceVerbose</attribute>
+            <element name="value">MM|WPE|CACHE|DSP|TCP|RETRY|ECC</element>
+        </element>
+    </append>
+</modifications>

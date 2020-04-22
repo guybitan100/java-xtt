@@ -1,0 +1,16 @@
+<soapenv:Body xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+<MMSSubmitRequest>
+    <short-id>101</short-id>
+    <service-name>MMS_101</service-name>
+    <username>mes</username>
+    <password>max</password>
+    <from>Roebi</from>
+    <bill-text>billtext</bill-text>
+    <report-address>http://172.20.9.94:2222</report-address>
+    <delivery-report>true</delivery-report>
+    <transaction-id>dummy id</transaction-id>
+    <tpi-version>0.0.2</tpi-version>
+    <content filename="text1.txt" href="cid:62B6CB74D9D6600030FE39C9E8D05C00"/>
+    <recipient field="to">41792279254</recipient>
+    <message-type>MMSSubmitRequest</message-type>
+</MMSSubmitRequest></soapenv:Body>

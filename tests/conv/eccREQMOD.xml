@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                      xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+	<table name="SetMobileAccelerationDefaults">
+		<!-- This table enables content caching, MIME multipart composition, pre-fetch, and all 
+                     compression algorithms, and it disables the 
+removal of interlacing. These are the 
+                     default settings. We use explicit rules to select the default settings here, 
+                     simply to make XMP add the appropriate context
+ elements, so that we see them in 
+                     the transaction logs. -->
+		<selector>
+			<bypassContentCache value="false"/>
+			<disableMimeMultipart value="false"/>
+			<disablePrefetch value="false"/>
+			<disableCompression algorithm="gzip" value="false"/>
+			<disableCompression algorithm="deflate" value="false"/>
+			<disableCompression algorithm="lzw" value="false"/>
+			<removeInterlacing value="false"/>
+		</selector>
+	</table>
+	<table name="CheckDeviceMimeMultipartSupport">
+		<!-- This table disables the MIME multipart composition feature for
+ devices that don't 
+                     support MIME multipart. We use the information extracted by the WURFL component 
+                     to decide
+ whether the device supports MIME multipart. -->
+		<selector context="WURFL_C_multipart_support != 'true'">
+			<disableMimeMultipart value="true"/>
+		</selector>
+	</table>
+	<table name="CheckDeviceColors">
+		<!-- Set the maximum image color depth to the maximum supported by the
+ target device. 
+                     To find out what image size the device supports, use
+ the UA-color request header
+                     if it is present, otherwise use the WURFL
+ information.  -->
+		<selector context="HTA_ReqHdr_ua-color equals 'mono2'">
+			<setMaxImageColors colors="'4'" greyscale="true"/>
+		</selector>
+		<selector context="HTA_ReqHdr_ua-color equals 'mono4'">
+			<setMaxImageColors colors="'16'" greyscale="true"/>
+		</selector>
+		<selector context="HTA_ReqHdr_ua-color equals 'color8'">
+			<setMaxImageColors colors="'256'" greyscale="false"/>
+		</selector>
+		<selector context="HTA_ReqHdr_ua-color equals 'color16'">
+			<setMaxImageColors colors="'32768'" greyscale="false"/>
+		</selector>
+		<selector context="HTA_ReqHdr_ua-color equals 'color24'">
+			<setMaxImageColors colors="'16777216'" greyscale="false"/>
+		</selector>
+		<selector context="HTA_ReqHdr_ua-color equals 'color32'">
+			<setMaxImageColors colors="'4294967296'" greyscale="false"/>
+		</selector>
+		<selector context="not(WURFL_C_colors equals '')">
+			<setMaxImageColors colors="WURFL_C_colors"/> 
+		</selector>
+		<selector context="WURFL_C_greyscale equals 'true'">
+			<setMaxImageColors greyscale="true"/> 
+		</selector>
+	</table>
+	<table name="CheckDeviceScreenSize">
+		<!-- Set the maximum image size to the maximum supported by the target device. To find 
+                     out what image size the device supports, use the
+ UA-pixels header if it is present,
+                     otherwise use the
+ WURFL information.  -->
+		<selector context="HTA_ReqHdr_ua-pixels != ''">
+			<applyRegexp pattern="([0-9]+)x([0-9]+)" value="HTA_ReqHdr_ua-pixels"/>
+			<setMaxImageSize height="'$1'" width="'$2'"/>
+		</selector>
+		<selector context="(WURFL_C_height != '') and
+            
+                       (WURFL_C_width != '') ">
+			<setMaxImageSize height="WURFL_C_height" width="WURFL_C_width"/>
+		</selector>
+	</table>
+</requestModifications>

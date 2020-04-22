@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loadgen durationSecs="60" experimentName="PCRF-1" outputFileName="Experimment-PCRF-1-%Y-%m-%d_%H:%M:%S.log">
+  <scenario concurrency="10"  loopCount="1" name="pcrf" rate="10.0" target="PCEF.SET1" variance="0.0">
+    <param name="destRealm" value="destination.realm"/>
+    <param name="userMsisdn" textFile="/home/lukasz/loadgen_xfw003/cfg/lg_pcrf_users.txt"/>
+    <param name="userIpAddress" textFile="/home/lukasz/loadgen_xfw003/cfg/lg_pcrf_userIps.txt"/>
+    <param name="session" xmlList="/home/lukasz/loadgen_xfw003/cfg/lg_pcrf_sessions.CCR_WebServiceCall.xml"/>
+		<param name="soapTarget" value="HTTP-CLIENT.SOAP1"/>
+		<param name="soapUrl" value="http://172.20.9.130:9998/jaxws-pcrf/pcrf"/>
+		<param name="soapDatasrc" value="/home/lukasz/loadgen_xfw003/cfg/lg_pcrf_update_rules.data"/>
+    <param name="enableReporting" value="true" />
+    <report name="PCRF">
+      <status value="OK"/>
+      <status value="FAIL"/>
+    </report>
+  </scenario>
+</loadgen>

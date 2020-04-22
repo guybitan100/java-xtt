@@ -1,0 +1,111 @@
+<test>
+    <configuration>smpp.xml</configuration>
+    <name>SMPPV5.TC.001</name>
+    <description>Validate SMS Connections Dynamic Configuration File could be properly loaded to and extracted from XMP memory</description>
+
+    <subtest name="loadConnection" file="loadConnection.xml"/>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+    <function name="compareString" module="basic">
+        <variable>smsc/smpp/xmp/interface_version</variable>
+        <parameter>0x50</parameter>
+    </function>
+
+    <function name="setPostData" module="Push">
+        <file>smppv5TC001.txt</file>
+    </function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>rm -f extractedsmppConnection.xml</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>extract data xmpsmsconnections extractedsmppConnection.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Extracted .*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+    <subtest name="unloadConnection" file="unloadConnection.xml"/>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>remote/loaddata</configuration>
+            <parameter>extractedsmppConnection.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded .*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+    
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>2</parameter>
+    </function>
+
+    <function name="waitForTimeoutWSPMessages" module="SMS">
+        <parameter>10000</parameter>
+    </function>
+
+    <subtest name="unloadConnection" file="unloadConnection.xml"/>
+    
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

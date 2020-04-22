@@ -1,0 +1,119 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>CONNECT.TC.001</parameter>
+	</function>
+	
+    <description>HTTP TRACE Method</description>	
+
+
+	<!-- Prepare the Request Modification File -->
+<function name="writeRemoteFile" module="Remote">
+	<parameter>REQMOD_REQMODEnhancements.TC.001a.xml</parameter>
+	<xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+
+    <table name="Skip CF">
+<!-- STG added -->
+      <selector context="HTA_Method matches 'TRACE'" >
+         <denyAccess reason="'You are not allowed to use the TRACE method'" />
+      </selector>
+    </table>
+
+
+</requestModifications>
+	</xml>
+</function>
+
+<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>REQMOD_REQMODEnhancements.TC.001a.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+    
+
+	
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+	<function name="startWebServer" module="HTTP"/>
+
+	
+	    <function name="setCacheFile" module="HTTP">
+			<parameter>index.html</parameter>
+	        <parameter>
+	<parameter>&lt;html&gt;
+	&lt;body&gt;
+	This is BZ22236 test page
+	&lt;/body&gt;
+	&lt;/html&gt;
+	</parameter>
+	        </parameter>
+    </function>
+    
+
+
+
+       <function name="sendTextPacket" module="TCP">
+					<parameter>172.20.9.130</parameter>
+					<parameter>4000</parameter>
+					<parameter><parameter>TRACE http://</parameter>
+					<parameter>172.20.14.66</parameter>
+					<parameter>:</parameter>
+					<parameter>80</parameter>
+					<parameter>/index.html HTTP/1.1
+Host: 172.20.14.66
+
+ </parameter>
+		</parameter>
+			</function>
+        
+        	<function name="queryTextResponse" module="TCP">
+			<parameter>test</parameter>
+			<parameter>HTTP/1.1 403 You are not allowed</parameter>
+
+	</function>
+
+
+        
+        
+        <function name="stopWebServer" module="HTTP"/>	
+	
+
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    
+    	<!-- LoadEmptyRule -->
+    <function name="writeRemoteFile" module="Remote">
+    	<parameter>REQMOD_REQMODEnhancements.TC.001a.xml</parameter>
+    	<xml>
+    <requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+    </requestModifications>
+    
+    	</xml>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+    		<parameter>
+    			<parameter>load data </parameter>
+    			<parameter>REQMOD_REQMODEnhancements.TC.001a.xml</parameter>
+    		</parameter>
+    	</function>
+    
+    	<function name="queryResponse" module="Remote">
+    		<parameter>^Loaded requestmodifications.*</parameter>
+    		<parameter>dev/null</parameter>
+	</function>
+    
+    
+</test>

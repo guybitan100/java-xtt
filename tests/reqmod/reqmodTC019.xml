@@ -1,0 +1,90 @@
+<!-- $Id: reqmodTC019.xml,v 1.5 2007/11/21 15:16:37 dkaufmann Exp $ -->
+<!-- # Test Case .... aka REQMOD.TC.019
+     # Check that Rule can be defined that
+     # adds a Header depending on group membership of an user.
+     # -->
+<test>
+    <configuration>reqmodTC000.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.019</parameter>
+    </function>
+    <description>Add a header depending on group membership of an user</description>
+    
+    <function name="startWebServer" module="HTTP"/>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://group1.xtt724.com</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>GroupTest1</parameter>
+        <parameter>UNDER_12</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>UNDER12USER</parameter>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://group1.xtt724.com</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>GroupTest1</parameter>
+        <parameter>UNDER_12</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>GoldMember</parameter>
+        <parameter>ThisIsAGoldMember</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+        <parameter>UNDER12USER</parameter>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>notindatabaseuser</parameter>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://group1.xtt724.com</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>GroupTest1</parameter>
+        <parameter>UNDER_12</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+        <parameter>notindatabaseuser</parameter>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+</test>

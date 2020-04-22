@@ -1,0 +1,24 @@
+<test>
+       
+      <description> SOAP-API-Communities{(getMembers( )}: Test for getMembers. </description>
+      
+	 <function name="testName" module="Basic">
+		<parameter>XMA-Communities-3.8.1.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-communities/communities</parameter>
+		</parameter>
+		<file>XMA-getMembers-null.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>500</parameter>
+	</function>
+        
+ </test>

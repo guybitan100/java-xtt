@@ -1,0 +1,71 @@
+<!-- $Id: reqmodTC005.xml,v 1.4 2007/05/21 09:34:07 gcattell Exp $ -->
+<!--# Test Case 1105 aka REQMOD.TC.005
+    # check if header can be removed    -->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.005</parameter>
+    </function>
+    <description>Remove header</description>
+
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <!-- set the header to be removed -->
+    <function name="setHeader" module="HTTP">
+        <parameter>RemoveHeader</parameter>
+        <parameter>Header To Be Removed</parameter>
+    </function>
+    <!-- set the header check if not removed -->
+    <function name="setHeader" module="HTTP">
+        <parameter>DoNotTouchHeader</parameter>
+        <parameter>Header NOT to be Removed</parameter>
+    </function>
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <configuration>REQMOD/WWWTEST1</configuration>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did NOT receive the header -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>RemoveHeader</parameter>
+        <parameter>null</parameter>
+    </function>
+    <!-- check that the server did receive the header -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>DoNotTouchHeader</parameter>
+        <parameter>Header NOT to be Removed</parameter>
+    </function>
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+</test>

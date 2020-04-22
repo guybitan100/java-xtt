@@ -1,0 +1,170 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SIS.TC.001</parameter>
+    </function>
+    <description>1 MSG with 1000 recipients, 20 UserAgents and 20 parallel STI and MM1 retrievals</description>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>startbnumber</parameter>
+        <parameter>100</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>stopbnumber</parameter>
+        <parameter>120</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>startnumber</parameter>
+        <parameter>1000</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>stopnumber</parameter>
+        <parameter>1050</parameter>
+    </function>
+
+    <function name="subtractVariable" module="BASIC">
+        <parameter>stinumbercount</parameter>
+        <variable>stopbnumber</variable>
+        <variable>startbnumber</variable>
+    </function>
+    <function name="subtractVariable" module="BASIC">
+        <parameter>numbercount</parameter>
+        <variable>stopnumber</variable>
+        <variable>startnumber</variable>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>numbercountB</parameter>
+        <parameter>0</parameter>
+    </function>
+    <loop name="numberb" start="startbnumber" stop="stopbnumber" step="1">
+        <function name="addVariable" module="BASIC">
+            <parameter>numbercountB</parameter>
+            <variable>numbercountB</variable>
+            <variable>numbercount</variable>
+        </function>
+    </loop>
+
+    <function name="startSTIServer" module="STI"/>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <thread>
+        <function name="createMM7Soap" module="VASP"/>
+        
+         <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        
+        <loop name="numberb" start="startbnumber" stop="stopbnumber" step="1">
+            <loop name="number" start="startnumber" stop="stopnumber" step="1">
+                <function name="addSoapData" module="VASP">
+                    <parameter>//*[local-name()='To'][last()]</parameter>
+                    <parameter>Number</parameter>
+                    <parameter>
+                        <parameter>4179</parameter>
+                        <localvariable>numberb</localvariable>
+                        <localvariable>number</localvariable>
+                    </parameter>
+                </function>
+            </loop>
+        </loop>
+
+         <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM7data.txt</file>
+        </function>
+        
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+    
+    <function name="waitForWSPMessages" module="SMS">
+        <variable>numbercountB</variable>
+    </function>
+   
+
+    <function name="stopSMSCServer" module="SMS"/>    
+
+    <loop name="numberb" start="startbnumber" stop="stopbnumber" step="1">
+    <thread>
+        <loop name="number" start="startnumber" stop="stopnumber" step="1">
+            <function name="setLocalVariable" module="BASIC">
+                <parameter>downloadNumber</parameter>
+                <parameter>
+                    <parameter>4179</parameter>
+                    <localvariable>numberb</localvariable>
+                    <localvariable>number</localvariable>
+                </parameter>
+            </function>
+            <function name="sendGetRequest" module="SMS">
+                <localvariable>downloadNumber</localvariable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <localvariable>downloadNumber</localvariable>
+                    <parameter>/MMS/x_mms_content_location</parameter>
+                </variable>
+                <parameter>
+                    <parameter>XTTSTI;delay=1000</parameter>
+                    <parameter>;4179</parameter>
+                    <localvariable>numberb</localvariable>
+                    <!--localvariable>number</localvariable-->
+                </parameter>
+            </function>
+            <function name="sendMM1NotifyResponse" module="SMS">
+                <parameter>retrieved</parameter>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <localvariable>downloadNumber</localvariable>
+                    <parameter>/MMS/x_mms_transaction_id</parameter>
+                </variable>
+                <localvariable>downloadNumber</localvariable>
+            </function>
+        </loop>
+    </thread>
+    </loop>
+
+    
+    
+    
+
+    <function name="waitForRequests" module="STI">
+        <variable>stinumbercount</variable>
+    </function>
+    <function name="waitForTimeoutRequests" module="STI">
+        <parameter>60000</parameter>
+    </function>
+    
+    
+    <function name="waitOnThreads" module="Basic"/>
+    <function name="stopSTIServer" module="STI"/>
+</test>

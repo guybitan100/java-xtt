@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmaThrottling xmlns:xsi="http://w3.org/2001/XMLSchema-instance">
+    <mm7In>
+        <global requestRate="500" intervalMilliseconds="1000" />
+        <throttles>
+            <throttle name="MM7Submits"/>
+        </throttles>
+    </mm7In> 
+    <mm4Out>
+        <global requestRate="500" intervalMilliseconds="1000" />
+        <throttles>
+            <throttle name="MM4Forwarding">
+                <field>MMS_Path</field>
+                <limit requestRate="5">
+                    <value>333333*</value>
+                </limit>
+            </throttle>
+        </throttles>
+    </mm4Out>    
+</xmaThrottling>

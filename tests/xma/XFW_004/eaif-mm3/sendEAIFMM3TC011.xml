@@ -1,0 +1,229 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+	<name>EAIF_Msg-MM3_Msg.TC.011</name>
+	<description>MM Message is not sent before X-Mms-Delivery-Time (absolute) / Legacy Recipient 
+					[X-Mms-Delivery-Report=Yes] 
+					[Sn's DB_Prepaid=false]
+					[Rc's DB_MmsDisabled=false]
+					[Rc's DB_ExternalContentConversionDisabled=true]
+					[Rc's DB_UseEmail=true] 
+					[Rc's DB_Email=user@domain]
+    </description>
+
+	<!-- Load MNO file -->
+    <subtest>../loadMNO.xml</subtest>    
+
+	<!-- Load MSISDN -->
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+	<!-- Start Web Server -->
+	<function name="startWebServer" module="HTTP"> 
+		<configuration>EAIF/PORT</configuration>
+	</function>
+
+	<!-- Start SMTP Server and wait until it binds to XMA -->
+    <function name="startSMTPServer" module="SMTP"/>
+    
+	<!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<!-- Set EAIF Address - Request is being hit from -->
+	<function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+       <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>MSISDN/1</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+
+    <function name="getRemoteSystemTime" module="Remote">
+        <parameter>datetime</parameter>
+    </function>
+    <function name="addVariable" module="Basic">
+        <parameter>datetime</parameter>
+        <variable>datetime</variable>
+        <parameter>120</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_TIME</parameter>
+        <parameter>true</parameter>
+        <variable>datetime</variable>
+    </function>
+
+    <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World!</base64encode>
+    </function>
+
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+
+	<thread>
+        <function name="waitForTimeoutMails" module="SMTP">
+            <parameter>119000</parameter>
+        </function>
+    </thread>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+    <function name="waitOnThreads" module="Basic">
+    </function>
+
+   <function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>
+
+	<function name="setVariable" module="BASIC">
+        <parameter>smtp_body</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>MSISDN/1</variable>
+			<parameter>@xma.724.com</parameter>
+            <parameter>/body</parameter>
+        </parameter>
+    </function>
+
+	<function name="queryText" module="BASIC">
+        <variablepointer>smtp_body</variablepointer>
+        <parameter>dev/null</parameter>
+        <parameter>Hello World!</parameter>
+    </function>
+
+	<!-- Set Return Code/Message of Web Server for DR-->
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>204</parameter>
+	</function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+		<parameter> No Content</parameter>
+	</function>
+	 
+	 <!-- Wait for a EAIF DR on Web Server -->
+    <function name="waitForPOSTs" module="HTTP">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>MessageID</parameter>
+        <variable>HTTP/HEADER/x-nokia-mmsc-message-id</variable>
+    </function>
+
+	<function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>run command amocli -k -e (MMS_Req_Message-ID=='</parameter>
+            <variable>MessageID</variable>
+            <parameter>') search TI:F.CEE.</parameter>
+            <variable>msp</variable>
+            <parameter>:AMO</parameter>
+        </parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>MMS_Req_X-Mms-Message-Type=m-delivery-ind</parameter>
+        <parameter>status</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>MMS_Req_X-Mms-Status=Forwarded</parameter>
+        <parameter>status</parameter>
+    </function>
+
+	<!-- Stop SMTP Server -->
+	<function name="stopSMTPServer" module="SMTP"/>
+
+    <function name="stopWebServer" module="HTTP"/>	
+
+	<!-- Restore MNO file -->
+    <subtest>../restoreMNO.xml</subtest>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+</test>
+

@@ -1,0 +1,37 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>SEND.MM7.TC.006</parameter>
+	</function>
+	<description>AXML-IN To TPI-OUT Scenario - Success Scenario</description>
+
+	<function name="startWebServer" module="HTTP">
+		<parameter>6667</parameter>
+		<testpath>TPI_DeliverResponse</testpath>
+		<parameter>30000</parameter>
+	</function>
+
+
+	<function name="sleep" module="basic">
+		<parameter>2000</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>System/RemoteIp</configuration>
+			<parameter>:4110</parameter>
+		</parameter>
+		<file>AXML.xml</file>
+		<parameter>response</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="sleep" module="basic">
+		<parameter>5000</parameter>
+	</function>
+
+	<function name="stopWebServer" module="HTTP"/>
+</test>

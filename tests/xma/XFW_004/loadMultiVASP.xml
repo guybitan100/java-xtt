@@ -1,0 +1,84 @@
+<test>
+    <function name="setVariable" module="Basic">
+        <parameter>VaspHead</parameter>
+            <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd"&gt;
+    &lt;mm7&gt;</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>VaspFoot</parameter>
+        <parameter>
+    &lt;/mm7&gt;
+&lt;/vasps&gt;</parameter>
+    </function>
+    
+    <function name="setVariable" module="Basic">
+        <parameter>VaspBody</parameter>
+        <parameter>
+            <parameter>
+        &lt;vasp id="</parameter>
+            <configuration>VASP/VASPID</configuration>
+            <parameter>" address="</parameter>
+            <configuration>VASP/NUMBER</configuration>
+            <parameter>" reportUrl="http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>VASP/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>VASP/DIRECTORY</configuration>
+            <parameter>"&gt;&lt;attributes&gt;&lt;attribute name="MyCustomAttr" value="ABC"/&gt;&lt;/attributes&gt;</parameter>
+            <parameter>&lt;/vasp&gt;</parameter>
+        </parameter>
+    </function>
+    <loop name="loop" start="0" stop="10" step="1">
+    <function name="setVariable" module="Basic">
+        <parameter>VaspBody</parameter>
+        <parameter>
+            <variable>VaspBody</variable>
+            <parameter>
+        &lt;vasp id="</parameter>
+            <configuration>
+                <parameter>VASP/VASPID</parameter>
+                <variable>loop</variable>
+            </configuration>
+            <parameter>" address="</parameter>
+            <configuration>
+                <parameter>VASP/NUMBER</parameter>
+                <variable>loop</variable>
+            </configuration>
+            <parameter>" reportUrl="http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>VASP/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>
+                <parameter>VASP/DIRECTORY</parameter>
+                <variable>loop</variable>
+            </configuration>
+            <parameter>"&gt;</parameter>
+            <parameter>&lt;/vasp&gt;</parameter>
+        </parameter>
+    </function>
+    </loop>
+
+
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>multiVasp.xml</parameter>
+        <parameter>
+            <variable>VaspHead</variable>
+            <variable>VaspBody</variable>
+            <variable>VaspFoot</variable>
+        </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data multiVasp.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+</test>

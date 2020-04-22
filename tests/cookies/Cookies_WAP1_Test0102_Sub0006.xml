@@ -1,0 +1,185 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0102.Sub0006 - Verify Session-Cookie (set 5 cookies, delete one)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<!-- start test -->
+<test>
+    <configuration>Cookies_Test0000_Sub0000.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>COOKIES.WAP1.T0102.Sub0006</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="connectGateway" module="WAP"> </function>
+
+
+ <!-- // Set a Session-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>
+        <parameter>S1-Session-Cookie-1=Cookie-Value-S1; Path=/, </parameter>
+        <parameter>S2-Session-Cookie-2=Cookie-Value-S2; Path=/, </parameter>
+        <parameter>S3-Session-Cookie-3=Cookie-Value-S3; Path=/, </parameter>
+        <parameter>S4-Session-Cookie-4=Cookie-Value-S4; Path=/, </parameter>
+        <parameter>S5-Session-Cookie-5=Cookie-Value-S5; Path=/; </parameter>
+        </parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+<!-- // Check if Session-Cookie is injected, delete Session-Cookie 3 -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearHeader" module="HTTP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>S3-Session-Cookie-3=Cookie-Value-S3; Path=/; Max-Age=0;</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL2</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="info" module="Basic">
+        <parameter>Alle cookies in</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>\$Version=0; </parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S5-Session-Cookie-5=Cookie-Value-S5; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S4-Session-Cookie-4=Cookie-Value-S4; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S3-Session-Cookie-3=Cookie-Value-S3; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S2-Session-Cookie-2=Cookie-Value-S2; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S1-Session-Cookie-1=Cookie-Value-S1; \$Path="/";</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+																																																			 S3-Session-Cookie-3=Cookie-Value-S3; $Path="/";
+
+<!-- // Check if Session-Cookie 3 is deleted -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearHeader" module="HTTP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL2</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>\$Version=0; </parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S5-Session-Cookie-5=Cookie-Value-S5; \$Path="/"; </parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S4-Session-Cookie-4=Cookie-Value-S4; \$Path="/"; </parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S3-Session-Cookie-3=Cookie-Value-S3; \$Path="/"; </parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S2-Session-Cookie-2=Cookie-Value-S2; \$Path="/"; </parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S1-Session-Cookie-1=Cookie-Value-S1; \$Path="/";</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+    <function name="disconnectGateway" module="WAP" />
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+  <function name="stopWebServer" module="HTTP"/>
+
+</test>
+

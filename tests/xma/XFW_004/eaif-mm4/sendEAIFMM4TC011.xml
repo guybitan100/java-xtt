@@ -1,0 +1,448 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>EAIF_Msg-MM4_Msg.TC.011</name>
+    <description>MM Message is not sent before X-Mms-Delivery-Time (absolute) 
+					[X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes]
+					[Sn's DB_Prepaid=true]
+	</description>
+
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Load MNO file -->
+    <subtest>../loadMNO.xml</subtest>
+
+	<!-- Load Recipent not existing in db -->       	  
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMSISDN</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETEMAIL</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+
+	<!-- Set EAIF Address - Request is being hit from -->
+	<function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+       <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+	<!-- Start Web Server -->
+	<function name="startWebServer" module="HTTP"> 
+		<configuration>EAIF/PORT</configuration>
+	</function>
+	
+    <function name="startSMTPServer" module="SMTP"/>
+	
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>OFFNETMSISDN</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    
+    <function name="getRemoteSystemTime" module="Remote">
+        <parameter>datetime</parameter>
+    </function>
+    <function name="addVariable" module="Basic">
+        <parameter>datetime</parameter>
+        <variable>datetime</variable>
+        <parameter>120</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_TIME</parameter>
+        <parameter>true</parameter>
+        <variable>datetime</variable>
+    </function>
+	
+	<function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>Ola!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World!</base64encode>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+	<!-- Wait till the Delivery Time -->
+    <function name="waitForTimeoutMails" module="SMTP">
+       <parameter>119000</parameter>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+   <function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="createDateString" module="Basic">
+        <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+        <parameter>date</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_x-mms-originator-system</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/x-mms-originator-system</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_x-mms-transaction-id</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/x-mms-transaction-id</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_x-mms-message-id</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/x-mms-transaction-id</parameter>
+        </parameter>
+    </function>
+
+	<!-- Forward Message to SMTP server -->	
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>headers</parameter>
+        <parameter>To: </parameter>                         <variablepointer>smtp_header_x-mms-originator-system</variablepointer>
+        <parameter>Sender: </parameter>                     <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+        <parameter>Date: </parameter>                       <variable>date</variable>
+        <parameter>message-id: </parameter>                 <parameter>date</parameter>
+        <parameter>X-Mms-Message-Type: </parameter>         <parameter>MM4_forward.RES</parameter>
+        <parameter>X-MMS-3GPP-MMS-version: </parameter>     <parameter>6.14.0</parameter>
+        <parameter>X-MMS-Transaction-ID: </parameter>       <variablepointer>smtp_header_x-mms-transaction-id</variablepointer>
+        <parameter>X-MMS-Message-ID: </parameter>           <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+        <parameter>X-Mms-Request-Status-Code: </parameter>  <parameter>OK</parameter>
+    </function>
+
+    <function name="setDATA" module="SMTP">
+        <variable>headers</variable>
+    </function>
+
+    <function name="connectMailServer" module="SMTP">
+        <configuration>xma/MM4Ip</configuration>
+        <configuration>xma/MM4Port</configuration>
+    </function>
+    <function name="sendHELO" module="SMTP">
+        <parameter>xtttestmachine</parameter>
+    </function>
+    <function name="sendMAILFROM" module="SMTP">
+        <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+    </function>
+    <function name="sendRCPTTO" module="SMTP">
+        <variablepointer>smtp_header_x-mms-originator-system</variablepointer>
+    </function>
+
+    <function name="sendDATA" module="SMTP"/>
+
+    <function name="disconnectMailServer" module="SMTP"/>
+
+    <function name="sleep" module="Basic">
+        <parameter>2000</parameter>
+    </function>
+
+	<!-- Set Return Code/Message of Web Server for DR-->
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>204</parameter>
+	</function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+		<parameter> No Content</parameter>
+	</function>
+
+	 <!-- send the delivery report -->
+    <function name="createDateString" module="Basic">
+        <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+        <parameter>date</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_to</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/to</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_from</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/from</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_mail_from</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/mail from</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_x-mms-transaction-id</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/x-mms-transaction-id</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_x-mms-message-id</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/x-mms-transaction-id</parameter>
+        </parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>headers</parameter>
+        <parameter>To: </parameter>                     <variablepointer>smtp_header_from</variablepointer>
+        <parameter>Sender: </parameter>                 <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+        <parameter>From: </parameter>                   <variablepointer>smtp_header_to</variablepointer>
+        <parameter>Date: </parameter>                   <variable>date</variable>
+        <parameter>message-id: </parameter>             <parameter>date</parameter>
+        <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_delivery_report.REQ</parameter>
+        <parameter>X-Mms-Ack-Request: </parameter>      <parameter>yes</parameter>
+        <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>6.14.0</parameter>
+        <parameter>X-MMS-Transaction-ID: </parameter>   <variablepointer>smtp_header_x-mms-transaction-id</variablepointer>
+        <parameter>X-MMS-Message-ID: </parameter>       <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+        <parameter>X-Mms-Mm-Status-Code: </parameter>      <parameter>Retrieved</parameter>
+    </function>
+
+    <function name="setDATA" module="SMTP">
+        <variable>headers</variable>
+    </function>
+
+    <function name="connectMailServer" module="SMTP">
+        <configuration>xma/MM4Ip</configuration>
+        <configuration>xma/MM4Port</configuration>
+    </function>
+
+    <function name="sendHELO" module="SMTP">
+        <parameter>xtttestmachine</parameter>
+    </function>
+    <function name="sendMAILFROM" module="SMTP">
+        <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+    </function>
+    <function name="sendRCPTTO" module="SMTP">
+        <variablepointer>smtp_mail_from</variablepointer>
+    </function>
+
+    <function name="sendDATA" module="SMTP"/>
+
+    <function name="disconnectMailServer" module="SMTP"/>
+
+	 <function name="sleep" module="Basic">
+        <parameter>2000</parameter>
+    </function>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>2</parameter>
+    </function>
+
+	<!-- Wait for a EAIF request on the Web Server -->
+    <function name="waitForPOSTs" module="HTTP">
+        <parameter>1</parameter>
+    </function>
+
+<!-- send the read report -->
+
+    <function name="createDateString" module="Basic">
+        <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+        <parameter>date</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_to</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/to</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_from</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/from</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_mail_from</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/mail from</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_x-mms-transaction-id</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/x-mms-transaction-id</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>smtp_header_x-mms-message-id</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/x-mms-transaction-id</parameter>
+        </parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>headers</parameter>
+        <parameter>To: </parameter>                     <variablepointer>smtp_header_from</variablepointer>
+        <parameter>Sender: </parameter>                 <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+        <parameter>From: </parameter>                   <variablepointer>smtp_header_to</variablepointer>
+        <parameter>Date: </parameter>                   <variable>date</variable>
+        <parameter>message-id: </parameter>             <parameter>date</parameter>
+        <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_read_reply_report.REQ</parameter>
+        <parameter>X-Mms-Ack-Request: </parameter>      <parameter>yes</parameter>
+        <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>6.14.0</parameter>
+        <parameter>X-MMS-Transaction-ID: </parameter>   <variablepointer>smtp_header_x-mms-transaction-id</variablepointer>
+        <parameter>X-MMS-Message-ID: </parameter>       <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+        <parameter>X-Mms-Read-Status: </parameter>      <parameter>Read</parameter>
+    </function>
+
+    <function name="setDATA" module="SMTP">
+        <variable>headers</variable>
+    </function>
+
+    <function name="connectMailServer" module="SMTP">
+        <configuration>xma/MM4Ip</configuration>
+        <configuration>xma/MM4Port</configuration>
+    </function>
+    <function name="sendHELO" module="SMTP">
+        <parameter>xtttestmachine</parameter>
+    </function>
+    <function name="sendMAILFROM" module="SMTP">
+        <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+    </function>
+    <function name="sendRCPTTO" module="SMTP">
+        <variablepointer>smtp_mail_from</variablepointer>
+    </function>
+
+    <function name="sendDATA" module="SMTP"/>
+
+    <function name="disconnectMailServer" module="SMTP"/>
+
+	<function name="sleep" module="Basic">
+        <parameter>2000</parameter>
+    </function>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>3</parameter>
+    </function>
+
+	<!-- Wait for a EAIF request on the Web Server -->
+    <function name="waitForPOSTs" module="HTTP">
+        <parameter>2</parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+    <function name="stopSMTPServer" module="SMTP"/>
+
+    <function name="stopWebServer" module="HTTP"/>	
+
+    <function name="sleep" module="Basic">
+        <parameter>5000</parameter>
+    </function>
+
+    <!-- Restore MNO file -->
+    <subtest>../restoreMNO.xml</subtest>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+</test>

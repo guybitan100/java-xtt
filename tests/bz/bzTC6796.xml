@@ -1,0 +1,257 @@
+<!-- XMA 2.6 Test, does not run on XM25 or XMA3 -->
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.6796</parameter>
+    </function>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <parameter>bin/xmadmin utility amocli -k dm TI:F.CEE.MSP.1:AMO</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>amocli: \d++ items deleted</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>VASP</parameter>
+        <file>bzTC6796-vasp.xml</file>
+    </function>
+    <function name="replace" module="Basic">
+        <parameter>VASP</parameter>
+        <parameter>ipVasp</parameter>
+        <configuration>XMA/MM1Ip</configuration>
+    </function>
+    <function name="replace" module="Basic">
+        <parameter>VASP</parameter>
+        <parameter>portVasp</parameter>
+        <configuration>XMA/MM1Port</configuration>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile VASP.xml </parameter>
+        <variable>VASP</variable>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <parameter>bin/xmadmin load vasp VASP.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>Loaded file 'VASP.xml' as 'vasps'</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="waitForBind" module="SMS">
+        <parameter>system id</parameter>
+    </function>
+
+    <thread>
+
+        <function name="sleep" module="basic">
+            <parameter>1000</parameter>
+        </function>
+        <function name="createSoap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <parameter>VASPID001</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>11111111</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>078738750</parameter>
+        </function>
+        <!--
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>EarliestDeliveryTime</parameter>
+            <parameter>2038-01-18T00:00:00Z</parameter>
+        </function>
+        -->
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>bzTC6796-data.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+        <function name="sleep" module="basic">
+            <parameter>1000</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>22222222</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+        <function name="sleep" module="basic">
+            <parameter>1000</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>33333333</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+        <function name="sleep" module="basic">
+            <parameter>1000</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>44444444</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+        <function name="sleep" module="basic">
+            <parameter>1000</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>55555555</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+        <function name="sleep" module="basic">
+            <parameter>1000</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderAddress']</parameter>
+            <parameter>Number</parameter>
+            <parameter>+66666666</parameter>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+
+    </thread>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>6</parameter>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+
+    <function name="setVariable" module="Basic">
+        <parameter>VASP</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd"&gt;
+            &lt;/vasps&gt;
+        </parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile VASP.xml </parameter>
+        <variable>VASP</variable>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <parameter>bin/xmadmin load vasp VASP.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>Loaded file 'VASP.xml' as 'vasps'</parameter>
+        <parameter>response</parameter>
+    </function>
+
+</test>

@@ -1,0 +1,4 @@
+<!-- update maxTraceFileCount (and max # of cores) -->
+<modifications xmlns="http://www.xmldb.org/xupdate" version="1.0">
+    <update select="//processgroup/launch-policy/maxTraceFileCount">1000</update>
+</modifications>

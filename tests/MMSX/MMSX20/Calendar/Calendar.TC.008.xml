@@ -1,0 +1,135 @@
+<test>
+
+     <name>Calendar.TC.008</name>
+    <description>Validate Application sends Message to Sender if the subscriber entered a faulty format date information- Application reject the MMS Message / Validate Message and status indicating the problem 
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+1. Sender of an MMS message activates the calendar service through Web Portal.
+2. The sender enters a future date that is in the format  YYDDMM HHMM in the subject for the MMS to be delivered.
+3. MMS is sent through MM1 message to MMS Proxy.
+4. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request .
+5. The Application should reject the MMS and the message stating that the format of the date entered is not correct should be sent to the subscriber.
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  2. Remote
+	  3. Basic -->
+</description> 
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+   <function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<!-- Set To field as recipient mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/NOTINDB/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<!-- Set X-Proxy-Subscriber-MSISDN field as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/CALENDAR/SENDER/MSISDN1</configuration>
+	</function>
+
+	<function name="createDateString" module="Basic">
+        <parameter>EEE', 'dd' 'MMM' 'yyyy kk':'mm':'ss z</parameter>
+        <parameter>date</parameter>
+        <parameter>100</parameter>
+        <parameter>GMT</parameter>
+    </function>
+
+
+    <function name="info" module="Basic">
+        <parameter>
+            <parameter>Date in Subject is : </parameter><variable>date</variable>
+        </parameter>
+    </function>
+
+	<!-- Set Subject in message for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>
+            <parameter>T&lt;</parameter>
+            <variable>date</variable>
+            <parameter>&gt; Happy Birthday</parameter>
+        </parameter>
+	</function>
+
+	<!-- Send Metadeta Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+    <function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-code</parameter>
+		<parameter>Error-service-denied</parameter>
+	</function>
+
+	<!-- Check for No MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+    <!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

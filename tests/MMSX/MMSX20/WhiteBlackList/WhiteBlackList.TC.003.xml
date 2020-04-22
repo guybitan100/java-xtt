@@ -1,0 +1,203 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>WhiteBlackList.TC.003</parameter>
+	</function>
+	<description> Validate the subscriber can enable/disable the feature </description>
+
+		<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m  com.mobilgw.intf.uds.mor.MmsxService.updateServiceWhiteBlacklist subscriberId=8001 serviceEnabled=true whitelistMode=true
+	</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>Sender in White list </parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "pass" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>pass</parameter>
+	</function>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m  com.mobilgw.intf.uds.mor.MmsxService.updateServiceWhiteBlacklist subscriberId=8001 serviceEnabled=false whitelistMode=true
+	</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>Sender is in white list and WhiteBlack service disabled</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "pass" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>pass</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m  com.mobilgw.intf.uds.mor.MmsxService.updateServiceWhiteBlacklist subscriberId=8001  serviceEnabled=true whitelistMode=false
+	</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>Sender is in black list and WhiteBlack service enabled</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+<function name="executeRemoteXMSCommand" module="Remote">
+<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m  com.mobilgw.intf.uds.mor.MmsxService.updateServiceWhiteBlacklist subscriberId=8001 serviceEnabled=true whitelistMode=true
+</parameter>
+</function>
+
+</test>

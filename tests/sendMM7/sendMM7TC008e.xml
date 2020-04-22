@@ -1,0 +1,19 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.008e</parameter>
+    </function>
+    <description>Missing the Mandatory header field Content-Type</description>
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="sendTextPacket" module="TCP">
+        <configuration>Xma/MM7Ip</configuration>
+        <configuration>Xma/MM7Port</configuration>
+        <file>sendMM7TC008e-msg.txt</file>
+    </function>
+    <function name="queryTextResponse" module="TCP">
+        <parameter>response-code</parameter>
+        <parameter>HTTP/1.1 400 Bad request</parameter>
+    </function>
+
+
+</test>

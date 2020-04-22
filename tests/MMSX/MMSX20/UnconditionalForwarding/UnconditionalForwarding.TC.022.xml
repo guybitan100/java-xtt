@@ -1,0 +1,123 @@
+<test>
+
+	<name>UnconditionalForwarding.TC.022</name>
+    <description>Validate "Unconditional Forwarding" Use Case does not function when Recipient is not in DB
+Test Category: SHOULD
+Test Steps:
+---------------------------------------------------------------
+1. Send MM1 Message to MMS Proxy
+2. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request 
+3. MMS Extra after validates the sender and recipient and does not find them in the DB.
+4. Validate if Application sends an error response code. 
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  2. Remote
+	  3. Basic -->
+</description> 
+	
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/NOTINDB/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/NOSERVICE/SUBSCRIBER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a test message </parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Proxy-Transaction-Id as TransactionID -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>pass</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+         <parameter>Content-Type</parameter>
+         <parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+    </function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>error</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+
+</test>

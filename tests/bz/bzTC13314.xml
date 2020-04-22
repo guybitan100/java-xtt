@@ -1,0 +1,70 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.13314</parameter>
+	</function>
+
+    <description>Check content length convertor.</description>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>bzTC013314.rule.xml</parameter>
+        <xml><requestModifications><table name="TableStart"><selector><modifyContext name="ICC_LIB_Internal_generate-content-length" value="'true'" /></selector></table></requestModifications></xml>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data bzTC013314.rule.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>content-length</parameter>
+		<parameter>NULL</parameter>		
+	</function>     
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+        	<parameter>http://</parameter>
+        	<configuration>system/ip</configuration>
+        	<parameter>/images/png.png</parameter>
+        </parameter>
+    </function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>    
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>content-length</parameter>
+	</function>
+
+    <function name="stopWebServer" module="HTTP"/>
+
+    <function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>bzTC013314.blankrule.xml</parameter>        
+        <xml><requestModifications></requestModifications></xml>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data bzTC013314.blankrule.xml</parameter>
+    </function>      
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>        
+</test>

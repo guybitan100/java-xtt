@@ -1,0 +1,20 @@
+<test>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>empty-vasp.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd"&gt;
+&lt;/vasps&gt;
+</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data empty-vasp.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+</test>

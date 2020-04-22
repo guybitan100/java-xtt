@@ -1,0 +1,7 @@
+--000000000000000000000001-message
+Content-Type: text/plain; name=test1.txt; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=test3.txt
+Content-ID: <xtt-test001>
+
+This is the second text content file which has also just one line.

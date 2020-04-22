@@ -1,0 +1,139 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0102.Sub0002  - Verify Session-Cookie is removed after Session-End.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set a Session-Cookie
+ 4. Radius Logon - Logoff
+ 5. Check if Session-Cookie is NOT injected
+ 6. Disconnect from WAP gateway
+ 7. Radius Logoff
+
+Expected Result:
+ -  Session-Cookie is removed and NOT injected after Session-End.
+
+XTT Commands:
+      startWebServer
+ 1. - Radius log-ON
+ 2.   - connectGateway		"WAP"
+ 3.     - setServerHeader 	"WAP" "set-cookie=S1-Session-Cookie-1=Cookie-Value-S1; Path=/"
+        - sendGetRequest 	"WAP" http://xttWebServer:8989/tests/cookies/CookieTest_1.html
+        - checkResponseCode	"WAP" "200"
+        - checkHeader		"WAP" "set-cookie=null"
+ 4.     - Radius log-OFF
+        - Radius log-ON
+ 5.     - clear Header & ServerHeader
+        - sendGetRequest 	"WAP" http://xttWebServer:8989/tests/cookies/CookieTest_2.html
+        - checkResponseCode	"WAP" "200"
+        - checkServerHeader	"HTTP" "cookie=null"   	(header NOT present )
+        - checkServerHeader	"HTTP" "cookie2=null"	(header NOT present )
+ 6.   - disconnectGateway	"WAP"
+ 7. - Radius log-OFF
+       stopWebServer
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- start test -->
+<test>
+    <configuration>Cookies_Test0000_Sub0000.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>COOKIES.WAP1.T0102.Sub0002</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="connectGateway" module="WAP"> </function>
+
+
+ <!-- // Set a Session-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>S1-Session-Cookie-1=Cookie-Value-S1; Path=/</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+<!-- // Radius logoff  logon -->
+    <function name="disconnectGateway" module="WAP" />
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+	<function name="sleep" module="Basic">
+		<parameter>1000</parameter>
+	</function>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="connectGateway" module="WAP"> </function>
+
+
+<!-- // Check if Session-Cookie is NOT injected -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearHeader" module="HTTP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL2</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="disconnectGateway" module="WAP" />
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+  <function name="stopWebServer" module="HTTP"/>
+
+</test>
+

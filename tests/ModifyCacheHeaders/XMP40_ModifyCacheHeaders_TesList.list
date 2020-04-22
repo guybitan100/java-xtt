@@ -1,0 +1,4 @@
+tests\connect\connectTC001.xml
+tests\ModifyCacheHeaders\ModifyCacheHeaders.TC.001.xml
+tests\ModifyCacheHeaders\ModifyCacheHeaders.TC.002.xml
+tests\ModifyCacheHeaders\ModifyCacheHeaders.TC.003.xml

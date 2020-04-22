@@ -1,0 +1,131 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM4.MM1.TC.005</name>
+    <description>Maximum number of M-Notification.ind Retries
+    [DeliveryReport=Yes, ReadReply=Yes]
+    [Recipient's DB_MmsDisabled=false]
+    [Recipient's DB_ExternalContentConversionDisabled=true]
+    [Recipient's DB_UseEmail=false]
+    [Recipient's DB_Email=user@domain]</description>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <function name="startSMTPServer" module="SMTP"/>
+
+    <subtest>../loadRetryPolicy.xml</subtest>
+
+    <subtest>../loadMNO.xml</subtest>    
+    
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN</parameter>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN1</configuration>
+        <!--configuration>XMA/UNKNOWN/PARTNER/MSISDN4</configuration-->
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMSISDN</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETEMAIL</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+
+    <function name="createDateString" module="Basic">
+        <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+        <parameter>date</parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>headers</parameter>
+        <parameter>To: </parameter>                     <variable>MMSADDRESS</variable>
+        <parameter>From: </parameter>                   <variable>OFFNETMMSADDRESS</variable>
+        <parameter>Date: </parameter>                   <variable>date</variable>      
+        <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_forward.REQ</parameter>
+        <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>7.0.0</parameter>
+        <parameter>X-Mms-Originator-System: </parameter><configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+        <parameter>X-MMS-Transaction-ID: </parameter>   <parameter>"ABCDEFGHIJ012345678"</parameter>
+        <parameter>X-MMS-Message-ID: </parameter>       <parameter>"originator-username/123456789"</parameter>    
+        <parameter>Content-Type: </parameter>           <parameter>text/plain</parameter>
+    </function>
+
+    <function name="setDATA" module="SMTP">
+        <variable>headers</variable>
+        <parameter>This is a single line message.</parameter>
+    </function>
+
+
+    <function name="connectMailServer" module="SMTP">
+        <configuration>XMA/MM4Ip</configuration>
+        <configuration>XMA/MM4Port</configuration>
+    </function>
+    <function name="sendHELO" module="SMTP">
+        <parameter>xtttestmachine</parameter>
+    </function>
+    <function name="sendMAILFROM" module="SMTP">
+        <variable>OFFNETEMAIL</variable>
+    </function>
+    <function name="sendRCPTTO" module="SMTP">
+        <variable>EMAIL</variable>
+    </function>
+
+    <function name="sendDATA" module="SMTP"/>
+
+    <function name="disconnectMailServer" module="SMTP"/>
+
+    <function name="sleep" module="Basic">
+        <parameter>5000</parameter>
+     </function>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>run command amocli search TI:F.CEE.</parameter>
+            <variable>msp</variable>
+            <parameter>:AMO</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>RETRY_ControlRetry=Failed m-notification-ind -1</parameter>
+        <parameter>status</parameter>
+    </function>
+
+    <subtest>../restoreMNO.xml</subtest>
+    <subtest>../restoreRetryPolicy.xml</subtest>
+    <function name="stopSMTPServer" module="SMTP"/>
+
+</test>

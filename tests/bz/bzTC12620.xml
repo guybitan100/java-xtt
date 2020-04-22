@@ -1,0 +1,14 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.12620</parameter>
+    </function>
+    <description>Test BZ 12620</description>
+    
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://172.20.14.11/?load=preview&amp;rid=2111&amp;category=%&amp;page=1&amp;numperpage=4</parameter>		    
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+</test>

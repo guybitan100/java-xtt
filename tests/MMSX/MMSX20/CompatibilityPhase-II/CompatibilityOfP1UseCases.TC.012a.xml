@@ -1,0 +1,125 @@
+<test>
+<name>CompatibilityOfP1UseCases.TC.012a</name>
+<description>Validate MMS Secret feature would not coexist with Express, group, calendar or conditional nickname
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+Scenario 1: ("Secret" and "MMS Group" Features)
+------------------------
+1. sender send Secret MMS to be delivered to a group. 
+2. MMS is sent through MM1 message to a group via MMS Proxy.
+3. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request.
+6. MMS Extra validates the subscriber data from the persistent storage send an error message to the MMS Proxy server.
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. MMSC
+	  2. Diameter
+	  3. Remote
+	  4. Basic -->
+  </description>
+ 	
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/SHORTCODE/MSISDN4</configuration>
+	</function>
+
+<!-- Set Subject in message for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>#This is test secret with group message</parameter>
+	</function>
+
+	
+	<!-- Set From as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+	</function>
+	
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "discard" and set X-Proxy-Transaction-Id as X-Application-Context-Id -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-code</parameter>
+		<parameter>Error-service-denied</parameter>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-text</parameter>
+		<parameter>MMSX: Message to a group rejected because you have not configured the specified group.</parameter>
+	</function>
+
+	<!-- Check for MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+<function name="stopSMSCServer" module="SMS"/>
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+
+
+</test>

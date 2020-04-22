@@ -1,0 +1,68 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.008a</parameter>
+    </function>
+    <description>Missing Mandatory header field Message-Type</description>
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="createMM7Soap" module="VASP">
+        <parameter>xxxSubmitReq</parameter>
+        <parameter>VASPID001</parameter>
+        <parameter>VASID002</parameter>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='xxxSubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <parameter>000061201</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='xxxSubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+    <!--function name="previewRequest" module="VASP" /-->
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>500</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;4004&lt;/StatusCode&gt;</parameter>
+    </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;env:Fault&gt;\n&lt;faultcode&gt;env:Server&lt;/faultcode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;faultstring&gt;Server Error&lt;/faultstring&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;detail&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;RSErrorRsp</parameter>
+        </function>
+
+
+</test>

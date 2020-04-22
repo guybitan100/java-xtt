@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pushinitiators xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="pushinitiators.xsd">
+	<pushinitiator name="Gavins Test">
+		<credentials>
+			<users>
+				<user name="gavin" password="secret"/>
+			</users>
+			<ipAddressMasks>
+				<ipAddressMask>172.20.14.36/32</ipAddressMask>
+			</ipAddressMasks>
+		</credentials>
+	</pushinitiator>
+</pushinitiators>

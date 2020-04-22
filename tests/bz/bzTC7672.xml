@@ -1,0 +1,59 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.7672</parameter>
+    </function>
+    
+    <function name="connectGateway" module="WAP"/>
+    
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>1</parameter>
+        <parameter>header</parameter>
+        <parameter>this</parameter>
+        <parameter>is</parameter>
+        <parameter>a</parameter>
+        <parameter>multiline</parameter>        
+    </function>
+
+    <function name="setHeader" module="WAP">
+        <parameter>xtt-002</parameter>
+        <parameter></parameter>
+    </function>
+
+    <function name="setHeader" module="WAP">
+        <parameter>xtt-001</parameter>
+        <variable>header</variable>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>xtt-001</parameter>
+        <parameter>multiline header test</parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+    
+    <function name="disconnectGateway" module="WAP"/>    
+</test>

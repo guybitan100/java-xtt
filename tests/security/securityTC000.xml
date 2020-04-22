@@ -1,0 +1,58 @@
+<test>
+    <!-- 
+    
+    Information on security:
+        
+        The Certificate chain is as follows:
+            xttCert.der - is the end certificate sent by the XTT webserver
+            userCert1.der - was used to sign xttCert.der
+            cacert.der - is a self signed certificate, which was used to sign userCert1.der
+    
+        xttCertcrlprep.rls is the crlprep generated file for revoking xttCert.der
+        xttCert.crl was used to generate the above prep
+        
+        userCert1crlprep.rls is the crlprep to revoke userCert1.der
+        userCert1.crl revokes userCert1.der
+        
+        emptycrlprep.rls is an empty prep, this is needed to remove the other crlpreps
+        
+    -->
+    
+    <function name="testName" module="Basic">
+        <parameter>SECURITY.TC.000</parameter>
+    </function>
+    
+    <function name="writeRemoteBinaryFile" module="Remote">
+        <parameter>cacert.der</parameter>
+        <base64file>cacert.der</base64file>
+    </function>
+
+    <function name="writeRemoteBinaryFile" module="Remote">
+        <parameter>userCert1.der</parameter>
+        <base64file>userCert1.der</base64file>
+    </function>
+    
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>security.xml</parameter>
+        <file>security.xml</file>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>securityBlank.xml</parameter>
+        <file>securityBlank.xml</file>
+    </function>
+    
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>securityCRLOFF.xml</parameter>
+        <file>securityCRLOFF.xml</file>
+    </function>    
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load file cacert.der</parameter>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load file userCert1.der</parameter>
+    </function>
+             
+</test>

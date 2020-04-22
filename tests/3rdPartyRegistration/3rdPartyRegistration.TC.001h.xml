@@ -1,0 +1,320 @@
+<test>
+	<name>3rdPartyRegistration.TC.001h</name>
+	<description>S-CSCF sends 3rd Party REGISTER request to SLM [UDP] - 10 Register, 10 Subscribe, 10 Notify, 10 Un-Register - Different Subscribers</description>
+	<configuration>config.xml</configuration>
+	
+	<!-- Start SIP Server -->
+	<function name="startSIPServer" module="SIP"/>
+	<function name="disableResponse" module="SIP"/>
+
+
+<!--loop name="aaa" start="1" stop="151" step="1"-->
+<loop name="processLoop" start="1" stop="11" step="1">
+	<!-- Create the REGISTER Request Headers -->
+	<function name="timeToVariable" module="Basic">
+		<parameter>random</parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>register_headers</parameter>
+        <parameter>REGISTER sip:724.com SIP/2.0</parameter><parameter></parameter>
+        <parameter>Max-Forwards: </parameter>            <parameter>70</parameter>
+        <parameter>CSeq: </parameter>               <parameter>1 REGISTER</parameter>
+        <parameter>Expires: </parameter>               <parameter>7200</parameter>
+        <parameter>Content-Length: </parameter>                 <parameter>0</parameter>
+        <parameter>Contact: </parameter>                <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;expires=7200</parameter></parameter>
+        <parameter>From: </parameter>       <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;tag=</parameter><variable>random</variable></parameter>
+        <parameter>To: </parameter>       <parameter><parameter>&lt;</parameter><configuration><parameter>IMS/PUBLIC_URI</parameter><variable>processLoop</variable><parameter>_1</parameter></configuration><parameter>&gt;</parameter></parameter>
+        <parameter>Call-ID: </parameter>   <parameter><parameter>e7770a8b76fae407e4bb1f4d472b</parameter><variable>random</variable><parameter>@</parameter><configuration>IMS/IP</configuration></parameter>
+        <parameter>Via: </parameter>     <parameter><parameter>SIP/2.0/UDP </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=z9hG4bK2491c1bad54e954f88d9404094e7</parameter><variable>random</variable></parameter>
+        <parameter></parameter><parameter></parameter>
+    </function>
+	
+	<!-- Send REGISTER Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>register_headers</variable>
+    </function>
+    
+    <!-- Wait for the REGISTER Response -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration><parameter>IMS/USER_URI</parameter><variable>processLoop</variable></configuration></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+     </function>
+	
+	<!-- Print the REGISTER Response Code -->
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration><parameter>IMS/USER_URI</parameter><variable>processLoop</variable></configuration></variable>
+	</function>
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></variable>
+	</function>
+    
+    <!-- Check the REGISTER Response Code -->
+    <function name="queryText" module="Basic">
+        <variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration><parameter>IMS/USER_URI</parameter><variable>processLoop</variable></configuration></variable>
+        <parameter>dev/null</parameter>
+        <parameter>200</parameter>
+    </function>
+    
+	<!-- Set Received REGISTER Response Code to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration><parameter>IMS/USER_URI</parameter><variable>processLoop</variable></configuration></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+    </function>
+
+
+
+
+
+     <!-- Wait for SUBSCRIBE Request -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Call-ID</parameter></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Via</parameter></parameter>
+     </function>
+      <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/From</parameter></parameter>
+     </function>  
+      <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/To</parameter></parameter>
+     </function>  
+          
+     <!-- Acquire Necessary SUBSCRIBE Request Headers -->
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Call-ID</parameter></parameter></variable>
+        <parameter>Subs_CallID</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Via</parameter></parameter></variable>
+        <parameter>Subs_Via</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/From</parameter></parameter></variable>
+        <parameter>Subs_From</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+      <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/To</parameter></parameter></variable>
+        <parameter>Subs_To</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+    
+    <!-- Print SUBSCRIBE Headers -->
+    <function name="info" module="Basic">
+    	<parameter>Subs_CallID: </parameter><variable>Subs_CallID</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Subs_Via: </parameter><variable>Subs_Via</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Subs_From: </parameter><variable>Subs_From</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Subs_To: </parameter><variable>Subs_To</variable>
+    </function>
+    
+	<!-- Create the 200 OK Response Headers against SUBSCRIBE Request-->
+	<function name="timeToVariable" module="Basic">
+		<parameter>random</parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>subscribe200OK_headers</parameter>
+		 <parameter>SIP/2.0 200 OK</parameter><parameter></parameter>
+		 <parameter>Contact: </parameter>  <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;</parameter></parameter>
+		 <parameter>Expires: </parameter><parameter>0</parameter>
+		 <parameter>CSeq: </parameter><parameter>1 SUBSCRIBE</parameter>
+		 <parameter>Via: </parameter><parameter><variable>Subs_Via</variable><parameter>;received_port_ext=</parameter><configuration>IMS/SCSCF_PORT</configuration><parameter>;received=</parameter><configuration>IMS/SLM_IP</configuration></parameter>
+		 <parameter>Content-Length: </parameter><parameter>0</parameter>
+		 <parameter>Call-ID: </parameter><parameter><variable>Subs_CallID</variable></parameter>
+		 <parameter>From: </parameter><parameter><variable>Subs_From</variable></parameter>
+		 <parameter>To: </parameter><parameter><variable>Subs_To</variable><parameter>;tag=</parameter><variable>random</variable></parameter>
+        <parameter></parameter><parameter></parameter>
+    </function>        
+        
+    <!-- Send 200 OK Response against SUBSCRIBE Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>subscribe200OK_headers</variable>
+    </function>
+    
+    <!-- Create the NOTIFY Request Body -->
+    <function name="setVariableLines" module="Basic">
+       <parameter>2</parameter>
+       <parameter>notify_body</parameter>
+       <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</parameter><parameter></parameter>
+		<parameter>&lt;reginfo xmlns="urn:ietf:params:xml:ns:reginfo" state="full" version="0"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;registration aor="</parameter><configuration><parameter>IMS/PUBLIC_URI</parameter><variable>processLoop</variable><parameter>_1</parameter></configuration><parameter>" id="</parameter><variable>random</variable><parameter>" state="active"&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;contact event="registered" id="21" state="active"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;uri&gt;sip:</parameter><configuration>IMS/IP</configuration><parameter>:5060&lt;/uri&gt;</parameter></parameter><parameter></parameter>
+		<parameter><parameter>&lt;display-name&gt;</parameter><configuration><parameter>IMS/NAME_URI</parameter><variable>processLoop</variable></configuration><parameter>&lt;/display-name&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;/contact&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/registration&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;registration aor="</parameter><configuration><parameter>IMS/PUBLIC_URI</parameter><variable>processLoop</variable><parameter>_2</parameter></configuration><parameter>;user=phone" id="</parameter><variable>random</variable><parameter>" state="active"&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;contact event="created" id="22" state="active"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;uri&gt;sip:</parameter><configuration>IMS/IP</configuration><parameter>:5060&lt;/uri&gt;</parameter></parameter><parameter></parameter>
+		<parameter><parameter>&lt;display-name&gt;</parameter><configuration><parameter>IMS/NAME_URI</parameter><variable>processLoop</variable></configuration><parameter>&lt;/display-name&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;/contact&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/registration&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/reginfo&gt;</parameter><parameter></parameter>
+		<parameter></parameter><parameter></parameter>
+	</function>
+	
+    <!-- Create the NOTIFY Request Headers -->
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>notify_headers</parameter>
+        <parameter>NOTIFY sip:724.com SIP/2.0</parameter><parameter></parameter>
+		 <parameter>Max-Forwards: </parameter><parameter>70</parameter>
+		 <parameter>Subscription-State: </parameter><parameter>terminated</parameter>
+		 <parameter>Event: </parameter><parameter>reg</parameter>
+		 <parameter>CSeq: </parameter><parameter>1 NOTIFY</parameter>
+		 <parameter>Content-Length: </parameter><parameter><bytelength><variable>notify_body</variable></bytelength></parameter>
+		 <parameter>Contact: </parameter><parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;</parameter></parameter>
+		 <parameter>To: </parameter><parameter><variable>Subs_From</variable></parameter>
+		 <parameter>From: </parameter><parameter><variable>Subs_To</variable><parameter>;tag=</parameter><variable>random</variable></parameter>
+		 <parameter>Call-ID: </parameter><parameter><variable>Subs_CallID</variable></parameter>
+		 <parameter>Content-Type: </parameter><parameter>application/reginfo+xml</parameter>
+		 <parameter>Via: </parameter><parameter><parameter>SIP/2.0/udp </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=</parameter><variable>random</variable></parameter>
+		 <parameter></parameter><parameter></parameter>
+		 <variable>notify_body</variable>
+    </function>
+    
+	<!-- Send NOTIFY Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>notify_headers</variable>
+    </function>
+    
+    <!-- Wait for the NOTIFY Response -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter>SIP/UDP/RESPONSE/724.com</parameter>
+     </function>
+	
+	<!-- Print the NOTIFY Response Code -->
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></variable>
+	</function>
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/724.com</parameter></variable>
+	</function>
+    
+    <!-- Check the NOTIFY Response Code -->
+    <function name="queryText" module="Basic">
+        <variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></variable>
+        <parameter>dev/null</parameter>
+        <parameter>200</parameter>
+    </function>
+    
+	<!-- Set Received NOTIFY Response Code to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter>SIP/UDP/RESPONSE/724.com</parameter>
+    </function>
+
+
+	<!-- Set Received SUBSCRIBE Request Headers to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Call-ID</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Via</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/From</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/To</parameter></parameter>
+    </function>
+
+
+
+
+
+	<!-- Create the UN-REGISTER Request Headers -->   
+    <function name="timeToVariable" module="Basic">
+		<parameter>random</parameter>
+    </function>
+    
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>unregister_headers</parameter>
+        <parameter>REGISTER sip:724.com SIP/2.0</parameter><parameter></parameter>
+        <parameter>Max-Forwards: </parameter>            <parameter>70</parameter>
+        <parameter>CSeq: </parameter>               <parameter>1 REGISTER</parameter>
+        <parameter>Expires: </parameter>               <parameter>0</parameter>
+        <parameter>Content-Length: </parameter>                 <parameter>0</parameter>
+        <parameter>Contact: </parameter>                <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;expires=0</parameter></parameter>
+        <parameter>From: </parameter>       <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;tag=</parameter><variable>random</variable></parameter>
+        <parameter>To: </parameter>       <parameter><parameter>&lt;</parameter><configuration><parameter>IMS/PUBLIC_URI</parameter><variable>processLoop</variable><parameter>_1</parameter></configuration><parameter>&gt;</parameter></parameter>
+        <parameter>Call-ID: </parameter>   <parameter><parameter>e7770a8b76fae407e4bb1f4d472b</parameter><variable>random</variable><parameter>@</parameter><configuration>IMS/IP</configuration></parameter>
+        <parameter>Via: </parameter>     <parameter><parameter>SIP/2.0/UDP </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=z9hG4bK2491c1bad54e954f88d9404094e7</parameter><variable>random</variable></parameter>
+        <parameter></parameter><parameter></parameter>
+    </function>
+	
+	<!-- Send UN-REGISTER Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>unregister_headers</variable>
+    </function>
+    
+    <!-- Wait for the UN-REGISTER Response -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration><parameter>IMS/USER_URI</parameter><variable>processLoop</variable></configuration></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+     </function>
+	
+	<!-- Print the UN-REGISTER Response Code -->
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration><parameter>IMS/USER_URI</parameter><variable>processLoop</variable></configuration></variable>
+	</function>
+    
+    <!-- Check the UN-REGISTER Response Code -->
+    <function name="queryText" module="Basic">
+        <variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration><parameter>IMS/USER_URI</parameter><variable>processLoop</variable></configuration></variable>
+        <parameter>dev/null</parameter>
+        <parameter>200</parameter>
+    </function>
+    
+	<!-- Set Received UN-REGISTER Response Code to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration><parameter>IMS/USER_URI</parameter><variable>processLoop</variable></configuration></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+    </function>
+</loop>
+<!--/loop-->  
+    
+    
+    
+    <!-- Stop SIP Server -->
+   <function name="closeConnection" module="SIP"/>
+	<function name="stopSIPServer" module="SIP"/>
+</test>
+

@@ -1,0 +1,1092 @@
+<!-- start test -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0104.Sub0003  -  Verify Persistent-Cookie & Session-Cookie (20 session & 20 persistent)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<!-- start test -->
+<test>
+    <configuration>Cookies_Test0000_Sub0000.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>COOKIES.WAP1.T0108.Sub0001</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="connectGateway" module="WAP"> </function>
+
+<!-- // Set a Persistent-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>
+            <parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; Max-Age="60"; Path=/, </parameter>
+            <parameter>P2-Pers-Cookie-20-Min=Cookie-Value-P2; Max-Age="60"; Path=/, </parameter>
+            <parameter>P3-Pers-Cookie-30-Min=Cookie-Value-P3; Max-Age="60"; Path=/, </parameter>
+            <parameter>P4-Pers-Cookie-40-Min=Cookie-Value-P4; Max-Age="60"; Path=/, </parameter>
+            <parameter>P5-Pers-Cookie-50-Min=Cookie-Value-P5; Max-Age="60"; Path=/, </parameter>
+            <parameter>P6-Pers-Cookie-60-Min=Cookie-Value-P6; Max-Age="60"; Path=/, </parameter>
+            <parameter>P7-Pers-Cookie-70-Min=Cookie-Value-P7; Max-Age="60"; Path=/, </parameter>
+            <parameter>P8-Pers-Cookie-80-Min=Cookie-Value-P8; Max-Age="60"; Path=/, </parameter>
+            <parameter>P9-Pers-Cookie-90-Min=Cookie-Value-P9; Max-Age="60"; Path=/, </parameter>
+            <parameter>P10-Pers-Cookie-100-Min=Cookie-Value-P10; Max-Age="60"; Path=/, </parameter>
+            <parameter>P11-Pers-Cookie-110-Min=Cookie-Value-P11; Max-Age="60"; Path=/, </parameter>
+            <parameter>P12-Pers-Cookie-120-Min=Cookie-Value-P12; Max-Age="60"; Path=/, </parameter>
+            <parameter>P13-Pers-Cookie-130-Min=Cookie-Value-P13; Max-Age="60"; Path=/, </parameter>
+            <parameter>P14-Pers-Cookie-140-Min=Cookie-Value-P14; Max-Age="60"; Path=/, </parameter>
+            <parameter>P15-Pers-Cookie-150-Min=Cookie-Value-P15; Max-Age="60"; Path=/, </parameter>
+            <parameter>P16-Pers-Cookie-160-Min=Cookie-Value-P16; Max-Age="60"; Path=/, </parameter>
+            <parameter>P17-Pers-Cookie-170-Min=Cookie-Value-P17; Max-Age="60"; Path=/, </parameter>
+            <parameter>P18-Pers-Cookie-180-Min=Cookie-Value-P18; Max-Age="60"; Path=/, </parameter>
+            <parameter>P19-Pers-Cookie-190-Min=Cookie-Value-P19; Max-Age="60"; Path=/, </parameter>
+            <parameter>P20-Pers-Cookie-200-Min=Cookie-Value-P20; Max-Age="60"; Path=/, </parameter>
+            <!--parameter>P21-Pers-Cookie-210-Min=Cookie-Value-P21; Max-Age="60"; Path=/, </parameter>
+            <parameter>P22-Pers-Cookie-220-Min=Cookie-Value-P22; Max-Age="60"; Path=/, </parameter>
+            <parameter>P23-Pers-Cookie-230-Min=Cookie-Value-P23; Max-Age="60"; Path=/, </parameter>
+            <parameter>P24-Pers-Cookie-240-Min=Cookie-Value-P24; Max-Age="60"; Path=/, </parameter>
+            <parameter>P25-Pers-Cookie-250-Min=Cookie-Value-P25; Max-Age="60"; Path=/, </parameter>
+            <parameter>P26-Pers-Cookie-260-Min=Cookie-Value-P26; Max-Age="60"; Path=/, </parameter>
+            <parameter>P27-Pers-Cookie-270-Min=Cookie-Value-P27; Max-Age="60"; Path=/, </parameter>
+            <parameter>P28-Pers-Cookie-280-Min=Cookie-Value-P28; Max-Age="60"; Path=/, </parameter>
+            <parameter>P29-Pers-Cookie-290-Min=Cookie-Value-P29; Max-Age="60"; Path=/, </parameter>
+            <parameter>P30-Pers-Cookie-300-Min=Cookie-Value-P30; Max-Age="60"; Path=/, </parameter>
+            <parameter>P31-Pers-Cookie-310-Min=Cookie-Value-P31; Max-Age="60"; Path=/, </parameter>
+            <parameter>P32-Pers-Cookie-320-Min=Cookie-Value-P32; Max-Age="60"; Path=/, </parameter>
+            <parameter>P33-Pers-Cookie-330-Min=Cookie-Value-P33; Max-Age="60"; Path=/, </parameter>
+            <parameter>P34-Pers-Cookie-340-Min=Cookie-Value-P34; Max-Age="60"; Path=/, </parameter>
+            <parameter>P35-Pers-Cookie-350-Min=Cookie-Value-P35; Max-Age="60"; Path=/, </parameter>
+            <parameter>P36-Pers-Cookie-360-Min=Cookie-Value-P36; Max-Age="60"; Path=/, </parameter>
+            <parameter>P37-Pers-Cookie-370-Min=Cookie-Value-P37; Max-Age="60"; Path=/, </parameter>
+            <parameter>P38-Pers-Cookie-380-Min=Cookie-Value-P38; Max-Age="60"; Path=/, </parameter>
+            <parameter>P39-Pers-Cookie-390-Min=Cookie-Value-P39; Max-Age="60"; Path=/, </parameter>
+            <parameter>P40-Pers-Cookie-400-Min=Cookie-Value-P40; Max-Age="60"; Path=/, </parameter-->
+            <parameter>S1-Session-Cookie-1=Cookie-Value-S1; Path=/, </parameter>
+            <parameter>S2-Session-Cookie-2=Cookie-Value-S2; Path=/, </parameter>
+            <parameter>S3-Session-Cookie-3=Cookie-Value-S3; Path=/, </parameter>
+            <parameter>S4-Session-Cookie-4=Cookie-Value-S4; Path=/, </parameter>
+            <parameter>S5-Session-Cookie-5=Cookie-Value-S5; Path=/, </parameter>
+            <parameter>S6-Session-Cookie-6=Cookie-Value-S6; Path=/, </parameter>
+            <parameter>S7-Session-Cookie-7=Cookie-Value-S7; Path=/, </parameter>
+            <parameter>S8-Session-Cookie-8=Cookie-Value-S8; Path=/, </parameter>
+            <parameter>S9-Session-Cookie-9=Cookie-Value-S9; Path=/, </parameter>
+            <parameter>S10-Session-Cookie-10=Cookie-Value-S10; Path=/, </parameter>
+            <parameter>S11-Session-Cookie-11=Cookie-Value-S11; Path=/, </parameter>
+            <parameter>S12-Session-Cookie-12=Cookie-Value-S12; Path=/, </parameter>
+            <parameter>S13-Session-Cookie-13=Cookie-Value-S13; Path=/, </parameter>
+            <parameter>S14-Session-Cookie-14=Cookie-Value-S14; Path=/, </parameter>
+            <parameter>S15-Session-Cookie-15=Cookie-Value-S15; Path=/, </parameter>
+            <parameter>S16-Session-Cookie-16=Cookie-Value-S16; Path=/, </parameter>
+            <parameter>S17-Session-Cookie-17=Cookie-Value-S17; Path=/, </parameter>
+            <parameter>S18-Session-Cookie-18=Cookie-Value-S18; Path=/, </parameter>
+            <parameter>S19-Session-Cookie-19=Cookie-Value-S19; Path=/, </parameter>
+            <parameter>S20-Session-Cookie-20=Cookie-Value-S20; Path=/, </parameter>
+            <!--parameter>S21-Session-Cookie-21=Cookie-Value-S21; Path=/, </parameter>
+            <parameter>S22-Session-Cookie-22=Cookie-Value-S22; Path=/, </parameter>
+            <parameter>S23-Session-Cookie-23=Cookie-Value-S23; Path=/, </parameter>
+            <parameter>S24-Session-Cookie-24=Cookie-Value-S24; Path=/, </parameter>
+            <parameter>S25-Session-Cookie-25=Cookie-Value-S25; Path=/, </parameter>
+            <parameter>S26-Session-Cookie-26=Cookie-Value-S26; Path=/, </parameter>
+            <parameter>S27-Session-Cookie-27=Cookie-Value-S27; Path=/, </parameter>
+            <parameter>S28-Session-Cookie-28=Cookie-Value-S28; Path=/, </parameter>
+            <parameter>S29-Session-Cookie-29=Cookie-Value-S29; Path=/, </parameter>
+            <parameter>S30-Session-Cookie-30=Cookie-Value-S30; Path=/, </parameter>
+            <parameter>S31-Session-Cookie-31=Cookie-Value-S31; Path=/, </parameter>
+            <parameter>S32-Session-Cookie-32=Cookie-Value-S32; Path=/, </parameter>
+            <parameter>S33-Session-Cookie-33=Cookie-Value-S33; Path=/, </parameter>
+            <parameter>S34-Session-Cookie-34=Cookie-Value-S34; Path=/, </parameter>
+            <parameter>S35-Session-Cookie-35=Cookie-Value-S35; Path=/, </parameter>
+            <parameter>S36-Session-Cookie-36=Cookie-Value-S36; Path=/, </parameter>
+            <parameter>S37-Session-Cookie-37=Cookie-Value-S37; Path=/, </parameter>
+            <parameter>S38-Session-Cookie-38=Cookie-Value-S38; Path=/, </parameter>
+            <parameter>S39-Session-Cookie-39=Cookie-Value-S39; Path=/, </parameter>
+            <parameter>S40-Session-Cookie-40=Cookie-Value-S40; Path=/; </parameter-->
+        </parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="WAP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+<!-- // Check if Cookies are injected -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL2</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>\$Version=0;</parameter>
+    </function>
+
+
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P2-Pers-Cookie-20-Min=Cookie-Value-P2; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P3-Pers-Cookie-30-Min=Cookie-Value-P3; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P4-Pers-Cookie-40-Min=Cookie-Value-P4; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P5-Pers-Cookie-50-Min=Cookie-Value-P5; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P6-Pers-Cookie-60-Min=Cookie-Value-P6; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P7-Pers-Cookie-70-Min=Cookie-Value-P7; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P8-Pers-Cookie-80-Min=Cookie-Value-P8; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P9-Pers-Cookie-90-Min=Cookie-Value-P9; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P10-Pers-Cookie-100-Min=Cookie-Value-P10; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P11-Pers-Cookie-110-Min=Cookie-Value-P11; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P12-Pers-Cookie-120-Min=Cookie-Value-P12; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P13-Pers-Cookie-130-Min=Cookie-Value-P13; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P14-Pers-Cookie-140-Min=Cookie-Value-P14; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P15-Pers-Cookie-150-Min=Cookie-Value-P15; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P16-Pers-Cookie-160-Min=Cookie-Value-P16; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P17-Pers-Cookie-170-Min=Cookie-Value-P17; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P18-Pers-Cookie-180-Min=Cookie-Value-P18; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P19-Pers-Cookie-190-Min=Cookie-Value-P19; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P20-Pers-Cookie-200-Min=Cookie-Value-P20; \$Path="/";</parameter>
+    </function>
+
+    <!--function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P21-Pers-Cookie-210-Min=Cookie-Value-P21; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P22-Pers-Cookie-220-Min=Cookie-Value-P22; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P23-Pers-Cookie-230-Min=Cookie-Value-P23; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P24-Pers-Cookie-240-Min=Cookie-Value-P24; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P25-Pers-Cookie-250-Min=Cookie-Value-P25; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P26-Pers-Cookie-260-Min=Cookie-Value-P26; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P27-Pers-Cookie-270-Min=Cookie-Value-P27; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P28-Pers-Cookie-280-Min=Cookie-Value-P28; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P29-Pers-Cookie-290-Min=Cookie-Value-P29; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P30-Pers-Cookie-300-Min=Cookie-Value-P30; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P31-Pers-Cookie-310-Min=Cookie-Value-P31; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P32-Pers-Cookie-320-Min=Cookie-Value-P32; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P33-Pers-Cookie-330-Min=Cookie-Value-P33; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P34-Pers-Cookie-340-Min=Cookie-Value-P34; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P35-Pers-Cookie-350-Min=Cookie-Value-P35; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P36-Pers-Cookie-360-Min=Cookie-Value-P36; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P37-Pers-Cookie-370-Min=Cookie-Value-P37; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P38-Pers-Cookie-380-Min=Cookie-Value-P38; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P39-Pers-Cookie-390-Min=Cookie-Value-P39; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P40-Pers-Cookie-400-Min=Cookie-Value-P40; \$Path="/";</parameter>
+    </function-->
+
+
+    <!--function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S40-Session-Cookie-40=Cookie-Value-S40; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S39-Session-Cookie-39=Cookie-Value-S39; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S38-Session-Cookie-38=Cookie-Value-S38; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S37-Session-Cookie-37=Cookie-Value-S37; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S36-Session-Cookie-36=Cookie-Value-S36; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S35-Session-Cookie-35=Cookie-Value-S35; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S34-Session-Cookie-34=Cookie-Value-S34; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S33-Session-Cookie-33=Cookie-Value-S33; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S32-Session-Cookie-32=Cookie-Value-S32; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S31-Session-Cookie-31=Cookie-Value-S31; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S30-Session-Cookie-30=Cookie-Value-S30; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S29-Session-Cookie-29=Cookie-Value-S29; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S28-Session-Cookie-28=Cookie-Value-S28; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S27-Session-Cookie-27=Cookie-Value-S27; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S26-Session-Cookie-26=Cookie-Value-S26; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S25-Session-Cookie-25=Cookie-Value-S25; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S24-Session-Cookie-24=Cookie-Value-S24; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S23-Session-Cookie-23=Cookie-Value-S23; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S22-Session-Cookie-22=Cookie-Value-S22; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S21-Session-Cookie-21=Cookie-Value-S21; \$Path="/";</parameter>
+    </function-->
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S20-Session-Cookie-20=Cookie-Value-S20; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S19-Session-Cookie-19=Cookie-Value-S19; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S18-Session-Cookie-18=Cookie-Value-S18; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S17-Session-Cookie-17=Cookie-Value-S17; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S16-Session-Cookie-16=Cookie-Value-S16; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S15-Session-Cookie-15=Cookie-Value-S15; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S14-Session-Cookie-14=Cookie-Value-S14; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S13-Session-Cookie-13=Cookie-Value-S13; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S12-Session-Cookie-12=Cookie-Value-S12; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S11-Session-Cookie-11=Cookie-Value-S11; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S10-Session-Cookie-10=Cookie-Value-S10; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S9-Session-Cookie-9=Cookie-Value-S9; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S8-Session-Cookie-8=Cookie-Value-S8; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S7-Session-Cookie-7=Cookie-Value-S7; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S6-Session-Cookie-6=Cookie-Value-S6; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S5-Session-Cookie-5=Cookie-Value-S5; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S4-Session-Cookie-4=Cookie-Value-S4; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S3-Session-Cookie-3=Cookie-Value-S3; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S2-Session-Cookie-2=Cookie-Value-S2; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>S1-Session-Cookie-1=Cookie-Value-S1; \$Path="/";</parameter>
+    </function>
+
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+    <function name="disconnectGateway" module="WAP" />
+
+<!-- // Radius logoff  logon -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="connectGateway" module="WAP"> </function>
+
+
+<!-- // Check if Persistent-Cookie is injected -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL2</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>\$Version=0;</parameter>
+    </function>
+
+
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P2-Pers-Cookie-20-Min=Cookie-Value-P2; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P3-Pers-Cookie-30-Min=Cookie-Value-P3; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P4-Pers-Cookie-40-Min=Cookie-Value-P4; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P5-Pers-Cookie-50-Min=Cookie-Value-P5; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P6-Pers-Cookie-60-Min=Cookie-Value-P6; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P7-Pers-Cookie-70-Min=Cookie-Value-P7; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P8-Pers-Cookie-80-Min=Cookie-Value-P8; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P9-Pers-Cookie-90-Min=Cookie-Value-P9; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P10-Pers-Cookie-100-Min=Cookie-Value-P10; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P11-Pers-Cookie-110-Min=Cookie-Value-P11; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P12-Pers-Cookie-120-Min=Cookie-Value-P12; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P13-Pers-Cookie-130-Min=Cookie-Value-P13; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P14-Pers-Cookie-140-Min=Cookie-Value-P14; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P15-Pers-Cookie-150-Min=Cookie-Value-P15; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P16-Pers-Cookie-160-Min=Cookie-Value-P16; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P17-Pers-Cookie-170-Min=Cookie-Value-P17; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P18-Pers-Cookie-180-Min=Cookie-Value-P18; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P19-Pers-Cookie-190-Min=Cookie-Value-P19; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P20-Pers-Cookie-200-Min=Cookie-Value-P20; \$Path="/";</parameter>
+    </function>
+
+    <!--function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P21-Pers-Cookie-210-Min=Cookie-Value-P21; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P22-Pers-Cookie-220-Min=Cookie-Value-P22; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P23-Pers-Cookie-230-Min=Cookie-Value-P23; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P24-Pers-Cookie-240-Min=Cookie-Value-P24; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P25-Pers-Cookie-250-Min=Cookie-Value-P25; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P26-Pers-Cookie-260-Min=Cookie-Value-P26; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P27-Pers-Cookie-270-Min=Cookie-Value-P27; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P28-Pers-Cookie-280-Min=Cookie-Value-P28; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P29-Pers-Cookie-290-Min=Cookie-Value-P29; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P30-Pers-Cookie-300-Min=Cookie-Value-P30; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P31-Pers-Cookie-310-Min=Cookie-Value-P31; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P32-Pers-Cookie-320-Min=Cookie-Value-P32; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P33-Pers-Cookie-330-Min=Cookie-Value-P33; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P34-Pers-Cookie-340-Min=Cookie-Value-P34; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P35-Pers-Cookie-350-Min=Cookie-Value-P35; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P36-Pers-Cookie-360-Min=Cookie-Value-P36; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P37-Pers-Cookie-370-Min=Cookie-Value-P37; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P38-Pers-Cookie-380-Min=Cookie-Value-P38; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P39-Pers-Cookie-390-Min=Cookie-Value-P39; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P40-Pers-Cookie-400-Min=Cookie-Value-P40; \$Path="/";</parameter>
+    </function-->
+
+
+    <!--function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S40-Session-Cookie-40=Cookie-Value-S40; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S39-Session-Cookie-39=Cookie-Value-S39; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S38-Session-Cookie-38=Cookie-Value-S38; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S37-Session-Cookie-37=Cookie-Value-S37; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S36-Session-Cookie-36=Cookie-Value-S36; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S35-Session-Cookie-35=Cookie-Value-S35; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S34-Session-Cookie-34=Cookie-Value-S34; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S33-Session-Cookie-33=Cookie-Value-S33; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S32-Session-Cookie-32=Cookie-Value-S32; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S31-Session-Cookie-31=Cookie-Value-S31; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S30-Session-Cookie-30=Cookie-Value-S30; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S29-Session-Cookie-29=Cookie-Value-S29; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S28-Session-Cookie-28=Cookie-Value-S28; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S27-Session-Cookie-27=Cookie-Value-S27; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S26-Session-Cookie-26=Cookie-Value-S26; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S25-Session-Cookie-25=Cookie-Value-S25; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S24-Session-Cookie-24=Cookie-Value-S24; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S23-Session-Cookie-23=Cookie-Value-S23; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S22-Session-Cookie-22=Cookie-Value-S22; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S21-Session-Cookie-21=Cookie-Value-S21; $Path="/";</parameter>
+    </function-->
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S20-Session-Cookie-20=Cookie-Value-S20; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S19-Session-Cookie-19=Cookie-Value-S19; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S18-Session-Cookie-18=Cookie-Value-S18; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S17-Session-Cookie-17=Cookie-Value-S17; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S16-Session-Cookie-16=Cookie-Value-S16; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S15-Session-Cookie-15=Cookie-Value-S15; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S14-Session-Cookie-14=Cookie-Value-S14; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S13-Session-Cookie-13=Cookie-Value-S13; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S12-Session-Cookie-12=Cookie-Value-S12; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S11-Session-Cookie-11=Cookie-Value-S11; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S10-Session-Cookie-10=Cookie-Value-S10; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S9-Session-Cookie-9=Cookie-Value-S9; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S8-Session-Cookie-8=Cookie-Value-S8; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S7-Session-Cookie-7=Cookie-Value-S7; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S6-Session-Cookie-6=Cookie-Value-S6; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S5-Session-Cookie-5=Cookie-Value-S5; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S4-Session-Cookie-4=Cookie-Value-S4; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S3-Session-Cookie-3=Cookie-Value-S3; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S2-Session-Cookie-2=Cookie-Value-S2; $Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>S1-Session-Cookie-1=Cookie-Value-S1; $Path="/";</parameter>
+    </function>
+
+
+
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+
+<!-- // Remove Persistent-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>
+            <parameter>P1-Pers-Cookie-10-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P2-Pers-Cookie-20-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P3-Pers-Cookie-30-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P4-Pers-Cookie-40-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P5-Pers-Cookie-50-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P6-Pers-Cookie-60-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P7-Pers-Cookie-70-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P8-Pers-Cookie-80-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P9-Pers-Cookie-90-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P10-Pers-Cookie-100-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P11-Pers-Cookie-110-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P12-Pers-Cookie-120-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P13-Pers-Cookie-130-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P14-Pers-Cookie-140-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P15-Pers-Cookie-150-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P16-Pers-Cookie-160-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P17-Pers-Cookie-170-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P18-Pers-Cookie-180-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P19-Pers-Cookie-190-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P20-Pers-Cookie-200-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <!--parameter>P21-Pers-Cookie-210-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P22-Pers-Cookie-220-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P23-Pers-Cookie-230-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P24-Pers-Cookie-240-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P25-Pers-Cookie-250-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P26-Pers-Cookie-260-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P27-Pers-Cookie-270-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P28-Pers-Cookie-280-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P29-Pers-Cookie-290-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P30-Pers-Cookie-300-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P31-Pers-Cookie-310-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P32-Pers-Cookie-320-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P33-Pers-Cookie-330-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P34-Pers-Cookie-340-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P35-Pers-Cookie-350-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P36-Pers-Cookie-360-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P37-Pers-Cookie-370-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P38-Pers-Cookie-380-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P39-Pers-Cookie-390-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P40-Pers-Cookie-400-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/;</parameter-->
+        </parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL3</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="WAP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+  <!-- // Check if Persistent-Cookie is NOT injected -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL4</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+    <function name="disconnectGateway" module="WAP" />
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+  <function name="stopWebServer" module="HTTP"/>
+
+</test>
+

@@ -1,0 +1,78 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.6696</parameter>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>PROCESS</parameter>
+		<parameter>SERVICE.samui</parameter>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>TOTALPROCESSES</parameter>
+		<parameter>1</parameter>
+	</function>
+    <function name="sendRemoteCommand" module="Remote">
+
+        <parameter>writeFile </parameter>
+        <parameter>bzTC6696.sh </parameter>
+        <file>bzTC6696.sh</file>
+    </function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>numprocess</parameter>
+		<variable>TOTALPROCESSES</variable>
+	</function>
+	<loop name="numprocess" stop="0" step="-1">
+		<thread>
+			<function name="sendRemoteCommand" module="Remote">
+				<parameter>bash bzTC6696.sh </parameter>
+				<variable>PROCESS</variable>
+				<parameter>.</parameter>
+				<variable>numprocess</variable>
+				<parameter> 100000 </parameter>
+			   	<configuration>xmg/path</configuration>
+			   	<configuration>xmg/tool</configuration>
+    		</function>
+		</thread>
+	</loop>
+
+	<loop name="checkprocesses" start="1" stop="360" step="1">
+		<function name="sleep" module="Basic">
+			<parameter>10000</parameter>
+		</function>
+
+		<function name="setVariable" module="Basic">
+			<parameter>numprocess2</parameter>
+			<variable>TOTALPROCESSES</variable>
+		</function>
+		<loop name="numprocess2" stop="0" step="-1">
+			<function name="setVariable" module="Basic">
+				<parameter>CURRENTPROCESS</parameter>
+				<variable>PROCESS</variable>
+				<parameter>.</parameter>
+				<variable>numprocess2</variable>
+			</function>
+			<function name="checkProcessStatus" module="Remote">
+				<variable>CURRENTPROCESS</variable>
+				<parameter>starting</parameter>
+				<parameter>transient</parameter>
+				<parameter>running</parameter>
+				<parameter>*running</parameter>
+		    </function>
+		</loop>
+	</loop>
+
+	<function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile </parameter>
+        <parameter>bzTC6696.sh </parameter>
+		<parameter>pkill -f bash\ bzTC6696.sh</parameter>
+    </function>
+
+	<function name="sendRemoteCommand" module="Remote">
+        <parameter>bash </parameter>
+        <parameter>bzTC6696.sh</parameter>
+    </function>
+
+
+</test>

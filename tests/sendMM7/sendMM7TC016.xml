@@ -1,0 +1,19 @@
+<test>
+    <!-- please make sure that the clock of the xma system
+         and the clock of the xtt system show the same time +- SMSC Bind timeout -->
+    <configuration>sendMM7TC016-REL5-MM7.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.016</parameter>
+    </function>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>Distribution</parameter>
+        <parameter>DistributionProtection</parameter>
+    </function>
+
+    <subtest>sendMM7TC016-REL5.xml</subtest>
+
+</test>

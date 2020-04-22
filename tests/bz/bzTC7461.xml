@@ -1,0 +1,36 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.7404</parameter>
+    </function>
+    <function name="connectGateway" module="WAP"/>
+    <function name="startWebServer" module="HTTP"/>
+    
+    <function name="setCacheFile" module="HTTP">
+        <parameter>bzTC7461.wml</parameter>
+        <file>bzTC7461.wml</file>
+    </function>
+    
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="setHeader" module="WAP">
+        <parameter>Accept</parameter>
+        <parameter>application/vnd.wap.wmlc</parameter>
+    </function>    
+    <function name="sendGetRequest" module="WAP">
+        <parameter>http://</parameter>
+        <configuration>system/ip</configuration>
+        <parameter>/bzTC7461.wml</parameter>        
+    </function>
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+    <function name="disconnectGateway" module="WAP"/>
+</test>

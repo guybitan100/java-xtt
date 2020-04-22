@@ -1,0 +1,151 @@
+<test>
+
+		<function name="testName" module="Basic">
+			<parameter>HTTP-IN-Channel.TC.040</parameter>
+		</function>
+	
+		<description>Proxy sends "Message-Body" request to Application via HTTPS POST / Sender has "Secret MMS" Feature / "X-Application-Context-Id" header is duplicate in the request / Application replies with proper error code
+		<!-- Test Description
+		1. MMS Extra should be properly configured, up and running.
+		2. Relevant dynamic configuration files should be loaded to MMS Extra.
+		3. Relevant sender and/or recipient subscribers and their subscriber attributes should be created in the MMS Extra database in order to execute the test case successfully. 
+		4. Beginning of every test description and steps section the sender's and/or recipient's subscriber attributes are clearly specified -->
+		</description>
+
+		<!-- Available MSISDN -->
+		<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+		<!-- Set mandatory headers -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-MMS-Message-Type</parameter>
+			<parameter>m-send-req</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter>987654</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>To</parameter>
+			<configuration>MMSX/SECRET/RECIPIENT/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+			<configuration>MMSX/SECRET/SENDER/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>Subject</parameter>
+			<parameter>#Duplicate transaction ID</parameter>
+		</function> 
+
+		<!-- Send Metadeta  Request -->
+		 <function name="sendGetRequest" module="HTTP">
+			<parameter>
+				<parameter>https://</parameter>
+				<configuration>MMS_Extra/Ip</configuration>
+				<parameter>:</parameter>
+				<configuration>MMS_Extra/SecurePort</configuration>
+				<parameter>/New-Message-Intercepted</parameter>
+			</parameter>
+		</function> 
+ 
+		<function name="checkResponseCode" module="HTTP">
+			<parameter>200</parameter>
+		</function> 
+
+		 <!-- Will get response as New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id as TransactionID -->
+		<function name="checkHeader" module="HTTP">
+			<parameter>X-Proxy-Handle</parameter>
+			<parameter>send-body</parameter>
+		</function>
+
+		<function name="queryText" module="BASIC">
+			<variable>HTTP/HEADER/X-Application-Context-Id</variable>
+			<parameter>TransactionID</parameter>
+			<parameter>(.*)</parameter>
+		</function>
+
+		<function name="info" module="Basic">
+			<parameter>TransactionID=</parameter>
+			<variable>TransactionID</variable>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			  <parameter>Content-Type</parameter>
+			  <parameter>text/xml</parameter>
+		 </function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter>987654</parameter>
+		</function>
+
+		<!-- Duplication of X-Application-Context-Id header -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Application-Context-Id</parameter>
+			<variable>TransactionID</variable>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>x-application-context-id</parameter>
+			<variable>TransactionID</variable>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>Subject</parameter>
+			<parameter>#Duplicate transaction ID</parameter>
+		</function>
+
+		 <function name="setPostData" module="HTTP">
+			<file>mm7req.txt</file>
+			<parameter/>
+		</function>
+
+		<!-- Request for message body -->
+		<function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>https://</parameter>
+            <configuration>MMS_Extra/Ip</configuration>
+            <parameter>:</parameter>
+            <configuration>MMS_Extra/SecurePort</configuration>
+            <parameter>/Message-Body</parameter>
+		  </parameter>
+		 </function>
+
+		<function name="checkResponseCode" module="HTTP">
+				<parameter>200</parameter>
+		</function>
+
+		<!-- Validating the response of X-Proxy-Handle. It should return error -->
+		<function name="checkHeader" module="HTTP">
+				<parameter>X-Proxy-Handle</parameter>
+				<parameter>error</parameter>
+		</function>
+
+		<!-- Validating the response of X-MMSX-Error-Text -->
+		<function name="checkHeader" module="HTTP">
+			<parameter>x-mmsx-error-text</parameter>
+			<parameter>
+			<parameter>Transaction not found: </parameter>
+			<variable>TransactionID</variable>
+			<parameter>,</parameter>
+			<variable>TransactionID</variable>
+			</parameter>
+		</function>
+</test>

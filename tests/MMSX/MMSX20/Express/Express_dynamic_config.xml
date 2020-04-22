@@ -1,0 +1,129 @@
+<test>
+    <name>PrepareWorkflowConstants</name>
+    <description>
+	------------------------------
+	Change "smsOutCharacterSet" = "text" in Workflow Constants file and load it
+	Change "expressRetrievalUrl" = "http://system ip:8888/ExpressRetrieval" in Appconfig file
+	------------------------------
+	</description>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>extract data </parameter>
+            <parameter>workflowconstants default_workflowconstants.xml</parameter>
+        </parameter>
+    </function>
+
+    <!--  Read the workflowconstants in a variable-->
+    <function name="readRemoteFile" module="Remote">
+        <parameter>default_workflowconstants.xml</parameter>
+        <parameter>default_workflowconstants</parameter>
+    </function>
+
+    <function name="createDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <variable>default_workflowconstants</variable>
+    </function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='smsOutCharacterSet']</parameter>
+        <parameter>smsOutCharacterSet</parameter>
+    </function>
+
+    <!--change smsOutCharacterSet = text-->
+    <function name="updateNode" module="XML">
+       <parameter>default_workflowconstantsxmldocument</parameter>
+       <parameter>/workflowConstants/workflowConstant[@name='smsOutCharacterSet']</parameter>
+       <parameter>text</parameter>
+    </function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='smsOutCharacterSet']</parameter>
+        <parameter>smsOutCharacterSet</parameter>
+    </function>
+
+    <function name="info" module="Basic">
+		    <variable>smsOutCharacterSet</variable>
+	</function>
+
+    <function name="documentToVariable" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>changed_workflowconstants</parameter>
+    </function>
+
+    <!--  Read the workflowconstants in a variable-->
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>changed_workflowconstants.xml</parameter>
+        <variable>changed_workflowconstants</variable>
+    </function>
+
+    <!-- Load the updated workflow constant file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data changed_workflowconstants.xml</parameter>
+	</function>
+
+    <function name="queryResponse" module="Remote">
+		<parameter>^Loaded workflowconstants.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+<!-- Modify and load the Appconfig file on Server -->
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract data </parameter>
+			<parameter>appconfig default_appconfig.xml</parameter>
+		</parameter>
+	</function>
+
+<!--  Read the appconfig file in a variable from the Backed Up My_appconfig.xml-->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_appconfig.xml</parameter>
+		<parameter>My_appconfig</parameter>
+	</function>
+
+	<!-- Replacing default message with modified russian message in Local appconfig file-->
+	<function name="replace" module="Basic">
+		<parameter>My_appconfig</parameter>
+		<parameter>&lt;value&gt;щщщ&lt;/value&gt;</parameter>
+		<parameter>&lt;value&gt;MMS Extra: New message from $from, click URL to display the message:&lt;/value&gt;</parameter>
+	</function>
+
+<!-- Replacing default message with modified message in Local appconfig file-->
+	<function name="replace" module="Basic">
+		<parameter>My_appconfig</parameter>
+		<parameter>&lt;value&gt;http://telco.example:8888/ExpressRetrieval&lt;/value&gt;</parameter>
+		<parameter>
+		<parameter>&lt;value&gt;http://</parameter><configuration>system/ip</configuration>
+		<parameter>:</parameter>
+		<parameter>8082</parameter>		
+		<parameter>/ExpressRetrieval&lt;/value&gt;</parameter>
+		</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		    <variable>My_appconfig</variable>
+	</function>
+
+<!-- Write a remote file with the chaged values in the variable -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>My_new_appconfig.xml</parameter>
+		<variable>My_appconfig</variable>
+	</function>
+
+<!-- Load the updated Mxtt_appconfig.xml file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data My_new_appconfig.xml</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded appconfig</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+</test>

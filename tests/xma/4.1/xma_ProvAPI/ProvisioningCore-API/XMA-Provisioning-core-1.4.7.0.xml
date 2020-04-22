@@ -1,0 +1,122 @@
+<test>
+
+	<description> SOAP-API-provisioning-core{updateDevice( )}: Test for updation of existing device identifier using updateDeviceI()</description>
+
+	<function name="testName" module="Basic">
+		<parameter>XMA-Provisioning-core-1.4.7.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>addDevice.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="createDocument" module="XML">
+		<parameter>devicesoap</parameter>
+		<variable>SOAP_API/DEFAULT/BODY/PLAIN</variable>
+	</function>
+
+	<function name="getNodeFromDocument" module="XML" >
+		<parameter>devicesoap</parameter>
+		<parameter>//return</parameter>
+		<parameter>GANV</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<variable>GANV</variable>
+	</function>
+
+	<function name="createDocument" module="XML">
+		<parameter>updatesoap</parameter>
+			<parameter>
+				<parameter>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+				&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/"&gt;
+				&lt;soap:Body&gt;
+				&lt;tns:updateDevice&gt;
+				&lt;arg0&gt;
+				&lt;identifier&gt;</parameter><variable>GANV</variable><parameter>&lt;/identifier&gt;
+				&lt;deviceInfo&gt;
+				&lt;profile&gt;Nokia3650/1.0 SymbianOS/6.3_30&lt;/profile&gt;
+				&lt;profileUrl&gt;yospace_nokia_v1_3650_ver2_web3_30&lt;/profileUrl&gt;
+				&lt;userAgent&gt;Nokia3650/1.0 SymbianOS/6.3_30&lt;/userAgent&gt;
+				&lt;/deviceInfo&gt;
+				&lt;/arg0&gt;
+				&lt;/tns:updateDevice&gt;
+				&lt;/soap:Body&gt;
+				&lt;/soap:Envelope&gt;
+			</parameter>
+		</parameter>
+	</function>
+
+	<function name="setHeader" module="XML">
+		<parameter>updatesoap</parameter>
+		<parameter>content-type</parameter>
+		<parameter>text/xml</parameter>
+	</function>
+
+	<function name="sendPostRequest" module="XML">
+		<parameter>updatesoap</parameter>
+		<parameter>updatesoapResp</parameter>
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="XML">
+            <parameter>updatesoapResp</parameter>
+            <parameter>200</parameter>
+     </function>
+
+	<function name="createDocument" module="XML">
+		<parameter>removesoap</parameter>
+			<parameter>
+				<parameter>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+				&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/"&gt;
+				&lt;soap:Body&gt;
+				&lt;tns:removeDevice&gt;
+				&lt;arg0&gt;</parameter><variable>GANV</variable><parameter>&lt;/arg0&gt;
+				&lt;/tns:removeDevice&gt;
+				&lt;/soap:Body&gt;
+				&lt;/soap:Envelope&gt;
+			</parameter>
+		</parameter>
+	</function>
+
+	<function name="setHeader" module="XML">
+		<parameter>removesoap</parameter>
+		<parameter>content-type</parameter>
+		<parameter>text/xml</parameter>
+	</function>
+
+	<function name="sendPostRequest" module="XML">
+		<parameter>removesoap</parameter>
+		<parameter>removesoapResp</parameter>
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+</test>

@@ -1,0 +1,75 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>MM7IN-MM1OUT.TC.018</name>
+    <description>Missing Mandatory Parameters in the incoming MM7 requests are properly realized and handled by XMA - Missing Recipient
+    </description>
+
+	<!-- Load MSISDN -->
+	 <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>  
+    
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=Yes, ReadReply=Yes -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <configuration>VASP/VASPID</configuration>
+        <configuration>VASP/VASID</configuration>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <!--function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>MSISDN/1</variable>
+    </function-->
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+    <function name="previewRequest" module="VASP" />
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>500</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;4004&lt;/StatusCode&gt;</parameter>
+    </function>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+</test>

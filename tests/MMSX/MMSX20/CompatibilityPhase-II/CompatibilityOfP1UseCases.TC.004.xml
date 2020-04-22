@@ -1,0 +1,262 @@
+<test>
+
+    <name>CompatibilityOfP1UseCases.TC.004</name>
+    <description>Validate "Archive" Feature in combination with "Calender" Feature 
+Test Category: Should
+Test Steps:
+---------------------------------------------------------------
+1. Sender and Recipient of an MMS message activate "archive" service through Web Portal .
+2. Sender has Calendar service enabled .
+3. The sender enters a future date and time in its desired format in the subject for the MMS to be delivered. 
+4. MMS is sent through MM1 message to MMS Proxy.
+5. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request.
+6. The application now asks for "send data" to MMS Proxy server.
+7. MMS Proxy then sends the HTTP post which contains the body in message.
+8. MMS Extra validates the subscriber data from the persistent storage.
+9. Application now charges the subscriber for the MMS though its billing system.
+10. An acknowledgement from the billing system is sent to the application.
+11. The application now saves the MMS in the persistent storage setting up a timer up to the desired time requested by the sender for the MMS delivery. Application Archive the messages save in sender outbox and recipient inbox.
+12. MM7 submit has been sent via MM7-OUT to the MMSC
+13. MMSC now sends a confirmation to the application and the application deletes MMS from its storage.
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  2. Remote
+	  3. Basic -->
+</description> 
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceArchive subscriberId=10001  serviceEnabled=true</parameter>
+		    </function>
+
+		<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceCalendar subscriberId=10001  serviceEnabled=true</parameter>
+		</function>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+<!-- Delete Archive messages -->
+	<subtest>../deleteArchiveOld.xml</subtest>
+
+	<!-- Query the name of the active ARCHIVE-OUT process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>ARCHIVE-OUT</parameter>
+		<parameter>ARCHIVE-OUT_Name</parameter>
+	</function>
+
+	<!-- Restart process to get latest process log -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>restart process </parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+		</parameter>
+	</function>
+
+	<!-- Enable trace for validating Archive message -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>enable trac -v DELIVERY ARCHIVE-OUT.*.*</parameter>
+	</function>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+   <function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<!-- Set To field as recipient mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/COMP/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<!-- Set X-Proxy-Subscriber-MSISDN field as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+	</function>
+
+	<function name="createDateString" module="Basic">
+        <parameter>kk':'mm' 'dd'.'MM'.'yy</parameter>
+        <parameter>date</parameter>
+        <parameter>120</parameter>
+        <parameter>UTC</parameter>
+    </function>
+
+    <function name="info" module="Basic">
+        <parameter>
+            <parameter>Date in Subject is : </parameter><variable>date</variable>
+        </parameter>
+    </function>
+
+	<!-- Set Subject in message for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>
+            <parameter>T&lt;</parameter>
+            <variable>date</variable>
+            <parameter>&gt; Archive with calendar</parameter>
+        </parameter>
+	</function>
+
+	<!-- Send Metadeta Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- Should not receive messages within 1 min-->
+    <function name="waitForTimeoutRequests" module="MMSC">
+        <parameter>118000</parameter>
+    </function>
+
+    <!-- Wait for a MM7 request on the MMSC Server -->
+    <function name="waitForRequests" module="MMSC">
+        <parameter>1</parameter>
+    </function>
+
+	<!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standards -->
+	<function name="validateXML" module="XML">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter></parameter>
+		<configuration>MMSCSERVER/XMLNSENV</configuration>
+		<configuration>MMSCSERVER/SOAPXSD</configuration>
+		<configuration>MMSCSERVER/XMLNSMM7</configuration>
+		<configuration>MMSCSERVER/MM7XSD</configuration>
+	</function>
+
+	<!-- check MM7 version set correctly in response -->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>&lt;MM7Version&gt;5.6.0&lt;/MM7Version&gt;</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check for No MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 1 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+  	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+	
+<!-- Execute command to get message info from Archive folder -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.getAllItems subscriberId=10001</parameter>
+	</function>
+	
+	<!-- Validation of original Recipient, Message should stored in inbox -->
+	<function name="queryResponse" module="Remote">
+		<parameter>inbox</parameter>
+		<parameter>response</parameter>
+	</function> 
+
+	<!-- Validation of Sender, Message status in Outbox -->
+	<function name="queryResponse" module="Remote">
+		<parameter>outbox</parameter>
+		<parameter>response</parameter>
+	</function>
+
+		<!-- Disable traces -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>disable trac -v </parameter>
+	</function>
+
+</test>

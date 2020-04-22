@@ -1,0 +1,218 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.004e</parameter>
+    </function>
+    <description>MM7 Client submits 1 MM to multiple Distribution Lists</description>
+    <function name="startSMSCServer" module="SMS"/>
+    <function name="startSMTPServer" module="SMTP" />
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM7TC004e-mno.xml </parameter>
+        <file>sendMM7TC004e-mno.xml</file>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM7TC004e-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+    <function name="waitForBind" module="SMS"/>
+    <thread>
+        <function name="sleep" module="basic">
+            <parameter>2000</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>DistListTC004E1</parameter>
+        </function>
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>DistListTC004E2</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM7data.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>10</parameter>
+    </function>
+    <function name="stopSMSCServer" module="SMS"/>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>10</parameter>
+    </function>
+    <function name="stopSMTPServer" module="SMTP"/>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM7TC004e-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM7TC004e-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+
+        <loop name="toaddress" start="179600001" stop="179600011" step="1">
+            <function name="setHeader" module="HTTP">
+                <parameter>x-msisdn</parameter>
+                <variable>toaddress</variable>
+            </function>
+
+            <function name="setVariable" module="BASIC">
+                <parameter>url</parameter>
+                <parameter>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>toaddress</variable>
+                    <parameter>/MMS/x_mms_content_location</parameter>
+                </parameter>
+            </function>
+            <function name="sendGetRequest" module="HTTP">
+                <variablepointer>url</variablepointer>
+            </function>
+            <function name="checkResponseCode" module="HTTP">
+                <parameter>200</parameter>
+            </function>
+
+            <function name="setVariable" module="BASIC">
+                <parameter>transactionid</parameter>
+                <parameter>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>toaddress</variable>
+                    <parameter>/MMS/x_mms_transaction_id</parameter>
+                </parameter>
+            </function>
+            <function name="sendMM1NotifyResponse" module="SMS">
+                <parameter>retrieved</parameter>
+                <variablepointer>transactionid</variablepointer>
+                <variable>toaddress</variable>
+            </function>
+            <function name="checkResponseCode" module="SMS">
+                <parameter>200</parameter>
+                <parameter>204</parameter>
+            </function>
+        </loop>
+
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5790@OMMS11.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5791@OMMS12.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5792@OMMS13.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5793@OMMS14.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5794@OMMS15.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5795@OMMS16.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5796@OMMS17.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5797@OMMS18.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5798@OMMS19.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>5799@OMMS20.com</parameter>
+            <parameter>sender</parameter>
+            <parameter>xma@xma.724.com</parameter>
+        </function>
+
+</test>

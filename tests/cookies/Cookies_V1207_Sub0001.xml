@@ -1,0 +1,112 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Cookies_V1207_Sub0001 - Verify that no cookie handling performed for HTTP User Agents.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<test>
+    <configuration>Cookies_Test0000_Sub0000.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>COOKIES.V1207.Sub0001</parameter>
+    </function>
+    <function name="startWebServer" module="HTTP"/>
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+
+	<!-- Normal Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>Normal client side handled cookies</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="WILE_E_COYOTE"; Version=1; Path="/"; Max-Age="2"</parameter>
+    </function>
+
+	<!-- Check if Set-Cookie arrives at the client and isn't removed by XMG -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="WILE_E_COYOTE"; Version=1; Path="/"; Max-Age="2"</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+    </function>
+
+	<!-- Check if Cookie isn't injected by XMG -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+	<!-- Check if Cookie  can be sent to the server by client -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/";</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/";</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+    </function>
+
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

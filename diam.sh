@@ -1,0 +1,4 @@
+export JAR_DIR=/work/Build_Regression_Test_Package/lib 
+export CLASSPATH=/usr/bin/:$JAR_DIR/xtt.jar:$JAR_DIR/jdom.jar:$JAR_DIR/xercesImpl.jar:$JAR_DIR/radclient3.jar:$JAR_DIR/jWAP.jar:$JAR_DIR/jaxen-core.jar:$JAR_DIR/jaxen-jdom.jar:$JAR_DIR/saxpath.jar:$JAR_DIR/jdmkrt.jar:$JAR_DIR/jdmktk.jar:$JAR_DIR/jsnmpapi.jar:$JAR_DIR/avalon-framework-4.1.5.jar:$JAR_DIR/logkit-1.2.jar:$JAR_DIR/jacorb.jar:$JAR_DIR/sis2_client-1.1.2.jar
+
+java -Xms1024m -Xmx1024m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9005 -cp $CLASSPATH com.mobixell.xtt.diameter.DiameterManager -li 10.66.0.101 -ri 172.16.66.13 -p 3868 -t info -o 60000 -r response_diam.xml -f "%t %m" -l -tcpc 1 -ru 10 -rt 10 -ti 1 -customer orangepolin -sce 1000000

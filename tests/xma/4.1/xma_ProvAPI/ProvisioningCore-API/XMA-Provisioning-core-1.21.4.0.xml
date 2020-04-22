@@ -1,0 +1,105 @@
+<test>
+
+	<description> SOAP-API-provisioning-core{removeUserGroupMembers( )}: Remove one or more user groups to change the expiry dates of their members using  removeUserGroupMembers().</description>
+
+	<function name="testName" module="Basic">
+		<parameter>XMA-Provisioning-core-1.21.4.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>addusers_with_attribute.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>addUsersGroup_new.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>addUserGroupMembers_valid.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>removeUserGroupMembers_valid.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>removeusers_with_attribute.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>removeUserGroups.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+</test>

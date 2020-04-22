@@ -1,0 +1,82 @@
+<!-- 
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Groups.TC.003  - Validate the maximum number of recipients per single MM7 message is configurable and its default is 20
+
+Test Description:
+ 1. Check the value for the parameter "mm7VaspOutClumpSize" (default value is 20)
+ 2. Modify the Appconfig.xml file with max member/sub (mm7VaspOutClumpSize) is 25
+ 3. Check for the modified value.
+ 4. Load original file (mmsx_WorkflowConstants.xml)
+
+Expected Result:
+Scenario 1
+Verify that the value of the parameter "mm7VaspOutClumpSize" should be by default 20 and it should be modified successfuly.
+
+XTT Commands:
+		extract data <Workflow Constants file name>
+		queryResponse
+		readRemoteFile
+		writeRemoteFile
+		queryTest
+		executeRemoteXMSCommand (load data)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  --> 
+<!--  Test Start    --> 
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>Groups.TC.003</parameter>
+	</function>
+
+	<description>Validate the maximum number of recipients per single MM7 message is configurable and its default is 20 </description>
+
+	<!--  Backup of default workflow constant file -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract data </parameter>
+			<parameter>workflowconstants default_workflowconstants.xml</parameter>
+		</parameter>
+	</function>
+
+	<!--  Read the workflow constants in a variable from the BackUp workflow constant file -->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_workflowconstants.xml</parameter>
+		<parameter>test_workflowconstants</parameter>
+	</function>
+
+	<!--  Replace the Value of the constant "mm7VaspOutClumpSize" in the variable specific to the test -->
+	<function name="replace" module="Basic">
+		<parameter>test_workflowconstants</parameter>
+		<parameter>&lt;workflowConstant name="mm7VaspOutClumpSize"&gt;(\d++)&lt;/workflowConstant&gt;</parameter>
+		<parameter>&lt;workflowConstant name="mm7VaspOutClumpSize"&gt;25&lt;/workflowConstant&gt;</parameter>
+	</function>
+
+	<!-- Write a remote file with the chaged values in the variable -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>loadworkflowconstants.xml</parameter>
+		<variable>test_workflowconstants</variable>
+	</function>
+
+	<!-- Load the updated workflow constant file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data loadworkflowconstants.xml</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded workflowconstants</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Load default workflow constant file -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data default_workflowconstants.xml</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded workflowconstants</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+</test>

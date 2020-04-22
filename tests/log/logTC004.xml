@@ -1,0 +1,61 @@
+<test>
+	<configuration>log.xml</configuration>
+	<function name="testName" module="Basic">
+		<parameter>LOG.TC.004</parameter>
+	</function>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+	    <parameter/>
+    </function>
+
+	<function name="stopProcess" module="Remote">
+		<parameter>radius</parameter>
+	</function>
+
+	<function name="restartProcess" module="Remote">
+		<parameter>logger</parameter>
+	</function>
+
+	<function name="startProcess" module="Remote">
+		<parameter>radius</parameter>
+	</function>
+
+	<function name="radiusUpdate" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+	<function name="sleep" module="Basic">
+		<parameter>20000</parameter>
+	</function>
+
+	<function name="sendRemoteCommand" module="Remote">
+		<parameter>writeFile presence_logscan_script.txt </parameter>
+		<file>presence_logscan_script.txt</file>
+    </function>
+
+    <function name="getNewestRemoteFileName" module="Remote">
+        <parameter>logTC004/newest</parameter>
+	<configuration>xmg/logpath</configuration>
+        <parameter>XMP</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>
+           <configuration>remote/command</configuration>
+    	   <parameter>logscan -in </parameter>
+    	   <variable>logTC004/newest</variable>
+    	</parameter>
+
+    <function name="queryResponse" module="Remote">
+    	<parameter>(.*\Z)</parameter>
+    	<parameter>logTC004/pullResult</parameter>
+    </function>
+
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+</test>

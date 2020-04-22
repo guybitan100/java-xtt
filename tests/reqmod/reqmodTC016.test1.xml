@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- $Id: reqmodTC016.test1.xml,v 1.2 2006/07/21 17:04:56 cvsbuild Exp $ --><requestModifications> <table name="reqmodTC016"> <selector urlPattern="http://*.xtt724.com/*"> <modifyHeader name="reqmodTC016" value="'Check if this HEADER is in and removed later'"/> </selector> </table></requestModifications>

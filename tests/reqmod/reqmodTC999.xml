@@ -1,0 +1,27 @@
+<!-- $Id: reqmodTC999.xml,v 1.3 2007/04/17 09:21:27 gcattell Exp $ -->
+<!-- # used for loading the reqmod rules
+-->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <name>REQMOD.TC.999</name>
+    <description>Load empty reqmod rules</description>
+
+    <!-- upload new reqmod configuration-->
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmodTCemptyrules.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+    </function>
+
+    <!-- load new reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data reqmodTCemptyrules.xml</parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+</test>

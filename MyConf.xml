@@ -1,0 +1,731 @@
+<?xml version="1.0"?>
+<configuration>
+  <name>Default Config</name>
+  <!-- maximum number of bytes to print on screen in debug level
+         after receiving data on a GET to a webserver -->
+  <Bufferoutputsize>1024</Bufferoutputsize>
+  <!-- time to wait on a variable with the waitOnVariable function in basic -->
+  <VariableWaitTimeout>20000</VariableWaitTimeout>
+  <!-- basic tracing configuration -->
+  <Tracing>
+    <!--the output level of tracing
+            valid values are: fail, warn, info, verbose, debug
+            or just: f,w,i,v,d -->
+    <level>i</level>
+    <!-- change the tracing format to a new format string
+             format = item; item = [character]%logitem[character|item]
+             Logitem =
+                 %t time stamps
+                 %f function(line #)
+                 %m message
+                 %l Trace level (f,w,d,...)
+                 %n Test name
+                 %a time in milliseconds
+                 %d time in nanoseconds (since some fixed but arbitrary time)
+                 %i the name of the thread
+                 %j the id of the thread
+        -->
+    <!--<format>%l: %n: %t: %m</format>-->
+    <!-- show the transaction output for later calculation of performance -->
+    <!--<showtransactions/>-->
+    <!-- disable tracing output on level external, currently only used by description tag -->
+    <!--<disableexternal>-->
+  </Tracing>
+  <!-- basic logging configuration -->
+  <log>
+    <!--the path where you want to store the logfiles
+            the default ist ./logs -->
+    <directory>logs</directory>
+    <!-- enable this to disable loging completely -->
+    <!--<disable/>-->
+    <!-- enable this to change logfile format to HTML -->
+    <!--<asHTML>
+            <color>
+                <fail>red</fail>
+                <warn>#FFCC00</warn>
+                <info>green</info>
+                <external>#CC0099</external>
+                <verbose>#B0C4DE</verbose>
+                <debug>#D8D8D8</debug>
+                <normal>black</normal>
+                <background>white</background>
+            </color>
+        </asHTML> -->
+    <!-- logfiles normally are written to memory and only at the end of
+             a test run to disk, disable that and write directly to disk -->
+    <!--<disableMemoryLogMode>-->
+  </log>
+  <!-- local system configuration, xtt is executed here-->
+  <system>
+    <!-- the ip address of the machine XTT is running on -->
+    <Ip>10.0.1.185</Ip>
+    <!-- the ip address of the machine RemoteXTT is running on -->
+    <!-- if not set default is xmg/ip -->
+    <remoteip>127.0.0.1</remoteip>
+    <!-- the port on which RemoteXTT is listening on -->
+    <!-- if not set default is 8999 -->
+    <remoteport>8999</remoteport>
+    <!-- if you have a very slow network use this to prevent
+             modules from reading from the network to fast -->
+    <networklagdelay>100</networklagdelay>
+    <hive>
+      <!-- IMPORTANT! DO SET THIS TO CONTACT INFORMATION, A NAME OF WHO IS RUNNING THIS XTT -->
+      <comment>Unknown Person Responsible</comment>
+      <!--assimilate/-->
+      <!--enabletracing/-->
+      <!--disable/-->
+    </hive>
+  </system>
+  <!-- xtt gui configuration -->
+  <gui>
+    <!-- position on screen, if outside the screen it will be repositioned inside -->
+    <position>
+      <x>200</x>
+      <y>20</y>
+    </position>
+    <!-- size of the gui when starting up -->
+    <size>
+      <width>1910</width>
+      <heigth>1050</heigth>
+    </size>
+    <!-- size of the columns when starting up -->
+    <columns>
+      <!--filename>200</filename-->
+      <!--description>200</description-->
+    </columns>
+    <messaging>
+      <popupListEnabled />
+      <!--
+            <popupMessageEnabled/>
+            <xttToFrontEnabled/>
+            -->
+    </messaging>
+    <!--exportDelimiter>;</exportDelimiter-->
+    <!-- use on your own risk, we do not help you if you have problems when this is enabled -->
+    <!--disableTestRunLock/-->
+    <!-- this will force the current test to stop it's execution between functions when the test run is aborted -->
+    <!--forcedTestAbort/-->
+  </gui>
+  <!-- function module DNS -->
+  <DNSServer>
+    <StartOnLoad>true</StartOnLoad>
+    <entry>
+      <name>xtt724.com</name>
+      <!-- If the IP is missing system/ip is used -->
+      <!--ip>192.168.1.1</ip-->
+      <!--naptr>
+                <order>10</order>
+                <preference>10</preference>
+                <flags>u</flags>
+                <service>imsi+E2U</service>
+                <regexp>!^.*$!sip:info@tele2.se!</regexp>
+                <replacement>.</replacement>
+            </naptr-->
+    </entry>
+    <!--nodebugdomains>
+          <name>yahoo.com</name>
+        </nodebugdomains-->
+  </DNSServer>
+  <!-- function module Diameter -->
+  <DiameterServer>
+    <!-- the udp/tcp listening port of the internal DiameterServer -->
+    <Port>3868</Port>
+    <!-- the listening port of the internal secure-DiameterServer -->
+    <SecurePort>1345</SecurePort>
+    <!-- The automatic response of the DiameterServer, use a filename or inline the document ass seen here -->
+    <ResponseDocument>
+      <!-- 
+            <Diameter>
+                <response>
+                    <ACCOUNTING_REQUEST proxiable="true" error="false" tretr="false" matchAVP="USER_NAME" matchREGEX="user1" responsedelay="0">
+                        <SESSION_ID         request="SESSION_ID"        mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <USER_NAME          request="USER_NAME"         mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <RESULT_CODE        value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <CC_MONEY                                         mandatory="true"  protected="false" vendorspecific="false" vendorID="">
+                            <CC_REQUEST_TYPE    value="EVENT_REQUEST"   mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                            <CC_TIME            value="100"             mandatory="false" protected="false" vendorspecific="true"  vendorID="1000"/>
+                        </CC_MONEY>
+                    </ACCOUNTING_REQUEST>
+                    <ACCOUNTING_REQUEST proxiable="true" error="true" tretr="false">
+                        <SESSION_ID         request="SESSION_ID"        mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <USER_NAME          request="USER_NAME"         mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <TERMINATION_CAUSE  value="DIAMETER_USER_MOVED" mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <RESULT_CODE        value="DIAMETER_AUTHORIZATION_REJECTED"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ERROR_MESSAGE      value="He's not here, Doh!" mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <CC_MONEY                                         mandatory="true"  protected="false" vendorspecific="false" vendorID="">
+                            <CC_REQUEST_TYPE    value="EVENT_REQUEST"   mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                            <CC_TIME            value="200"             mandatory="false" protected="false" vendorspecific="true"  vendorID="1000"/>
+                        </CC_MONEY>
+                    </ACCOUNTING_REQUEST>
+                    <DEVICE_WATCHDOG_REQUEST proxiable="true" error="false" tretr="false">
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                    </DEVICE_WATCHDOG_REQUEST>
+                    <CAPABILITIES_EXCHANGE_REQUEST proxiable="true" error="false" tretr="false">
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <VENDOR_ID              request="VENDOR_ID" />
+                        <PRODUCT_NAME           request="PRODUCT_NAME" />
+                        <SUPPORTED_VENDOR_ID    request="SUPPORTED_VENDOR_ID" />
+                        <AUTH_APPLICATION_ID    request="AUTH_APPLICATION_ID" />
+                    </CAPABILITIES_EXCHANGE_REQUEST>
+                    <CREDIT_CONTROL_REQUEST proxiable="true" error="false" tretr="false">
+                        <SESSION_ID             request="SESSION_ID"/>
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           request="DESTINATION_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <AUTH_APPLICATION_ID    value="4"                   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <CC_REQUEST_TYPE        request="CC_REQUEST_TYPE"   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <GRANTED_SERVICE_UNIT                                 mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+                            <CC_MONEY                                         mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+                                <UNIT_VALUE                                   mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+                                    <VALUE_DIGITS    value="1000"           mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                                    <EXPONENT        value="-3"             mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                                    <CURRENCY_CODE   value="756"            mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                                </UNIT_VALUE>
+                            </CC_MONEY>
+                            <CC_SERVICE_SPECIFIC_UNITS value="1"            mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        </GRANTED_SERVICE_UNIT>
+                    </CREDIT_CONTROL_REQUEST>
+                </response>
+            </Diameter>
+            -->
+    </ResponseDocument>
+    <!-- timeout on client connections to the DiameterServer -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>30000</waitTimeout>
+    <!-- in case the default debug output is not enough enable this
+        <enableExtendedOutput/>
+        -->
+  </DiameterServer>
+  <!-- function module EWS -->
+  <EWSServer>
+    <!-- the listening port of the internal webserver -->
+    <Port>8888</Port>
+    <!-- the listening port of the internal secure-webserver -->
+    <SecurePort>8883</SecurePort>
+    <!-- the directory where the files are stored for downloading -->
+    <Root>webroot</Root>
+    <!-- timeout on client connections to the webserver -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>30000</waitTimeout>
+  </EWSServer>
+  <!-- function module HTTP -->
+  <Webserver>
+    <!-- the listening port of the internal webserver -->
+    <Port>80</Port>
+    <!-- the listening port of the internal secure-webserver -->
+    <SecurePort>443</SecurePort>
+    <!-- the directory where the files are stored for downloading -->
+    <Root>webroot</Root>
+    <!-- timeout on client connections to the webserver -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>30000</waitTimeout>
+    <!--
+        <enableCertCheck/>
+        -->
+  </Webserver>
+  <!-- function module HTTP -->
+  <Http>
+    <!-- timeout on client connections to the webserver/proxy -->
+    <Timeout>30000</Timeout>
+    <!-- the proxy ip address for HTTP connections-->
+    <!--ProxyIp>127.0.0.1</ProxyIp-->
+    <!-- the http proxy port -->
+    <!--ProxyPort>9000</ProxyPort-->
+    <!-- enable certificate check on https connections -->
+    <!--enableCertCheck>/-->
+    <!-- shortens URLs from 'http://server.com/path' to '/path' in the request -->
+    <!--enableURLContraction>/-->
+    <!-- turn of keep-alive to the webserver -->
+    <!--disableKeepAlive/-->
+    <!-- disable automatically following a redirect 301/302 -->
+    <!--disableFollowRedirects/-->
+  </Http>
+  <!-- function module ICAP -->
+  <ICAPServer>
+    <!-- the listening port of the internal icapserver -->
+    <Port>1344</Port>
+    <!-- the listening port of the internal secure-icapserver -->
+    <SecurePort>4344</SecurePort>
+    <!-- timeout on client connections to the icapserver -->
+    <Timeout>30000</Timeout>
+    <!-- timeout on client connections to the icapserver -->
+    <WaitTimeout>30000</WaitTimeout>
+    <Options>
+      <!-- disable full streaming mode -->
+      <!--disableFullStreaming/-->
+      <!-- enable default keep alive -->
+      <!--enableKeepAlive/-->
+      <methods>
+        <!-- if not set default is REQMOD -->
+        <default>RESPMOD</default>
+        <!-- Test is done with startsWith and a loop so do not use too many -->
+        <reqmod>
+          <url>/reqmod</url>
+          <url>/type1</url>
+        </reqmod>
+        <respmod>
+          <url>/respmod</url>
+        </respmod>
+      </methods>
+    </Options>
+  </ICAPServer>
+  <!-- function module IMAP -->
+  <IMAPServer>
+    <!-- the listening port of the internal imapserver -->
+    <Port>143</Port>
+    <!-- hostname of the imap server -->
+    <hostname>imap.xtt724.com</hostname>
+    <!-- timeout on client connections to the imapserver -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>30000</waitTimeout>
+  </IMAPServer>
+  <!-- function module JacorbTest/SIS -->
+  <jacorb>
+    <naming>
+      <iorfilename>tests/xmaSIS/NS_Ref</iorfilename>
+      <timeout>0</timeout>
+      <port>2055</port>
+    </naming>
+    <properties>tests/xmaSIS/jacorb.properties</properties>
+    <javaendorseddirs>./lib</javaendorseddirs>
+    <home>.</home>
+    <log>
+      <verbosity>4</verbosity>
+      <useXTTLogger />
+    </log>
+  </jacorb>
+  <!-- function module LDAP -->
+  <LDAPServer>
+    <!-- the listening port of the internal ldapserver -->
+    <Port>389</Port>
+    <!-- the listening port of the internal secure-ldapserver -->
+    <SecurePort>3389</SecurePort>
+    <!-- timeout on client connections to the ldapserver -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>32000</waitTimeout>
+    <!-- This can instead be specified in an external config file
+        <LDAP>
+            <logins>
+                <login>
+                    <name>cn=Manager,o=724.com</name>
+                    <password>secret</password>
+                </login>
+                <login>
+                    <name>null</name>
+                    <password>null</password>
+                </login>
+            </logins>
+            <directory>
+                <entry>
+                    <baseDN>cn=sis, o=724.com</baseDN>
+                    <data>
+                        <filter>login-ip=127.0.0.1</filter>
+                        <dn>login-ip=127.0.0.1,cn=sis,o=724.com</dn>
+                        <attribute>
+                            <name>clid</name>
+                            <type>0x04</type>
+                            <value>4179442847</value>
+                        </attribute>
+                        <oid>2.16.840.1.113730.3.4.2</oid>
+                    </data>
+                    <data>
+                        <filter>msisdn=4179442847</filter>
+                        <dn>msisdn=4179442847,cn=sis,o=724.com</dn>
+                        <attribute>
+                            <name>msisdn</name>
+                            <type>0x04</type>
+                            <value>4179442847</value>
+                        </attribute>
+                        <attribute>
+                            <name>mccmnc</name>
+                            <type>0x04</type>
+                            <value>228-001</value>
+                        </attribute>
+                        <oid>2.16.840.1.113730.3.4.2</oid>
+                    </data>
+                </entry>
+            </directory>
+        </LDAP>
+        -->
+  </LDAPServer>
+  <!-- function module MMSC -->
+  <MMSCServer>
+    <!-- the listening port of the internal webserver -->
+    <Port>4007</Port>
+    <!-- the listening port of the internal secure-webserver -->
+    <SecurePort>8443</SecurePort>
+    <!-- the directory where the files are stored for downloading -->
+    <Root>webroot</Root>
+    <!-- timeout on client connections to the webserver -->
+    <Timeout>30000</Timeout>
+    <xmlnsenv>http://schemas.xmlsoap.org/soap/envelope/</xmlnsenv>
+    <xmlnsmm7>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-2</xmlnsmm7>
+    <MM7Version>5.3.0</MM7Version>
+    <MM7XSD>REL-5-MM7-1-2.xsd</MM7XSD>
+    <SOAPXSD>soapEnvelope.xsd</SOAPXSD>
+  </MMSCServer>
+  <!-- function module MSRP -->
+  <MSRPServer>
+    <!-- the tcp listening port of the internal MSRPServer -->
+    <Port>493</Port>
+    <!-- the tcp listening port for responses/requests to the client -->
+    <clientPort>849</clientPort>
+    <!-- the listening port of the internal secure-webserver -->
+    <SecurePort>8493</SecurePort>
+    <!-- the root directory for the responses, default is the test's directory -->
+    <ClientSecurePort>8494</ClientSecurePort>
+    <!-- timeout on client connections to the MSRPServer -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>30000</waitTimeout>
+    <!--
+        <enableCertCheck/>
+        -->
+  </MSRPServer>
+  <!-- function module MSRP -->
+  <MSRP>
+    <!-- timeout on client tcp connections to the msrp server -->
+    <Timeout>30000</Timeout>
+    <!-- turn off the auto generation of transaction id -->
+    <!-- disableAutomaticTransactionId/ -->
+    <!-- enable the default java certificate check -->
+    <!-- enableCertCheck>true</enableCertCheck -->
+    <!-- enable the chunking -->
+    <!-- enableChunking/ -->
+  </MSRP>
+  <!-- function modules PROXY -->
+  <HttpProxy>
+    <default>
+      <!-- the listening port of the default proxyserver -->
+      <Port>8088</Port>
+      <!-- the name the default proxyserver will append to the Via header -->
+      <Name>proxy1</Name>
+      <!-- default timeout on client connections to the proxyserver -->
+      <Timeout>10000</Timeout>
+    </default>
+  </HttpProxy>
+  <!-- function module PUSH -->
+  <Push>
+    <PushIP>127.0.0.1</PushIP>
+    <PushPort>1081</PushPort>
+    <!--PushDirectory>/push/PushReq</PushDirectory-->
+    <!-- Push Initiator listening port of FunctionModule_Push -->
+    <port>5555</port>
+    <!-- timeout on client connections to the webserver/proxy -->
+    <Timeout>30000</Timeout>
+    <!-- the proxy ip address for HTTP connections-->
+    <!--ProxyIp>127.0.0.1</ProxyIp-->
+    <!-- the http proxy port -->
+    <!--ProxyPort>9000</ProxyPort-->
+    <!-- enable certificate check on https connections -->
+    <!--enableCertCheck>/-->
+    <!-- shortens URLs from 'http://server.com/path' to '/path' in the request -->
+    <!--enableURLContraction>/-->
+    <!-- turn of keep-alive to the webserver -->
+    <!--disableKeepAlive/-->
+    <!-- disable automatically following a redirect 301/302 -->
+    <!--disableFollowRedirects/-->
+  </Push>
+  <!-- function module RTSP -->
+  <RTSPServer>
+    <!-- the udp/tcp listening port of the internal RTSPServer -->
+    <Port>554</Port>
+    <!-- the udp/tcp listening port for responses/requests to the client -->
+    <clientPort>555</clientPort>
+    <!-- the root directory for the responses, default is the test's directory -->
+    <!--<RootDir>.</RootDir>-->
+    <!-- timeout on client connections to the RTSPServer -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>30000</waitTimeout>
+    <!--
+        <enableCertCheck/>
+        -->
+    <!-- set this just to turn off the creation of SessionIds for requests who don't have one -->
+    <!--<disableAutoSessionID/>-->
+  </RTSPServer>
+  <!-- function module RTSP -->
+  <RTSP>
+    <!-- timeout on client tcp connections to the rtsp server -->
+    <Timeout>30000</Timeout>
+    <!-- turn off the generation of a new cseq header every request -->
+    <!--<disableAutomaticCSeq>-->
+    <!-- disable date header being added to a request -->
+    <!--<disableDate>-->
+  </RTSP>
+  <!-- function module RADIUS -->
+  <Radius>
+    <!-- the radius server ip address -->
+    <Ip>127.0.0.1</Ip>
+    <!-- the radius server listening port -->
+    <Port>1812</Port>
+    <!-- the remote radius server listening port -->
+    <RemotePort>1813</RemotePort>
+    <!-- the radius server password -->
+    <Secret>tttester</Secret>
+    <!-- the radius server connection timeout -->
+    <Timeout>30000</Timeout>
+  </Radius>
+  <remote>
+    <!-- path to the product for executing remote comands with FunctionModule_Remote -->
+    <path>/opt/xmg/</path>
+    <!-- command to execute tools for xms -->
+    <command>run command </command>
+    <!-- path to the log files -->
+    <logpath>/opt/xmg/logs</logpath>
+    <!-- path the process logs  -->
+    <procpath>/opt/proc</procpath>
+    <!-- xms location, relative to 'path', must end in a space -->
+    <xms>bin/xms </xms>
+    <!-- If you need to run XMS command on a different shell that the default, e.g. Windows (using KSH) set the following -->
+    <!-- path to the shell to execute with -->
+    <!--<shell>"c:\msk\blahblah\sh.exe" -C</shell>-->
+    <!-- a prefix to the xms command -->
+    <!--<xmsPrefix>"</xmsPrefix>-->
+    <!-- a suffix to the xms comand -->
+    <!--<xmsSuffix>"</xmsSuffix>-->
+  </remote>
+  <!-- function module SIP -->
+  <SIPServer>
+    <!-- the udp/tcp listening port of the internal SIPServer -->
+    <Port>5060</Port>
+    <!-- the listening port of the internal secure-SIPServer -->
+    <SecurePort>5061</SecurePort>
+    <!-- timeout on client connections to the SIPServer -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>30000</waitTimeout>
+    <!--
+        <enableCertCheck/>
+        -->
+    <!-- set this to disable ALL responses generated by the SIP server -->
+    <!--<disableResponse/>-->
+    <!-- set this just to turn off the creation of Notify messages when getting a Subscribe -->
+    <!--<disableAutoNotify/>-->
+  </SIPServer>
+  <!-- function module SIP -->
+  <SIP>
+    <!-- timeout on client connections to the webserver/proxy -->
+    <Timeout>30000</Timeout>
+  </SIP>
+  <!-- function module SIS -->
+  <sis>
+    <ServiceName>SwisscomMobile/Subscription3/AllServers/SIS_Service</ServiceName>
+    <!-- time to wait on a "wait" function before continuing -->
+    <WaitTimeout>32000</WaitTimeout>
+  </sis>
+  <!-- function modules SMS, UCP -->
+  <SMSCServer>
+    <!-- password for SMS connections to server, 
+             do not use this tag when no checking should happen -->
+    <!--Password>password</Password-->
+    <!-- the listening port of the smscserver -->
+    <Port>2775</Port>
+    <!-- protocol of the smsc server -->
+    <!--protocol>SMPP</protocol-->
+    <!--protocol>UCP</protocol-->
+    <Protocol>SMPP</Protocol>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>32000</waitTimeout>
+    <!-- time to wait on read function before throwing exception 0=infinite -->
+    <UCPReadTimeout>30000</UCPReadTimeout>
+    <!-- Window size possible (1=default) -->
+    <!--UCPWindowSize>10</UCPWindowSize-->
+    <!-- response delay in ms for each request (0=default) -->
+    <!--UCPResponseDelay>1000</UCPResponseDelay-->
+    <!-- maximum open sessions on the server (0=default, unlimited) -->
+    <!--UCPMaxSessions>0</UCPMaxSessions-->
+    <!-- maximum open connections to the server (0=default, unlimited) -->
+    <!--UCPMaxConnections>0</UCPMaxConnections-->
+    <!-- session timeout in ms on the server (0=default, unlimited) -->
+    <!--UCPSessionTimeout>0</UCPSessionTimeout-->
+    <!-- read timeout in ms on the server (0=default, unlimited) -->
+    <!--UCPReadTimeout>0</UCPReadTimeout-->
+    <!-- means that injectAutoMessages is enabled and for each UCP51 an UCP53 will begenerated -->
+    <!--InjectAutoMessages>true</InjectAutoMessages-->
+    <!-- earliestAutoMessageSendTime in ms before sending the automatic message (0=default no delay) -->
+    <!--EarliestAutoMessageSendTime>1000</EarliestAutoMessageSendTime-->
+    <!-- latestAutoMessageSendTime in ms before sending the automatic message (use earliestAutoMessageSendTime or bigger) -->
+    <!--LatestAutoMessageSendTime>20000</LatestAutoMessageSendTime-->
+    <!-- autoMessageRetryTime in ms is how long the smsc waits on a connection
+             for data before checking if it has to send out auto message (500=default) -->
+    <!--AutoMessageRetryTime>500</AutoMessageRetryTime-->
+    <SMPP>
+      <!-- Return code used for the setOverrideReturnCode function -->
+      <OverrideReturnCode>0x00000001</OverrideReturnCode>
+    </SMPP>
+    <UCP>
+      <!-- Return code used for the setOverrideReturnCode function -->
+      <OverrideReturnCode>24</OverrideReturnCode>
+    </UCP>
+    <!-- MM1 ip and port for downloading MMS in module SMS -->
+    <MM1Ip>127.0.0.1</MM1Ip>
+    <MM1Port>1111</MM1Port>
+    <!-- MM1 timeout -->
+    <MM1Timeout>30000</MM1Timeout>
+    <!-- MSISDN header name for MM1 requests -->
+    <MM1MSISDNHeader>X-MSISDN</MM1MSISDNHeader>
+  </SMSCServer>
+  <!-- function module SMTP -->
+  <SMTPServer>
+    <!-- the listening port of the internal smtpserver -->
+    <Port>25</Port>
+    <!-- hostname of the smtp server -->
+    <hostname>smtp.xtt724.com</hostname>
+    <!-- timeout on client connections to the smtpserver -->
+    <Timeout>30000</Timeout>
+    <!-- time to wait on a "wait" function before continuing -->
+    <waitTimeout>30000</waitTimeout>
+  </SMTPServer>
+  <!-- function module SNMP -->
+  <SNMP>
+    <StartOnLoad>true</StartOnLoad>
+    <!-- default ListenerPort is 1620 -->
+    <!--ListenerPort>1620</ListenerPort-->
+    <!-- When the SNMP Listener receives a trap with the OID a message is printed on fail level
+             The test is also set to failed -->
+    <!--fail>
+          <trap>
+             <message>Process Running</message>
+             <OID>1.3.6.1.4.1.12702.6.10000.8</OID>
+          </trap>
+          <trap>
+             <message>Example</message>
+             <OID>1.3.6.1.4.1.12702.6.10000.6</OID>
+          </trap>
+        </fail-->
+    <!-- Same as fail, but the test isn't failed, and a warn message is printed -->
+    <!--warn>
+          ...
+        </warn-->
+    <!-- Same as warn, with an info message instead -->
+    <!--info>
+          ...
+        </info-->
+    <!-- Same as info, with an verbose message instead -->
+    <!--verbose>
+          ...
+        </verbose-->
+    <!-- Same as verbose, with an debug message instead -->
+    <!--debug>
+          ...
+        </debug-->
+  </SNMP>
+  <!-- function module SOAP_API -->
+  <SOAP_API>
+    <!-- timeout on client connections to the webserver/proxy -->
+    <Timeout>30000</Timeout>
+    <!-- the proxy ip address for HTTP connections-->
+    <!--ProxyIp>127.0.0.1</ProxyIp-->
+    <!-- the http proxy port -->
+    <!--ProxyPort>9000</ProxyPort-->
+    <!-- enable certificate check on https connections -->
+    <!--enableCertCheck>/-->
+    <!-- shortens URLs from 'http://server.com/path' to '/path' in the request -->
+    <!--enableURLContraction>/-->
+    <!-- turn of keep-alive to the webserver -->
+    <!--disableKeepAlive/-->
+    <!-- disable automatically following a redirect 301/302 -->
+    <!--disableFollowRedirects/-->
+  </SOAP_API>
+  <!-- function module STI -->
+  <STIServer>
+    <!-- the listening port of the internal stiserver -->
+    <Port>8989</Port>
+    <!-- the listening port of the internal secure-stiserver -->
+    <SecurePort>8443</SecurePort>
+    <!-- the directory where the files are stored for downloading -->
+    <Root>webroot</Root>
+    <!-- timeout on client connections to the stiserver -->
+    <Timeout>30000</Timeout>
+  </STIServer>
+  <!-- function module Semaphore -->
+  <Semaphore>
+    <Timeout>30000</Timeout>
+  </Semaphore>
+  <!-- function module TCP -->
+  <TCP>
+    <!-- socket timeout on tcp connections -->
+    <Timeout>30000</Timeout>
+    <synchronize>
+      <!-- when synchronizeNotify can't connect it will wait this amount of miliseconds before retry -->
+      <delay>2000</delay>
+      <!-- the wait/notify port to use for synchronization -->
+      <!-- note: this value is not used by code, it is here for convenience -->
+      <Port>6969</Port>
+    </synchronize>
+  </TCP>
+  <!-- function module VASP -->
+  <Vasp>
+    <!-- IpAddress and Port to connect to for VASP module -->
+    <RemoteIp>127.0.0.1</RemoteIp>
+    <RemotePort>5555</RemotePort>
+    <!-- timeout on client connections to the webserver/proxy -->
+    <Timeout>30000</Timeout>
+    <!-- the proxy ip address for HTTP connections-->
+    <!--ProxyIp>127.0.0.1</ProxyIp-->
+    <!-- the http proxy port -->
+    <!--ProxyPort>9000</ProxyPort-->
+    <!-- enable certificate check on https connections -->
+    <!--enableCertCheck>/-->
+    <!-- shortens URLs from 'http://server.com/path' to '/path' in the request -->
+    <!--enableURLContraction>/-->
+    <!-- turn of keep-alive to the webserver -->
+    <!--disableKeepAlive/-->
+    <!-- disable automatically following a redirect 301/302 -->
+    <!--disableFollowRedirects/-->
+    <!-- this is for supporting old VASP configuration files with NO MM7 or TPI tag -->
+    <!--noProtocolTag/-->
+    <VASPID>VASPID001</VASPID>
+    <VASID>VASID002</VASID>
+    <Number>0711113333</Number>
+    <!-- Listening port for VASP, only used by tests -->
+    <Port>3333</Port>
+    <Directory>vaspdir</Directory>
+    <TransactionId>xttvasp-0001</TransactionId>
+    <!-- schema definitions for MM7 and TPI -->
+    <xmlnsenv>http://schemas.xmlsoap.org/soap/envelope/</xmlnsenv>
+    <SOAPXSD>soapEnvelope.xsd</SOAPXSD>
+    <!-- schema definitions for MM7 -->
+    <xmlns>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-2</xmlns>
+    <xmlnsmm7>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-2</xmlnsmm7>
+    <MM7XSD>REL-5-MM7-1-2.xsd</MM7XSD>
+    <MM7Version>5.3.0</MM7Version>
+    <!-- schema definitions for TPI -->
+    <version>2.1.0</version>
+    <xmlnsenvname>SOAP-ENV</xmlnsenvname>
+    <xmlnsxsd>http://www.w3.org/2001/XMLSchema</xmlnsxsd>
+    <xmlnsxsi>http://www.w3.org/2001/XMLSchema-instance</xmlnsxsi>
+    <iserver2>soap.iserv2.sicap.ch</iserver2>
+    <iserver2name>iserver2</iserver2name>
+    <actor>MBS</actor>
+  </Vasp>
+  <!-- function module XML -->
+  <XML>
+    <!-- timeout on client connections to the webserver/proxy -->
+    <Timeout>30000</Timeout>
+    <!-- the proxy ip address for HTTP connections-->
+    <!--ProxyIp>127.0.0.1</ProxyIp-->
+    <!-- the http proxy port -->
+    <!--ProxyPort>9000</ProxyPort-->
+    <!-- enable certificate check on https connections -->
+    <!--enableCertCheck>/-->
+    <!-- shortens URLs from 'http://server.com/path' to '/path' in the request -->
+    <!--enableURLContraction>/-->
+    <!-- turn of keep-alive to the webserver -->
+    <!--disableKeepAlive/-->
+    <!-- disable automatically following a redirect 301/302 -->
+    <!--disableFollowRedirects/-->
+  </XML>
+</configuration>
+

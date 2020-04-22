@@ -1,0 +1,99 @@
+<test>
+	<name>ECC.CONV.TC.005</name>
+	<description>ECC, 30 second delay in STI is accepted</description>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	<function name="startSTIServer" module="STI"/>
+	<function name="startWebServer" module="HTTP"/>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>eccREQMOD.xml</parameter>
+        <xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+    <table name="DisableMultipart">
+        <selector>
+            <disableMimeMultipart value="true"/>
+        </selector>
+    </table>
+    <table name="ecc">
+        <selector urlPattern="*://ecc1.xtt724.com/*">
+            <useExternalContentConvertor value="true" />
+        </selector>
+        <selector urlPattern="*://ecc2.xtt724.com/*">
+            <useExternalContentConvertor value="false" />
+        </selector>
+    </table>
+</requestModifications></xml>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>remote/loaddata</configuration>
+            <parameter>eccREQMOD.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+	<!-- CONVERT JPEG TO GIF -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>image/gif</parameter>
+	</function> 
+	<function name="setHeader" module="HTTP">
+		<parameter>user-agent</parameter>
+		<parameter>XTTSTI;delay=30000</parameter>
+	</function> 
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://ecc1.xtt724.com/images/gif.gif</parameter>
+        </parameter>
+        <parameter>GIF</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="isGIF" module="content">
+	    <variable>GIF/BASE64</variable>
+	</function>
+
+    <function name="waitForRequests" module="STI">
+        <parameter>1</parameter>
+    </function>
+    <function name="validateXML" module="XML">
+        <variable>STISERVER/STI/SOAP</variable>
+        <parameter></parameter>
+        <parameter>http://schemas.xmlsoap.org/soap/envelope/</parameter>
+        <parameter>soapEnvelope.xsd</parameter>
+        <parameter>http://www.openmobilealliance.org/schema/sti/v1_0</parameter>
+        <parameter>OMA-TS-SCHEMA-STI-V1_0-20050607-C.xsd</parameter>
+    </function>
+
+
+
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmodTCemptyrules.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load data </parameter>
+            <parameter>reqmodTCemptyrules.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+	<function name="stopSTIServer" module="STI"/>
+	<function name="stopWebServer" module="HTTP"/>
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function> 
+</test>

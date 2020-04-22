@@ -1,0 +1,23 @@
+--multipart-boundary
+Content-Type: application/xml
+
+<?xml version="1.0"?>
+<!DOCTYPE pap PUBLIC "-//WAPFORUM//DTD PAP 2.0//EN" "http://www.wapforum.org/DTD/pap_2.0.dtd"> <?wap-pap-ver supported-versions="2.0,1.*"?>
+<pap>
+<push-message push-id="9fjeo39jf084@pi.com" ppg-notify-requested-to="http://172.20.14.36:5555">
+<address address-value="000111222"></address>
+</push-message>
+</pap>
+
+--multipart-boundary
+X-Wap-Application-Id: x-wap-application:wml.ua
+Content-Type: text/vnd.wap.si
+
+<?xml version="1.0"?>
+<!DOCTYPE si PUBLIC "-//WAPFORUM//DTD SI 1.0//EN" "http://www.wapforum.org/DTD/si.dtd">
+<si>
+<indication href="wab.sbb.ch" si-id="papsitc001"
+created="2004-07-31T10:13:00Z" si-expires="2005-08-07T10:13:00Z">You have 4 new emails</indication>
+</si>
+
+--multipart-boundary--

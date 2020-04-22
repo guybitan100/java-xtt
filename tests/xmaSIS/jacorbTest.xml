@@ -1,0 +1,32 @@
+<!-- just check of there are any corefiles -->
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SIS.TEST</parameter>
+    </function>
+
+    <function name="startJacorbNameServer" module="JacorbTest"/>
+    <function name="sleep" module="Basic">
+        <parameter>1000</parameter>
+    </function>
+
+    <function name="startJacorbTestServer" module="JacorbTest"/>
+    <function name="sleep" module="Basic">
+        <parameter>1000</parameter>
+    </function>
+
+    <function name="startJacorbClientBasicTest" module="JacorbTest"/>
+    <function name="sleep" module="Basic">
+        <parameter>1000</parameter>
+    </function>
+
+    <function name="stopJacorbTestServer" module="JacorbTest"/>
+    <function name="sleep" module="Basic">
+        <parameter>1000</parameter>
+    </function>
+
+    <function name="stopJacorbNameServer" module="JacorbTest"/>
+    <function name="sleep" module="Basic">
+        <parameter>1000</parameter>
+    </function>
+
+</test>

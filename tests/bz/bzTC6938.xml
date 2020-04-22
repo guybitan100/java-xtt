@@ -1,0 +1,36 @@
+<test>
+    <configuration>bzTC6938-config.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.6938</parameter>
+    </function>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="setPostData" module="Push">
+        <file>bzTC6938.txt</file>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

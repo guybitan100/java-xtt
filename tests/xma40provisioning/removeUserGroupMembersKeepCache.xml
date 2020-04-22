@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:removeUserGroupMembersKeepCache>
+    <arg0>
+	<userId>1234567890</userId>
+	<userGroupName>HelloGrp</userGroupName>
+	</arg0>  
+	<arg1>HelloGrp</arg1>
+    </tns:removeUserGroupMembersKeepCache>
+  </soap:Body>
+</soap:Envelope>

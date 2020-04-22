@@ -1,0 +1,145 @@
+<!--
+     Example XTT configuration file
+     $RCSfile: config.xml,v $
+     $Revision: 1.3 $
+-->
+<Configuration>
+    <!--the output level of tracing
+        valid values are: fail, warn, info, verbose, debug
+        or just: f,w,i,v,d -->
+    <Tracing>
+       <level>debug</level>
+       <format>%l: %n: %t: %m</format>
+     </Tracing>
+    <log>
+        <!--the path where you want to store the logfiles
+            the default ist ./logs -->
+        <directory>logs</directory>
+        <!-- enable this to disable loging completely -->
+        <!--<disable/>-->
+        <!-- enable this to change logfile format to HTML -->
+        <asHTML/>
+    </log>
+    <system>
+        <!-- the ip address of the machine XTT is running on -->
+        <Ip>172.20.2.99</Ip>
+        <!-- the ip address of the machine RemoteXTT is running on -->
+        <!-- if not set default is xmg/ip -->
+        <remoteip>172.20.2.99</remoteip>
+        <!-- the port on which RemoteXTT is listening on -->
+        <!-- if not set default is 8999 -->
+        <!-- if you have a very slow network use this to prevent
+             modules from reading from the network to fast -->
+        <networklagdelay>100</networklagdelay>
+        <remoteport>8999</remoteport>
+        <hive>
+            <disable/>
+        </hive>        
+    </system>
+
+    <Webserver>
+        <!-- the listening port of the internal webserver -->
+        <Port>80</Port>
+        <!-- the listening port of the internal secure-webserver -->
+        <SecurePort>443</SecurePort>
+        <!-- the directory where the files are stored for downloading -->
+        <!--<Root>webroot</Root>-->
+        <Root>webroot</Root>
+        <!-- the number of WebWorker threads. Only 1 is realy required -->
+        <Threads>1</Threads>
+        <!-- timeout on client connections to the webserver -->
+        <Timeout>30000</Timeout>
+    </Webserver>
+    <!-- maximum number of bytes to print on screen in debug level
+         after receiving DATA in the smtp worker -->
+    <Bufferoutputsize>1024</Bufferoutputsize>
+    <smtpserver>
+        <!-- the listening port of the internal smtpserver -->
+        <Port>2525</Port>
+        <!-- hostname of the smtp server -->
+        <hostname>smtp.xtt724.com</hostname>
+        <!-- the number of SMTPWorker threads. Only 1 is realy required -->
+        <Threads>1</Threads>
+        <!-- timeout on client connections to the smtpserver -->
+        <Timeout>30000</Timeout>
+        <!-- time to wait on a "wait" function before continuing -->
+        <waitTimeout>30000</waitTimeout>
+    </smtpserver>
+    <Proxy>
+        <!-- the listening port of the default proxyserver -->
+        <Port>8088</Port>
+        <!-- the name the default proxyserver will append to the Via header -->
+        <name>proxy1</name>
+        <!-- default timeout on client connections to the proxyserver -->
+        <Timeout>10000</Timeout>
+    </Proxy>
+    <Radius>
+        <!-- the radius server ip address -->
+        <Ip>172.20.2.99</Ip>
+        <!-- the radius server listening port -->
+        <Port>1813</Port>
+        <!-- the radius server password -->
+        <Secret>tttester</Secret>
+        <!-- the radius server connection timeout -->
+        <Timeout>30000</Timeout>
+    </Radius>
+    <pushInitiator>
+        <!-- Push Initiator listening port of FunctionModule_Push -->
+        <port>5555</port>
+        <!-- timeout on waiting for the response -->
+        <Timeout>30000</Timeout>
+    </pushInitiator>
+    <smscserver>
+        <!-- the listening port of the internal smtpserver -->
+        <Port>2775</Port>
+        <!-- protocol of the smsc server -->
+        <protocol>SMPP</protocol>
+        <!--protocol>UCP</protocol-->
+        <!-- time to wait on a "wait" function before continuing -->
+        <waitTimeout>30000</waitTimeout>
+    </smscserver>
+    <XMA>
+        <MM1Ip>172.20.2.99</MM1Ip>
+        <MM1Port>1111</MM1Port>
+        <MM4Ip>172.20.2.99</MM4Ip>
+        <MM4Port>4004</MM4Port>
+        <MM7Ip>172.20.2.99</MM7Ip>
+        <MM7Port>4007</MM7Port>
+        <!-- path to xma for executing remote comands with FunctionModule_Remote -->
+        <path>/opt/XMA2.5.2/</path>
+        <!-- command to execute tools for xma, add space at the end -->
+        <!-- was: 'xmadmin utility' in xma26 -->
+        <!-- is : 'xms run command' in xma31/xm25 -->
+        <xms>bin/xms </xms>
+        <command>run command </command>
+        <!-- was: 'load vasp' in xma26 -->
+        <!-- is : 'load data' in xma31/xm25 -->
+        <vasp>load data </vasp>
+        <!-- was: 'load mno'  in xma26 -->
+        <!-- is : 'load data' in xma31/xm25 -->
+        <mno>load data </mno>
+        <retry>load data </retry>
+        <logpath>/opt/XMA2.5.2/log</logpath>
+        <procpath>/opt/XMA2.5.2/proc</procpath>
+    </XMA>
+    <Vasp>
+        <!-- this is for supporting old VASP configuration files with NO mm7 or tpi tag -->
+        <!--noProtocolTag/-->
+        <VASPID>VASPID001</VASPID>
+        <VASID>VASID002</VASID>
+        <Number>0711113333</Number>
+        <Port>3333</Port>
+        <Directory>vaspdir</Directory>
+        <TransactionId>xttvasp-0001</TransactionId>
+ <!--
+        <xmlnsenv>http://schemas.xmlsoap.org/soap/envelope/</xmlnsenv>
+        <xmlns>http://www.3gpp.com/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-3</xmlns>
+        <xmlnsmm7>http://www.3gpp.com/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-3</xmlnsmm7>
+ -->
+    </Vasp>
+    <snmp>
+        <startonload/>
+        <!--showalltraps/-->
+        <listenerport>1620</listenerport>
+   </snmp>
+</Configuration>

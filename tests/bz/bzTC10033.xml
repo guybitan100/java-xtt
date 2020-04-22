@@ -1,0 +1,75 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.10033</parameter>
+    </function>
+    <description>Test BZ 10033</description>
+   
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC10033.rule.xml </parameter>
+        <file>bzTC10033.rule.xml</file>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data bzTC10033.rule.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>12345</parameter>
+        <parameter>12345</parameter>
+    </function>
+    
+    <function name="setPostData" module="HTTP">
+        <parameter>test</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <parameter>test.xtt724.com</parameter>
+            <parameter>/index.html?test=true;</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryServerURL" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>index\.html\?test=true</parameter>
+    </function>    
+    
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>bz.xtt724.com</parameter>
+    </function>     
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>12345</parameter>
+        <parameter>12345</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC10033-blank.rule.xml </parameter>
+        <xml>
+            <requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestModifications.xsd">
+            </requestModifications>
+        </xml>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data bzTC10033-blank.rule.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+</test>

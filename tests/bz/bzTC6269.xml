@@ -1,0 +1,67 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.6269</parameter>
+	</function>
+   <function name="startWebServer" module="HTTP" />
+
+    <!-- extract current configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms extract data requestmodifications </parameter>
+        <parameter>bzTC6269.test.xml</parameter>
+    </function>
+
+    <!-- upload new reqmod configuration-->
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC6269-reqmod.xml </parameter>
+        <file>bzTC6269-reqmod.xml</file>
+    </function>
+
+    <!-- load new reqmod configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms load data bzTC6269-reqmod.xml</parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.google.com/</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	<function name="checkServerHeader" module="HTTP">
+		<parameter>host</parameter>
+		<parameter>test5.xtt724.com</parameter>
+	</function>
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+    <!-- load the old reqmod configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms load data bzTC6269.test.xml</parameter>
+    </function>
+
+    <!-- remove file -->
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>rm -f bzTC6269-reqmod.xml</parameter>
+    </function>
+    <!-- remove file -->
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>rm -f bzTC6269.test.xml</parameter>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

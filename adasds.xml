@@ -1,0 +1,335 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>XMP.LOAD.SECURITY</parameter>
+     </function>
+	
+    <description>Load the dynamic securityconfiguration files</description>
+
+    <configuration>config.xml</configuration>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>REMOTE/COMMAND</configuration>
+            <parameter>pwcrypt -f </parameter>
+            <configuration>productlicense</configuration>
+            <parameter> demo1234</parameter>
+        </parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>.*</parameter>
+        <parameter>PASSWORD</parameter>
+    </function>
+
+    <!-- xms load file /opt/xmp41/key/demo_wap1_server_certificate.wtls -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_wap1_server_certificate.wtls</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/demo_wap1_server_certificate.wtls'</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <!-- xms load file /opt/xmp41/key/demo_wap1_server_private_key.der -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_wap1_server_private_key.der</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/demo_wap1_server_private_key.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <!-- xms load file /opt/xmp41/key/demo_inet_client_private_key.der -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_client_private_key.der</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/demo_inet_client_private_key.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <!-- xms load file /opt/xmp41/key/demo_inet_client_certificate.der -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_client_certificate.der</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/demo_inet_client_certificate.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <!-- xms load file /opt/xmp41/key/demo_inet_server_private_key.der -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_server_private_key.der</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/demo_inet_server_private_key.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+
+     <!-- xms load file /opt/xmp41/key/demo_inet_server_certificate.der -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_server_certificate.der</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/demo_inet_server_certificate.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+     <!-- xms load file /opt/xmp41/key/demo_inet_server_ca_certificate.der -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_server_ca_certificate.der</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/demo_inet_server_ca_certificate.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+     <!-- xms load file /opt/xmp41/key/demo_inet_client_ca_certificate.der -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_client_ca_certificate.der</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/demo_inet_client_ca_certificate.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+     <!-- xms load file /opt/xmp41/key/Swisskey_Root_CA.cer -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/Swisskey_Root_CA.cer</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/Swisskey_Root_CA.cer</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+
+     <!-- xms load file /opt/xmp41/key/VeriSign_Class_3_Public_Primary_CA_2036.cer -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/VeriSign_Class_3_Public_Primary_CA_2036.cer</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/VeriSign_Class_3_Public_Primary_CA_2036.cer</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+
+     <!-- xms load file /opt/xmp41/key/Thawte_Personal_Premium_CA.cer -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/Thawte_Personal_Premium_CA.cer</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/Thawte_Personal_Premium_CA.cer</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+
+     <!-- xms load file /opt/xmp41/key/Thawte_Personal_Premium_CA.cer -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/Thawte_Personal_Premium_CA.cer</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded '/certificates/Thawte_Personal_Premium_CA.cer</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <!-- xms show file -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+            <parameter>show file</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/demo_inet_client_certificate.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/demo_inet_client_ca_certificate.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/demo_inet_server_ca_certificate.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/demo_inet_client_private_key.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/demo_inet_server_certificate.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/demo_wap1_server_certificate.wtls</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/VeriSign_Class_3_Public_Primary_CA_2036.cer</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/Swisskey_Root_CA.cer</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/demo_inet_server_private_key.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/Thawte_Personal_Premium_CA.cer</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>/certificates/demo_wap1_server_private_key.der</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>xmp41-security-file.xml</parameter>
+        <parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;security&gt;
+        &lt;contentProviders&gt;
+                &lt;https allowWeakEncryption="true"&gt;
+         &lt;clientCertificate privateKeyFile="demo_inet_client_private_key.der" 
+                            privateKeyPassword="</parameter><variable>PASSWORD</variable><parameter>" &gt;
+                                &lt;certificateChain&gt;
+                                        &lt;certificate name="demo_inet_client_certificate.der"/&gt;
+                                        &lt;certificate name="demo_inet_client_ca_certificate.der"/&gt;
+                                &lt;/certificateChain&gt;
+                        &lt;/clientCertificate&gt;
+                &lt;/https&gt;
+        &lt;/contentProviders&gt;
+        &lt;devices&gt;
+                &lt;wtls allowWeakEncryption="true" keyRefresh="4"&gt;
+                        &lt;rsa allowAnonymousKeyExchange="true"&gt;
+            &lt;serverCertificate certificate="demo_wap1_server_certificate.wtls" 
+                               privateKeyFile="demo_wap1_server_private_key.der"
+                               privateKeyPassword="</parameter><variable>PASSWORD</variable><parameter>"/&gt;
+                        &lt;/rsa&gt;
+                        &lt;diffieHellman allowWeakParameters="false"/&gt;
+                &lt;/wtls&gt;
+        &lt;/devices&gt;
+        &lt;managementGuis&gt;
+                &lt;https allowWeakEncryption="true"&gt;
+         &lt;serverCertificate privateKeyFile="demo_inet_server_private_key.der"
+                            privateKeyPassword="</parameter><variable>PASSWORD</variable><parameter>"&gt;
+                                &lt;certificateChain&gt;
+                                        &lt;certificate name="demo_inet_server_certificate.der"/&gt;
+                                        &lt;certificate name="demo_inet_server_ca_certificate.der"/&gt;
+                                &lt;/certificateChain&gt;
+                        &lt;/serverCertificate&gt;
+                &lt;/https&gt;
+        &lt;/managementGuis&gt;
+        &lt;pushInitiators&gt;
+                &lt;https allowWeakEncryption="false"&gt;
+         &lt;serverCertificate privateKeyFile="demo_inet_server_private_key.der"
+                            privateKeyPassword="</parameter><variable>PASSWORD</variable><parameter>" &gt;
+                                &lt;certificateChain&gt;
+                                        &lt;certificate name="demo_inet_server_certificate.der"/&gt;
+                                        &lt;certificate name="demo_inet_server_ca_certificate.der"/&gt;
+                                &lt;/certificateChain&gt;
+                        &lt;/serverCertificate&gt;
+                &lt;/https&gt;
+        &lt;/pushInitiators&gt;
+        &lt;trustedAuthorities&gt;
+                &lt;certificate name="demo_inet_server_ca_certificate.der"/&gt;
+                &lt;certificate name="demo_inet_client_ca_certificate.der"/&gt;
+                &lt;certificate name="Swisskey_Root_CA.cer"/&gt;
+                &lt;certificate name="VeriSign_Class_3_Public_Primary_CA_2036.cer"/&gt;
+                &lt;certificate name="Thawte_Personal_Premium_CA.cer"/&gt;
+        &lt;/trustedAuthorities&gt;
+&lt;/security&gt;</parameter>
+        </parameter>
+    </function>
+
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data xmp41-security-file.xml</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <!-- xms show data -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+            <parameter>show data</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>security</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+          
+</test>

@@ -1,0 +1,95 @@
+<test>
+	<name>IntelligentCaching.TC.002.xml</name>
+	<description>Validate there is no crash if Last Modified parameter is missing in the HTTP response</description>
+	
+	<!-- Purge Product's Cache -->
+	<subtest>deleteCacheAll.xml</subtest>
+	
+	<!-- Execute Web Server & Set its Parameters -->
+	<function name="startWebServer" module="HTTP"/> 
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept-Encoding</parameter>
+		<parameter>0</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>*/*</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>User-Agent</parameter>
+		<parameter>XTT/0.1</parameter>
+	</function>
+	 
+	<function name="setCacheFile" module="HTTP">
+	<parameter>test.html</parameter>
+	<xml>
+<html>
+<body>
+<pre>This is a nice file that should be received by HTTP User Agent!</pre>
+</body>
+</html>
+	</xml>
+	</function>
+	
+	<!-- Log in Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<!-- HTTP GET Requests -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.xtt724.com/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is a nice file that should be received by HTTP User Agent!</parameter>
+    </function>
+	
+    <!-- Change the data in the Web Content Provider -->
+	<function name="setCacheFile" module="HTTP">
+	<parameter>test.html</parameter>
+	<xml>
+<html>
+<body>
+<pre>This file should be received by HTTP User Agent, since the last request should not be cached!</pre>
+</body>
+</html>
+	</xml>
+	</function>
+	
+	<function name="sleep" module="BASIC">
+		<parameter>5000</parameter>
+	</function>
+	
+	<!-- HTTP GET Requests -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.xtt724.com/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This file should be received by HTTP User Agent, since the last request should not be cached!</parameter>
+    </function>
+	
+	<!-- Log off Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>	
+
+	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>	
+</test>

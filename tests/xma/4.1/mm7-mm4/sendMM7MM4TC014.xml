@@ -1,0 +1,606 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM7.MM4.TC.014</name>
+    <description>10 Off-Net Recipients in multiple To Headers 
+    [DeliveryReport=Yes, ReadReply=Yes] 
+    [Sn's DB_Prepaid=false]</description>
+
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN1</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS1</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN1</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL1</parameter>
+        <parameter>
+            <variable>MMSADDRESS1</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN2</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN2</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS2</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN2</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL2</parameter>
+        <parameter>
+            <variable>MMSADDRESS2</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN3</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN3</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS3</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN3</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL3</parameter>
+        <parameter>
+            <variable>MMSADDRESS3</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN4</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN4</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS4</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN4</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL4</parameter>
+        <parameter>
+            <variable>MMSADDRESS4</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN5</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN5</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS5</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN5</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL5</parameter>
+        <parameter>
+            <variable>MMSADDRESS5</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN6</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN6</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS6</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN6</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL6</parameter>
+        <parameter>
+            <variable>MMSADDRESS6</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN7</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN7</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS7</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN7</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL7</parameter>
+        <parameter>
+            <variable>MMSADDRESS7</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN8</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN8</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS8</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN8</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL8</parameter>
+        <parameter>
+            <variable>MMSADDRESS8</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN9</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN9</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS9</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN9</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL9</parameter>
+        <parameter>
+            <variable>MMSADDRESS9</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN0</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN0</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS0</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN0</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL0</parameter>
+        <parameter>
+            <variable>MMSADDRESS0</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+
+	<!-- Start SMTP Server and wait until it binds to XMA -->
+    <function name="startSMTPServer" module="SMTP"/>
+
+	<!-- Load MNO file -->
+    <subtest>../loadMNO.xml</subtest>
+
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+    
+    <!-- Start Web Server in order to receive & response MM7 Delivery Reports -->
+    <function name="startMMSCServer" module="MMSC">
+        <configuration>VASP/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+	<!-- Prepare Delivery Response on the Web Server -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>DeliveryReportRsp</parameter>
+    </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliveryReportRsp']</parameter>
+            <parameter>Status</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Status']</parameter>
+            <parameter>StatusCode</parameter>
+            <parameter>1000</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Status']</parameter>
+            <parameter>StatusText</parameter>
+            <parameter>Success</parameter>
+        </function>
+    <function name="previewRequest" module="VASP" />
+
+    <function name="soapToVariable" module="VASP">
+        <parameter>SOAP</parameter>
+    </function>
+
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=Yes, ReadReply=Yes -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <configuration>VASP/VASPID</configuration>
+        <configuration>VASP/VASID</configuration>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <loop name="loop" start="0" stop="10" step="1">
+		<function name="addSoapData" module="VASP">
+			<parameter>//*[local-name()='Recipients']</parameter>
+			<parameter>To</parameter>
+		</function>
+	    <function name="setSoapData" module="VASP">
+	        <parameter>//*[local-name()='To'][last()]</parameter>
+	        <parameter>Number</parameter>
+              <variable>
+                <parameter>MSISDN</parameter>
+                <variable>loop</variable>
+                </variable>
+	    </function>
+	</loop>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>True</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>True</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+    <function name="previewRequest" module="VASP" />
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+    </function>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>10</parameter>
+    </function>
+
+    <loop name="loop" start="0" stop="10" step="1">
+        <function name="setVariable" module="Basic">
+            <parameter>OFFNETEMAIL</parameter>
+            <variable>
+                <parameter>EMAIL</parameter>
+                <variable>loop</variable>
+            </variable>
+        </function>
+
+        <function name="createDateString" module="Basic">
+            <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+            <parameter>date</parameter>
+        </function>
+
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_header_to</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/header/to</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_header_from</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/header/from</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_mail_from</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/mail from</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_header_x-mms-transaction-id</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/header/x-mms-transaction-id</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_header_x-mms-message-id</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/header/x-mms-message-id</parameter>
+            </parameter>
+        </function>
+
+        <function name="setVariableLines" module="Basic">
+            <parameter>2</parameter>
+            <parameter>headers</parameter>
+            <parameter>To: </parameter>                     <variablepointer>smtp_header_from</variablepointer>
+            <parameter>Sender: </parameter>                 <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+            <parameter>From: </parameter>                   <variablepointer>smtp_header_to</variablepointer>
+            <parameter>Date: </parameter>                   <variable>date</variable>
+            <parameter>message-id: </parameter>             <parameter>date</parameter>
+            <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_delivery_report.REQ</parameter>
+            <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>6.14.0</parameter>
+            <parameter>X-MMS-Transaction-ID: </parameter>   <variablepointer>smtp_header_x-mms-transaction-id</variablepointer>
+            <parameter>X-MMS-Message-ID: </parameter>       <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+            <parameter>X-Mms-Mm-Status-Code: </parameter>   <parameter>Retrieved</parameter>
+        </function>
+
+        <function name="setDATA" module="SMTP">
+            <variable>headers</variable>
+        </function>
+
+        <function name="connectMailServer" module="SMTP">
+            <configuration>xma/MM4Ip</configuration>
+            <configuration>xma/MM4Port</configuration>
+        </function>
+        <function name="sendHELO" module="SMTP">
+            <parameter>xtttestmachine</parameter>
+        </function>
+        <function name="sendMAILFROM" module="SMTP">
+            <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+        </function>
+        <function name="sendRCPTTO" module="SMTP">
+            <variablepointer>smtp_mail_from</variablepointer>
+        </function>
+
+        <function name="sendDATA" module="SMTP"/>
+
+        <function name="disconnectMailServer" module="SMTP"/>
+
+        <function name="calculate" module="Basic">
+            <parameter>messages</parameter>
+            <parameter>
+                <parameter>1</parameter>
+                <parameter>+</parameter>
+                <variable>loop</variable>
+            </parameter>
+        </function>
+        <function name="waitForRequests" module="MMSC">
+            <variable>messages</variable>
+        </function>
+
+        <!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standard -->
+        <function name="validateXML" module="XML">
+    	    <variable>MMSCSERVER/MM7/SOAP</variable>
+     	    <parameter></parameter>
+            <configuration>MMSCSERVER/XMLNSENV</configuration>
+            <configuration>MMSCSERVER/SOAPXSD</configuration>
+            <configuration>MMSCSERVER/XMLNSMM7</configuration>
+            <configuration>MMSCSERVER/MM7XSD</configuration>
+        </function>
+        <function name="queryVariable" module="BASIC">
+            <parameter>MMSCSERVER/MM7/SOAP</parameter>
+            <parameter>MessageID2</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+        <function name="queryText" module="BASIC">
+            <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+            <parameter>dev/null</parameter>
+            <variable>MessageID2</variable>
+        </function>
+        <function name="queryVariable" module="BASIC">
+            <parameter>MMSCSERVER/MM7/SOAP</parameter>
+            <parameter>dev/null</parameter>
+            <parameter>&lt;MMStatus&gt;Retrieved&lt;/MMStatus&gt;</parameter>
+        </function>
+        <function name="queryVariable" module="BASIC">
+            <parameter>MMSCSERVER/MM7/SOAP</parameter>
+            <parameter>dev/null</parameter>
+            <parameter>&lt;DeliveryReportReq</parameter>
+        </function>
+    
+        <!-- check that at least Sender and Recipients where set correctly -->
+    	<function name="queryText" module="Basic">
+    	    <variable>MMSCSERVER/MM7/SOAP</variable>
+    	    <parameter>dev/null</parameter>
+    	    <parameter>
+                <parameter>&lt;Recipient&gt;\s*?&lt;Number&gt;\</parameter><variable><parameter>MMSADDRESS</parameter><variable>loop</variable></variable><parameter>&lt;/Number&gt;\s*?&lt;/Recipient&gt;\s*?</parameter>
+                <parameter>&lt;Sender&gt;\s*?&lt;</parameter><configuration>VASP/NUMBERTYPE</configuration><parameter>&gt;.*</parameter><configuration>VASP/NUMBER</configuration><parameter>&lt;/</parameter><configuration>VASP/NUMBERTYPE</configuration><parameter>&gt;\s*?&lt;/Sender&gt;</parameter>
+            </parameter>
+        </function>
+    </loop>
+    <loop name="loop" start="0" stop="10" step="1">
+        <function name="setVariable" module="Basic">
+            <parameter>OFFNETEMAIL</parameter>
+            <variable>
+                <parameter>EMAIL</parameter>
+                <variable>loop</variable>
+            </variable>
+        </function>
+    <!-- send the read report -->
+
+        <function name="createDateString" module="Basic">
+            <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+            <parameter>date</parameter>
+        </function>
+
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_header_to</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/header/to</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_header_from</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/header/from</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_mail_from</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/mail from</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_header_x-mms-transaction-id</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/header/x-mms-transaction-id</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>smtp_header_x-mms-message-id</parameter>
+            <parameter>
+                <parameter>smtp/</parameter>
+                <variable>OFFNETEMAIL</variable>
+                <parameter>/header/x-mms-message-id</parameter>
+            </parameter>
+        </function>
+
+        <function name="setVariableLines" module="Basic">
+            <parameter>2</parameter>
+            <parameter>headers</parameter>
+            <parameter>To: </parameter>                     <variablepointer>smtp_header_from</variablepointer>
+            <parameter>Sender: </parameter>                 <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+            <parameter>From: </parameter>                   <variablepointer>smtp_header_to</variablepointer>
+            <parameter>Date: </parameter>                   <variable>date</variable>
+            <parameter>message-id: </parameter>             <parameter>date</parameter>
+            <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_read_reply_report.REQ</parameter>
+            <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>6.14.0</parameter>
+            <parameter>X-MMS-Transaction-ID: </parameter>   <variablepointer>smtp_header_x-mms-transaction-id</variablepointer>
+            <parameter>X-MMS-Message-ID: </parameter>       <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+            <parameter>X-Mms-Read-Status: </parameter>      <parameter>Read</parameter>
+        </function>
+
+        <function name="setDATA" module="SMTP">
+            <variable>headers</variable>
+        </function>
+
+        <function name="connectMailServer" module="SMTP">
+            <configuration>xma/MM4Ip</configuration>
+            <configuration>xma/MM4Port</configuration>
+        </function>
+        <function name="sendHELO" module="SMTP">
+            <parameter>xtttestmachine</parameter>
+        </function>
+        <function name="sendMAILFROM" module="SMTP">
+            <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+        </function>
+        <function name="sendRCPTTO" module="SMTP">
+            <variablepointer>smtp_mail_from</variablepointer>
+        </function>
+
+        <function name="sendDATA" module="SMTP"/>
+
+        <function name="disconnectMailServer" module="SMTP"/>
+        
+        <function name="calculate" module="Basic">
+            <parameter>messages</parameter>
+            <parameter>
+                <parameter>11</parameter>
+                <parameter>+</parameter>
+                <variable>loop</variable>
+            </parameter>
+        </function>
+        <function name="waitForRequests" module="MMSC">
+            <variable>messages</variable>
+        </function>
+        
+        <function name="validateXML" module="XML">
+    	    <variable>MMSCSERVER/MM7/SOAP</variable>
+     	    <parameter></parameter>
+            <configuration>MMSCSERVER/XMLNSENV</configuration>
+            <configuration>MMSCSERVER/SOAPXSD</configuration>
+            <configuration>MMSCSERVER/XMLNSMM7</configuration>
+            <configuration>MMSCSERVER/MM7XSD</configuration>
+        </function>
+        <function name="queryVariable" module="BASIC">
+            <parameter>MMSCSERVER/MM7/SOAP</parameter>
+            <parameter>MessageID2</parameter>
+            <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+        </function>
+        <function name="queryText" module="BASIC">
+            <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+            <parameter>dev/null</parameter>
+            <variable>MessageID2</variable>
+        </function>
+        <function name="queryVariable" module="BASIC">
+            <parameter>MMSCSERVER/MM7/SOAP</parameter>
+            <parameter>dev/null</parameter>
+            <parameter>&lt;MMStatus&gt;Read&lt;/MMStatus&gt;</parameter>
+        </function>
+        <function name="queryVariable" module="BASIC">
+            <parameter>MMSCSERVER/MM7/SOAP</parameter>
+            <parameter>dev/null</parameter>
+            <parameter>&lt;ReadReplyReq</parameter>
+        </function>
+    
+        <!-- check that at least Sender and Recipients where set correctly -->
+    	<function name="queryText" module="Basic">
+    	    <variable>MMSCSERVER/MM7/SOAP</variable>
+    	    <parameter>dev/null</parameter>
+    	    <parameter>
+                <parameter>&lt;Recipient&gt;\s*?&lt;Number&gt;\</parameter><variable><parameter>MMSADDRESS</parameter><variable>loop</variable></variable><parameter>&lt;/Number&gt;\s*?&lt;/Recipient&gt;\s*?</parameter>
+        	    <parameter>&lt;Sender&gt;\s*?&lt;</parameter><configuration>VASP/NUMBERTYPE</configuration><parameter>&gt;.*</parameter><configuration>VASP/NUMBER</configuration><parameter>&lt;/</parameter><configuration>VASP/NUMBERTYPE</configuration><parameter>&gt;\s*?&lt;/Sender&gt;</parameter>
+            </parameter>
+        </function>        
+    </loop>
+
+	<!-- Stop Web Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+    <function name="stopSMTPServer" module="SMTP"/>
+    
+	<subtest>../restoreVASP.xml</subtest>
+    <subtest>../restoreMNO.xml</subtest>
+
+</test>

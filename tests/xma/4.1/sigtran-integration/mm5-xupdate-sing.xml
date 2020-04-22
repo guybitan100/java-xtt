@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- configure Aricent NexGen Sigtran stack -->
+<modifications xmlns="http://www.xmldb.org/xupdate" version="1.0">
+
+	<update select="//processgroup[starts-with(@name,'MM5')]//TCAP_CFG/SS7_Vendor">1</update>
+        <update select="//processgroup[starts-with(@name,'MM5')]//TCAP_CFG/OpTimerMs">3000</update>
+        <insert-after select="/component-view/platform/env-variable[@name='LD_LIBRARY_PATH']/value[.='/opt/titanium/lib']"><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform/lib/Linux</element><element name="value">/usr/net/NexGen/appl_platform/lib/Linux</element></insert-after>
+        <update select="//processgroup[starts-with(@name,'MM5')]//CEECFG/ConfiguredObjectTable/ObjectConfigTag/libraryName[.='tcap_prod']">tcap_nexgen</update>
+        
+	<!-- The following settings must reflect the Aricent NexGen SS7 config -->
+	<!-- we need one such entry for every MM5 process -->
+	<insert-before select="/component-view/start-order/process-name[.='MM5.sing']">
+		<element name="process-name"><attribute name="phase">17</attribute><value>EM.sing</value></element>
+		<element name="process-name"><attribute name="phase">17</attribute><value>FEP.sing</value></element>
+	</insert-before>
+	
+	
+	<!--  EM PROCESS -->
+	<insert-before select="/component-view/processgroup[@name='MM5.sing']">
+		<element name="processgroup">
+			<attribute name="name">EM.sing</attribute>
+			<attribute name="num-instances">1</attribute>
+			<attribute name="process-type">normal</attribute>
+			<element name="machine-name">sing</element>
+
+			<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">SS7_BASE</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform</element></element>
+			<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">SS7_PH</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform/conf/em</element></element>
+			<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">SS7P_PATH</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform</element></element>
+			<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">LD_LIBRARY_PATH</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform/lib/Linux</element></element>
+			<element name="workingDir">/home/xma/4.1/proc/EM.sing</element>
+			<element name="executable">/home/xma/debug/XFW_Components_002.0.00.045.LINUXR/bin/start_em</element>
+			<element name="arguments">-a  172.20.9.132  -s 172.20.9.132 -p 9910 -r 9920 -l -d /home/xma/4.1/proc/EM.sing</element>
+			<element name="launch-policy">
+				<element name="user">xma</element>
+				<element name="domain"/>
+				<element name="password"/>
+				<element name="priority">0</element>
+				<element name="restartOnDeath">true</element>
+				<element name="monitor">false</element>
+				<element name="contactTimer">600</element>
+				<element name="pingDelay">600</element>
+				<element name="pingReplyTimeout">600</element>
+				<element name="awaitProcessReady">false</element>
+				<element name="traceFileRollOverInterval">1440</element>
+				<element name="maxTraceFileAge">"7d</element>
+				<element name="maxTraceFileCount">7</element>
+				<element name="options"/>
+			</element>
+		</element>
+		
+		
+		<!-- FEP PROCESS -->
+		<element name="processgroup">
+			<attribute name="name">FEP.sing</attribute>
+			<attribute name="num-instances">1</attribute>
+			<attribute name="process-type">normal</attribute>
+			<element name="machine-name">sing</element>
+			
+			<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">SS7_BASE</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform</element></element>
+			<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">SS7_PH</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform/conf/em</element></element>
+			<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">SS7P_PATH</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform</element></element>
+			<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">LD_LIBRARY_PATH</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform/lib/Linux</element></element>
+			<element name="workingDir">/home/xma/4.1/proc/FEP.sing</element>
+			<element name="executable">/home/xma/debug/XFW_Components_002.0.00.045.LINUXR/bin/start_ss7p</element>
+			<element name="arguments">-i 1 -a 172.20.9.132:9910 -s 172.20.9.132:9920 -m 10.1.1.132 -t 1 -d /home/xma/4.1/proc/FEP.sing</element>
+			<element name="launch-policy">
+				<element name="user">root</element>
+				<element name="domain"/>
+				<element name="password"/>
+				<element name="priority">0</element>
+				<element name="restartOnDeath">true</element>
+				<element name="monitor">false</element>
+				<element name="contactTimer">600</element>
+				<element name="pingDelay">600</element>
+				<element name="pingReplyTimeout">600</element>
+				<element name="awaitProcessReady">false</element>
+				<element name="traceFileRollOverInterval">1440</element>
+				<element name="maxTraceFileAge">"7d</element>
+				<element name="maxTraceFileCount">7</element>
+				<element name="options"/>
+			</element>
+		</element>
+	</insert-before>
+
+
+	<!-- MM5 PROCESS -->
+	<insert-before select="//processgroup[@name='MM5.sing']/workingDir">
+		<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">SS7_PH</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform/conf/em</element></element>
+		<element name="env-variable"><attribute name="extensible">false</attribute><attribute name="name">SS7P_PATH</attribute><element name="value">/home/amitn/SOFTWARE/Base/SS7_Platform/ss7_platform</element></element>
+	</insert-before>
+	<append select="//processgroup[@name='MM5.sing']//TCAP_CFG" child="last()">
+			<element name="VendorConfig">
+				<element name="vendor">1</element>
+				<element name="nexGen">
+					<element name="tier">2</element>
+					<element name="instanceId">1</element>
+					<element name="emActiveIp">172.20.9.132</element>
+					<element name="emActivePort">9910</element>
+					<element name="emStandbyIp">172.20.9.132</element>
+					<element name="emStandbyPort">9920</element>
+					<element name="selfIp">10.1.1.132</element>
+					<!-- log directory should be the same as process working directory -->
+					<element name="logDirectory">/home/xma/4.1/proc/MM5.sing</element>
+					<element name="sapId">1</element>
+					<element name="logicalUserId">5</element>
+				</element>
+			</element>
+	</append>
+
+</modifications>

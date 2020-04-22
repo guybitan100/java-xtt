@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://policy.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:removeAdmins>
+      <arg0>xxx/yyy/zzz</arg0>
+      <arg1>100004</arg1>
+    </tns:removeAdmins>
+  </soap:Body>
+</soap:Envelope>

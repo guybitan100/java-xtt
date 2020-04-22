@@ -1,0 +1,241 @@
+<test>	    
+	<name>ECC.CONV.TC.008</name>
+    <description>ECC and PREFETCH, 5 files RELATIVE URLs</description>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>SERVICE</parameter>
+        <parameter>service</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>remote/command</configuration>
+            <parameter>
+                <parameter>amocli dm </parameter>
+                <variable>service</variable>
+            </parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>amocli: \d++ items deleted</parameter>
+        <parameter>response</parameter>
+    </function>
+
+	<function name="startSTIServer" module="STI"/>
+	<function name="startWebServer" module="HTTP"/>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>eccREQMOD.xml</parameter>
+        <xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+    <table name="DisableMultipart">
+        <selector>
+            <disableMimeMultipart value="true"/>
+            <disablePrefetch value="false"/>
+        </selector>
+    </table>
+    <table name="ecc">
+        <selector urlPattern="*://ecc1.xtt724.com/*">
+            <useExternalContentConvertor value="true" />
+        </selector>
+        <selector urlPattern="*://ecc2.xtt724.com/*">
+            <useExternalContentConvertor value="false" />
+        </selector>
+    </table>
+</requestModifications></xml>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>remote/loaddata</configuration>
+            <parameter>eccREQMOD.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	<function name="setServerHeader" module="HTTP">
+		<parameter>Last-Modified</parameter>
+		<parameter>Wed, 15 Nov 1995 04:58:08 GMT</parameter>
+	</function>	
+
+    <function name="setCacheFile" module="HTTP">
+		<parameter>eccConvTC008.css</parameter>
+<parameter>body 
+{ 
+	margin: 0px; 
+	padding: 0px; 
+	background: #FFF; 
+	font-family: Verdana, Arial, helvetica, Tahoma, Trebuchet MS, sans-serif; 
+	font-size: 10px; 
+	color: #000; 
+}</parameter>
+    </function>
+    
+    <function name="setCacheFile" module="HTTP">
+		<parameter>eccConvTC008.js</parameter>
+<parameter>var pgml = 0;
+
+function init_sitemenu() {
+}
+
+function showHide(layerName,n){ // shows and hides a given layer
+	if (document.getElementById) {
+		//alert('ns7');
+		var fred = document.getElementById(layerName);
+		if (n == 1) {
+			fred.style.display = "";
+		} else if (n == 0) {
+			fred.style.display = "none";
+		} else if (n == 2) {
+			fred.style.display = fred.style.display ? '' : 'none';	
+		}
+		return;
+	}
+}</parameter>
+    </function>
+
+    
+    <function name="setCacheFile" module="HTTP">
+		<parameter>eccConvTC008.html</parameter>
+<xml><html>
+<head>
+<link rel="stylesheet" type="text/css" href="eccConvTC008.css"></link>
+<script src="eccConvTC008.js" type="text/javascript"></script>
+</head>
+<body>
+This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX
+<br/><img src="images/jpg.jpg"/>
+<br/><img src="images/gif.gif"/>
+<br/><img src="images/bmp.bmp"/>
+<br/><img src="images/png.png"/>
+<br/><img src="images/wbmp.wbmp"/>
+</body>
+</html>
+</xml>
+    </function>
+
+    <thread>
+        <function name="waitForRequests" module="STI">
+            <parameter>8</parameter>
+        </function>
+        <function name="waitForTimeoutRequests" module="STI">
+            <parameter>30000</parameter>
+        </function>
+    </thread>
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC008.html</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="waitForRequests" module="HTTP">
+		<parameter>8</parameter>
+	</function>	
+
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+
+    <function name="setCacheFile" module="HTTP">
+		<parameter>eccConvTC008.html</parameter>
+<xml><html>
+<body>
+This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+</body>
+</html>
+</xml>
+    </function>
+
+    <thread>
+    	<function name="waitForTimeoutRequests" module="HTTP">
+    		<parameter>10000</parameter>
+    		<parameter>8</parameter>
+    	</function>	
+	</thread>
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC008.html</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+    <function name="queryBodyNegative" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the file that should not be retrieved AGAINDOTHEFILLXXXX</parameter>
+    </function>
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/images/jpg.jpg</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/images/gif.gif</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/images/bmp.bmp</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/images/png.png</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/images/wbmp.wbmp</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC008.css</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC008.js</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function> 
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmodTCemptyrules.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load data </parameter>
+            <parameter>reqmodTCemptyrules.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+    
+	<function name="waitOnThreads" module="Basic"/>
+	<function name="stopSTIServer" module="STI"/>
+	<function name="stopWebServer" module="HTTP"/>
+</test>

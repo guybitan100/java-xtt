@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.8.2
+Created-By: 1.6.0_26-b03 (Sun Microsystems Inc.)
+Main-Class: com/mobixell/xtt/XTT
+XTT-Build: 0${env.BUILD_NUMBER}
+XTT-BuildTimeStamp: Wed, 10 Aug 2011 15:13:49 IDT
+Class-Path: activation-1.1.jar avalon-framework-4.1.5.jar commons-net-
+ 3.0.1.jar jWAP.jar jacorb.jar javamail-1.4.jar jaxen-core.jar jaxen-j
+ dom.jar jdmkrt.jar jdmktk.jar jdom.jar jsnmpapi.jar logkit-1.2.jar lo
+ oks.jar radclient3.jar saxpath.jar sis2_client-1.1.2.jar sis_pi_info_
+ corba_client-1.1.0.jar slf4j-api-1.3.1.jar slf4j-simple-1.3.1.jar xer
+ cesImpl.jar xtt.jar
+

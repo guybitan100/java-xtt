@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:removeUsersByUserId>
+      <arg0>100001</arg0>
+      <arg0>100002</arg0>
+	  <arg0>100003</arg0>
+	  <arg0>100004</arg0>
+      <arg1>1</arg1>
+    </tns:removeUsersByUserId>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,100 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>bz24703</parameter>
+	</function>
+
+	<description>Validate internal counter for response time in radius </description>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>
+		<configuration>remote/command</configuration>
+		<parameter>pse3cli da! TI:F.CEE.PSE:PSE3</parameter>
+		</parameter>
+	</function>
+
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>RADIUS</parameter>
+		<parameter>Radius_Process_Name</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>
+				<parameter>cmu -C RAD_CFG_AverageResponseTimeResetSecs </parameter>
+				<variable>Radius_Process_Name</variable>
+				<parameter> 60</parameter>
+			</parameter>
+		</parameter>
+	</function>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>12346</parameter>
+		<parameter>12346</parameter>
+	</function>
+
+	<loop name="request" start="0" stop="2" step="1">
+		<function name="sendGetRequest" module="HTTP">
+				<parameter>http://www.yahoo.com</parameter>
+		</function>
+
+		<function name="checkResponseCode" module="HTTP">
+				<parameter>200</parameter>
+		</function>
+	</loop>
+
+	<!-- Sleep a while until AverageResponseTimeResetSecs -->
+	<function name="sleep" module="Basic">
+		<parameter>60000</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<configuration>remote/command</configuration>
+		<parameter>
+		<parameter> cmu -d -O RAD </parameter>
+		<variable>Radius_Process_Name</variable>
+		</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Average response Time in Milliseconds                  : \d++</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Revert back changes as default -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>
+				<parameter>cmu -C RAD_CFG_AverageResponseTimeResetSecs </parameter>
+				<variable>Radius_Process_Name</variable>
+				<parameter> 300</parameter>
+			</parameter>
+		</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>
+				<parameter>cmu -C RAD_CFG_StatisticsReset </parameter>
+				<variable>Radius_Process_Name</variable>
+				<parameter> false</parameter>
+			</parameter>
+		</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<configuration>remote/command</configuration>
+		<parameter>
+		<parameter> cmu -d -O RAD </parameter>
+		<variable>Radius_Process_Name</variable>
+		</parameter>
+		</parameter>
+	</function>
+
+</test>

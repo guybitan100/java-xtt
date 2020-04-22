@@ -1,0 +1,51 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.8710</parameter>
+    </function>
+    
+    <description>Test the ICC doesn't core when there's a problem during conversion (See BZ8710).</description>
+    
+    <function name="connectGateway" module="WAP"/>
+    
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="setCacheFile" module="HTTP">
+        <parameter>bzTC8710-WSP.wml</parameter>
+        <file>bzTC8710-WSP.wml</file>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>content-type</parameter>
+        <parameter>multipart/*;boundary=&quot;----=_Part_1_31161848.1109320473531&quot;;start=&quot;&lt;mms.smil&gt;&quot;;type=&quot;application/smil&quot;</parameter>
+    </function> 
+ 
+    
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    
+    <function name="setHeader" module="WAP">
+        <parameter>Accept</parameter>
+        <parameter>application/vnd.wap.multipart.*</parameter>
+    </function>  
+    
+    <function name="sendGetRequest" module="WAP">
+        <parameter>http://</parameter>
+        <configuration>system/ip</configuration>
+        <parameter>/bzTC8710-WSP.wml</parameter>
+    </function>
+    
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+    
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    
+    <function name="stopWebServer" module="HTTP"/>
+    
+    <function name="disconnectGateway" module="WAP"/>
+</test>

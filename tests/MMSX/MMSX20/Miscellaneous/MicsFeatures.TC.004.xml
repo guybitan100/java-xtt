@@ -1,0 +1,39 @@
+ <test>
+ 
+     <description> SOAP-API: Add User Null</description>
+
+	 <function name="testName" module="Basic">
+		<parameter>MicsFeatures.TC.004</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <parameter>http://</parameter>
+			 <configuration>MMSX/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>MMSX/PORT</configuration>
+			 <parameter>/mmsextra/provisioning?wsdl</parameter>
+		</parameter>
+		<file>add_user_null.xml</file>
+		<parameter>Body/AddResponse</parameter>
+	</function>
+
+	<function name="queryResponse" module="SOAP_API">
+	     <!-- You want to check what the last command did, this is a java regular expression -->
+	     <parameter></parameter>
+	     <!-- Ignore this paramter, it stores the result to a variable (not important in this test -->
+	     <parameter>dev/null</parameter>		 
+	</function> 
+
+	<function name="queryResponse" module="SOAP_API">
+		<parameter></parameter>
+		<parameter>
+		<parameter>&lt;AddResult&gt;false&lt;/AddResult&gt;</parameter>
+		</parameter>
+	</function> 
+ 
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+ </test>

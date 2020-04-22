@@ -1,0 +1,62 @@
+<test>
+	<name>SMTP-IN_SMS-OUT.TC.003</name>
+	<description>SMTP-IN -> SMS-OUT Scenario - Validate The Multiple Messages Are Processed in FIFO Order</description>
+	
+	<!-- Start SMSC Server & Wait for SLM to Bind SMSC -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+	
+	<!-- 50 Messages -->
+	<!-- Create SMTP-IN Messages -->
+	<loop name="processLoop" start="1" stop="51" step="1">
+		<function name="createDateString" module="Basic">
+			<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+			<parameter>date</parameter>
+		</function>
+		<function name="setVariableLines" module="Basic">
+			<parameter>2</parameter>
+			<parameter>headers</parameter>
+			<parameter>To:</parameter>
+			<parameter>erkan.sutculer@gmail.com</parameter>
+			<parameter>From:</parameter>
+			<parameter>From@sender.com</parameter>
+			<parameter>Date:</parameter>
+			<variable>date</variable>
+			<parameter>Content-Type:</parameter>
+			<parameter>text/plain</parameter>
+		</function>
+		
+		<!-- Send SMTP-IN Message -->    
+		<function name="setDATA" module="SMTP">
+			<variable>headers</variable>
+			<parameter>
+				<parameter>This is a single line message</parameter>
+				<variable>processLoop</variable>
+				<parameter>.</parameter>
+			</parameter>
+		</function>
+		<function name="connectMailServer" module="SMTP">
+			<configuration>XMA/MM4Ip</configuration>
+			<configuration>XMA/MM4Port</configuration>
+		</function>
+		<function name="sendHELO" module="SMTP">
+			<parameter>xtttestmachine</parameter>
+		</function>
+		<function name="sendMAILFROM" module="SMTP">
+			<parameter>From@sender.com</parameter>
+		</function>
+		<function name="sendRCPTTO" module="SMTP">
+			<parameter>erkan.sutculer@gmail.com</parameter>
+		</function>
+		<function name="sendDATA" module="SMTP"/>
+		<function name="disconnectMailServer" module="SMTP"/>
+	</loop>
+	
+	<!-- Wait for the SMS-OUT Messags -->
+	<function name="waitForMessages" module="SMS">
+		<parameter>50</parameter>
+	</function>
+
+	<!-- Shut Down SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+</test>

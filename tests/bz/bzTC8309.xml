@@ -1,0 +1,49 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.8309</parameter>
+    </function>
+    
+    <description>Test the ICC doesn't core when there's a problem during conversion (See BZ8710).</description>
+    
+    <function name="connectGateway" module="WAP"/>
+    
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="setCacheFile" module="HTTP">
+        <parameter>bzTC8309_input.wml</parameter>
+        <file>bzTC8309_input.wml</file>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    
+    <function name="setHeader" module="WAP">
+        <parameter>Accept</parameter>
+        <parameter>application/vnd.wap.wmlc</parameter>
+    </function>  
+
+    <loop name="threadLoop" start="0" stop="100" step="1"> 
+      
+        <function name="sendGetRequest" module="WAP">
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/bzTC8309_input.wml</parameter>
+        </function>
+        
+        <function name="checkResponseCode" module="WAP">
+            <parameter>200</parameter>
+        </function>
+
+    </loop>
+    
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    
+    <function name="stopWebServer" module="HTTP"/>
+    
+    <function name="disconnectGateway" module="WAP"/>    
+</test>

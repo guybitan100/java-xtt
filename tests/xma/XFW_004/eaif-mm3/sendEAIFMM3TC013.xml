@@ -1,0 +1,222 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+	<name>EAIF_Msg-MM3_Msg.TC.013</name>
+	<description>Legacy Recipient has no E-Mail Address<!-- It will work as EAIF -> MM1 flow -->
+					[X-Mms-Delivery-Report=Yes]
+					[Sn's DB_Prepaid=true]
+					[Rc's DB_MmsDisabled=false] 
+					[Rc's DB_ExternalContentConversionDisabled=true]
+					[Rc's DB_UseEmail=true]
+					[Rc's DB_Email=EMPTY]
+    </description>
+
+	<!-- Load MNO file -->
+    <subtest>../loadMNO.xml</subtest>
+
+	<!-- Recipent 41790001000 should be there in the DB -->
+	<function name="setVariable" module="Basic">
+        <parameter>RECIPIENTNOMMS</parameter>
+        <configuration>XMA/INVALID/POSTPAY/USEEMAIL/MISSINGEMAIL</configuration>
+    </function>
+
+	<!-- Load MSISDN -->
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+	
+    <function name="startSMSCServer" module="SMS"/>
+    <function name="waitForBind" module="SMS"/>
+	
+	<!-- Start SMTP Server and wait until it binds to XMA -->
+    <function name="startSMTPServer" module="SMTP"/>
+    
+	<!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<!-- Set EAIF Address - Request is being hit from -->
+	<function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+       <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>RECIPIENTNOMMS</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>application/vnd.wap.multipart.mixed</parameter>
+    </function>
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_EXPIRY</parameter>
+		<parameter>false</parameter>
+		<parameter>10</parameter>
+	</function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+
+    <function name="createMM1PacketContentMultipart" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64file>plaintext.bin</base64file>
+        <parameter>text/plain</parameter>
+        <parameter>plaintext.txt</parameter>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+	
+	<!-- Will Redirect to MM1-OUT once it will not get EMAIL-ID -->
+	<function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+  <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>RECIPIENTNOMMS</variable>
+            <parameter>/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>RECIPIENTNOMMS</variable>
+            <parameter>/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>deferred</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <variable>RECIPIENTNOMMS</variable>
+    </function>
+
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+    <function name="sleep" module="Basic">
+        <parameter>2000</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="SMS">
+        <variable>RECIPIENTNOMMS</variable>
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>log/messageid</parameter>
+        <variable>
+            <parameter>SMS/</parameter>
+            <variable>RECIPIENTNOMMS</variable>
+            <parameter>/MMS/message_id</parameter>
+            </variable>
+    </function>
+
+      <function name="sendMM1AcknowledgeIndicator" module="SMS">
+        <parameter>no</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <variable>RECIPIENTNOMMS</variable>
+    </function>
+
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+    <function name="compareString" module="BASIC">
+        <parameter>m_notification_ind</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>RECIPIENTNOMMS</variable>
+            <parameter>/MMS/x_mms_message_type</parameter>
+        </variable>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+    <function name="stopSMTPServer" module="SMTP"/>
+    
+    <!-- Restore MNO file -->
+    <subtest>../restoreMNO.xml</subtest>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+</test>
+

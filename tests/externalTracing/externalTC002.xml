@@ -1,0 +1,89 @@
+<test>
+    <name>EXTERNAL.TC.002</name>
+    <description>XMG external tracing in SERVICE process using HTTP</description>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>HTTP-ROUTER</parameter>
+        <parameter>service-process</parameter>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+        <variable>
+             <parameter>service-process/</parameter>
+             <parameter>0</parameter>
+        </variable>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>enable tracing -external E://</parameter>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>image/gif</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/images/jpg.jpg</parameter>
+        </parameter>
+    </function>
+    <function name="isGif" module="content">
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>
+
+
+    <function name="stopWebServer" module="HTTP"/>
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+<function name="sleep" module="Basic">
+<parameter>15000</parameter>
+</function>
+
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>
+           <parameter>/bin/grep E:// </parameter>
+           <configuration>XMG/PROCPATH</configuration>
+           <parameter>/</parameter>
+           <variable>
+              <parameter>service-process/</parameter>
+              <parameter>0</parameter>
+          </variable>
+          <parameter>/</parameter>
+          <variable>
+             <parameter>service-process/</parameter>
+             <parameter>0</parameter>
+          </variable>
+          <parameter>.out</parameter>
+        </parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://HTTP/PARSED/REQUEST</parameter>
+        <parameter>response</parameter>
+    </function>
+   
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://HTTP/GENERATED/REQUEST</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://HTTP/PARSED/RESPONSE</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://HTTP/GENERATED/RESPONSE</parameter>
+        <parameter>response</parameter>
+    </function>
+
+</test>

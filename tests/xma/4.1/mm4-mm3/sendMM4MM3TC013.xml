@@ -1,0 +1,349 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM4.MM3.TC.013</name>
+    <description>10 On-Net Recipients 
+    [DeliveryReport=Yes, ReadReply=Yes] 
+    [Recipient's DB_MmsDisabled=false] 
+    [Recipient's DB_ExternalContentConversionDisabled=true] 
+    [Recipient's DB_UseEmail=true] 
+    [Recipient's DB_Email=user@domain]</description>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <function name="startSMTPServer" module="SMTP"/>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>default-mno.xml</parameter>
+        <file>../default-mno.xml</file>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data default-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+    
+    <!--function name="setVariable" module="Basic">
+        <parameter>MSISDN</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN1</configuration>
+    </function-->
+   
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN1</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS1</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN1</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL1</parameter>
+        <parameter>
+            <variable>MMSADDRESS1</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN2</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN2</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS2</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN2</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL2</parameter>
+        <parameter>
+            <variable>MMSADDRESS2</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN3</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN3</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS3</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN3</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL3</parameter>
+        <parameter>
+            <variable>MMSADDRESS3</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN4</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN4</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS4</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN4</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL4</parameter>
+        <parameter>
+            <variable>MMSADDRESS4</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN5</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN5</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS5</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN5</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL5</parameter>
+        <parameter>
+            <variable>MMSADDRESS5</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN6</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN6</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS6</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN6</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL6</parameter>
+        <parameter>
+            <variable>MMSADDRESS6</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN7</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN7</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS7</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN7</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL7</parameter>
+        <parameter>
+            <variable>MMSADDRESS7</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN8</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN8</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS8</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN8</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL8</parameter>
+        <parameter>
+            <variable>MMSADDRESS8</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN9</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN9</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS9</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN9</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL9</parameter>
+        <parameter>
+            <variable>MMSADDRESS9</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN0</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN0</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS0</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN0</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL0</parameter>
+        <parameter>
+            <variable>MMSADDRESS0</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>    
+
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMSISDN</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETEMAIL</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>ALLMMSADDRESS</parameter>
+        <parameter>
+            <variable>MMSADDRESS1</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS2</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS3</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS4</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS5</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS6</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS7</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS8</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS9</variable>
+            <parameter>,</parameter>
+            <variable>MMSADDRESS0</variable>
+        </parameter>
+    </function>
+
+    <function name="createDateString" module="Basic">
+        <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+        <parameter>date</parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>headers</parameter>
+        <parameter>To: </parameter>                     <variable>ALLMMSADDRESS</variable>
+        <parameter>From: </parameter>                   <variable>OFFNETMMSADDRESS</variable>
+        <parameter>Date: </parameter>                   <variable>date</variable>
+        <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_forward.REQ</parameter>
+        <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>7.0.0</parameter>
+        <parameter>X-Mms-Originator-System: </parameter><configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+        <parameter>X-Mms-Ack-Request: </parameter>      <parameter>yes</parameter>
+        <parameter>X-MMS-Transaction-ID: </parameter>   <parameter>"ABCDEFGHIJ012345678"</parameter>
+        <parameter>X-MMS-Message-ID: </parameter>       <parameter>"originator-username/123456789"</parameter>
+        <parameter>x-mms-delivery-report: </parameter>  <parameter>Yes</parameter>
+        <parameter>x-mms-read-reply: </parameter>       <parameter>Yes</parameter>
+        <parameter>Content-Type: </parameter>           <parameter>text/plain</parameter>         
+    </function>
+
+    <function name="setDATA" module="SMTP">
+        <variable>headers</variable>
+        <parameter>This is a single line message.</parameter>
+    </function>
+
+    <function name="connectMailServer" module="SMTP">
+        <configuration>XMA/MM4Ip</configuration>
+        <configuration>XMA/MM4Port</configuration>
+    </function>
+    <function name="sendHELO" module="SMTP">
+        <parameter>xtttestmachine</parameter>
+    </function>
+    <function name="sendMAILFROM" module="SMTP">
+        <variable>OFFNETEMAIL</variable>
+    </function>
+    <loop name="i" start="0" stop="10">
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL</parameter>
+            <variable>
+                <parameter>EMAIL</parameter>
+                <variable>i</variable>
+            </variable>
+        </function>
+        <function name="sendRCPTTO" module="SMTP">
+            <variable>EMAIL</variable>
+        </function>
+    </loop>
+
+    <function name="sendDATA" module="SMTP"/>
+
+    <function name="disconnectMailServer" module="SMTP"/>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>21</parameter>
+    </function>
+    <function name="waitForTimeoutMails" module="SMTP">
+        <parameter>5000</parameter>
+    </function>
+
+    <function name="stopSMTPServer" module="SMTP"/>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>empty-mno.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data empty-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+</test>

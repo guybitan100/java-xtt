@@ -1,0 +1,77 @@
+<test>
+    <function name="setVariable" module="Basic">
+        <parameter>EaifHead</parameter>
+            <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd"&gt;
+    &lt;eaif&gt;</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>EaifFoot</parameter>
+        <parameter>
+    &lt;/eaif&gt;
+&lt;/vasps&gt;</parameter>
+    </function>
+    
+    <function name="setVariable" module="Basic">
+        <parameter>EaifBody</parameter>
+        <parameter>
+            <parameter>
+        &lt;vasp id="</parameter>
+            <configuration>EAIF/EAIFID</configuration>
+            <parameter>" address="</parameter>
+            <configuration>EAIF/NUMBER</configuration>
+            <parameter>" eaifUrl="http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>EAIF/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>EAIF/DIRECTORY</configuration>
+            <parameter>"&gt;&lt;attributes&gt;&lt;attribute name="MyCustomAttr" value="ABC"/&gt;&lt;/attributes&gt;</parameter>
+            <parameter>&lt;/vasp&gt;</parameter>
+        </parameter>
+    </function>
+    <loop name="loop" start="1" stop="1001" step="1">
+    <function name="setVariable" module="Basic">
+        <parameter>EaifBody</parameter>
+        <parameter>
+            <variable>EaifBody</variable>
+            <parameter>
+        &lt;vasp id="</parameter>
+                <parameter>EAIFID</parameter>
+                <variable>loop</variable>
+            <parameter>" address="</parameter>
+            <configuration>
+                <parameter>EAIF/BULKNUMBER</parameter>
+                <variable>loop</variable>
+            </configuration>
+            <parameter>" eaifUrl="http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>EAIF/PORT</configuration>
+            <parameter>/</parameter>
+                <parameter>EAIFDIRECTORY</parameter>
+                <variable>loop</variable>
+            <parameter>"&gt;</parameter>
+            <parameter>&lt;/vasp&gt;</parameter>
+        </parameter>
+    </function>
+    </loop>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>bulkEaif.xml</parameter>
+        <parameter>
+            <variable>EaifHead</variable>
+            <variable>EaifBody</variable>
+            <variable>EaifFoot</variable>
+        </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data bulkEaif.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+</test>

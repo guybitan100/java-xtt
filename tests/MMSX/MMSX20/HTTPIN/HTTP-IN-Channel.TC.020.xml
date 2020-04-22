@@ -1,0 +1,81 @@
+<test>
+
+		<function name="testName" module="Basic">
+			<parameter>HTTP-IN-Channel.TC.020</parameter>
+		</function>
+	
+	<description>Proxy sends correctly formatted "New-Message-Intercepted" request to Application via HTTPS POST / Application replies with proper error code (Application may discard the message)
+	<!-- Test Description 
+	1. Sender and Recipient are provision in application.
+	2. Send MM1 Message to MMS Proxy 
+	3. MMS Proxy should intercept this message and send corrupted "New-Message-Intercepted" Request to Application as HTTPS POST Request 
+	4. Application receives corrupted "New-Message-Intercepted" Request and then respond New-Message-Intercepted-Response with "error" handle in "X-MMSX-Error-Text" response header --> 
+	</description>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Set mandatory headers -->
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-MMS-Message-Type</parameter>
+			<parameter>m-send-req</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter>987654</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>To</parameter>
+			<configuration>MMSX/NOTINDB/RECIPIENT/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+			<parameter>MMSX/NOTINDB/SENDER/MSISDN1</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>Subject</parameter>
+			<parameter>Sample Test</parameter>
+		</function>
+
+		<!-- Send Metadeta  Request -->
+
+		<!-- Sending corrupted New Message intercept request -->
+		<function name="sendGetRequest" module="HTTP">
+			<parameter>
+				<parameter>https://</parameter>
+				<configuration>MMS_Extra/Ip</configuration>
+				<parameter>:</parameter>
+				<configuration>MMS_Extra/SECUREPORT</configuration>
+				<parameter>/New-Message-Intercept</parameter>
+			</parameter>
+		</function>
+
+		<function name="checkResponseCode" module="HTTP">
+			<parameter>200</parameter>
+		</function>
+
+		<!-- Validating the response of X-Proxy-Handle. It should return discard -->
+		<function name="checkHeader" module="HTTP">
+			<parameter>X-Proxy-Handle</parameter>
+			<parameter>error</parameter>
+		</function>
+
+		<function name="checkHeader" module="HTTP">
+			<parameter>x-mmsx-error-text</parameter>
+			<parameter>Unexpected value of path: New-Message-Intercept</parameter>
+		</function>
+
+</test>

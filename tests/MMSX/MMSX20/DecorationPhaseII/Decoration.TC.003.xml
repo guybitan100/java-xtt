@@ -1,0 +1,199 @@
+<test>
+	<name>Decoration.TC.003</name>
+    <description>[Calendar_Decoration]Validate decoration feature in "Calander" Use Case /When Sender enabled calander service and sends calander message to Recipient/Application should send response to proxy with decoration for subject, Transaction Id and Message Id and M
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+1. Send MM1 Message to MM1 Proxy.
+2. MM1 Proxy should intercept this message and send Request to Application as HTTPS GET Request.
+3. Application check whether Recipient is registered for the Application Features or not. 
+4. Application decorates the subject line as {MMX:F}
+5. Application decorates the message Id as MMX:R@
+6. Application decorates the Transaction Id as :MMXT:M
+5. Application then sends "send-body" instruction to pass the message to MM1 proxy.
+6. MMS Proxy then sends HTTP post with having body
+7. MM7 submit has been sent with nickname via MM7-OUT to the target recipent. 
+
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  2. Remote
+	  3. Basic -->
+</description> 
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Set feature as true -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceCalendar subscriberId=11101  serviceEnabled=true
+        </parameter>
+    </function>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/NOTINDB/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/CALENDAR/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject in message for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>D&lt;2&gt; Happy Birthday</parameter>
+	</function>
+
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Proxy-Transaction-Id as TransactionID -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- Should not receive messages within 1 min-->
+    <function name="waitForTimeoutRequests" module="MMSC">
+        <parameter>118000</parameter>
+    </function>
+
+	<!-- Wait for a MM7 request on the MMSC Server -->
+	<function name="waitForRequests" module="MMSC">
+		<parameter>1</parameter>
+	</function>
+
+<!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standards -->
+	<function name="validateXML" module="XML">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter></parameter>
+		<configuration>MMSCSERVER/XMLNSENV</configuration>
+		<configuration>MMSCSERVER/SOAPXSD</configuration>
+		<configuration>MMSCSERVER/XMLNSMM7</configuration>
+		<configuration>MMSCSERVER/MM7XSD</configuration>
+	</function>
+
+	<!-- check MM7 version set correctly in response -->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>&lt;MM7Version&gt;5.6.0&lt;/MM7Version&gt;</parameter>
+		</parameter>
+	</function>
+
+	<!-- check that the Sender Subject as a nick name set correctly in SOAP response-->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+		<parameter>&lt;Subject&gt;\{MMSX:F</parameter>
+		<configuration>MMSX/CALENDAR/SENDER/MSISDN1</configuration>
+		<parameter>} Happy Birthday&lt;/Subject&gt;</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check for No MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

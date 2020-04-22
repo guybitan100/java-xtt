@@ -1,0 +1,127 @@
+<!-- $Id: reqmodTC003c.xml,v 1.2 2006/07/21 17:04:54 cvsbuild Exp $ -->
+<!--# Test Case 1103c aka REQMOD.TC.003c
+    # test url substitution stuff    -->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.003c</parameter>
+    </function>
+    <description>Test ip address replacement rules</description>
+
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+
+<!--
+     Check ip adress rewmod rules are working correctly
+-->
+    <loop name="ippartA" start="1" stop="5" step="1">
+    <loop name="ippartB" start="1" stop="250" step="10">
+        <!-- download the webpage -->
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>
+                <parameter>http://172.21.</parameter>
+                <variable>ippartA</variable>
+                <parameter>.</parameter>
+                <variable>ippartB</variable>
+                <parameter>/</parameter>
+            </parameter>
+        </function>
+        <!-- check if the download was successfull -->
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="checkServerURL" module="HTTP">
+            <parameter>/</parameter>
+        </function>
+        <function name="checkServerHeader" module="HTTP">
+            <parameter>host</parameter>
+            <parameter>test5.xtt724.com</parameter>
+        </function>
+    </loop>
+    </loop>
+
+<!--
+     Check ip adress rewmod rules are working correctly
+-->
+        <!-- download the webpage -->
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>http://10.99.1.99/</parameter>
+        </function>
+        <!-- check if the download was successfull -->
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="checkServerURL" module="HTTP">
+            <parameter>/</parameter>
+        </function>
+        <function name="checkServerHeader" module="HTTP">
+            <parameter>host</parameter>
+            <parameter>test5.xtt724.com</parameter>
+        </function>
+    <loop name="ippart" start="100" stop="120" step="1">
+        <!-- download the webpage -->
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>
+                <parameter>http://10.99.1.</parameter>
+                <variable>ippart</variable>
+                <parameter>/</parameter>
+            </parameter>
+        </function>
+        <!-- check if the download was successfull -->
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="checkServerURL" module="HTTP">
+            <parameter>/</parameter>
+        </function>
+        <function name="checkServerHeader" module="HTTP">
+            <parameter>host</parameter>
+            <parameter>test6.xtt724.com</parameter>
+        </function>
+    </loop>
+        <!-- download the webpage -->
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>http://10.99.1.120/</parameter>
+        </function>
+        <!-- check if the download was successfull -->
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="checkServerURL" module="HTTP">
+            <parameter>/</parameter>
+        </function>
+        <function name="checkServerHeader" module="HTTP">
+            <parameter>host</parameter>
+            <parameter>test5.xtt724.com</parameter>
+        </function>
+
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+</test>

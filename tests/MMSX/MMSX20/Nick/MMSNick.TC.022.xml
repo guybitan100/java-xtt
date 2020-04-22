@@ -1,0 +1,363 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>MMSNick.TC.022</parameter>
+	</function>
+
+	<description>Validate MMS Nick Use Case [15 Recipients distributed across To, Cc, Bcc Headers] / Via secure HTTP-IN Application receives MM1 Message with "application/vnd.wap.multipart.related" Content-Type (200 Kbytes) (mms.smil + text/plain + images + sounds + videos</description>
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<!-- Setting loop for TO recipients -->
+	<function name="setVariable" module="BASIC">
+		<parameter>to_list</parameter>
+		<parameter></parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>devider</parameter>
+		<parameter></parameter>
+	</function>
+
+	<!-- Set To as recipient mobile number-->
+ 	<loop name="loop" start="11" stop="16" step="1">
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<parameter><parameter>010000000</parameter><variable>loop</variable></parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>to_list</parameter>
+		<parameter>
+		<variable>to_list</variable>
+		<variable>devider</variable>
+		<parameter><parameter>010000000</parameter><variable>loop</variable></parameter>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>devider</parameter>
+		<parameter>,</parameter>
+	</function>
+	</loop>
+
+	<!-- Set To field as recipient mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<variable>to_list</variable>
+	</function>
+
+	<!-- Setting loop for Cc recipients -->
+	<function name="setVariable" module="BASIC">
+		<parameter>cc_list</parameter>
+		<parameter></parameter>
+	</function>
+
+	<!-- Setting loop for Cc recipients -->
+	<function name="setVariable" module="BASIC">
+		<parameter>devider</parameter>
+		<parameter></parameter>
+	</function>
+
+	<!-- Set Cc as recipient mobile number-->
+ 	<loop name="loop" start="16" stop="21" step="1">
+	<function name="setHeader" module="HTTP">
+		<parameter>Cc</parameter>
+		<parameter><parameter>010000000</parameter><variable>loop</variable></parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>cc_list</parameter>
+		<parameter>
+		<variable>cc_list</variable>
+		<variable>devider</variable>
+		<parameter><parameter>010000000</parameter><variable>loop</variable></parameter>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>devider</parameter>
+		<parameter>,</parameter>
+	</function>
+	</loop>
+
+	<!-- Set From as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>Cc</parameter>
+		<variable>cc_list</variable>
+	</function>
+
+	<!-- Setting loop for Bcc recipients -->
+	<function name="setVariable" module="BASIC">
+		<parameter>bcc_list</parameter>
+		<parameter></parameter>
+	</function>
+
+	<!-- Setting loop for Bcc recipients -->
+	<function name="setVariable" module="BASIC">
+		<parameter>devider</parameter>
+		<parameter></parameter>
+	</function>
+
+	<!-- Set Bcc as recipient mobile number-->
+	<loop name="loop" start="21" stop="26" step="1">
+	<function name="setHeader" module="HTTP">
+		<parameter>Bcc</parameter>
+		<parameter><parameter>010000000</parameter><variable>loop</variable></parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>bcc_list</parameter>
+		<parameter>
+		<variable>bcc_list</variable>
+		<variable>devider</variable>
+		<parameter><parameter>010000000</parameter><variable>loop</variable></parameter>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>devider</parameter>
+		<parameter>,</parameter>
+	</function>
+	</loop>
+
+	<!-- Set Bcc as recipient mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>Bcc</parameter>
+		<variable>bcc_list</variable>
+	</function>
+
+	<!-- Set X-Proxy-Subscriber-MSISDN field as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/NICKNAME/SENDER/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>multipart/related; boundary="----=_Part_1_31161848.1109320473531"</parameter>
+	</function>
+
+	<!-- Set Subject for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a Nick name Message</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>https://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/secureport</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>multipart/related; boundary="----=_Part_1_31161848.1109320473531"</parameter>
+	</function>
+
+	<!-- Set FileName for the 1st Part of Create-MultiPart-Mixed-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>file1</parameter>
+		<parameter>sampletext1.bin</parameter>
+	</function>
+
+	<!-- Set FileType for the 1st Part of Create-MultiPart-Mixed-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>type1</parameter>
+		<parameter>plain/text</parameter>
+	</function>
+
+	<!-- Set FileName for the 2nd Part of Create-MultiPart-Mixed-File -->
+	 <function name="setVariable" module="Basic">
+		<parameter>file2</parameter>
+		<parameter>image001.jpg</parameter>
+	</function>
+
+	<!-- Set FileType for the 2nd Part of Create-MultiPart-Mixed-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>type2</parameter>
+		<parameter>image/jpeg</parameter>
+	</function>
+
+	<!-- Set FileName for the 3rd Part of Create-MultiPart-Mixed-File -->
+	 <function name="setVariable" module="Basic">
+		<parameter>file3</parameter>
+		<parameter>sound.mp3</parameter>
+	</function>
+
+	<!-- Set FileType for the 3rd Part of Create-MultiPart-Mixed-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>type3</parameter>
+		<parameter>audio/mpeg</parameter>
+	</function>
+
+	<!-- Set FileName for the 4th Part of Create-MultiPart-Mixed-File -->
+	 <function name="setVariable" module="Basic">
+		<parameter>file4</parameter>
+		<parameter>sample.flv</parameter>
+	</function>
+
+	<!-- Set FileType for the 4th Part of Create-MultiPart-Mixed-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>type4</parameter>
+		<parameter>video/flv</parameter>
+	</function>
+
+	<!-- Set charset for the Create-base64-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>char</parameter>
+		<parameter>us-ascii</parameter>
+	</function>
+
+	<!-- Set Headers for Send Body request -->
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To: </parameter>                     <variable>to_list</variable>
+		<parameter>Cc: </parameter>                     <variable>cc_list</variable>
+		<parameter>Bcc: </parameter>                    <variable>bcc_list</variable>
+		<parameter>From: </parameter>                   <configuration>MMSX/NICKNAME/SENDER/MSISDN1</configuration>
+		<parameter>X-Mms-Message-Type: </parameter>     <parameter>m-send-req</parameter>
+		<parameter>X-Application-Context-Id: </parameter>   <variable>X-Application-Context-Id</variable>
+	</function>
+
+	<!-- Call Subtest to Greate Multipart File -->
+	<subtest>Create-MultiPart-File-Related2.xml</subtest>
+
+	<function name="setPostData" module="HTTP">
+		<file>send-multipart-related.bin</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>https://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/secureport</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- Wait for a MM7 request on the MMSC Server -->
+	<function name="waitForRequests" module="MMSC">
+		<parameter>15</parameter>
+	</function>
+
+	<!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standard -->
+	 <function name="validateXML" module="XML">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter></parameter>
+		<configuration>MMSCSERVER/XMLNSENV</configuration>
+		<configuration>MMSCSERVER/SOAPXSD</configuration>
+		<configuration>MMSCSERVER/XMLNSMM7</configuration>
+		<configuration>MMSCSERVER/MM7XSD</configuration>
+	</function>
+
+	<!-- check MM7 version set correctly -->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>&lt;MM7Version&gt;5.6.0&lt;/MM7Version&gt;</parameter>
+		</parameter>
+	</function>
+
+	<!-- check that the Sender Nickname set correctly in Subject-->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>&lt;Subject&gt;\{MMX:F</parameter>
+				<configuration>MMSX/NICKNAME/SENDER/MSISDN1</configuration>
+			<parameter>,N"nickname1"\}This is a Nick name Message&lt;/Subject&gt;</parameter>
+		</parameter>
+	</function>
+
+
+	<!-- Check for No MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+
+</test>

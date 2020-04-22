@@ -1,0 +1,37 @@
+<test>
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>smppConnection.xml</parameter>
+        <parameter>
+            <parameter>&lt;xmpSmsConnections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xmpsmsconnections.xsd "&gt;
+    &lt;channels&gt;
+        &lt;connectChannel name="SmsChannel" policy="single_connection" protocol="SMPP5.0" settings="SmppSettings" &gt;
+            &lt;connection name="PUSH-CONNECTION" address=".*"  password="</parameter><configuration>smscserver/password</configuration><parameter>" username="xmp" /&gt;
+            &lt;!--connection name="NOTIFICATION-CONNECTION" address=".*" password="</parameter><configuration>smscserver/password</configuration><parameter>" username="xmp" /--&gt;
+            &lt;remoteAddress ipAddress="</parameter><configuration>system/ip</configuration><parameter>" port="</parameter><configuration>SMSCSERVER/PORT</configuration><parameter>" /&gt;
+            &lt;!--remoteAddress ipAddress="</parameter><configuration>system/ip</configuration><parameter>" port="</parameter><configuration>SMSCSERVER/PORT2</configuration><parameter>" /--&gt;
+        &lt;/connectChannel&gt;
+    &lt;/channels&gt;
+    &lt;settings&gt;
+        &lt;smppSettings name="SmppSettings" linkDownMaxRetries="3" linkDownRetryTimeoutSeconds="12" maxConcurrentReq="12" maxMessagesPerSecond="10" maxPduSize="4096" passive="false" singleTransmitterSession="true" &gt;
+            &lt;connectionOptions addrNpi="1"  addrRange="" addrTon="6"  smscSystemId=""  systemId="" systemType="WAP" /&gt;
+            &lt;messageOptionSets&gt;
+                &lt;messageOptions optionName="DEFAULT" registeredDelivery="0" dataCoding="4" dataPdu="true" destAddrNpi="1"  destAddrTon="1" esmClass="64" priorityFlag="0" protocolId="0" serviceType="WAP"/&gt;
+            &lt;/messageOptionSets&gt;
+        &lt;/smppSettings&gt;
+    &lt;/settings&gt;
+&lt;/xmpSmsConnections&gt;            
+</parameter>
+        </parameter>
+    </function>
+        
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>remote/loaddata</configuration>
+            <parameter>smppConnection.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded xmpsmsconnections.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+</test>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+  <table name="bzTC6813">
+        <selector urlPattern="http://*.google.com/*">
+        </selector>
+  </table>
+</requestModifications>

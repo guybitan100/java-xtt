@@ -1,0 +1,110 @@
+<test>	    
+	<function name="testName" module="Basic">
+		<parameter>CONV.TC.005</parameter>
+	</function>
+	<description>Convert GIF to JPEG/GIF/PNG/BMP/WBMP</description>
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	<function name="startWebServer" module="HTTP"/>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept-Encoding</parameter>
+		<parameter>compress</parameter>
+	</function>
+
+	<!-- GET GIF - NO CONVERSION -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>*/*</parameter>
+	</function> 	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/images/gif.gif</parameter>
+        </parameter>
+		<parameter>GIF</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	<function name="isGif" module="content">
+	    <variable>GIF/BASE64</variable>
+	</function>
+
+	<!-- CONVERT GIF TO PNG -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>image/png</parameter>
+	</function> 
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/images/gif.gif</parameter>
+        </parameter>
+		<parameter>PNG</parameter>
+	</function>
+	<function name="isPng" module="content">
+	    <variable>PNG/BASE64</variable>
+	</function>
+
+	<!-- CONVERT GIF TO JPEG -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>image/jpeg</parameter>
+	</function> 
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/images/gif.gif</parameter>
+        </parameter>
+		<parameter>JPG</parameter>
+	</function>
+	<function name="isJpg" module="content">
+	    <variable>JPG/BASE64</variable>
+	</function>
+
+	<!-- CONVERT GIF TO BMP -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>image/bmp</parameter>
+	</function> 
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/images/gif.gif</parameter>
+        </parameter>
+		<parameter>BMP</parameter>
+	</function>
+	<function name="isBmp" module="content">
+	    <variable>BMP/BASE64</variable>
+	</function>
+
+	<!-- CONVERT GIF TO WBMP -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>image/vnd.wap.wbmp</parameter>
+	</function> 
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/images/gif.gif</parameter>
+        </parameter>
+		<parameter>WBMP</parameter>
+	</function>
+	<function name="isWbmp" module="content">
+	    <variable>WBMP/BASE64</variable>
+	</function>
+
+	<function name="stopWebServer" module="HTTP"/>
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function> 
+</test>

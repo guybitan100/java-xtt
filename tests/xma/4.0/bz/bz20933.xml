@@ -1,0 +1,142 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>BZ.20933.TC</name>
+
+<!-- As per comment#13 of BZ23330 'In the case where the message id is shorter than 200 characters, the response should be a fault response (bz22749). Until that is fixed, it return a MessageID in the response, thus the test case will fail as XMA responds error on HTTP. This test case is for message id upto 199 and should pass . Test case where message ID > 200 (bz23469) will be part of Head branch and not xma4.0  -->
+
+ <description>MM7 --> MM1: Test MessageID less than 200 chars</description>
+
+
+	<!-- Load MSISDN -->
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Start SMSC Server and wait until it binds to XMA -->
+    <function name="startSMSCServer" module="SMS"/>
+
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<function name="waitForBind" module="SMS"/>
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=No, ReadReply=No -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <configuration>VASP/VASPID</configuration>
+        <configuration>VASP/VASID</configuration>
+    </function>
+	
+	<function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SenderIdentification']</parameter>
+        <parameter>SenderAddress</parameter>
+    </function>
+    
+	<function name="setSoapData" module="VASP">
+    <parameter>//*[local-name()='SenderAddress']</parameter>
+        <parameter>Number</parameter>
+        <configuration>VASP/NUMBER</configuration>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SenderAddress']</parameter>
+        <parameter>MessageID</parameter>
+        <parameter>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+
+
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>MSISDN/1</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+   <function name="soapToVariable" module="VASP">
+        <parameter>SOAP</parameter>
+    </function>
+    <!--function name="validateXML" module="XML">
+	    <variable>SOAP</variable>
+ 	    <parameter></parameter>
+        <configuration>VASP/XMLNSENV</configuration>
+        <configuration>VASP/SOAPXSD</configuration>
+        <configuration>VASP/XMLNSMM7</configuration>
+        <configuration>VASP/MM7XSD</configuration>
+    </function-->
+
+    <function name="previewRequest" module="VASP"/>
+    
+
+	<function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>500</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;4004&lt;/StatusCode&gt;</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>
+            <parameter>&lt;MM7Version&gt;</parameter><configuration>VASP/MM7VERSION</configuration><parameter>&lt;/MM7Version&gt;</parameter>
+        </parameter>
+    </function>
+    
+	<!-- query RSErrorRsp -->
+	<function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>
+            <parameter>&lt;RSErrorRsp xmlns="</parameter><configuration>VASP/XMLNSMM7</configuration><parameter>"&gt;</parameter>
+        </parameter>
+    </function>
+    
+	<!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standard -->
+    <function name="validateXML" module="XML">
+	    <variable>VASP/BODY/PLAIN</variable>
+ 	    <parameter></parameter>
+        <configuration>VASP/XMLNSENV</configuration>
+        <configuration>VASP/SOAPXSD</configuration>
+        <configuration>VASP/XMLNSMM7</configuration>
+        <configuration>VASP/MM7XSD</configuration>
+    </function>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+	<!-- Stop SMSC Server -->
+    <function name="stopSMSCServer" module="SMS"/>
+
+</test>

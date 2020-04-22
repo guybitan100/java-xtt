@@ -1,0 +1,152 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.023</parameter>
+    </function>
+    <description>Check if "eqqualsip" is working in reqmod rules</description>
+
+    <function name="queryText" module="Basic">
+        <configuration>SYSTEM/IP</configuration>
+        <parameter>IPADDRESS</parameter>
+        <parameter>(\d++)\.(\d++)\.(\d++)\.(\d++)</parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>reqmodRule</parameter>
+        <file>reqmodTC023.rule.xml</file>
+    </function>
+    
+    <function name="setVariable" module="Basic">
+        <parameter>reqmodRule</parameter>
+        <file>reqmodTC023.rule.xml</file>
+    </function>
+
+    <function name="replace" module="Basic">
+        <parameter>reqmodRule</parameter>
+        <parameter>%IPADDRESS1%</parameter>
+        <variable>IPADDRESS/0/1</variable>
+    </function>
+    <function name="replace" module="Basic">
+        <parameter>reqmodRule</parameter>
+        <parameter>%IPADDRESS2%</parameter>
+        <variable>IPADDRESS/0/2</variable>
+    </function>
+    <function name="replace" module="Basic">
+        <parameter>reqmodRule</parameter>
+        <parameter>%IPADDRESS3%</parameter>
+        <variable>IPADDRESS/0/3</variable>
+    </function>
+    <function name="replace" module="Basic">
+        <parameter>reqmodRule</parameter>
+        <parameter>%IPADDRESS4%</parameter>
+        <variable>IPADDRESS/0/4</variable>
+    </function>
+
+    <function name="subtractVariable" module="Basic">
+        <parameter>IPADDRESS1b</parameter>
+        <variable>IPADDRESS/0/1</variable>
+        <parameter>1</parameter>
+    </function>
+    <function name="replace" module="Basic">
+        <parameter>reqmodRule</parameter>
+        <parameter>%IPADDRESS1b%</parameter>
+        <variable>IPADDRESS1b</variable>
+    </function>
+
+    <!-- extract current configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>extract data requestmodifications reqmodTC023.test.xml</parameter>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmodTC023.rule.xml</parameter>
+        <variable>reqmodRule</variable>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data reqmodTC023.rule.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>123456789</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>MatchFullIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Match8BitIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Match16BitIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Match32BitIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>MatchFullMaskIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>MatchPartialMaskIP</parameter>
+        <parameter>true</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>MissFullIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Miss8BitIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Miss16BitIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Miss32BitIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>MissFullMaskIP</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>MissPartialMaskIP</parameter>
+        <parameter>true</parameter>
+    </function>
+
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>123456789</parameter>
+    </function>
+
+    <!-- load the old reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data reqmodTC023.test.xml</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+</test>

@@ -1,0 +1,23 @@
+<test>
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>MEDIA-STORE.</parameter>
+        <parameter>media-store</parameter>
+    </function>
+    <loop name="activeprocess" start="0" stop="media-store/length">
+        <function name="executeRemoteXMSCommand" module="Remote">
+            <parameter>
+                <parameter>run command amocli -k dm TI:F.CEE.</parameter>
+                <variable>
+                    <parameter>media-store/</parameter>
+                    <variable>activeprocess</variable>
+                </variable>
+                <parameter>:AMO</parameter>
+            </parameter>
+        </function>
+        <function name="queryResponse" module="Remote">
+            <parameter>amocli: \d++ items deleted</parameter>
+            <parameter>response</parameter>
+        </function>
+    </loop>
+
+</test>

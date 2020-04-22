@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflowConstants>
+
+<!-- $Id: mmsx_WorkflowConstants_Russian.xml,v 1.1 2010/08/10 08:05:07 mbhopale Exp $ -->
+
+<!-- This is the example workflow constants file for MMSX. -->
+
+<!--
+By default, MMSX transcodes messages before they are archived. Set this to "false" if you do not want MMSX to transcode messages before they are archived.  -->
+<workflowConstant name="archiveTranscodingRequired">true</workflowConstant>
+
+<!--
+For conditional auto responder and forwarding, MMSX checks whether the subscriber is online. It sets a timer when the Advanced proxy tries to deliver the message to its local MMSC. The timer fires after the specified time has elapsed.
+
+MMSX is notified by the Advanced proxy when the subscriber retrieves that message. If MMSX does not get this notification before the timer fires, then MMSX decides that the subscriber is offline. -->
+<workflowConstant name="conditionalTimerMins">60</workflowConstant>
+
+<!--
+Controls the number of times that MM1-OUT processes will try to deliver a delivery or read-reply report.
+If the first attempt to deliver the report fails, the item is put back into the store, and an MM1-OUT process will get it and try to deliver it again after the time specified by the mm1OutRetryIntervalSecs workflow constant has elapsed.
+mm1OutNumberOfRetries specifies the number of retries. -->
+<workflowConstant name="mm1OutNumberOfRetries">1</workflowConstant>
+<workflowConstant name="mm1OutRetryIntervalSecs">10</workflowConstant>
+
+<!--
+Controls the number of times that MM4-OUT processes will try to deliver an item in the message store.
+
+If the first attempt to deliver the message fails, for example because the MM4 hub is down, the message is put back into the store, and an MM4-OUT process will get it and try to deliver it again after the time specified by the mm4OutRetryIntervalSecs workflow constant has elapsed.
+
+mm4OutNumberOfRetries specifies the number of retries. If the attempt to deliver the item fails after all of these retries, the item is deleted from the store. -->
+<workflowConstant name="mm4OutNumberOfRetries">1</workflowConstant>
+<workflowConstant name="mm4OutRetryIntervalSecs">10</workflowConstant>
+
+<!--
+The value that MMSX puts in the VASP ID header of outgoing MM7 requests. -->
+<workflowConstant name="mm7VaspId">mmsx</workflowConstant>
+
+<!--
+The value that MMSX puts in the VAS ID header of outgoing MM7 requests. -->
+<workflowConstant name="mm7VasId">mmsx</workflowConstant>
+
+<!--
+Controls what happens when a subscriber sends an MMS message to multiple target recipients and MMSX delivers the message itself via MM7.
+
+If the number if target recipients is less that this value, then MMSX sends a single MM7 submission to the local MMSC. Otherwise MMSX sends multiple MM7 submissions where each submission has no more than the specified number of target recipients.
+
+You must not set this to a larger value than is supported by the local MMSC. -->
+<workflowConstant name="mm7VaspOutClumpSize">20</workflowConstant>
+
+<!--
+Controls how long MMSX waits for incoming delivery reports to arrive when it uses MM7 to deliver an MMS message. After this time elapses, MMSX deletes the message from the message store. -->
+<workflowConstant name="mm7VaspOutMaxWaitForDrMins">1440</workflowConstant>
+
+<!--
+Controls how long MMSX waits for incoming read-reply reports when it uses MM7 to deliver an MMS message.
+After this time elapses, MMSX deletes the message from the message store.  -->
+<workflowConstant name="mm7VaspOutMaxWaitForRrMins">14400</workflowConstant>
+
+<!--
+Controls the number of times that MM7-VASP-OUT processes will try to deliver an item in the message store.
+
+If the first attempt to deliver the message fails, for example because the MMSC is down, the message is put back into the store, and an MM7-VASP-OUT process will get it and try to deliver it again after the time specified by the mm7VaspOutRetryIntervalSecs workflow constant has elapsed.
+
+mm7VaspOutNumberOfRetries specifies the number of retries. If the attempt to deliver the item fails after all of these retries, the item is deleted from the store. -->
+<workflowConstant name="mm7VaspOutNumberOfRetries">1</workflowConstant>
+<workflowConstant name="mm7VaspOutRetryIntervalSecs">10</workflowConstant>
+
+<!--
+The username and password that MM7-VASP-OUT processes use in the HTTP Auth header that is used for authentication. -->
+<workflowConstant name="mm7VaspOutUsername">myname</workflowConstant>
+<workflowConstant name="mm7VaspOutPassword">mypassword</workflowConstant>
+
+<!--
+Controls the number of times that PUSH-SMS-OUT processes will try to deliver an item in the message store.
+
+If the first attempt to deliver the WAP push message fails, for example because the SMSC is down, the message is put back into the store, and a PUSH-SMS-OUT process will get it and try to deliver it again after the time specified by the pushSmsOutRetryIntervalSecs workflow constant has elapsed.
+
+pushSmsOutNumberOfRetries specifies the number of retries. If the attempt to deliver the item fails after all of these retries, the item is deleted from the store. -->
+<workflowConstant name="pushSmsOutNumberOfRetries">1</workflowConstant>
+<workflowConstant name="pushSmsOutRetryIntervalSecs">10</workflowConstant>
+
+<!--
+Specifies the character set that MMSX uses in outgoing SMS messages.
+The value can be "hex/UCS-2" or "text". -->
+<workflowConstant name="smsOutCharacterSet">hex/UCS-2</workflowConstant>
+
+<!--
+Controls the number of times that SMS-OUT processes will try to deliver an item in the message store.
+
+If the first attempt to deliver the message fails, the message is put back into the store, and an SMS-OUT process will get it and try to deliver it again after the time specified by the smsOutRetryIntervalSecs workflow constant has elapsed.
+
+smsOutNumberOfRetries specifies the number of retries. If the attempt to deliver the item fails after all of these retries, the item is deleted from the store. -->
+<workflowConstant name="smsOutNumberOfRetries">1</workflowConstant>
+<workflowConstant name="smsOutRetryIntervalSecs">10</workflowConstant>
+
+<!--
+This is the path part of the URL to which HTTP SOAP requests that provision subscribers must be sent. -->
+<workflowConstant name="subscriberProvisioningUrlPath">ProvisionSubscriber</workflowConstant>
+
+</workflowConstants>

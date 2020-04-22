@@ -1,0 +1,113 @@
+<test>
+    <name>CompatibilityOfP1UseCases.TC.011b</name>
+    <description>Validate "White/Black Lists" Feature in combination with "Unconditional Forwarding", "Secret MMS" Features
+Test Category: Should
+Test Steps:
+---------------------------------------------------------------
+Scenario2:
+
+1. Sender enabled "Secret MMS" and recipient enabled "Unconditional Forwarding" feature through through Web Portal.
+2. Recipient has a Black List and Sender is in the Black List.
+3. Sender send MM1 request to MMS Proxy.
+4. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request 
+5. MMS Extra after validating the sender (in Black List) blocks MM for the recipients
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  3. SMSC
+	  4. Diameter
+	  5. Remote
+	  6. Basic
+	  7. MMSC
+   	  TODO:-->	
+</description>
+	
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest> 
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Start MMSC Server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>988655</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/COMP/RECIPIENT/MSISDN2</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set subject with Secret message symbol # -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>#This is Secret with Black list</parameter>
+	</function>
+
+	<!-- Send Metadeta Request -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response back X-Proxy-Subscriber-MSISDN application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+<!-- Validate the  response from MMSX as "Error-service-denied" -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-code</parameter>
+		<parameter>Error-service-denied</parameter>
+	</function>
+
+<!-- Validate the  response from MMSX as "Recipient is not configured for sender of secret message" -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-text</parameter>
+		<parameter>Recipient is not configured for sender of secret message</parameter>
+	</function>
+
+<!-- Will get response as New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "discard" --> 
+		<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+	
+	<!-- Stop SMSC/MMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

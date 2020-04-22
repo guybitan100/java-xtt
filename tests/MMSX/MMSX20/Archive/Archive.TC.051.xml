@@ -1,0 +1,247 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>Archive.TC.051</parameter>
+	</function>
+
+	<description>Validate MMS message retry / Via insecure HTTP-IN Application send MM1 Message with "text/plain" Content-Type (1 Kbyte), Application tries to sends message to MMSC via MM7-OUT and MMSC is down / message should retry for a configurable number and amount of time</description>
+
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MM7-VASP-OUT</parameter>
+		<parameter>MM7-VASP-OUT</parameter>
+	</function>
+
+	<!-- Restart process to get latest process log -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>restart process </parameter>
+			<variable>MM7-VASP-OUT/0</variable>
+		</parameter>
+	</function>
+
+	<!--  Back up of default workflow constant file -->
+ 	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract data </parameter>
+			<parameter>workflowconstants default_workflowconstants.xml</parameter>
+		</parameter>
+	</function>
+
+	<!--  Read the workflow constants in a variable from the Backed Up workflow constant file -->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_workflowconstants.xml</parameter>
+		<parameter>test_workflowconstants</parameter>
+	</function>
+
+	<!--  Replace the Value of the constant "mm7VaspOutNumberOfRetries" in the variable specific to the test -->
+	<function name="replace" module="Basic">
+		<parameter>test_workflowconstants</parameter>
+		<parameter>&lt;workflowConstant name="mm7VaspOutNumberOfRetries"&gt;(\d++)&lt;/workflowConstant&gt;</parameter>
+		<parameter>&lt;workflowConstant name="mm7VaspOutNumberOfRetries"&gt;2&lt;/workflowConstant&gt;</parameter>
+	</function>
+
+	<!-- Write a remote file with the chaged values in the variable -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>loadworkflowconstants.xml</parameter>
+		<variable>test_workflowconstants</variable>
+	</function>
+
+	<!-- Load the updated workflow file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data loadworkflowconstants.xml</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded workflowconstants</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Start MMSC server --> <!-- For retry test no need to start MMSC server. -->
+	<!-- <function name="startMMSCServer" module="MMSC"/> -->
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>enable trac -v WPE MM7-VASP-OUT.*</parameter>
+	</function>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<!-- Set To field as recipient mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/ARCHIVE/RECIPIENT/MSISDN2</configuration>
+	</function>
+
+	<!-- Set X-Proxy-Subscriber-MSISDN field as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/ARCHIVE/SENDER/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<!-- Set Subject for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a test Message</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- Sleep to complete all 2 retries as specified in workflow constants file -->
+	<function name="sleep" module="Basic">
+		<parameter>25000</parameter>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>
+			<parameter>/bin/grep cfgMm7VaspOutNumberOfRetries </parameter>
+			<configuration>remote/procpath</configuration>
+			<parameter>/</parameter>
+			<variable>MM7-VASP-OUT/0</variable>
+			<parameter>/</parameter>
+			<variable>MM7-VASP-OUT/0</variable>
+			<parameter>.out</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check MMSX Application total number of retries -->
+	<function name="queryResponse" module="Remote">
+		<parameter> cfgMm7VaspOutNumberOfRetries = 2</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- After first retry, value should become as 1 -->
+	<function name="queryResponse" module="Remote">
+		<parameter> cfgMm7VaspOutNumberOfRetries = 1</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- At final, value should be 0 -->
+	<function name="queryResponse" module="Remote">
+		<parameter> cfgMm7VaspOutNumberOfRetries = 0</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>
+			<parameter>/bin/grep cfgMm7VaspOutRetryIntervalSecs </parameter>
+			<configuration>remote/procpath</configuration>
+			<parameter>/</parameter>
+			<variable>MM7-VASP-OUT/0</variable>
+			<parameter>/</parameter>
+			<variable>MM7-VASP-OUT/0</variable>
+			<parameter>.out</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check MMSX Application RetryIntervalSecs, it should be 10 as per default workflow file -->
+	<function name="queryResponse" module="Remote">
+		<parameter> cfgMm7VaspOutRetryIntervalSecs = 10</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Load the default workflow to undo the workflow constants changes done specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data default_workflowconstants.xml</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded workflowconstants</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>disable trac -v </parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<!-- <function name="stopMMSCServer" module="MMSC"/> -->
+
+</test>

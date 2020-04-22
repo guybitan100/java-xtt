@@ -1,0 +1,60 @@
+<test>
+
+    <!-- this is for supporting new VASP configuration files with mm7 or tpi tag -->
+    <function name="setVariable" module="Basic">
+        <parameter>protocolOpen</parameter>
+        <parameter>&lt;mm7&gt;</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>protocolClose</parameter>
+        <parameter>&lt;/mm7&gt;</parameter>
+    </function>
+
+    <!-- this is for supporting old VASP configuration files with NO mm7 or tpi tag add VASP/NOPROTOCOLTAG to configuration -->
+    <conditional configuration="VASP/NOPROTOCOLTAG" targetValue="">
+        <function name="setVariable" module="Basic">
+            <parameter>protocolOpen</parameter>
+            <parameter></parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>protocolClose</parameter>
+            <parameter></parameter>
+        </function>
+    </conditional>
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile vasp.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd"&gt;</parameter>
+    <variable>protocolOpen</variable>
+    <parameter>
+    &lt;vasp id="</parameter>
+    <configuration>VASP/VASPID</configuration>
+    <parameter>" address="</parameter>
+    <configuration>VASP/NUMBER</configuration>
+    <parameter>" mm7Url="http://</parameter>
+    <configuration>SYSTEM/IP</configuration>
+    <parameter>:</parameter>
+    <configuration>VASP/PORT</configuration>
+    <parameter>/</parameter>
+    <configuration>VASP/DIRECTORY</configuration>
+    <parameter>"/&gt;</parameter>
+    <variable>protocolClose</variable>
+    <parameter>
+&lt;/vasps&gt;</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/vasp</configuration>
+        <parameter>vasp.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+</test>

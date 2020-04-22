@@ -1,0 +1,16 @@
+<test>
+    <name>LOAD.XPDL</name>
+    <description>Load the XPDL file for XMA with Database for the integration tests</description>    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load data </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>examples/xma-db.xpdl</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+</test>

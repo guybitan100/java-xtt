@@ -1,0 +1,132 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.011d</parameter>
+    </function>
+    <description>MM7 Client submits 1 MM but the MMs expiry date is beyond the longest time XMA is configured to keep the message</description>
+
+    <function name="setVariable" module="basic">
+        <parameter>xma-max-expiry</parameter>
+        <parameter>259141</parameter>
+    </function>
+    <function name="subtractVariable" module="basic">
+        <parameter>xma-max-expiry-1</parameter>
+        <variable>xma-max-expiry</variable>
+        <parameter>3</parameter>
+    </function>
+
+    <subtest name="deleteMessagestoreAll" file="../deleteMessagestoreAll.xml"/>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+    <function name="waitForBind" module="SMS"/>
+    <thread>
+        <function name="sleep" module="basic">
+            <parameter>1000</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <variable>MSISDN/0</variable>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ExpiryDate</parameter>
+            <parameter>9038-01-18T00:00:00Z</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM7data.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_expiry</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/0</variable>
+            <parameter>/MMS/x_mms_expiry</parameter>
+        </parameter>
+    </function>
+    <function name="greaterThan" module="basic">
+        <variablepointer>x_mms_expiry</variablepointer>
+        <variable>xma-max-expiry-1</variable>
+    </function>
+    <function name="lessThan" module="basic">
+        <variablepointer>x_mms_expiry</variablepointer>
+        <variable>xma-max-expiry</variable>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+        <variable>MSISDN/0</variable>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>url</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/0</variable>
+            <parameter>/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>url</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+
+</test>

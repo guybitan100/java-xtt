@@ -1,0 +1,17 @@
+<test>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>retryPolicy.xml</parameter>
+        <file>retryPolicy.xml</file>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data retryPolicy.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+</test>

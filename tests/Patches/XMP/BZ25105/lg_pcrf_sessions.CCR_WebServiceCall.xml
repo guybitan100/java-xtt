@@ -1,0 +1,16 @@
+<session-profiles>
+  <profile name="profile-1">
+	<avps Metering-Method="VOLUME"/>
+	<cc-request type="UPDATE_REQUEST">
+	  <avps Event-Trigger="OUT_OF_CREDIT"/>
+	</cc-request>
+	<delay waitSecs="0"/>
+<soap-request />
+	<cc-request type="UPDATE_REQUEST"/>
+	<cc-request type="UPDATE_REQUEST"/>
+  </profile>
+  <profile name="profile-2">
+	<cc-request type="UPDATE_REQUEST"/>
+	<cc-request type="UPDATE_REQUEST"/>
+  </profile>
+</session-profiles>

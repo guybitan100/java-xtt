@@ -1,0 +1,188 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.HTTP.T0002.Sub0003  - Verify Session-Cookie update.
+
+Test Description:
+ 1. Radius Logon
+ 2. Set a Session-Cookie
+ 3. Check if Session-Cookie is injected
+ 4. Update Session-Cookie
+ 5. Check if updated Session-Cookie is injected
+ 6. Radius Logoff
+
+Expected Result:
+ -  Updated Session-Cookie is stored in xmg-gwy and injected.
+
+XTT Commands:
+      startWebServer
+ 1. - Radius log-ON
+ 2.   - setServerHeader 	"HTTP" "set-cookie=S1-Session-Cookie-1=Cookie-Value-S1; Path=/"
+      - sendGetRequest 		"HTTP" "http://xttWebServer:8989/tests/cookies/CookieTest_1.html"
+      - checkResponseCode	"HTTP" "200"
+      - checkHeader		"HTTP" "set-cookie=null"
+
+ 3.   - clear Header & ServerHeader
+      - sendGetRequest 		"HTTP" "http://xttWebServer:8989/tests/cookies/CookieTest_2.html"
+      - checkResponseCode	"HTTP" "200"
+      - checkServerHeader	"HTTP" "cookie=$Version=0; S1-Session-Cookie-1=Cookie-Value-S1; $Path=/;"
+      - checkServerHeader	"HTTP" "cookie2=$Version=1;"
+
+ 4.   - clear Header & ServerHeader
+      - setServerHeader 	"HTTP" "set-cookie=S1-Session-Cookie-1=Cookie-Updated-Value-S1; Path=/"
+      - sendGetRequest 		"HTTP" "http://xttWebServer:8989/tests/cookies/CookieTest_3.html"
+      - checkResponseCode	"HTTP" "200"
+      - checkHeader		"HTTP" "set-cookie=null"
+
+ 5.   - clear Header & ServerHeader
+      - sendGetRequest 		"HTTP" "http://xttWebServer:8989/tests/cookies/CookieTest_4.html"
+      - checkResponseCode	"HTTP" "200"
+      - checkServerHeader	"HTTP" "cookie=$Version=0; S1-Session-Cookie-1=Cookie-Updated-Value-S1; $Path=/;"
+      - checkServerHeader	"HTTP" "cookie2=$Version=1;"
+ 6. - Radius log-OFF
+      stopWebServer
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<!-- start test -->
+<test>
+    <configuration>Cookies_Test0000_Sub0000.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>COOKIES.HTTP.T0002.Sub0003</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+
+<!-- // Set a Session-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>S1-Session-Cookie-1=Cookie-Value-S1; Path=/</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+<!-- // Check if Session-Cookie is injected -->
+    <function name="clearHeader" module="HTTP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL2</configuration>
+        </parameter>
+    </function>
+
+     <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+     <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>$Version=0; S1-Session-Cookie-1=Cookie-Value-S1; $Path="/";</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+
+<!-- // Update Session-Cookie -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearHeader" module="HTTP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>S1-Session-Cookie-1=Cookie-Updated-Value-S1; Path=/</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL3</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+<!-- // Check if updated Session-Cookie is injected -->
+     <function name="clearHeader" module="HTTP"> </function>
+     <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL4</configuration>
+        </parameter>
+    </function>
+
+     <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+     <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>$Version=0; S1-Session-Cookie-1=Cookie-Updated-Value-S1; $Path="/";</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+  <function name="stopWebServer" module="HTTP"/>
+
+</test>
+

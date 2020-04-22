@@ -1,0 +1,7 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.TPI.TC.006</parameter>
+    </function>
+
+    <description>Not a real test anymore.</description>  
+</test>

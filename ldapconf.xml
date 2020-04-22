@@ -1,0 +1,45 @@
+<LDAP>
+    <logins>
+        <login>
+            <name>cn=Manager,o=wap_ext</name>
+            <password>secret</password>
+        </login>
+        <login>
+            <name>null</name>
+            <password>null</password>
+        </login>
+    </logins>
+    <directory>
+        <entry>
+         <baseDN>cn=sis,o=wap_ext</baseDN>
+            <data>
+                <filter>login-ip=10.11.2.3</filter>
+                <dn>login-ip=10.11.2.3,cn=sis,o=wap_ext</dn>
+     <!--> only if the xmp send 2 attribute as req (attrName,value) <-->           
+     <multiAttr>
+                <attribute>
+                    <name>attrName</name>
+                    <type>0x04</type>
+                    <value>Msisdn</value>
+                </attribute>
+                 <attribute>
+                    <name>value</name>
+                    <type>0x04</type>
+                    <value>12345</value>
+                </attribute>
+                <attribute>
+                    <name>attrName</name>
+                    <type>0x04</type>
+                    <value>Age</value>
+                </attribute>
+                 <attribute>
+                    <name>value</name>
+                    <type>0x04</type>
+                    <value>678910</value>
+                </attribute>
+     </multiAttr>                      
+               <oid>2.16.840.1.113730.3.4.2</oid>
+            </data>
+        </entry>
+    </directory>
+</LDAP>

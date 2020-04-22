@@ -1,0 +1,122 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>IntegrationTest.TC.000</parameter>
+	</function>
+
+	<description>Setting Security SSL fetaure for XMA4.1.4</description>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>REMOTE/COMMAND</configuration>
+			<parameter>pwcrypt -f </parameter>
+			<configuration>productlicense</configuration>
+			<parameter> demo1234</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>.*</parameter>
+		<parameter>PASSWORD</parameter>
+	</function>
+
+	<!-- load required certificates for XMA4.1.4-->
+	<function name="writeRemoteBinaryFile" module="Remote">
+		<parameter>xttroot.der</parameter>
+		<base64file>xttroot.der</base64file>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<parameter>xttroot.der</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded '/certificates/xttroot.der' from 'xttroot.der'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<configuration>remote/path</configuration>
+			<parameter>key/demo_inet_server_certificate.der</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<configuration>remote/path</configuration>
+			<parameter>key/demo_inet_server_private_key.der</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<configuration>remote/path</configuration>
+			<parameter>key/demo_inet_server_ca_certificate.der</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Creating Seurity file -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>xma_Security.xml</parameter>
+		<parameter>
+		<parameter>&lt;xmaSecurity&gt;
+		&lt;managementGuis allowWeakEncryption="true" &gt;
+			&lt;serverCertificate privateKeyFile="demo_inet_server_private_key.der"
+				privateKeyPassword="</parameter><variable>PASSWORD</variable><parameter>"&gt;
+				&lt;certificateChain&gt;
+				&lt;certificate name="demo_inet_server_certificate.der"/&gt;
+				&lt;certificate name="demo_inet_server_ca_certificate.der"/&gt;
+				&lt;/certificateChain&gt;
+			&lt;/serverCertificate&gt;
+		&lt;/managementGuis&gt;
+		&lt;mm7 allowWeakEncryption="true" &gt;
+			&lt;serverCertificate privateKeyFile="demo_inet_server_private_key.der"
+				privateKeyPassword="</parameter><variable>PASSWORD</variable><parameter>" &gt;
+				&lt;certificateChain&gt;
+				&lt;certificate name="demo_inet_server_certificate.der"/&gt;
+				&lt;certificate name="demo_inet_server_ca_certificate.der"/&gt;
+				&lt;/certificateChain&gt;
+			&lt;/serverCertificate&gt;
+		&lt;/mm7&gt;
+		&lt;trustedAuthorities&gt;
+				&lt;certificate name="demo_inet_server_ca_certificate.der"/&gt;
+				&lt;certificate name="xttroot.der"/&gt;
+		&lt;/trustedAuthorities&gt;
+		&lt;/xmaSecurity&gt;</parameter>
+		</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data xma_Security.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded xmasecurity</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+</test>

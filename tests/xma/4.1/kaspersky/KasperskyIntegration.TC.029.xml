@@ -1,0 +1,178 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>KasperskyIntegration.TC.029</name>
+    <description>MM7 -> MM1 / Virus Check is disabled / Submitted MMS contains virus / XMA accepts the submitted MMS and goes on the use case</description>
+
+	<!-- Load MSISDN -->
+    <subtest name="loadVariables" file="loadVariablesmm1.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Start SMSC Server and wait until it binds to XMA -->
+    <function name="startSMSCServer" module="SMS"/>
+
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<function name="waitForBind" module="SMS"/>
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=No, ReadReply=No -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <configuration>VASP/VASPID</configuration>
+        <configuration>VASP/VASID</configuration>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>MSISDN/1</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>virusMM7data.txt</file>
+    </function>
+   <function name="soapToVariable" module="VASP">
+        <parameter>SOAP</parameter>
+    </function>
+    <function name="validateXML" module="XML">
+	    <variable>SOAP</variable>
+ 	    <parameter></parameter>
+        <configuration>VASP/XMLNSENV</configuration>
+        <configuration>VASP/SOAPXSD</configuration>
+        <configuration>VASP/XMLNSMM7</configuration>
+        <configuration>VASP/MM7XSD</configuration>
+    </function>
+
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>
+            <parameter>&lt;MM7Version&gt;</parameter><configuration>VASP/MM7VERSION</configuration><parameter>&lt;/MM7Version&gt;</parameter>
+        </parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>
+            <parameter>&lt;SubmitRsp xmlns="</parameter><configuration>VASP/XMLNSMM7</configuration><parameter>"&gt;</parameter>
+        </parameter>
+    </function>
+    <!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standard -->
+    <function name="validateXML" module="XML">
+	    <variable>VASP/BODY/PLAIN</variable>
+ 	    <parameter></parameter>
+        <configuration>VASP/XMLNSENV</configuration>
+        <configuration>VASP/SOAPXSD</configuration>
+        <configuration>VASP/XMLNSMM7</configuration>
+        <configuration>VASP/MM7XSD</configuration>
+    </function>
+
+	<!-- XMA sends M-Notification.ind to the Target MMS Client -->
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/1</variable>
+            <parameter>/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/1</variable>
+            <parameter>/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+
+	<!-- Target MMS Client sends M-NotifyResp.ind to XMA -->
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>deferred</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <variable>MSISDN/1</variable>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+	<!-- Target MMS Client sends WSP/HTTP GET to XMA -->
+    <function name="sendGetRequest" module="SMS">
+        <variable>MSISDN/1</variable>
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>log/messageid</parameter>
+        <variable>
+            <parameter>SMS/</parameter>
+            <variable>MSISDN/1</variable>
+            <parameter>/MMS/message_id</parameter>
+            </variable>
+    </function>
+
+    <!-- Target MMS Client sends M-Acknowledge.ind to XMA -->
+    <function name="sendMM1AcknowledgeIndicator" module="SMS">
+        <parameter>yes</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <variable>MSISDN/1</variable>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+	<!-- Stop SMSC Server -->
+    <function name="stopSMSCServer" module="SMS"/>
+
+</test>

@@ -1,0 +1,144 @@
+
+<test>
+   <!-- <configuration>Cookies_Test0000_Sub0000.xml</configuration>-->
+
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.8091</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="setCacheFile" module="HTTP">
+        <parameter>/Test0/index.html</parameter>
+        <xml><html>
+    <body>
+        TEST
+    </body>
+</html></xml>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>0791234567</parameter>
+    </function>
+
+
+<!-- // Set a Persistent-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; Expires=Tue, 19-Oct-2014 14:16:06 GMT; Path=/Test0</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/Test0/index.html</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+<!-- // Check if Persistent-Cookie is injected -->
+    <function name="clearHeader" module="HTTP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/Test0/index.html</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>$Version=0; P1-Pers-Cookie-10-Min=Cookie-Value-P1; $Path="/Test0";</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+
+<!-- // Remove Persistent-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>P1-Pers-Cookie-10-Min=null; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/Test0</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/Test0/index.html</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+  <!-- // Check if Persistent-Cookie is NOT injected -->
+    <function name="clearHeader" module="HTTP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/Test0/index.html</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>0791234567</parameter>
+    </function>
+
+  <function name="stopWebServer" module="HTTP"/>
+
+</test>
+

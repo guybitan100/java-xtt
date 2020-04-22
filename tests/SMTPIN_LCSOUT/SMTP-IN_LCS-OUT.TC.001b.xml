@@ -1,0 +1,52 @@
+<test>
+	<name>SMTP-IN_LCS-OUT.TC.001b</name>
+	<description>SMTP-IN -> LCS-OUT Scenario Triggered by Policy based Routing Rules Stored Locally in the Solution [Initial State of LCS user is online] - 5 Messages</description>
+	
+	<!-- 5 Messages -->
+	<loop name="processLoop" start="1" stop="6" step="1">		
+		<!-- Create SMTP-IN Message -->
+		<function name="createDateString" module="Basic">
+			<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+			<parameter>date</parameter>
+		</function>
+		<function name="setVariableLines" module="Basic">
+			<parameter>2</parameter>
+			<parameter>headers</parameter>
+			<parameter>To:</parameter>
+			<parameter>erkan.sutculer@gmail.com</parameter>
+			<parameter>From:</parameter>
+			<parameter>from@sender.com</parameter>
+			<parameter>Subject:</parameter>
+			<parameter>Calvin Klein</parameter>
+			<parameter>Date:</parameter>
+			<variable>date</variable>
+			<parameter>Content-Type:</parameter>
+			<parameter>text/plain</parameter>
+		</function>
+		
+		<!-- Send SMTP-IN Message -->
+		<function name="setDATA" module="SMTP">
+			<variable>headers</variable>
+			<parameter>
+				<parameter>This is a single line message</parameter>
+				<variable>processLoop</variable>
+				<parameter>.</parameter>
+			</parameter>
+		</function>
+		<function name="connectMailServer" module="SMTP">
+			<configuration>XMA/MM4Ip</configuration>
+			<configuration>XMA/MM4Port</configuration>
+		</function>
+		<function name="sendHELO" module="SMTP">
+			<parameter>xtttestmachine</parameter>
+		</function>
+		<function name="sendMAILFROM" module="SMTP">
+			<parameter>from@sender.com</parameter>
+		</function>
+		<function name="sendRCPTTO" module="SMTP">
+			<parameter>erkan.sutculer@gmail.com</parameter>
+		</function>
+		<function name="sendDATA" module="SMTP"/>
+		<function name="disconnectMailServer" module="SMTP"/>
+	</loop>
+</test>

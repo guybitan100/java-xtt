@@ -1,0 +1,19 @@
+<appConfig>
+
+<!-- This is the example appconfig file for MMSX. -->
+
+
+<!-- 
+This is a list of nicknames that are banned. The portal does not allow subscribers to select any of these nicknames. -->
+<parameter name="bannedNicknames">
+    <value>bannedNickName1</value>
+    <value>bannedNickName2</value>
+    <value>bannedNickName3</value>
+    <value>bannedNickName4</value>
+    <value>bannedNickName5</value>
+    <value>bannedNickName6</value>
+</parameter>
+
+
+</appConfig>
+

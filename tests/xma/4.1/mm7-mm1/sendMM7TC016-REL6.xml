@@ -1,0 +1,490 @@
+<test>
+    <function name="waitForBind" module="SMS"/>
+        <function name="createMM7Soap" module="VASP"/>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>MM7Version</parameter>
+            <configuration>VASP/MM7Version</configuration>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To']</parameter>
+            <parameter>Number</parameter>
+            <variable>MSISDN/0</variable>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Number']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Number']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID01</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To']</parameter>
+            <parameter>RFC2822Address</parameter>
+            <parameter>RFC2822-1</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='RFC2822Address']</parameter>
+            <parameter>displayOnly</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='RFC2822Address']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='RFC2822Address']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID02</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To']</parameter>
+            <parameter>ShortCode</parameter>
+            <parameter>ShortCode-1</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='ShortCode']</parameter>
+            <parameter>displayOnly</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='ShortCode']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='ShortCode']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID03</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>Cc</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Cc']</parameter>
+            <parameter>Number</parameter>
+            <variable>MSISDN/1</variable>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Cc']/*[local-name()='Number']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Cc']/*[local-name()='Number']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID04</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Cc']</parameter>
+            <parameter>RFC2822Address</parameter>
+            <parameter>RFC2822-2</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Cc']/*[local-name()='RFC2822Address']</parameter>
+            <parameter>displayOnly</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Cc']/*[local-name()='RFC2822Address']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Cc']/*[local-name()='RFC2822Address']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID05</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Cc']</parameter>
+            <parameter>ShortCode</parameter>
+            <parameter>ShortCode-2</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Cc']/*[local-name()='ShortCode']</parameter>
+            <parameter>displayOnly</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Cc']/*[local-name()='ShortCode']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Cc']/*[local-name()='ShortCode']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID06</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>Bcc</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Bcc']</parameter>
+            <parameter>Number</parameter>
+            <variable>MSISDN/2</variable>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Bcc']/*[local-name()='Number']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Bcc']/*[local-name()='Number']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID07</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Bcc']</parameter>
+            <parameter>RFC2822Address</parameter>
+            <parameter>RFC2822-3</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Bcc']/*[local-name()='RFC2822Address']</parameter>
+            <parameter>displayOnly</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Bcc']/*[local-name()='RFC2822Address']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Bcc']/*[local-name()='RFC2822Address']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID08</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Bcc']</parameter>
+            <parameter>ShortCode</parameter>
+            <parameter>ShortCode-3</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Bcc']/*[local-name()='ShortCode']</parameter>
+            <parameter>displayOnly</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Bcc']/*[local-name()='ShortCode']</parameter>
+            <parameter>addressCoding</parameter>
+            <parameter>encrypted</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Bcc']/*[local-name()='ShortCode']</parameter>
+            <parameter>id</parameter>
+            <parameter>ID09</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ServiceCode</parameter>
+            <parameter>ServiceCode</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>LinkedID</parameter>
+            <parameter>Personal</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>MessageClass</parameter>
+            <parameter>Informational</parameter>
+        </function>
+        <function name="getRemoteSystemTime" module="Remote">
+            <parameter>datetime</parameter>
+        </function>
+        <function name="createDateStringFromEpoch" module="VASP">
+            <parameter>TimeStamp</parameter>
+            <variable>datetime</variable>
+            <parameter>-120</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>TimeStamp</parameter>
+            <variable>TimeStamp</variable>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReplyCharging</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='ReplyCharging']</parameter>
+            <parameter>replyChargingSize</parameter>
+            <parameter>2</parameter>
+        </function>
+        <function name="createDateString" module="VASP">
+            <parameter>replyDeadline</parameter>
+            <parameter>3600</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='ReplyCharging']</parameter>
+            <parameter>replyDeadline</parameter>
+            <variable>replyDeadline</variable>
+        </function>
+        <function name="createDateStringFromEpoch" module="VASP">
+            <parameter>EarliestDeliveryTime</parameter>
+            <variable>datetime</variable>
+            <parameter>-120</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>EarliestDeliveryTime</parameter>
+            <variable>EarliestDeliveryTime</variable>
+        </function>
+        <function name="createDateString" module="VASP">
+            <parameter>ExpiryDate</parameter>
+            <parameter>86400</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ExpiryDate</parameter>
+            <variable>ExpiryDate</variable>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Priority</parameter>
+            <parameter>Low</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Subject</parameter>
+            <parameter>Attachments you wanted...</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ChargedParty</parameter>
+            <parameter>Sender</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ChargedPartyID</parameter>
+            <parameter>Sender-Id</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DistributionIndicator</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>allowAdaptations</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM7data.txt</file>
+        </function>
+    <function name="soapToVariable" module="VASP">
+        <parameter>SOAPTEST</parameter>
+    </function>
+    <!--
+    <function name="Info" module="basic">
+        <configuration>VASP/XMLNSMM7</configuration>
+        <parameter>
+</parameter>
+        <configuration>VASP/MM7XSD</configuration>
+        <parameter>
+</parameter>
+	    <variable>SOAPTEST</variable>
+    </function>
+    -->
+	<function name="validateXML" module="XML">
+	    <variable>SOAPTEST</variable>
+ 	    <parameter></parameter>
+        <parameter>http://schemas.xmlsoap.org/soap/envelope/</parameter>
+        <parameter>soapEnvelope.xsd</parameter>
+        <configuration>VASP/XMLNSMM7</configuration>
+        <configuration>VASP/MM7XSD</configuration>
+    </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>9</parameter>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/0</variable>
+            <parameter>/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/1</variable>
+            <parameter>/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/2</variable>
+            <parameter>/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/RFC2822-1/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/RFC2822-2/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/RFC2822-3/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/ShortCode-1/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/ShortCode-2/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_message_type</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/ShortCode-3/MMS/x_mms_message_type</parameter>
+        </parameter>
+    </function>
+    <function name="compareString" module="basic">
+        <parameter>m_notification_ind</parameter>
+        <variablepointer>x_mms_message_type</variablepointer>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+        <variable>MSISDN/0</variable>
+    </function>
+
+
+
+</test>

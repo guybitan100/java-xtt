@@ -1,0 +1,145 @@
+<test>
+	<name>MMSAutoResp.TC.037</name>
+    <description> Validate SMS Notification retry while deactivating the service/ SMSC is down/ message getting retried for a configurable number and amount of time </description>
+
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceAutoResponder subscriberId=12001  serviceEnabled=true serviceConditional=false defaultEnabled=true alreadySent=
+        </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>extract data </parameter>
+            <parameter>appconfig default_appconfig.xml</parameter>
+        </parameter>
+    </function>
+
+    <!--  Read the appconfig in a variable-->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_appconfig.xml</parameter>
+		<parameter>default_appconfig</parameter>
+	</function>
+
+    <function name="createDocument" module="XML">
+		<parameter>appconfigxmldocument</parameter>
+		<variable>default_appconfig</variable>
+	</function>
+    
+    <!--fetch serviceSmsShortcode from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='serviceSmsShortcode']/value</parameter>
+		<parameter>serviceSmsShortcode</parameter>
+	</function>
+
+    <div comment="serviceSmsShortcode is">
+        <function name="info" module="Basic">
+		    <variable>serviceSmsShortcode</variable>
+	    </function>
+    </div>
+
+    <!--fetch nicknameSmsMessagePrefix from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='oooSmsMessagePrefix']/value</parameter>
+		<parameter>oooSmsMessagePrefix</parameter>
+	</function>
+
+    <!--fetch nicknameSmsOnText from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='oooSmsOffText']/value</parameter>
+		<parameter>oooSmsOffText</parameter>
+	</function>
+
+    <!--fetch nicknameStatusOnText from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='oooStatusOffText']/value</parameter>
+		<parameter>oooStatusOffText</parameter>
+	</function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>messageOn</parameter>
+		<parameter>
+                <variable>oooSmsMessagePrefix</variable>
+                <parameter> </parameter>
+                <variable>oooSmsOffText</variable>
+        </parameter>
+    </function>
+
+    <div comment="messageOn is">
+        <function name="info" module="Basic">
+		    <variable>messageOn</variable>
+	    </function>
+    </div>
+    
+    <!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+
+	<function name="waitForBind" module="SMS"/>
+
+	<!--Saving Server connection for future SMS communication-->
+	<function name="getServerConnection" module="SMPP">
+         <parameter>MMSX</parameter>
+		<parameter>0</parameter>
+    </function>
+
+    <function name="sendSMPPPacket" module="SMPP">
+		<parameter>MMSX</parameter>
+		<parameter>DELIVER_SM</parameter>
+		<parameter>internal</parameter>
+		<parameter>1</parameter>
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration><!--source_address-->
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+        <variable>serviceSmsShortcode</variable><!--destination_addr-->
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter></parameter>
+		<parameter></parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<variable>messageOn</variable><!--short_message-->
+	</function>
+
+    <!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command amocli -k -e (MS_Actor=='SMS-OUT') search TI:F.CEE.MESSAGE-STORE.1.1:AMO</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>cfgSmsOutNumberOfRetries=2</parameter>
+        <parameter>retrycount</parameter>
+    </function>
+
+	<function name="sleep" module="basic">
+		<parameter>60000</parameter>
+	</function> 
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command amocli -e (MS_Actor=='SMS-OUT') search TI:F.CEE.MESSAGE-STORE.1.1:AMO</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>cfgSmsOutNumberOfRetries=1</parameter>
+        <parameter>retrycount</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceAutoResponder subscriberId=12001  serviceEnabled=false serviceConditional=false defaultEnabled=true alreadySent=
+        </parameter>
+    </function>
+
+</test>

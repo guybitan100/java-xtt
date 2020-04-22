@@ -1,0 +1,76 @@
+<test>
+	<name>MultiPart</name>
+	<description>This test was used to create multipart file</description>
+
+	<function name="setVariable" module="Basic">
+		<parameter>boundary</parameter>
+		<parameter>
+			<parameter>------=_Part_1_31161848.1109320473531</parameter>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>head</parameter>
+		<parameter>
+			<crlf><parameter>Content-Type: multipart/related;boundary="----=_Part_1_31161848.1109320473531";start="&lt;</parameter><parameter>mms.smil</parameter><parameter>&gt;";type="application/smil"</parameter></crlf>
+			<crlf><parameter>Content-ID: &lt;xtt-test001&gt;</parameter></crlf>
+		</parameter>
+	</function>
+
+	<function name="writeBase64File" module="Basic">
+		<parameter>send-multipart-related.bin</parameter>
+		<base64encode>
+			<crlf><variable>head</variable></crlf>
+			<crlf><variable>boundary</variable></crlf>
+			<crlf><parameter>Content-Type:  </parameter><variable>type1</variable> <parameter>; name= </parameter><variable>file1</variable></crlf>
+			<crlf><parameter>Content-Transfer-Encoding: 7bit </parameter></crlf>
+			<crlf><parameter>Content-ID: &lt;</parameter><variable>file1</variable><parameter>&gt; </parameter></crlf>
+			<crlf/>
+		</base64encode>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>boundary</parameter>
+		<parameter>
+			<crlf/>
+			<variable>boundary</variable>
+		</parameter>
+	</function>
+
+	<function name="writeBase64File" module="Basic">
+		<parameter>send-multipart-related.bin</parameter>
+		<base64encode><base64file><variable>file1</variable></base64file></base64encode>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="writeBase64File" module="Basic">
+		<parameter>send-multipart-related.bin</parameter>
+		<base64encode>
+			<crlf><variable>boundary</variable></crlf>
+			<crlf><parameter>Content-Type:  </parameter><variable>type2</variable> <parameter>; name= </parameter><variable>file2</variable></crlf>
+			<crlf><parameter>Content-Transfer-Encoding: base64 </parameter></crlf>
+			<crlf><parameter>Content-Disposition: attachment; filename= </parameter><variable>file2</variable></crlf>
+			<crlf><parameter>Content-ID: &lt;</parameter><variable>file2</variable><parameter>&gt; </parameter></crlf>
+			<crlf/>
+		</base64encode>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="writeBase64File" module="Basic">
+		<parameter>send-multipart-related.bin</parameter>
+		<base64encode><base64file><variable>file2</variable></base64file></base64encode>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="writeBase64File" module="Basic">
+		<parameter>send-multipart-related.bin</parameter>
+		<base64encode>
+			<parameter>
+				<variable>boundary</variable>
+				<parameter>--</parameter>
+			</parameter>
+		</base64encode>
+		<parameter>true</parameter>
+	</function>
+
+</test>

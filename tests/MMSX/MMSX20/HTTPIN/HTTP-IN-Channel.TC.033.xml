@@ -1,0 +1,137 @@
+<test>
+
+		<function name="testName" module="Basic">
+			<parameter>HTTP-IN-Channel.TC.033</parameter>
+		</function>
+		
+		<description>Proxy sends "Message-Body" request to Application via HTTPS POST / Sender has "Secret MMS" Feature / "X-Proxy-Session-Id" header is emtpy in the request / Application replies with proper discard code)
+		<!-- Test Description 
+		. Sender and Recipient are provision in application.
+		2. "Secret MMS" Feature activated for the sender
+		3. Send MM1 Message to MMS Proxy 
+		4. MMS Proxy should intercept this message and send "Message-Body" request to Application as HTTPS POST Request but the "X-Proxy-Session-Id" header should empty in the request
+		5. Application receives Message-Body-Request message with emtpy "X-Proxy-Session-Id" header and then  respond Message-Body-Response with discard handle in X-Proxy-Handle response header -->
+		</description>
+		
+		<!-- Available MSISDN -->
+		<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+		<!-- Set mandatory headers -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-MMS-Message-Type</parameter>
+			<parameter>m-send-req</parameter>
+		</function>
+		
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<!-- #Empty X-Proxy-Session-Id header in request -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter>987654</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>To</parameter>
+			<configuration>MMSX/SECRET/RECIPIENT/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+			<configuration>MMSX/SECRET/SENDER/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>Subject</parameter>
+			<parameter>#Empty X-Proxy-Session-Id</parameter>
+		</function>
+
+		<!-- Send Metadeta Request -->
+		<function name="sendGetRequest" module="HTTP">
+			<parameter>
+				<parameter>https://</parameter>
+				<configuration>MMS_Extra/Ip</configuration>
+				<parameter>:</parameter>
+				<configuration>MMS_Extra/SECUREPORT</configuration>
+				<parameter>/New-Message-Intercepted</parameter>
+			</parameter>
+		</function>
+
+		<function name="checkResponseCode" module="HTTP">
+			<parameter>200</parameter>
+		</function>
+
+		 <!-- Will get response as New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id as TransactionID -->
+		<function name="checkHeader" module="HTTP">
+			<parameter>X-Proxy-Handle</parameter>
+			<parameter>send-body</parameter>
+		</function>
+
+		<function name="queryText" module="BASIC">
+			<variable>HTTP/HEADER/X-Application-Context-Id</variable>
+			<parameter>TransactionID</parameter>
+			<parameter>(.*)</parameter>
+		</function>
+
+		<function name="info" module="Basic">
+			<parameter>TransactionID=</parameter>
+			<variable>TransactionID</variable>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			  <parameter>Content-Type</parameter>
+			  <parameter>text/xml</parameter>
+		 </function>
+
+		<!-- #Empty X-Proxy-Session-Id header in request -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter> </parameter>
+		</function>
+
+		 <function name="setHeader" module="HTTP">
+			<parameter>X-Application-Context-Id</parameter>
+			<variable>TransactionID</variable>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>Subject</parameter>
+			<parameter>#Empty X-Proxy-Session-Id</parameter>
+		</function>
+
+		 <function name="setPostData" module="HTTP">
+			<file>mm7req.txt</file>
+			<parameter/>
+		</function>
+
+		<!-- Request for message body -->
+		<function name="sendPostRequest" module="HTTP">
+		   <parameter>
+            <parameter>https://</parameter>
+            <configuration>MMS_Extra/Ip</configuration>
+            <parameter>:</parameter>
+            <configuration>MMS_Extra/SecurePort</configuration>
+            <parameter>/Message-Body</parameter>
+		   </parameter>
+	    </function>
+
+		<function name="checkResponseCode" module="HTTP">
+				<parameter>200</parameter>
+		</function>
+
+		<!-- Validate that response is error in X-Proxy-Handle -->
+		<function name="checkHeader" module="HTTP">
+				<parameter>X-Proxy-Handle</parameter>
+				<parameter>discard</parameter>
+		</function>
+</test>

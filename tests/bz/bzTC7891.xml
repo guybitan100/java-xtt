@@ -1,0 +1,99 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.7891</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="setCacheFile" module="HTTP">
+        <parameter>/TEST%253A1/index.txt</parameter>
+        <parameter>INDEX FILE CONTENT</parameter>
+    </function>
+
+
+<!-- // Set a Session-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>S1-Session-Cookie-1="Cookie-Value-S1";</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/TEST%253A1/index.txt</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/TEST%253A1/index.txt</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+<!-- // Check if Session-Cookie is NOT injected -->
+    <function name="clearHeader" module="HTTP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/TEST%253A1/index.txt</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>$Version=0; S1-Session-Cookie-1="Cookie-Value-S1";</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+  <function name="stopWebServer" module="HTTP"/>
+
+</test>
+

@@ -1,0 +1,115 @@
+<!-- $Id: reqmodTC012.xml,v 1.2 2006/07/21 17:04:56 cvsbuild Exp $ -->
+<!-- # Test Case 1112 aka REQMOD.TC.012
+     # Define wild-card rules for inserting user ids.
+     # Should be for multiple domains in each category. -->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.012</parameter>
+    </function>
+    <description>Define wild-card rules for inserting user ids. 
+    Should be for multiple domains in each category</description>
+
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+    <!-- download the webpage url 1-->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.test3.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+     <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did receive the header with the correct value-->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC012</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+
+    <!-- download the webpage url 2-->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://xxx.test3.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did receive the header with the correct value-->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC012</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+
+    <!-- download the webpage url 3-->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://yyy.test3.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did receive the header with the correct value-->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC012</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+
+    <!-- download the webpage url 4-->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test.www.test3.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did receive the header with the correct value-->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC012</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+
+    <!-- download the webpage url 5-->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.test1.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did NOT receive the header-->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC012</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+</test>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmaThrottling xmlns:xsi="http://w3.org/2001/XMLSchema-instance">
+    <mm7In>
+        <global requestRate="5" intervalMilliseconds="1000" />
+        <throttles>
+            <throttle name="MM7Submits"/>
+        </throttles>
+    </mm7In>    
+</xmaThrottling>

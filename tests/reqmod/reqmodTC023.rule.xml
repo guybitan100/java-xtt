@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestModifications.xsd">
+    <table name="matchIP">
+        <selector>
+            <modifyHeader name="MatchFullIP" value="'false'"/>
+            <modifyHeader name="Match8BitIP" value="'false'"/>
+            <modifyHeader name="Match16BitIP" value="'false'"/>
+            <modifyHeader name="Match32BitIP" value="'false'"/>
+            <modifyHeader name="MatchFullMaskIP" value="'false'"/>
+            <modifyHeader name="MatchPartialMaskIP" value="'false'"/>
+        </selector>
+    </table>
+    <table name="MatchFullIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1%.%IPADDRESS2%.%IPADDRESS3%.%IPADDRESS4%'">
+            <modifyHeader name="MatchFullIP" value="'true'"/>
+        </selector>
+    </table>
+    <table name="Match8BitIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1%.0.0.0/8'">
+            <modifyHeader name="Match8BitIP" value="'true'"/>
+        </selector>
+    </table>
+    <table name="Match16BitIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1%.%IPADDRESS2%.0.0/16'">
+            <modifyHeader name="Match16BitIP" value="'true'"/>
+        </selector>
+    </table>
+    <table name="Match32BitIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1%.%IPADDRESS2%.%IPADDRESS3%.%IPADDRESS4%/32'">
+            <modifyHeader name="Match32BitIP" value="'true'"/>
+        </selector>
+    </table>
+    <table name="MatchFullMaskIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1%.%IPADDRESS2%.%IPADDRESS3%.%IPADDRESS4%/255.255.255.255'">
+            <modifyHeader name="MatchFullMaskIP" value="'true'"/>
+        </selector>
+    </table>
+    <table name="MatchPartialMaskIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1%.%IPADDRESS2%.%IPADDRESS3%.0/255.255.255.0'">
+            <modifyHeader name="MatchPartialMaskIP" value="'true'"/>
+        </selector>
+    </table>
+    <table name="missIP">
+        <selector>
+            <modifyHeader name="MissFullIP" value="'true'"/>
+            <modifyHeader name="Miss8BitIP" value="'true'"/>
+            <modifyHeader name="Miss16BitIP" value="'true'"/>
+            <modifyHeader name="Miss32BitIP" value="'true'"/>
+            <modifyHeader name="MissFullMaskIP" value="'true'"/>
+            <modifyHeader name="MissPartialMaskIP" value="'true'"/>
+        </selector>
+    </table>
+    <table name="MissFullIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1b%.%IPADDRESS2%.%IPADDRESS3%.%IPADDRESS4%'">
+            <modifyHeader name="MissFullIP" value="'false'"/>
+        </selector>
+    </table>
+    <table name="Miss8BitIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1b%.0.0.0/8'">
+            <modifyHeader name="Miss8BitIP" value="'false'"/>
+        </selector>
+    </table>
+    <table name="Miss16BitIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1b%.%IPADDRESS2%.0.0/16'">
+            <modifyHeader name="Miss16BitIP" value="'false'"/>
+        </selector>
+    </table>
+    <table name="Miss32BitIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1b%.%IPADDRESS2%.%IPADDRESS3%.%IPADDRESS4%/32'">
+            <modifyHeader name="Miss32BitIP" value="'false'"/>
+        </selector>
+    </table>
+    <table name="MissFullMaskIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1b%.%IPADDRESS2%.%IPADDRESS3%.%IPADDRESS4%/255.255.255.255'">
+            <modifyHeader name="MissFullMaskIP" value="'false'"/>
+        </selector>
+    </table>
+    <table name="MissPartialMaskIP">
+        <selector context="TCP_RemoteIpAddress equalsip '%IPADDRESS1b%.%IPADDRESS2%.%IPADDRESS3%.0/255.255.255.0'">
+            <modifyHeader name="MissPartialMaskIP" value="'false'"/>
+        </selector>
+    </table>
+</requestModifications>

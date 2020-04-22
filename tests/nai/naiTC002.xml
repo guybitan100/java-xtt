@@ -1,0 +1,30 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>NAI.TC.002</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	    <parameter>
+		    <configuration>remote/command</configuration>
+    		<parameter>pse3cli da! TI:F.CEE.PSE:PSE3</parameter>
+        </parameter>
+    </function>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12345</parameter>
+	</function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.google.com/</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12345</parameter>
+	</function>
+</test>

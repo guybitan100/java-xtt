@@ -1,0 +1,25 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>CONNECT.TC.001</parameter>
+	</function>
+	
+    <description>A gnu.org GET with radius logon/logoff</description>	
+	
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.gnu.org/</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+</test>

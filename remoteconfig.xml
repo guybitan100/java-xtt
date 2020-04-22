@@ -1,0 +1,17 @@
+<remoteconfiguration>
+    <!-- all machines thar are allowed to connect to RemoteXTT 
+         either ip addresses or subnets -->
+    <whitelist>
+        <ip>127.0.0.1</ip>
+        <ip>172.20.</ip>
+		<ip>10.</ip>
+    </whitelist>
+    <system>
+        <hive>
+            <!-- IMPORTANT! DO SET THIS TO CONTACT INFORMATION, A NAME OF WHO IS RUNNING THIS REMOTE XTT -->"
+            <comment>Default RemoteXTT</comment>
+        </hive>
+        <!-- ip address of the system -->
+        <ip>172.20.2.99</ip>
+    </system>
+</remoteconfiguration>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by SKI 3.0 (built Nov  7 2007) on Fri May 16 13:03:38 2008
+-->
+<ski>
+  <record name="FT_AMO_CFG_Reapers">
+    <item>
+      <item>
+        <item>(MMS_Status=="Finished")</item>
+        <item>1</item>
+      </item>
+    </item>    
+  </record>
+</ski>

@@ -1,0 +1,41 @@
+<test>
+    <configuration>push.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>PUSH.TC.003</parameter>
+    </function>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="setPostData" module="Push">
+        <file>push-OnlyMandatory-2.txt</file>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>    
+    
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

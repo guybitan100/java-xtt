@@ -1,0 +1,80 @@
+<test>
+
+		<function name="testName" module="Basic">
+			<parameter>HTTP-IN-Channel.TC.008</parameter>
+		</function>
+		
+		<description>Proxy sends "New-Message-Intercepted" request to Application via HTTPS GET / "X-Proxy-Session-Id" header is missing in the request / Application replies with proper error code
+		<!-- Test Description 
+		1. Sender and Recipient are provision in application.
+		2. Send MM1 Message to MMS Proxy 
+		3. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTPS GET Request but "X-Proxy-Session-Id" header should be missing in the request
+		4. Application receives the message with a missing " X-Proxy-Session-Id" header and then respond New-Message-Intercepted-Response with error handle in X-MMSX-Error-Text response header -->
+		</description>
+		
+		<!-- Available MSISDN -->
+		<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+		<!-- Set mandatory headers -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-MMS-Message-Type</parameter>
+			<parameter>m-send-req</parameter>
+		</function>
+		
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<!-- Not sending X-proxy Session Id -->
+		<!-- <function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter>987654</parameter>
+		</function> -->
+
+		<function name="setHeader" module="HTTP">
+			<parameter>To</parameter>
+			<configuration>MMSX/SECRET/RECIPIENT/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+			<configuration>MMSX/SECRET/SENDER/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>Subject</parameter>
+			<parameter>#Missing Session Id</parameter>
+		</function>
+
+		<!-- Send Metadeta  Request -->
+		<function name="sendGetRequest" module="HTTP">
+			<parameter>
+				<parameter>https://</parameter>
+				<configuration>MMS_Extra/Ip</configuration>
+				<parameter>:</parameter>
+				<configuration>MMS_Extra/SECUREPORT</configuration>
+				<parameter>/New-Message-Intercepted</parameter>
+			</parameter>
+		</function>
+
+		<function name="checkResponseCode" module="HTTP">
+			<parameter>200</parameter>
+		</function>
+
+		<!-- Validating the response of X-Proxy-Handle. It should return error -->
+		<function name="checkHeader" module="HTTP">
+			<parameter>X-Proxy-Handle</parameter>
+			<parameter>error</parameter>
+		</function>
+
+		<!-- Validating the response of x-mmsx-error-text -->
+		<function name="checkHeader" module="HTTP">
+			<parameter>x-mmsx-error-text</parameter>
+			<parameter>missing mandatory x-session-id header</parameter>
+		</function>
+
+</test>

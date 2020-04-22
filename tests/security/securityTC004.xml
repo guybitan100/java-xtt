@@ -1,0 +1,172 @@
+<test>
+
+    <function name="testName" module="Basic">
+        <parameter>SECURITY.TC.004</parameter>
+    </function>
+
+    <subtest>securityTC000.xml</subtest>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data securityCRLOFF.xml</parameter>
+    </function>    
+
+    <function name="startSecureWebServer" module="HTTP" />
+
+    <function name="connectGateway" module="WAP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>    
+
+<!-- -->
+    
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>https://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>         
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+<!-- -->
+    
+    <!--function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    <function name="disconnectGateway" module="WAP"/>
+    
+    <function name="stop" module="XTT"/>    
+    <function name="connectGateway" module="WAP"/>
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function-->    
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeBinaryFile crlprep.rls </parameter>
+        <base64file>xttCertcrlprep.rls</base64file>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load file crlprep.rls</parameter>
+    </function>    
+    
+     <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data security.xml</parameter>
+    </function>
+    
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>https://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>         
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>500</parameter>
+    </function>
+
+<!-- -->
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeBinaryFile crlprep.rls </parameter>
+        <base64file>userCert1crlprep.rls</base64file>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load file crlprep.rls</parameter>
+    </function>    
+    
+     <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data security.xml</parameter>
+    </function>
+    
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>https://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>         
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>500</parameter>
+    </function>    
+
+<!-- -->
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data securityCRLOFF.xml</parameter>
+    </function>
+    
+    <function name="sendGetRequest" module="WAP">
+        <parameter>https://</parameter>
+        <configuration>system/ip</configuration>
+        <parameter>/</parameter>         
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function> 
+    
+<!-- -->
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeBinaryFile crlprep.rls </parameter>
+        <base64file>emptycrlprep.rls</base64file>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load file crlprep.rls</parameter>
+    </function>    
+    
+     <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data security.xml</parameter>
+    </function>
+    
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>https://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>         
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+<!-- -->
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>    
+
+    <function name="disconnectGateway" module="WAP"/>
+
+    <function name="stopSecureWebServer" module="HTTP" />
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data securityBlank.xml</parameter>
+    </function>
+
+    <subtest>securityTC999.xml</subtest>    
+
+</test>

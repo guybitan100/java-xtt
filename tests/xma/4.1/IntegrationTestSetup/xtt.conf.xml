@@ -1,0 +1,486 @@
+<!-- PLEASE CHANGE/ADD/REMOVE VALUES -->
+<configuration>
+    <!-- maximum number of bytes to print on screen in debug level
+         after receiving data on a GET to a webserver -->
+    <Bufferoutputsize>1024</Bufferoutputsize>
+    <!-- time to wait on a variable with the waitOnVariable function in basic -->
+    <VariableWaitTimeout>20000</VariableWaitTimeout>
+    <!-- basic tracing configuration -->
+    <Tracing>
+        <!--the output level of tracing
+            valid values are: fail, warn, info, verbose, debug
+            or just: f,w,i,v,d -->
+        <level>d</level>
+        <!-- change the tracing format to a new format string
+             format = item; item = [character]%logitem[character|item]
+             Logitem =
+                 %t time stamps
+                 %f function(line #)
+                 %m message
+                 %l Trace level (f,w,d,...)
+                 %n Test name
+                 %a time in milliseconds
+        -->
+        <format>%l: %n: %t: %m</format>
+        <!--<format>%l: %n: %t: %m</format>-->
+        <!-- show the transaction output for later calculation of performance -->
+        <!--<showtransactions/>-->
+        <!-- disable tracing output on level external, currently only used by description tag -->
+        <!--<disableexternal>-->
+     </Tracing>
+    <!-- basic logging configuration -->
+    <log>
+        <!--the path where you want to store the logfiles
+            the default ist ./logs -->
+        <directory>logs</directory>
+        <!-- enable this to disable loging completely -->
+        <!--<disable/>-->
+        <!-- enable this to change logfile format to HTML -->
+    <asHTML>
+            <color>
+                <fail>red</fail>
+                <warn>#FFCC00</warn>
+                <info>green</info>
+                <external>#CC0099</external>
+                <verbose>#B0C4DE</verbose>
+                <debug>black</debug>
+                <normal>black</normal>
+                <background>white</background>
+            </color>
+     </asHTML>
+        <!-- logfiles normally are written to memory and only at the end of
+             a test run to disk, disable that and write directly to disk -->
+        <!--<disableMemoryLogMode>-->
+    </log>
+    <!-- local system configuration, xtt is executed here-->
+    <system>
+        <!-- the ip address of the machine XTT is running on -->
+        <Ip>UPDATE_XFW_HOST_IP</Ip>
+        <!-- the ip address of the machine RemoteXTT is running on -->
+        <!-- if not set default is xmg/ip -->
+        <remoteip>UPDATE_XFW_HOST_IP</remoteip>
+        <!-- the port on which RemoteXTT is listening on -->
+        <!-- if not set default is 8999 -->
+        <remoteport>8999</remoteport>
+        <!-- if you have a very slow network use this to prevent
+             modules from reading from the network to fast -->
+        <networklagdelay>100</networklagdelay>
+    </system>
+
+    <!-- xtt gui configuration -->
+    <gui>
+        <!-- position on screen, if outside the screen it will be repositioned inside -->
+        <position>
+            <x>2380</x>
+            <y>20</y>
+        </position>
+        <!-- size of the gui when starting up -->
+        <size>
+            <width>580</width>
+            <heigth>850</heigth>
+        </size>
+        <messaging>
+            <popupListEnabled/>
+            <!--popupMessageEnabled/-->
+            <!--xttToFrontEnabled/-->
+        </messaging>
+        <disableTestRunLock/>
+    </gui>
+    <!-- function module JacorbTest/SIS -->
+    <jacorb>
+        <naming>
+            <iorfilename>tests/xmaSIS/NS_Ref</iorfilename>
+            <timeout>0</timeout>
+            <port>2055</port>
+        </naming>
+
+        <properties>tests/xmaSIS/jacorb.properties</properties>
+        <javaendorseddirs>./lib</javaendorseddirs>
+        <home>.</home>
+        <log>
+            <verbosity>4</verbosity>
+            <useXTTLogger/>
+        </log>
+    </jacorb>
+    <!-- function modules PROXY -->
+    <HttpProxy>
+        <default>
+            <!-- the listening port of the default proxyserver -->
+            <Port>8088</Port>
+            <!-- the name the default proxyserver will append to the Via header -->
+            <Name>proxy1</Name>
+            <!-- default timeout on client connections to the proxyserver -->
+            <Timeout>10000</Timeout>
+        </default>
+    </HttpProxy>
+    <!-- function module VASP -->
+    <Vasp>
+        <!-- IpAddress and Port to connect to for VASP module -->
+        <RemoteIp>UPDATE_XFW_HOST_IP</RemoteIp>
+        <RemotePort>4007</RemotePort>
+
+        <!-- timeout on client connections to the webserver/proxy -->
+        <Timeout>30000</Timeout>
+        <!-- the proxy ip address for HTTP connections-->
+        <!--ProxyIp>UPDATE_XFW_HOST_IP</ProxyIp-->
+        <!-- the http proxy port -->
+        <!--ProxyPort>9000</ProxyPort-->
+        <!-- enable certificate check on https connections -->
+        <!--enableCertCheck>/-->
+        <!-- turn of keep-alive to the webserver -->
+        <!--disableKeepAlive/-->
+        <!-- disable automatically following a redirect 301/302 -->
+        <!--disableFollowRedirects/-->
+
+        <!-- this is for supporting old VASP configuration files with NO MM7 or TPI tag -->
+        <!--noProtocolTag/-->
+        <VASPID>VASPID001</VASPID>
+        <VASID>VASID002</VASID>
+        <Number>0711113333</Number>
+        <!-- Listening port for VASP, only used by tests -->
+        <Port>3333</Port>
+        <Directory>vaspdir</Directory>
+        <TransactionId>xttvasp-0001</TransactionId>
+
+        <!-- schema definitions for MM7 and TPI -->
+        <xmlnsenv>http://schemas.xmlsoap.org/soap/envelope/</xmlnsenv>
+        <SOAPXSD>soapEnvelope.xsd</SOAPXSD>
+
+        <!-- schema definitions for MM7 -->
+        <xmlns>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-6-MM7-1-4</xmlns>
+        <xmlnsmm7>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-6-MM7-1-4</xmlnsmm7>
+        <MM7XSD>REL-6-MM7-1-4.xsd</MM7XSD>
+        <MM7Version>6.5.0</MM7Version>
+
+        <!-- schema definitions for TPI -->
+        <version>2.1.0</version>
+        <xmlnsenvname>SOAP-ENV</xmlnsenvname>
+        <xmlnsxsd>http://www.w3.org/2001/XMLSchema</xmlnsxsd>
+        <xmlnsxsi>http://www.w3.org/2001/XMLSchema-instance</xmlnsxsi>
+        <iserver2>soap.iserv2.sicap.ch</iserver2>
+        <iserver2name>iserver2</iserver2name>
+        <actor>MBS</actor>
+     </Vasp>
+    <!-- function module LDAP -->
+    <LDAPServer>
+        <!-- the listening port of the internal ldapserver -->
+        <Port>389</Port>
+        <!-- the listening port of the internal secure-ldapserver -->
+        <SecurePort>3389</SecurePort>
+        <!-- timeout on client connections to the ldapserver -->
+        <Timeout>30000</Timeout>
+        <!-- time to wait on a "wait" function before continuing -->
+        <waitTimeout>32000</waitTimeout>
+        <!-- This can instead be specified in an external config file
+        <LDAP>
+            <logins>
+                <login>
+                    <name>cn=Manager,o=724.com</name>
+                    <password>secret</password>
+                </login>
+                <login>
+                    <name>null</name>
+                    <password>null</password>
+                </login>
+            </logins>
+            <directory>
+                <entry>
+                    <baseDN>cn=sis, o=724.com</baseDN>
+                    <data>
+                        <filter>login-ip=UPDATE_XFW_HOST_IP</filter>
+                        <dn>login-ip=UPDATE_XFW_HOST_IP,cn=sis,o=724.com</dn>
+                        <attribute>
+                            <name>clid</name>
+                            <type>0x04</type>
+                            <value>4179442847</value>
+                        </attribute>
+                        <oid>2.16.840.1.113730.3.4.2</oid>
+                    </data>
+                    <data>
+                        <filter>msisdn=4179442847</filter>
+                        <dn>msisdn=4179442847,cn=sis,o=724.com</dn>
+                        <attribute>
+                            <name>msisdn</name>
+                            <type>0x04</type>
+                            <value>4179442847</value>
+                        </attribute>
+                        <attribute>
+                            <name>mccmnc</name>
+                            <type>0x04</type>
+                            <value>228-001</value>
+                        </attribute>
+                        <oid>2.16.840.1.113730.3.4.2</oid>
+                    </data>
+                </entry>
+            </directory>
+        </LDAP>
+        -->
+    </LDAPServer>
+    <!-- function module PUSH -->
+    <Push>
+        <PushIP>UPDATE_XFW_HOST_IP</PushIP>
+        <PushPort>1081</PushPort>
+        <!--PushDirectory>/push/PushReq</PushDirectory-->
+        <!-- Push Initiator listening port of FunctionModule_Push -->
+        <port>5555</port>
+        <!-- timeout on client connections to the webserver/proxy -->
+        <Timeout>30000</Timeout>
+        <!-- the proxy ip address for HTTP connections-->
+        <!--ProxyIp>UPDATE_XFW_HOST_IP</ProxyIp-->
+        <!-- the http proxy port -->
+        <!--ProxyPort>9000</ProxyPort-->
+        <!-- enable certificate check on https connections -->
+        <!--enableCertCheck>/-->
+        <!-- turn of keep-alive to the webserver -->
+        <!--disableKeepAlive/-->
+        <!-- disable automatically following a redirect 301/302 -->
+        <!--disableFollowRedirects/-->
+    </Push>
+    <!-- function modules SMS, UCP -->
+    <SMSCServer>
+        <!-- password for SMS connections to server, 
+             do not use this tag when no checking should happen -->
+        <Password>UPDATE_UCP_PASSWORD</Password>
+        <!-- the listening port of the smscserver -->
+        <Port>2775</Port>
+        <!-- protocol of the smsc server -->
+        <!--protocol>SMPP</protocol-->
+        <!--protocol>UCP</protocol-->
+        <Protocol>UCP</Protocol>
+        <!-- time to wait on a "wait" function before continuing -->
+        <waitTimeout>30000</waitTimeout>
+        <!-- time to wait on read function before throwing exception 0=infinite -->
+        <UCPReadTimeout>30000</UCPReadTimeout>
+        <!-- Window size possible (1=default) -->
+        <!--UCPWindowSize>10</UCPWindowSize-->
+        <!-- response delay in ms for each request (0=default) -->
+        <!--UCPResponseDelay>1000</UCPResponseDelay-->
+        <!-- maximum open sessions on the server (0=default, unlimited) -->
+        <!--UCPMaxSessions>0</UCPMaxSessions-->
+        <!-- maximum open connections to the server (0=default, unlimited) -->
+        <!--UCPMaxConnections>0</UCPMaxConnections-->
+        <!-- session timeout in ms on the server (0=default, unlimited) -->
+        <!--UCPSessionTimeout>0</UCPSessionTimeout-->
+        <!-- read timeout in ms on the server (0=default, unlimited) -->
+        <!--UCPReadTimeout>0</UCPReadTimeout-->
+        <!-- means that injectAutoMessages is enabled and for each UCP51 an UCP53 will begenerated -->
+        <!--InjectAutoMessages>true</InjectAutoMessages-->
+        <!-- earliestAutoMessageSendTime in ms before sending the automatic message (0=default no delay) -->
+        <!--EarliestAutoMessageSendTime>1000</EarliestAutoMessageSendTime-->
+        <!-- latestAutoMessageSendTime in ms before sending the automatic message (use earliestAutoMessageSendTime or bigger) -->
+        <!--LatestAutoMessageSendTime>20000</LatestAutoMessageSendTime-->
+        <!-- autoMessageRetryTime in ms is how long the smsc waits on a connection
+             for data before checking if it has to send out auto message (500=default) -->
+        <!--AutoMessageRetryTime>500</AutoMessageRetryTime-->
+        <!-- MM1 ip and port for downloading MMS in module SMS -->
+        <MM1Ip>UPDATE_XFW_HOST_IP</MM1Ip>
+        <MM1Port>4001</MM1Port>
+        <!-- MM1 timeout -->
+        <MM1Timeout>30000</MM1Timeout>
+        <!-- MSISDN header name for MM1 requests -->
+        <MM1MSISDNHeader>x-724-msisdn</MM1MSISDNHeader>
+    </SMSCServer>
+    <!-- function module SOAP_API -->
+    <SOAP_API>
+        <!-- timeout on client connections to the webserver/proxy -->
+        <Timeout>30000</Timeout>
+        <!-- the proxy ip address for HTTP connections-->
+        <!--ProxyIp>UPDATE_XFW_HOST_IP</ProxyIp-->
+        <!-- the http proxy port -->
+        <!--ProxyPort>9000</ProxyPort-->
+        <!-- enable certificate check on https connections -->
+        <!--enableCertCheck>/-->
+        <!-- turn of keep-alive to the webserver -->
+        <!--disableKeepAlive/-->
+        <!-- disable automatically following a redirect 301/302 -->
+        <!--disableFollowRedirects/-->
+    </SOAP_API>
+    <!-- function module SMTP -->
+    <SMTPServer>
+        <!-- the listening port of the internal smtpserver -->
+        <Port>2525</Port>
+        <!-- hostname of the smtp server -->
+        <hostname>smtp.xtt724.com</hostname>
+        <!-- timeout on client connections to the smtpserver -->
+        <Timeout>30000</Timeout>
+        <!-- time to wait on a "wait" function before continuing -->
+        <waitTimeout>30000</waitTimeout>
+    </SMTPServer>
+    <remote>
+        <!-- path to the product for executing remote comands with FunctionModule_Remote -->
+        <path>UPDATE_XFW_INSTALL_DIR/</path>
+        <!-- command to execute tools for xms -->
+        <command>run command </command>
+        <!-- path to the log files -->
+        <logpath>UPDATE_XFW_INSTALL_DIR/log</logpath>
+        <!-- path the process logs  -->
+        <procpath>UPDATE_XFW_INSTALL_DIR/proc</procpath>
+        <!-- xms location, relative to 'path' -->
+        <xms>bin/xms -xma </xms>
+        <!-- If you need to run XMS command on a different shell that the default, e.g. Windows (using KSH) set the following -->
+        <!-- path to the shell to execute with -->
+        <!--<shell>"c:\msk\blahblah\sh.exe" -C</shell>-->
+        <!-- a prefix to the xms command -->
+        <!--<xmsPrefix>"</xmsPrefix>-->
+        <!-- a suffix to the xms comand -->
+        <!--<xmsSuffix>"</xmsSuffix>-->
+    </remote>
+    <!-- function module SIP -->
+    <SIPServer>
+        <!-- the udp/tcp listening port of the internal SIPServer -->
+        <Port>5060</Port>
+        <!-- the listening port of the internal secure-SIPServer -->
+        <SecurePort>5061</SecurePort>
+        <!-- timeout on client connections to the SIPServer -->
+        <Timeout>30000</Timeout>
+        <!-- time to wait on a "wait" function before continuing -->
+        <waitTimeout>30000</waitTimeout>
+        <!--
+        <enableCertCheck/>
+        -->
+    </SIPServer>
+    <!-- function module SIP -->
+    <SIP>
+        <!-- timeout on client connections to the webserver/proxy -->
+        <Timeout>30000</Timeout>
+    </SIP>
+    <!-- function module ICAP -->
+    <ICAPServer>
+        <!-- the listening port of the internal icapserver -->
+        <Port>1344</Port>
+        <!-- the listening port of the internal secure-icapserver -->
+        <SecurePort>4344</SecurePort>
+        <!-- timeout on client connections to the icapserver -->
+        <Timeout>30000</Timeout>
+        <!-- timeout on client connections to the icapserver -->
+        <WaitTimeout>30000</WaitTimeout>
+        <Options>
+            <!-- disable full streaming mode -->
+            <!--disableFullStreaming/-->
+            <!-- enable default keep alive -->
+            <!--enableKeepAlive/-->
+            <methods>
+                <!-- if not set default is REQMOD -->
+                <default>RESPMOD</default>
+                <!-- Test is done with startsWith and a loop so do not use too many -->
+                <reqmod>
+                    <url>/reqmod</url>
+                    <url>/type1</url>
+                </reqmod>
+                <respmod>
+                    <url>/respmod</url>
+                </respmod>
+            </methods>
+        </Options>
+     </ICAPServer>
+    <!-- function module HTTP -->
+    <Webserver>
+        <!-- the listening port of the internal webserver -->
+        <Port>80</Port>
+        <!-- the listening port of the internal secure-webserver -->
+        <SecurePort>443</SecurePort>
+        <!-- the directory where the files are stored for downloading -->
+        <Root>webroot</Root>
+        <!-- timeout on client connections to the webserver -->
+        <Timeout>30000</Timeout>
+        <!-- time to wait on a "wait" function before continuing -->
+        <waitTimeout>30000</waitTimeout>
+        <!--
+        <enableCertCheck/>
+        -->
+    </Webserver>
+    <!-- function module HTTP -->
+    <Http>
+        <!-- timeout on client connections to the webserver/proxy -->
+        <Timeout>30000</Timeout>
+        <!-- the proxy ip address for HTTP connections-->
+        <!--ProxyIp>UPDATE_XFW_HOST_IP</ProxyIp-->
+        <!-- the http proxy port -->
+        <!--ProxyPort>9000</ProxyPort-->
+        <!-- enable certificate check on https connections -->
+        <!--enableCertCheck>/-->
+        <!-- turn of keep-alive to the webserver -->
+        <!--disableKeepAlive/-->
+        <!-- disable automatically following a redirect 301/302 -->
+        <!--disableFollowRedirects/-->
+    </Http>
+    <!-- function module STI -->
+    <STIServer>
+        <!-- the listening port of the internal stiserver -->
+        <Port>7890</Port>
+        <!-- the listening port of the internal secure-stiserver -->
+        <SecurePort>8443</SecurePort>
+        <!-- the directory where the files are stored for downloading -->
+        <Root>webroot</Root>
+        <!-- timeout on client connections to the stiserver -->
+        <Timeout>30000</Timeout>
+    </STIServer>
+        <!-- function module RADIUS -->
+    <Radius>
+        <!-- the radius server ip address -->
+        <Ip>UPDATE_XFW_HOST_IP</Ip>
+        <!-- the radius server listening port -->
+        <Port>1812</Port>
+        <!-- the remote radius server listening port -->
+        <RemotePort>1813</RemotePort>
+        <!-- the radius server password -->
+        <Secret>tttester</Secret>
+        <!-- the radius server connection timeout -->
+        <Timeout>30000</Timeout>
+    </Radius>
+    <!-- function module SIS -->
+    <sis>
+        <ServiceName>SwisscomMobile/Subscription3/AllServers/SIS_Service</ServiceName>
+        <!-- time to wait on a "wait" function before continuing -->
+        <WaitTimeout>32000</WaitTimeout>
+    </sis>
+    <MMSCServer>
+        <!-- the listening port of the internal webserver -->
+        <Port>4007</Port>
+        <!-- the listening port of the internal secure-webserver -->
+        <SecurePort>8443</SecurePort>
+        <!-- the directory where the files are stored for downloading -->
+        <Root>webroot</Root>
+        <!-- timeout on client connections to the webserver -->
+        <Timeout>30000</Timeout>
+        <xmlnsenv>http://schemas.xmlsoap.org/soap/envelope/</xmlnsenv>
+        <xmlnsmm7>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-6-MM7-1-4</xmlnsmm7>
+        <MM7Version>6.5.0</MM7Version>
+        <MM7XSD>REL-6-MM7-1-4.xsd</MM7XSD>
+        <SOAPXSD>soapEnvelope.xsd</SOAPXSD>
+     </MMSCServer>
+    <!-- function module XML -->
+    <XML>
+        <!-- timeout on client connections to the webserver/proxy -->
+        <Timeout>30000</Timeout>
+        <!-- the proxy ip address for HTTP connections-->
+        <!--ProxyIp>UPDATE_XFW_HOST_IP</ProxyIp-->
+        <!-- the http proxy port -->
+        <!--ProxyPort>9000</ProxyPort-->
+        <!-- enable certificate check on https connections -->
+        <!--enableCertCheck>/-->
+        <!-- turn of keep-alive to the webserver -->
+        <!--disableKeepAlive/-->
+        <!-- disable automatically following a redirect 301/302 -->
+        <!--disableFollowRedirects/-->
+    </XML>
+    <SNMP>
+        <StartOnLoad/>
+        <!--ShowAllTraps/-->
+        <ListenerPort>1620</ListenerPort>
+    </SNMP>
+  <xma>
+    <MM4IP>UPDATE_XFW_HOST_IP</MM4IP>
+    <MM4Port>4004</MM4Port>
+    <EAIFIP>UPDATE_XFW_HOST_IP</EAIFIP>
+    <EAIFPort>4008</EAIFPort>
+    <ProvAPI>
+        <IP>UPDATE_XFW_HOST_IP</IP>
+        <Port>8080</Port>
+        <Protocol>http://</Protocol>
+    </ProvAPI>
+  </xma>
+  <EAIF>
+    <PORT>5008</PORT>
+  </EAIF>
+</configuration>

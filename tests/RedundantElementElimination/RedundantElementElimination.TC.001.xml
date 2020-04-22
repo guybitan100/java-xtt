@@ -1,0 +1,38 @@
+<test>
+	<name>RedundantElementElimination.TC.001</name>
+	<description>Validate White Spaces are properly removed from the Source HTML Pages</description>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<function name="startWebServer" module="HTTP">
+		<parameter>80</parameter>
+        	<testpath/>
+		<parameter>60000</parameter>
+	</function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/RedundantElementEliminationTC001.html</parameter>
+		</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="queryBody" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>Redundant Element Elimination</parameter>
+	</function>
+	
+	<function name="stopWebServer" module="HTTP"/>
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+</test>

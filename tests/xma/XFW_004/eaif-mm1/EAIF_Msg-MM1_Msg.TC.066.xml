@@ -1,0 +1,392 @@
+<test>
+ <configuration>../xmaConfig.xml</configuration>
+    <name>EAIF_Msg-MM1_Msg.TC.066</name>
+    <description>10 On-Net Recipients distributed across To, Cc, Bcc Headers of m-send-req PDU / 10 Success
+				[X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes]
+				[Sn's DB_Prepaid=true]
+				[Rc's DB_MmsDisabled=false]
+				[Rc's DB_ExternalContentConversionDisabled=true]
+				[Rc's DB_UseEmail=false]
+				[Rc's DB_Email=user@domain]
+	</description>
+
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<!-- Set EAIF Address - Request is being hit from -->
+	<function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+       <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+	<function name="startWebServer" module="HTTP">
+        <configuration>EAIF/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function> 
+
+	<function name="setServerReturnCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+        <parameter>No content</parameter>
+    </function>
+
+	
+    <function name="startSMSCServer" module="SMS"/>
+    
+    <function name="waitForBind" module="SMS"/>
+
+	 <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <parameter></parameter>
+        <variable>ADDR_FROM</variable>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>devider</parameter>
+        <parameter></parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>to_list</parameter>
+        <parameter></parameter>
+    </function>
+
+	<function name="setVariable" module="BASIC">
+        <parameter>cc_list</parameter>
+        <parameter></parameter>
+    </function>
+
+	<function name="setVariable" module="BASIC">
+        <parameter>bcc_list</parameter>
+        <parameter></parameter>
+    </function> 
+    
+    <loop name="loop" start="0" stop="4" step="1">
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>TO</parameter>
+            <variable>
+                <parameter>MSISDN/</parameter>
+                <variable>loop</variable>
+            </variable>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>to_list</parameter>
+            <parameter>
+                <variable>to_list</variable>
+                <variable>devider</variable>
+                <variable>
+                    <parameter>MSISDN/</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>devider</parameter>
+            <parameter>;</parameter>
+        </function>
+    </loop>
+	 <loop name="loop" start="4" stop="7" step="1">
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>CC</parameter>
+            <variable>
+                <parameter>MSISDN/</parameter>
+                <variable>loop</variable>
+            </variable>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>cc_list</parameter>
+            <parameter>
+                <variable>cc_list</variable>
+                <variable>devider</variable>
+                <variable>
+                    <parameter>MSISDN/</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>devider</parameter>
+            <parameter>;</parameter>
+        </function>
+    </loop>
+	<loop name="loop" start="7" stop="10" step="1">
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>BCC</parameter>
+            <variable>
+                <parameter>MSISDN/</parameter>
+                <variable>loop</variable>
+            </variable>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>bcc_list</parameter>
+            <parameter>
+                <variable>bcc_list</variable>
+                <variable>devider</variable>
+                <variable>
+                    <parameter>MSISDN/</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>devider</parameter>
+            <parameter>,</parameter>
+        </function>
+    </loop> 
+
+	 <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+     <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World!</base64encode>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+	<function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="setNextMessageDelay" module="SMS">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<function name="waitForWSPMessages" module="SMS">
+        <parameter>10</parameter>
+    </function>
+
+	<loop name="loop" start="0" stop="10" step="1">
+
+        <function name="setVariable" module="BASIC">
+            <parameter>x_mms_content_location</parameter>
+            <parameter>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>
+                    <parameter>MSISDN/</parameter>
+                    <variable>loop</variable>
+                </variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>x_mms_transaction_id</parameter>
+            <parameter>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>
+                    <parameter>MSISDN/</parameter>
+                    <variable>loop</variable>
+                </variable>
+                <parameter>/MMS/x_mms_transaction_id</parameter>
+            </parameter>
+        </function>
+    
+        <function name="sendMM1NotifyResponse" module="SMS">
+            <parameter>deferred</parameter>
+            <variablepointer>x_mms_transaction_id</variablepointer>
+                <variable>
+                    <parameter>MSISDN/</parameter>
+                    <variable>loop</variable>
+                </variable>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+        </function>
+    
+        <function name="sendGetRequest" module="SMS">
+            <variable>
+                <parameter>MSISDN/</parameter>
+                <variable>loop</variable>
+            </variable>
+            <variablepointer>x_mms_content_location</variablepointer>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+        </function>
+            
+        <function name="sendMM1AcknowledgeIndicator" module="SMS">
+            <parameter>yes</parameter>
+            <variablepointer>x_mms_transaction_id</variablepointer>
+            <variable>
+                <parameter>MSISDN/</parameter>
+                <variable>loop</variable>
+            </variable>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+        </function>
+
+    </loop>
+
+	<!-- Wait for 10 DRs on WebServer -->
+    <function name="waitForPOSTs" module="HTTP">
+        <parameter>10</parameter>
+    </function>
+
+	<function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+
+	<loop name="loop" start="0" stop="10" step="1">
+		<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>
+				<parameter>run command amocli -k -e (MMS_Req_To=='</parameter>
+					<variable>
+					<parameter>MSISDN/</parameter>
+					<variable>loop</variable>
+					</variable>
+				<parameter>') search TI:F.CEE.</parameter>
+				<variable>msp</variable>
+				<parameter>:AMO</parameter>
+			</parameter>
+		</function>
+		<function name="queryResponse" module="Remote">
+			<parameter>MMS_Req_X-Mms-Message-Type=m-delivery-ind</parameter>
+			<parameter>status</parameter>
+		</function>
+
+		<function name="queryResponse" module="Remote">
+			<parameter>MMS_Req_X-Mms-Status=Retrieved</parameter>
+			<parameter>status</parameter>
+		</function>
+	</loop>
+
+	<loop name="loop" start="0" stop="10" step="1">
+        <function name="sendMM1ReadRec" module="SMS">
+            <parameter>read</parameter>
+            <variable>
+                <parameter>SMS/</parameter>
+                <variable>
+                    <parameter>MSISDN/</parameter>
+                    <variable>loop</variable>
+                </variable>
+                <parameter>/MMS/message_id</parameter>
+            </variable>
+            <variable>ADDR_FROM</variable>
+            <variable>
+                <parameter>MSISDN/</parameter>
+                <variable>loop</variable>
+            </variable>
+            <variable>
+                <parameter>MSISDN/</parameter>
+                <variable>loop</variable>
+            </variable>
+        </function>
+
+   </loop>
+
+	<!-- Wait for 10 RRs on WebServer -->
+     <function name="waitForPOSTs" module="HTTP">
+        <parameter>20</parameter>
+    </function>
+
+	<function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+
+	<loop name="loop" start="0" stop="10" step="1">
+		<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>
+				<parameter>run command amocli -k -e (MMS_Req_From=='</parameter>
+					<variable>
+					<parameter>MSISDN/</parameter>
+					<variable>loop</variable>
+					</variable>
+				<parameter>') search TI:F.CEE.</parameter>
+				<variable>msp</variable>
+				<parameter>:AMO</parameter>
+			</parameter>
+		</function>
+		<function name="queryResponse" module="Remote">
+			<parameter>MMS_Req_X-Mms-Message-Type=m-read-orig-ind</parameter>
+			<parameter>status</parameter>
+		</function>
+
+		<function name="queryResponse" module="Remote">
+			<parameter>MMS_Req_X-Mms-Read-Status=Read</parameter>
+			<parameter>status</parameter>
+		</function>
+	</loop>
+
+	<!-- Restore VASP File -->
+    <subtest>../restoreVASP.xml</subtest>
+
+	<function name="stopSMSCServer" module="SMS"/>
+
+    <function name="stopWebServer" module="HTTP"/>	
+
+</test>

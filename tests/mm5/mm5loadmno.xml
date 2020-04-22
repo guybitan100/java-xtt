@@ -1,0 +1,81 @@
+<test>
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile mm5-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+        &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemDomain="</parameter>
+           
+            <configuration>MM5TC/DOMAIN1</configuration>
+           
+            <parameter>" systemEmailAddress="mms@</parameter>
+           
+            <configuration>MM5TC/DOMAIN1</configuration>
+           
+            <parameter>"&gt;
+            &lt;domains&gt;&lt;domain&gt;</parameter>
+
+            <configuration>MM5TC/DOMAIN1</configuration>
+
+            <parameter>&lt;/domain&gt;&lt;/domains&gt;
+            &lt;imsiPrefixes&gt;&lt;imsiPrefix&gt;</parameter>
+
+            <configuration>MM5TC/IMSIPREFIX1</configuration>
+
+            <parameter>&lt;/imsiPrefix&gt;&lt;/imsiPrefixes&gt;
+            &lt;msisdnPrefixes&gt;&lt;msisdnPrefix&gt;</parameter>
+
+            <configuration>MM5TC/MSISDNPREFIX1</configuration>
+
+            <parameter>&lt;/msisdnPrefix&gt;&lt;/msisdnPrefixes&gt;
+            &lt;/self&gt;
+            &lt;partners&gt;
+            &lt;partner name="MyFavoritePartner" description="Boring words"&gt;
+            &lt;domains&gt;&lt;domain&gt;</parameter>
+
+            <configuration>MM5TC/DOMAIN2</configuration>
+
+            <parameter>&lt;/domain&gt;&lt;/domains&gt;
+            &lt;imsiPrefixes&gt;&lt;imsiPrefix&gt;</parameter>
+
+            <configuration>MM5TC/IMSIPREFIX2</configuration>
+
+            <parameter>&lt;/imsiPrefix&gt;&lt;/imsiPrefixes&gt;
+            &lt;out&gt;&lt;mm4 smtpFromAddress="mms@</parameter>
+
+            <configuration>MM5TC/DOMAIN2</configuration>
+
+            <parameter>" domainToAppend="</parameter>
+
+            <configuration>MM5TC/DOMAIN2</configuration>
+
+            <parameter>" transactionIdSuffix="/734" messageIdSuffix="/734"
+            sendDeliveryReportsOnForwarding="true" /&gt;&lt;/out&gt;
+            &lt;/partner&gt;
+            &lt;partner name="*" description="Boring words"&gt;
+            &lt;out&gt;&lt;mm4 smtpFromAddress="mms@</parameter>
+
+            <configuration>MM5TC/DOMAIN3</configuration>
+
+            <parameter>" domainToAppend="</parameter>
+
+            <configuration>MM5TC/DOMAIN3</configuration>
+
+            <parameter>" transactionIdSuffix="/744" messageIdSuffix="/744" sendDeliveryReportsOnForwarding="true" /&gt;&lt;/out&gt;
+            &lt;/partner&gt;            
+            &lt;/partners&gt;
+        &lt;/mnos&gt;    
+        </parameter>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>mm5-mno.xml</parameter>
+    </function> 
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>    
+</test>

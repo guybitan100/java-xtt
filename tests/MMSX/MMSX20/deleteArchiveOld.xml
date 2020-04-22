@@ -1,0 +1,20 @@
+<test>
+	<!-- Write a remote file to delete Archive messages -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>mmsx_DeleteOldMessages.sh</parameter>
+		<file>mmsx_DeleteOldMessages.sh</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 mmsx_DeleteOldMessages.sh</parameter>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>dos2unix mmsx_DeleteOldMessages.sh</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>run command sh mmsx_DeleteOldMessages.sh 0</parameter>
+	</function>
+
+</test>

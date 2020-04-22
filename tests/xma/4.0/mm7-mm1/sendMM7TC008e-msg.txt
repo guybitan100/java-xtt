@@ -1,0 +1,50 @@
+POST / HTTP/1.0
+SOAPAction: ""
+Content-Length: 1583
+
+------=_Part_0_22618484.1078760525619
+Content-Type: text/xml; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+<?xml version='1.0' ?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+	<env:Header>
+		<mm7:TransactionID xmlns:mm7="http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-0" env:mustUnderstand="1">
+			vas00001-sub
+		</mm7:TransactionID>
+	</env:Header>
+	<env:Body>
+		<SubmitReq xmlns="http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1">
+		<MM7Version>5.3.0</MM7Version>
+		<SenderIdentification>
+			<VASPID>VASPID-1</VASPID>
+			<VASID>VASID-1</VASID>
+			<SenderAddress>
+				<Number>0796022207</Number>
+			</SenderAddress>
+		</SenderIdentification>
+		<Recipients>
+			<To><Number>078738750</Number></To>
+		</Recipients>
+		<ServiceCode>ServiceCode</ServiceCode>
+		<LinkedId>LinkedId</LinkedId>
+		<MessageClass>Informational</MessageClass>
+		<ExpiryDate>2008-03-10T16:42:05+01:00</ExpiryDate>
+		<DeliveryReport>True</DeliveryReport>
+		<ReadReply>True</ReadReply>
+		<Reply-Charging>True</Reply-Charging>
+		<Priority>Low</Priority>
+		<DistributionIndicator>True</DistributionIndicator>
+		<Subject>Attachments you wanted...</Subject>
+		<Content href="cid:generic_content_id" />
+		</SubmitReq>
+	</env:Body>
+</env:Envelope>
+------=_Part_0_22618484.1078760525619
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=test1.txt
+Content-ID: <generic_content_id>
+
+this is a text content file which has just one line
+
+------=_Part_0_22618484.1078760525619--

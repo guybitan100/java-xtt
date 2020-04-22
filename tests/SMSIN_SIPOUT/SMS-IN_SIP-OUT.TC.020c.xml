@@ -1,0 +1,102 @@
+<test>
+	<name>SMS-IN_SIP-OUT.TC.020c.xml</name>
+	<description>SMS-IN->SIP-OUT [vnd.3gpp.sms payload] - Recipient is not registered / Message Removed</description>
+	<configuration>../3rdPartyRegistration/config.xml</configuration>
+	
+	<!-- Start SMSC Server & Wait for SLM to Bind SMSC -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Start SIP Server -->
+	<function name="startSIPServer" module="SIP"/>
+	<function name="disableResponse" module="SIP"/>
+
+
+
+
+
+	<!-- Send SMS-IN Message -->
+	<function name="openConnection" module="UCP">
+		<parameter>connection1</parameter>
+		<configuration>system/Ip</configuration>
+		<configuration>SMSCServer/Port</configuration>
+	</function>
+	
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<parameter><parameter>00</parameter><configuration>IMS/PUBLIC_URI1_NUMBER</configuration></parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter><parameter>00</parameter><configuration>IMS/PUBLIC_URI2_NUMBER</configuration></parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>This is a single line message1.1</byteStringEncode>
+		<parameter>/////////////</parameter>
+		</parameter>            
+	</function>    
+	
+	<function name="queryTextResponse" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>\d\d/\d\d\d\d\d/R/51/A//[^/]++/\w\w</parameter>
+	</function>    
+	
+	<function name="closeConnection" module="UCP">
+		<parameter>connection1</parameter>
+	</function>
+
+
+
+
+
+	<function name="sleep" module="Basic">
+		<parameter>5000</parameter>
+	</function>	
+
+	<!-- Check the Message-Store -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>amocli s TI:F.CEE.MESSAGE-STORE.1.1:AMO</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 1 item was found</parameter>
+		<parameter>response</parameter>
+	</function>
+
+
+
+
+
+
+	<function name="sleep" module="Basic">
+		<parameter>180000</parameter>
+	</function>	
+	
+   <!-- Check the Message-Store -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>amocli s TI:F.CEE.MESSAGE-STORE.1.1:AMO</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: No items found</parameter>
+		<parameter>response</parameter>
+	</function>
+    
+    <!-- Stop SIP Server -->
+   <function name="closeConnection" module="SIP"/>
+	<function name="stopSIPServer" module="SIP"/>
+	
+	<!-- Shut Down SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+</test>
+

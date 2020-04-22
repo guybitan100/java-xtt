@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:updateUsersByUserId>
+      <arg0>1234567890</arg0>
+      <arg1>
+	        <attributes>
+          <name>FirstName</name>
+          <value>Simpson</value>
+        </attributes>
+ 	        <attributes>
+          <name>LastName</name>
+          <value>Thomas</value>
+        </attributes>
+ 	        <attributes>
+          <name>DateOfBirth</name>
+          <value>-1</value>
+        </attributes>
+		<userId>1234567890</userId>
+      </arg1>
+      <arg2>1234567890</arg2>
+    </tns:updateUsersByUserId>
+  </soap:Body>
+</soap:Envelope>

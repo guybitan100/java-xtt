@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mmsxProductView>
+  <machines>
+    <machine hostEmbeddedDatabase="true" hostExternalDatabaseSupport="false" hostName="UPDATE_MMSX_HOST_NM" operatingSystem="UPDATE_MMSX_HOST_OS">
+      <titaniumAddresses>
+        <titaniumAddress ipAddress="UPDATE_MMSX_HOST_IP"/>
+      </titaniumAddresses>
+      <processes>
+        <messageStorePartition partitionNumber="1"/>
+        <httpIn>
+          <listenAddress ipAddress="UPDATE_MMSX_HOST_IP" port="8082"/>
+          <listenAddressSecure ipAddress="UPDATE_MMSX_HOST_IP" port="8482"/>
+        </httpIn>
+		<archiveOut messageStorePartitionNumber="1" processNameSuffix="1"/>
+        <smsIn/>
+        <smsOut messageStorePartitionNumber="1"/>
+        <smsConnect channel="SmsChannel"/>
+		<smsConnect channel="PushSmsChannel"/>
+		<smsConnect channel="UssdChannel"/>
+        <webApplication enableWebServices="true">
+          <listenAddress ipAddress="UPDATE_MMSX_HOST_IP" port="9999"/>
+          <listenAddressSecure ipAddress="UPDATE_MMSX_HOST_IP" port="3333"/>
+		  <webapps>
+		   <webapp>MMSXPortal.war</webapp>
+		   <webapp>mmsextra.war</webapp>
+		 </webapps>
+        </webApplication>
+        <cust/>
+        <mm7VaspOut messageStorePartitionNumber="1">
+          <mmscAddress ipAddress="UPDATE_MMSX_HOST_IP" path="//mmscpath/etc" port="6789"/>
+        </mm7VaspOut>
+        <mm7VaspIn>
+          <listenAddress ipAddress="UPDATE_MMSX_HOST_IP" port="6790"/>
+        </mm7VaspIn>
+        <pushSmsOut messageStorePartitionNumber="1" processNameSuffix="1"/>
+		<diameterTransport channel="DiameterChannel" mode="client" processNameSuffix="1">
+          <hostIpAddress ipAddress="UPDATE_MMSX_HOST_IP"/>
+        </diameterTransport>
+        <mm1Out messageStorePartitionNumber="1" processNameSuffix="1"/>
+      </processes>
+      <managementServer>
+        <snmpListenAddress ipAddress="UPDATE_MMSX_HOST_IP" port="1610"/>
+        <dashboardListenAddress ipAddress="UPDATE_MMSX_HOST_IP" port="7741"/>
+        <dashboardListenAddressSecure ipAddress="UPDATE_MMSX_HOST_IP" port="7443"/>
+      </managementServer>
+    </machine>
+  </machines>
+  <configuration configurationName="MMSX" description="This is the  MMS Extra configuration" licenseFile="UPDATE_MMSX_INSTALL_DIR/cfg/UPDATE_MMSX_LICENSE_FILE"/>
+  <systemEnvironment jdkDirectory="UPDATE_MMSX_HOST_JDK" operatingSystem="UPDATE_MMSX_HOST_OS" userId="UPDATE_MMSX_HOST_USER"  workspaceDirectory="UPDATE_MMSX_PROC"/>
+  <!--<presence/>
+-->
+  <monitoring enableMetering="true">
+    <snmp>
+      <accept>
+        <inet>
+          <sourceNms accessRight="READ_WRITE" community="public" manager="UPDATE_MMSX_HOST_IP"/>
+        </inet>
+      </accept>
+      <send udpPort="1620">
+        <targetNms community="public" manager="UPDATE_MMSX_HOST_IP"/>
+      </send>
+    </snmp>
+  </monitoring>
+  <database>
+    <embedded port="5432"/>
+  </database>
+  <logging logDirectory="UPDATE_MMSX_LOG"/>
+    <capacity>
+    <capacityLimits blockSizeKBytes="8" concurrentRequests="10" maxMessageSizeBytes="10000" processType="HTTP-IN"/>
+    <capacityLimits blockSizeKBytes="4" concurrentConnections="2" concurrentRequests="10" maxMessageSizeBytes="4" processType="DEFAULT"/>
+    <capacityLimits blockSizeKBytes="4"  concurrentRequests="10" maxMessageSizeBytes="300000" processType="MM7-VASP-OUT"/>
+  </capacity>
+  <messageStore maxMemorySizeMBytes="500"/>
+  <auxiliarySystems>
+    <dns>
+      <dnsServer ipAddress="172.20.1.2"/>
+      <dnsServer ipAddress="172.20.1.3"/>
+    </dns>
+    <sti url="http://192.168.100.100:5555/OMASTI.xml"/>
+    <diameter originRealm="telco.example">
+      <channel application="Billing" ipAddress="UPDATE_MMSX_HOST_IP" name="DiameterChannel" port="3868"/>
+    </diameter>
+  </auxiliarySystems>
+	<xupdates>
+	<xupdate>
+		<file name="/home/slm/mmsx-xupdates.xml"/>
+	</xupdate>
+	<xupdate description="Add trace info">
+		<code>&lt;xupdate:modifications xmlns:xupdate="http://www.xmldb.org/xupdate" version="1.0"&gt;&lt;xupdate:insert-before select="//processgroup[starts-with(@name,'DB-ACCESS.')]/env-variable[@name='CLASSPATH']/value[1]"&gt;&lt;xupdate:element name="value"&gt;D:\source\exports\classes&lt;/xupdate:element&gt;&lt;/xupdate:insert-before&gt;&lt;/xupdate:modifications&gt;</code>
+	</xupdate>
+	<xupdate description="Add trace info">
+		<code>&lt;!-- Add trace info --&gt;&lt;modifications xmlns="http://www.xmldb.org/xupdate" version="1.0"&gt;&lt;append select="//processgroup[starts-with(@name,'CONFIGSERVER.')]"&gt;&lt;element name="env-variable"&gt;&lt;attribute name="extensible"&gt;false&lt;/attribute&gt;&lt;attribute name="name"&gt;CEECFG_TraceVerbose&lt;/attribute&gt;"dbman"&lt;/element&gt;&lt;/append&gt;&lt;/modifications&gt;</code>
+	</xupdate>
+	</xupdates>
+	<customModules>
+	<modules>
+	<workflowActivity description="MMSX" name="MMSX">
+		<containerProcesses>
+		<containerProcess name="CUST.*"/>
+		</containerProcesses>
+		<javaProgram className="com.mobilgw.mmsx.workflowhelper.CustSubscriberInfo" storeCustomDataInMib="false"/>
+	</workflowActivity>
+	<workflowActivity description="MMSX-APPCONFIG" name="MMSX-APPCONFIG">
+		<containerProcesses>
+		<containerProcess name="CUST*"/>
+		</containerProcesses>
+		<javaProgram className="com.mobilgw.mmsx.workflowhelper.CustAppconfigReader" storeCustomDataInMib="false"/>
+	</workflowActivity>
+	<workflowActivity description="MMSX-STOREMESSAGE" name="MMSX-STOREMESSAGE">
+		<containerProcesses>
+		<containerProcess name="CUST*"/>
+		</containerProcesses>
+		<javaProgram className="com.mobilgw.mmsx.workflowhelper.CustStoreMessageModule" storeCustomDataInMib="false"/>
+	</workflowActivity>
+	<workflowActivity description="Mmsx billing module" name="MMSX-BILLING">
+		<containerProcesses>
+		<containerProcess name="CUST.*"/>
+		</containerProcesses>
+		<javaProgram className="com.mobilgw.mmsx.workflowhelper.CustBillingModule" storeCustomDataInMib="false"/>
+	</workflowActivity>
+	<workflowActivity description="Mmsx retreive message module" name="MMSX-RETRIEVEMESSAGE">
+		<containerProcesses>
+		<containerProcess name="CUST.*"/>
+		</containerProcesses>
+		<javaProgram className="com.mobilgw.mmsx.workflowhelper.CustRetrieveMessageModule" storeCustomDataInMib="false"/>
+	</workflowActivity>
+	<workflowActivity description="Mmsx RFC822 wrapper" name="MMSX-RFC822WRAP">
+		<containerProcesses>
+		<containerProcess name="CUST.*"/>
+		</containerProcesses>
+		<javaProgram className="com.mobilgw.mmsx.workflowhelper.CustRfc822Wrapper" storeCustomDataInMib="false"/>
+	</workflowActivity>
+	</modules>
+	</customModules>
+</mmsxProductView>

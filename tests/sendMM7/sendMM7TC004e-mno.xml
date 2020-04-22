@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="mnos.xsd">
+<self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com">
+	<domains>
+		<domain>xma.724.com</domain>
+	</domains>
+	<msisdnPrefixes>
+		<msisdnPrefix>0</msisdnPrefix>
+		<msisdnPrefix>1</msisdnPrefix>
+		<msisdnPrefix>2</msisdnPrefix>
+		<msisdnPrefix>3</msisdnPrefix>
+		<msisdnPrefix>4</msisdnPrefix>
+		<msisdnPrefix>5</msisdnPrefix>
+		<msisdnPrefix>6</msisdnPrefix>
+		<msisdnPrefix>7</msisdnPrefix>
+		<msisdnPrefix>8</msisdnPrefix>
+		<msisdnPrefix>9</msisdnPrefix>
+	</msisdnPrefixes>
+	<imsiPrefixes>
+		<imsiPrefix>0</imsiPrefix>
+		<imsiPrefix>1</imsiPrefix>
+		<imsiPrefix>2</imsiPrefix>
+		<imsiPrefix>3</imsiPrefix>
+		<imsiPrefix>4</imsiPrefix>
+		<imsiPrefix>5</imsiPrefix>
+		<imsiPrefix>6</imsiPrefix>
+		<imsiPrefix>7</imsiPrefix>
+		<imsiPrefix>8</imsiPrefix>
+		<imsiPrefix>9</imsiPrefix>
+	</imsiPrefixes>
+</self>
+<partners>
+	<partner name="*" description="Default Partner">
+	<domains>
+		<domain>OMMS11.com</domain>
+		<domain>OMMS12.com</domain>
+		<domain>OMMS13.com</domain>
+		<domain>OMMS14.com</domain>
+		<domain>OMMS15.com</domain>
+		<domain>OMMS16.com</domain>
+		<domain>OMMS17.com</domain>
+		<domain>OMMS18.com</domain>
+		<domain>OMMS19.com</domain>
+		<domain>OMMS20.com</domain>
+	</domains>
+	<out>
+		<mm4 smtpFromAddress="xma@xma.724.com" domainToAppend="defaultpartner.724.com" askPartnerForResponses="false"
+		transactionIdSuffix="txsux" messageIdSuffix="$msgIdSuffix" sendDeliveryReportsOnForwarding="false"/>
+	</out>
+	</partner>
+</partners>
+</mnos>

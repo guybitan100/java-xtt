@@ -1,0 +1,133 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+	<name>KasperskyIntegration.TC.036</name>
+	<description>EAIF -> MM1 / Virus Check is enabled / Submitted MMS contains virus / XMA denies the submitted MMS</description>
+
+	<!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_TO</parameter>
+       <configuration>XMA/PREPAY/ENABLED/MSISDN1</configuration>
+    </function> 
+   
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+        <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+	<function name="startSMSCServer" module="SMS"/>
+   
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>ADDR_TO</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_EXPIRY</parameter>
+		<parameter>false</parameter>
+		<parameter>10</parameter>
+	</function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>kaspersky testing!</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+ 
+    <function name="createMM1PacketContent" module="SMS">
+		<parameter>sendPacket1</parameter>
+        <base64decode><file>base64encoded_virus.bin</file></base64decode>
+	</function>
+
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>499</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<parameter>run command amocli count TI:F.CEE.</parameter>
+		<variable>MSP</variable>
+		<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+</test>

@@ -1,0 +1,6 @@
+keytool -genkey -keyalg RSA -keysize 1024 -validity 1825 -keypass xttxtt -storepass xttxtt -dname "CN=724"
+keytool -export -file xttroot.der 
+<<<<------- Password is xttxtt as specified in the first command ------->>>>
+
+Copy <USER_HOME>/.keystore to <XTT_HOME>/key/xttkeystore
+Copy xttroot.der to <XTT_HOME>/tests/XMP/XMP41/security/xttroot.der

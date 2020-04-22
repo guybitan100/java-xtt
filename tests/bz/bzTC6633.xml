@@ -1,0 +1,33 @@
+<test>	
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.6633</parameter>
+	</function>
+	
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    <function name="connectGateway" module="WAP"/>
+  
+	<function name="sendGetRequest" module="WAP">
+   		<parameter>http://someveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryveryverylongurl.com:8080</parameter>
+	</function>
+
+	<function name="sleep" module="Basic">
+		<parameter>2000</parameter>
+	</function>
+
+	<function name="sendRemoteCommand" module="Remote">
+		<configuration>xmg/path</configuration>
+		<configuration>xmg/tool</configuration>	
+		<parameter>cmu -l SERVICE.sugarloaf.1</parameter>
+    </function>
+	
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    <function name="disconnectGateway" module="WAP"/>
+</test>

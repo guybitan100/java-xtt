@@ -1,0 +1,299 @@
+<test>
+
+    <name>CompatibilityOfP1UseCases.TC.010b.xml</name>
+    <description>Validate "Archive" Feature in combination with "calendar", "Auto responder", "Conditional Forwarding", "Express" Features
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+Scenario 2: ("Archive" Feature in combination with "Auto responder" , "Conditional Forwarding" , "Express")
+
+1. Sender and Recipient of an MMS message activate "archive" , "calendar", "Auto responder" , "Conditional Forwarding" and "Express" services through Web Portal .
+2. The sender enters a future date and time in its desired format in the subject for the MMS to be delivered. 
+3. MMS is sent through MM1 message to MMS Proxy.
+4. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request.
+5. MMS Extra after validating the user and recipient sends a positive response and asks for "send data" to MMS Proxy server.
+6. MMS Proxy then sends the HTTP post which contains the body in message
+7. Application identifies this MMS as express.
+8. Application sends the charging request to Billing application and gets the OK response.
+9. Application sends the MMS message to Recipient via PUSH-SMS-OUT process using WAP-push
+10. Application also saves the MMS to "express" folder in message store.
+11. Application sends the discard message to MMS proxy
+12. MMS Proxy sends send.conf to the Sender the sender for the MMS delivery. Application Archive the messages save in sender outbox and recipient inbox.
+13. MM7 submit has been sent via MM7-OUT to the MMSC
+14. MMSC now sends a confirmation to the application and the application deletes MMS from its storage.
+
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  2. Remote
+	  3. Basic -->
+</description> 
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+<!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceArchive subscriberId=10001  serviceEnabled=true </parameter>
+	</function>
+
+<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceAutoResponder subscriberId=10001  serviceEnabled=true serviceConditional=false </parameter>
+		    </function>
+
+<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceExpressMessage subscriberId=10001  serviceEnabled=true
+        </parameter>
+    </function>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+<!-- Delete Archive messages -->
+	<subtest>../deleteArchiveOld.xml</subtest>
+
+	<!-- Query the name of the active ARCHIVE-OUT process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>ARCHIVE-OUT</parameter>
+		<parameter>ARCHIVE-OUT_Name</parameter>
+	</function>
+
+	<!-- Restart process to get latest process log -->
+<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>restart process </parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+		</parameter>
+	</function> 
+
+	<!-- Enable trace for validating Archive message -->
+<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>enable trac -v DELIVERY ARCHIVE-OUT.*.*</parameter>
+	</function> 
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+   <function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<!-- Set To field as recipient mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/COMP/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<!-- Set X-Proxy-Subscriber-MSISDN field as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+	</function>
+
+<!-- Set Subject in message for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>!Archive with express message</parameter>
+	</function>
+
+	<!-- Send Metadeta Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+	
+    <!-- wait for 1 WSP sms message -->
+	<function name="waitForWSPMessages" module="SMS">
+		<parameter>1</parameter>
+	</function> 
+
+
+<!-- Check SMS Headers destination_addr -->
+    <function name="compareString" module="Basic">
+        <variable>
+		<parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/COMP/RECIPIENT/MSISDN1</configuration>
+		<parameter>/destination_addr</parameter>
+		</variable>
+        <configuration>MMSX/COMP/RECIPIENT/MSISDN1</configuration>
+    </function>
+
+<function name="queryText" module="Basic">
+        <base64decode><variable>smsc/smpp/0991110201/MESSAGE_PAYLOAD</variable></base64decode>
+        <parameter>MMS Extra: New message from 0991110001, click URL to display the message: </parameter>
+		<parameter>.*</parameter>
+</function> 
+
+<!-- Check for search MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli search TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+<function name="queryResponse" module="Remote">
+		<parameter>reqProxySubject=Archive with express message</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Validate Archive mesage is not -->
+<function name="queryResponse" module="Remote">
+		<parameter> messageIsExpress=true</parameter>
+		<parameter>response</parameter>
+	</function>
+
+<!-- Validate Archive mesage is not -->
+<function name="queryResponse" module="Remote">
+		<parameter>messageDontArchive=true</parameter>
+		<parameter>response</parameter>
+	</function>
+
+<!-- Check for No MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 1 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+<!-- Validation of Archive message -->
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>
+			<parameter>/bin/grep STOREMESSAGE_FolderName </parameter>
+			<configuration>remote/procpath</configuration>
+			<parameter>/</parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+			<parameter>/</parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+			<parameter>.out</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validation of Sender, Message should not stored in Outbox -->
+	<function name="queryResponse" module="Remote">
+		<parameter>STOREMESSAGE_FolderName', folderName</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>
+			<parameter>/bin/grep STOREMESSAGE_From </parameter>
+			<configuration>remote/procpath</configuration>
+			<parameter>/</parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+			<parameter>/</parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+			<parameter>.out</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validation of Sender whose message not stored in outbox -->
+	<function name="queryResponse" module="Remote">
+		<parameter>
+		<parameter>'STOREMESSAGE_From', sender</parameter>
+		</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Disable traces -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>disable trac -v </parameter>
+	</function>
+
+<!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+  	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

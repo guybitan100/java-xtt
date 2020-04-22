@@ -1,0 +1,226 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SIS.TC.001</parameter>
+    </function>
+    <description>One cache hit on second MM1 retrieval with first STI request finished</description>
+
+    <function name="startSTIServer" module="STI"/>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <thread>
+         <function name="createMM7Soap" module="VASP"/>
+        
+         <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>44790000002</parameter>
+        </function>
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>44790000004</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM7data.txt</file>
+        </function>
+        
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>2</parameter>
+    </function>
+   
+
+    <function name="stopSMSCServer" module="SMS"/>    
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/command</configuration>
+        <parameter>cmu -O CACHE -d IN.MM1</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>Cache Hits: (\d++)</parameter>
+        <parameter>before</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTTSTI</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+
+    <thread>
+        <function name="setVariable" module="Basic">
+            <parameter>downloadNumber</parameter>
+            <parameter>44790000002</parameter>
+        </function>
+        <function name="setHeader" module="HTTP">
+            <parameter>x-msisdn</parameter>
+            <variable>downloadNumber</variable>
+        </function>
+    
+        <function name="sendGetRequest" module="HTTP">
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </variable>
+        </function>
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="sendMM1NotifyResponse" module="SMS">
+            <parameter>retrieved</parameter>
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/x_mms_transaction_id</parameter>
+            </variable>
+            <variable>downloadNumber</variable>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+            <parameter>204</parameter>
+        </function>
+    </thread>
+
+    <thread>
+        <function name="sleep" module="Basic">
+            <parameter>2000</parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>downloadNumber</parameter>
+            <parameter>44790000004</parameter>
+        </function>
+        <function name="setHeader" module="HTTP">
+            <parameter>x-msisdn</parameter>
+            <variable>downloadNumber</variable>
+        </function>
+    
+        <function name="sendGetRequest" module="HTTP">
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </variable>
+        </function>
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="sendMM1NotifyResponse" module="SMS">
+            <parameter>retrieved</parameter>
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/x_mms_transaction_id</parameter>
+            </variable>
+            <variable>downloadNumber</variable>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+            <parameter>204</parameter>
+        </function>
+    </thread>
+
+    <function name="waitForRequests" module="STI">
+        <parameter>1</parameter>
+    </function>
+    <function name="validateXML" module="XML">
+        <variable>STISERVER/STI/SOAP</variable>
+        <parameter></parameter>
+        <parameter>http://schemas.xmlsoap.org/soap/envelope/</parameter>
+        <parameter>soapEnvelope.xsd</parameter>
+        <parameter>http://www.openmobilealliance.org/schema/sti/v1_0</parameter>
+        <parameter>OMA-TS-SCHEMA-STI-V1_0-20050607-C.xsd</parameter>
+    </function>
+    <function name="waitForTimeoutRequests" module="STI">
+        <parameter>10000</parameter>
+    </function>
+    <function name="validateXML" module="XML">
+        <variable>STISERVER/STI/SOAP</variable>
+        <parameter></parameter>
+        <parameter>http://schemas.xmlsoap.org/soap/envelope/</parameter>
+        <parameter>soapEnvelope.xsd</parameter>
+        <parameter>http://www.openmobilealliance.org/schema/sti/v1_0</parameter>
+        <parameter>OMA-TS-SCHEMA-STI-V1_0-20050607-C.xsd</parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/command</configuration>
+        <parameter>cmu -O CACHE -d IN.MM1</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>Cache Hits: (\d++)</parameter>
+        <parameter>after</parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>minusbefore</parameter>
+        <parameter>-</parameter>
+        <variable>before</variable>
+    </function>
+
+    <function name="addVariable" module="BASIC">
+        <parameter>result</parameter>
+        <variable>after</variable>
+        <variable>minusbefore</variable>
+    </function>
+
+    <function name="compareString" module="basic">
+        <parameter>1</parameter>
+        <variable>result</variable>
+    </function>
+
+    <function name="stopSTIServer" module="STI"/>
+</test>

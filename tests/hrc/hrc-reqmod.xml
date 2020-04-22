@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+    <!-- Skip everything for HRC test -->
+    <table name="skipEverything" phase="request">
+        <selector>
+            <modifyContext name="skipCookie" value="'true'"/>
+            <modifyContext name="skipCache" value="'true'"/>
+            <modifyContext name="skipICC" value="'true'"/>
+            <modifyContext name="skipECC" value="'true'"/>
+            <modifyContext name="skipUAProf" value="'true'"/>
+        </selector>
+    </table>
+</requestModifications>

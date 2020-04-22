@@ -1,0 +1,150 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM7.MM4.TC.012</name>
+    <description>Short Code of Sender with No Matching Entry in VASPS Table 
+    [DeliveryReport=Yes, ReadReply=Yes]</description>
+
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMSISDN</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+
+	<!-- Load MNO file -->
+    <subtest>../loadMNO.xml</subtest>
+
+	<!-- Start SMTP Server and wait until it binds to XMA -->
+    <function name="startSMTPServer" module="SMTP"/>
+    
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+    
+	<!-- Start Web Server in order to receive & response MM7 Delivery  -->
+    <function name="startWebServer" module="HTTP">
+        <configuration>VASP/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+		<!-- Prepare Delivery Response on the Web Server -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>DeliveryReportRsp</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='DeliveryReportRsp']</parameter>
+        <parameter>Status</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Status']</parameter>
+        <parameter>StatusCode</parameter>
+        <parameter>1000</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Status']</parameter>
+        <parameter>StatusText</parameter>
+        <parameter>Success</parameter>
+    </function>
+    <function name="previewRequest" module="VASP" />
+
+    <function name="soapToVariable" module="VASP">
+        <parameter>SOAP</parameter>
+    </function>
+
+    <function name="setCacheFile" module="HTTP">
+        <configuration>VASP/DIRECTORY</configuration>
+        <variable>SOAP</variable>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>content-type</parameter>
+        <parameter>text/xml; charset="utf-8"</parameter>
+    </function>
+
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=No, ReadReply=No -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <parameter>NOTEXIST</parameter>
+        <parameter>NOTEXIST</parameter>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+
+	<!-- recipient subscriber from database -->
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>OFFNETMSISDN</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>True</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>false</parameter>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+    <function name="previewRequest" module="VASP" />
+
+	 <!-- Send Request to MM3 -->
+    <function name="sendPostRequest" module="VASP"/>
+
+	<!-- Check for Response from MM3 -->
+    <function name="checkResponseCode" module="VASP">
+        <parameter>500</parameter>
+    </function>
+    <function name="sleep" module="basic">
+        <parameter>1000</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;4007&lt;/StatusCode&gt;</parameter>
+    </function>
+        
+   	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>
+
+	<!-- Stop SMTP Server -->
+    <function name="stopSMTPServer" module="SMTP"/>
+	    <function name="writeRemoteFile" module="Remote">
+        <parameter>empty-mno.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>
+
+	<!-- Empty MNO file -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data empty-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+</test>

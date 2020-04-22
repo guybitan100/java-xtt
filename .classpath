@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="*.cap|*.csv|*.html|*.txt|*.xml|.svn/|com/tantau/|doc/|documentation/|key/|logs/|tests/|unpackaged/|webroot/" kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/avalon-framework-4.1.5.jar"/>
+	<classpathentry kind="lib" path="lib/jacorb.jar"/>
+	<classpathentry kind="lib" path="lib/javamail-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/jaxen-core.jar"/>
+	<classpathentry kind="lib" path="lib/jaxen-jdom.jar"/>
+	<classpathentry kind="lib" path="lib/jdmkrt.jar"/>
+	<classpathentry kind="lib" path="lib/jdom.jar"/>
+	<classpathentry kind="lib" path="lib/jsnmpapi.jar"/>
+	<classpathentry kind="lib" path="lib/jWAP.jar"/>
+	<classpathentry kind="lib" path="lib/logkit-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/radclient3.jar"/>
+	<classpathentry kind="lib" path="lib/saxpath.jar"/>
+	<classpathentry kind="lib" path="lib/sis_pi_info_corba_client-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-simple-1.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="con" path="org.dyno.visual.swing.VS_LIBRARY/layoutext"/>
+	<classpathentry kind="lib" path="lib/looks.jar" sourcepath="D:/automation/xtt/lib/looks.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net-3.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/jwizz-0.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/jgraphx.jar"/>
+	<classpathentry kind="lib" path="lib/java2html-5.0.jar"/>
+	<classpathentry kind="lib" path="lib/qdox.jar"/>
+	<classpathentry kind="lib" path="lib/sis2_client-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jdmktk.jar"/>
+	<classpathentry kind="lib" path="lib/xtt.jar"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

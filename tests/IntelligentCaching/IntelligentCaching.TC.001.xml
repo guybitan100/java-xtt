@@ -1,0 +1,139 @@
+<test>
+	<name>IntelligentCaching.TC.001.xml</name>
+	<description>Validate the Insertion of Expiry Dates/Times to the Content based on When the Content was Last Modified</description>
+	
+	<!-- Purge Product's Cache -->
+	<subtest>deleteCacheAll.xml</subtest>
+	
+	<!-- Execute Web Server & Set its Parameters -->
+	<function name="startWebServer" module="HTTP"/> 
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept-Encoding</parameter>
+		<parameter>0</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>*/*</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>User-Agent</parameter>
+		<parameter>XTT/0.1</parameter>
+	</function>
+	
+	<function name="createDateString" module="Basic">
+		<parameter>EEE', 'dd' 'MMM' 'yyyy kk':'mm':'ss z</parameter>
+		<parameter>olddate1</parameter>
+		<parameter>-120</parameter>
+		<parameter>GMT</parameter>
+	</function>
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>Last-Modified</parameter>
+		<variable>olddate1</variable>
+	</function> 
+	
+	<function name="setCacheFile" module="HTTP">
+	<parameter>test.html</parameter>
+	<xml>
+<html>
+<body>
+<pre>This is a nice file that should be received by HTTP User Agent for the next 120/5=24 seconds!</pre>
+</body>
+</html>
+	</xml>
+	</function>
+	
+	<!-- Log in Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<!-- HTTP GET Requests -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.xtt724.com/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>Last-Modified</parameter>
+		<variable>olddate1</variable>
+	</function>	
+	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is a nice file that should be received by HTTP User Agent for the next 120/5=24 seconds!</parameter>
+    </function>
+	
+    <!-- Change the data in the Web Content Provider -->
+	<function name="setCacheFile" module="HTTP">
+	<parameter>test.html</parameter>
+	<xml>
+<html>
+<body>
+<pre>This file should be never received by HTTP User Agent before 120/5=24 seconds Cache Expiration!</pre>
+</body>
+</html>
+	</xml>
+	</function>
+	
+	<function name="sleep" module="BASIC">
+		<parameter>5000</parameter>
+	</function>
+	
+	<!-- HTTP GET Requests - Check Intelligent Cache is Working for 120*20%=24 seconds -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.xtt724.com/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>Last-Modified</parameter>
+		<variable>olddate1</variable>
+	</function>	
+	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is a nice file that should be received by HTTP User Agent for the next 120/5=24 seconds!</parameter>
+    </function>
+	
+	<function name="sleep" module="BASIC">
+		<parameter>30000</parameter>
+	</function>
+	
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.xtt724.com/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>Last-Modified</parameter>
+		<variable>olddate1</variable>
+	</function>	
+	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This file should be never received by HTTP User Agent before 120/5=24 seconds Cache Expiration!</parameter>
+    </function>
+	
+	<!-- Log off Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>	
+
+	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>	
+</test>

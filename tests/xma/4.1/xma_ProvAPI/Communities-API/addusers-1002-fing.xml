@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:addUsers>
+      <arg0>
+        <attributes>
+          <name>FirstName</name>
+          <value>fing</value>
+        </attributes>
+        <userId>1002</userId>
+      </arg0>
+      <arg1/>
+    </tns:addUsers>
+  </soap:Body>
+</soap:Envelope>

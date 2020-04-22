@@ -1,0 +1,6 @@
+<resourceConstraints xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="resourceconstraints.xsd">
+	<group name="Others" percentage="80">
+		<url name="Google" percentage="100" domain="google.ch"/>
+		<catchAll percentage="40"/>
+	</group>
+</resourceConstraints>

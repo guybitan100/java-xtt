@@ -1,0 +1,153 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+	<name>EAIF_Msg-MM1_Msg.TC.041</name>
+	<description>XMA should deny when it receives a request which doesn't have MultiMediaMessage in X-NOKIA-MMSC-Message-Type HTTP Header
+    </description>
+
+	
+	<!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_TO</parameter>
+       <configuration>XMA/PREPAY/ENABLED/MSISDN1</configuration>
+    </function> 
+   
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+        <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+	<function name="startWebServer" module="HTTP">
+        <configuration>EAIF/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+	<function name="setServerReturnCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+        <parameter> No content</parameter>
+    </function>
+
+	<function name="startSMSCServer" module="SMS"/>
+   
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>ADDR_TO</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>application/vnd.wap.multipart.mixed</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+ 
+    <function name="createMM1PacketContentMultipart" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64file>plaintext.bin</base64file>
+        <parameter>text/plain</parameter>
+        <parameter>plaintext.txt</parameter>
+    </function>
+
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+	 <function name="setHeader" module="HTTP">
+        <parameter>X-NOKIA-MMSC-Message-Type</parameter>
+        <parameter>InvalidValue</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>400</parameter>
+    </function>
+
+	<function name="queryResponseMessage" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>Bad request</parameter>
+    </function>
+
+	<function name="waitForTimeoutWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+	<function name="waitForTimeoutPOSTs" module="HTTP">
+        <parameter>1</parameter>
+    </function>
+
+	<!-- Restore VASP File -->
+    <subtest>../restoreVASP.xml</subtest>
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+	<function name="stopWebServer" module="HTTP"/>
+
+</test>

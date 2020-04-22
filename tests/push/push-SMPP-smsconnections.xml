@@ -1,0 +1,18 @@
+<xmpSmsConnections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xmpsmsconnections.xsd ">
+    <channels>
+        <connectChannel name="SmsChannel" policy="single_connection" protocol="SMPP3.4" settings="SmppSettings" >
+            <connection name="PUSH-CONNECTION" address="1111"  password="" username="xmp" />
+            <!--connection name="NOTIFICATION-CONNECTION" address="2222" password="" username="xmp" /-->
+            <remoteAddress ipAddress="" port="" />
+            <!--remoteAddress ipAddress="" port="" /-->
+        </connectChannel>
+    </channels>
+    <settings>
+        <smppSettings name="SmppSettings" linkDownMaxRetries="3" linkDownRetryTimeoutSeconds="12" maxConcurrentReq="12" maxMessagesPerSecond="10" maxPduSize="4096" passive="false" singleTransmitterSession="true" >
+            <connectionOptions addrNpi="1"  addrRange="" addrTon="6"  smscSystemId=""  systemId="" systemType="WAP" />
+            <messageOptionSets>
+                <messageOptions optionName="DEFAULT" registeredDelivery="0" dataCoding="4" dataPdu="true" destAddrNpi="1"  destAddrTon="1" esmClass="64" priorityFlag="0" protocolId="0" serviceType="WAP"/>
+            </messageOptionSets>
+        </smppSettings>
+    </settings>
+</xmpSmsConnections>

@@ -1,0 +1,43 @@
+<test>
+    <name>BZ.TC.15781</name>
+    
+    <function name="RadiusLogon" module="Radius">
+		<parameter>12346</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+    <function name="StartWebServer" module="HTTP"/>
+
+    <function name="SetHeader" module="HTTP">
+        <parameter>content-type</parameter>
+        <parameter>application/vnd.wap.wbxml</parameter>
+    </function>
+
+    <function name="SetHeader" module="HTTP">
+        <parameter>cache-control</parameter>
+        <parameter>no-cache, no-transform</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <parameter>N2INCgMBagDFBQNTR0gtVTcwMFYABgNWT0RBRk9ORV9ZR09fSkFWQV8yX1VLAAcDR28ACAMyLjAuNTExMQAJA3dlYXRoZXIACgMxLjAuMAANAzAwMDAAAccOAzEACwMwAA+MAU5QA1VLWFgwMDg1AAEBXgNlbgABVgNjAAEBAQ0KMA0KDQo=</parameter>
+    </function>
+    
+    <function name="sendPOSTRequest" module="HTTP">
+        <parameter>
+        	<parameter>http://</parameter>
+        	<configuration>system/ip</configuration>
+        	<parameter>/</parameter>
+        </parameter>
+    </function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="StopWebServer" module="HTTP"/>
+	    
+    <function name="RadiusLogoff" module="Radius">
+		<parameter>12346</parameter>
+	    <parameter>12346</parameter>
+    </function>            
+</test>

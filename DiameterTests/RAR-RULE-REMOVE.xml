@@ -1,0 +1,54 @@
+<test>
+
+	<name>Default Use case of Login and Advertising activation Followed by disabling the feature</name>
+
+	<description>defaultAuthenticationType=radius; starting a web session, enabling Advertising, disabling advetising and ending the session</description>
+
+
+		<function name="setVariable" module="BASIC">
+			<parameter>STORED_SESSION_ID</parameter>
+            <parameter>1200</parameter>
+		</function>
+
+		<function name="info" module="BASIC">
+			<variable>STORED_SESSION_ID</variable>
+		</function>
+
+		<!-- create the connection to the PCEF to send the RAR -->
+		<function name="createConnection" module="Diameter">
+        <parameter>one</parameter>
+        <parameter>10.0.1.51</parameter>
+        <parameter>3868</parameter>
+    </function>
+
+	
+		<!-- Sleep for 3 seconds before Sending the RAR message to remove the Rule -->
+		
+		 <function name="sleep" module="Basic">
+                <parameter>3000</parameter>
+        </function>	
+	
+		<!-- send the RAR message to Remove the Rule -->
+		<function name="sendDiameterRequest" module="Diameter">
+			<parameter>one</parameter>
+			<xml>
+				<RE_AUTH_REQUEST version="1" applicationID="16777238" hopbyhopID="456" endtoendID="789" proxiable="true" error="false" tretr="false" overrideCommandCode="258">
+					<SESSION_ID             variable="STORED_SESSION_ID"/>
+					<AUTH_APPLICATION_ID    value="16777238"                   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<DESTINATION_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<DESTINATION_HOST           value="diameter.xtt724.com"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<PRODUCT_NAME           value="XMP"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<RE_AUTH_REQUEST_TYPE           value="AUTHORIZE_ONLY"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<CHARGING_RULE_REMOVE mandatory="true" protected="false" vendorspecific="true"  vendorid="10415">
+						<CHARGING_RULE_NAME  value="61637469766174655f6164766572746973696e67" mandatory="true" protected="false" vendorspecific="true"  vendorid="10415"/>
+					</CHARGING_RULE_REMOVE>
+					<SESSION_RELEASE_CAUSE  value="UNSPECIFIED_REASONS" mandatory="true" protected="false" vendorspecific="true" vendorid="10415" />
+					<RE_AUTH_REQUEST_TYPE           value="AUTHORIZE_ONLY"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>		
+                </RE_AUTH_REQUEST>
+			</xml>
+			<parameter>STORERESULT</parameter>
+		</function>
+	
+</test>

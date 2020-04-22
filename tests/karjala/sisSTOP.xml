@@ -1,0 +1,10 @@
+<!-- just check of there are any corefiles -->
+<test>
+
+    <function name="stopSISServer" module="SIS"/>
+    <function name="stopJacorbNameServer" module="SIS"/>
+    
+    <function name="sleep" module="Basic">
+        <parameter>4000</parameter>
+    </function>
+</test>

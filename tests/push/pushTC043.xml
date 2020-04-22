@@ -1,0 +1,118 @@
+<test>
+    <configuration>push.xml</configuration>
+
+    <name>PUSH.TC.043</name>
+
+    <!-- load security info -->
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>security.xml</parameter>
+        <file>security.xml</file>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>securityBlank.xml</parameter>
+        <file>securityBlank.xml</file>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_server_private_key.der</parameter>
+        </parameter>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_server_certificate.der</parameter>
+        </parameter>
+    </function>    
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load file </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>key/demo_inet_server_ca_certificate.der</parameter>
+        </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data security.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>dev/null</parameter>
+    </function> 
+
+    <!-- start up, initialize -->
+
+    <function name="startUDPServer" module="UDP">
+        <parameter>2948</parameter>
+    </function>
+    
+	<function name="radiusLogon" module="Radius">
+		<configuration>pushTestSpecific/msisdn</configuration>
+	    <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <!-- configure message -->
+
+    <function name="setPostData" module="Push">
+        <file>push-UDP-OnlyMandatory.txt</file>
+    </function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+
+    <function name="sendPushRequest" module="Push">
+    </function>
+    
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+    
+    <function name="waitForPackets" module="UDP">
+        <parameter>1</parameter>
+        <parameter>2948</parameter>
+    </function> 
+
+    <!-- clean up -->
+ 
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data securityBlank.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>dev/null</parameter>
+    </function> 
+       
+    <function name="stopUDPServer" module="UDP"/>
+</test>

@@ -1,0 +1,90 @@
+<test>
+    <name>UNREGISTER</name>
+    <description>UNREGISTER</description>
+
+    <function name="setLocalVariable" module="Basic">
+        <parameter>PUBLIC_URI</parameter>
+        <localvariable>UNREGISTER/0</localvariable>
+    </function>
+
+	<function name="randomToVariable" module="Basic">
+		<parameter>
+		    <parameter>random/</parameter>
+		    <localvariable>PUBLIC_URI</localvariable>
+		</parameter>
+    </function>
+
+    <function name="setLocalVariable" module="Basic">
+        <parameter>random</parameter>
+		<variable>
+		    <parameter>random/</parameter>
+		    <localvariable>PUBLIC_URI</localvariable>
+		</variable>
+    </function>    
+    <function name="setLocalVariable" module="Basic">
+        <parameter>callid</parameter>
+		<parameter>
+		    <parameter>e7770a8b76fae407e4bb1f4d472b</parameter>
+    		<variable>
+    		    <parameter>random/</parameter>
+    		    <localvariable>PUBLIC_URI</localvariable>
+    		</variable>
+    		<parameter>@</parameter>
+    		<configuration>IMS/IP</configuration>
+        </parameter>
+    </function>
+
+	<!-- Create the UN-REGISTER Request Headers -->
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>
+            <parameter>unregister_headers</parameter>
+            <localvariable>PUBLIC_URI</localvariable>
+        </parameter>
+        <parameter>REGISTER sip:724.com SIP/2.0</parameter> <parameter></parameter>
+        <parameter>Max-Forwards: </parameter>               <parameter>70</parameter>
+        <parameter>CSeq: </parameter>                       <parameter>1 REGISTER</parameter>
+        <parameter>Expires: </parameter>                    <parameter>0</parameter>
+        <parameter>Content-Length: </parameter>             <parameter>0</parameter>
+        <parameter>Contact: </parameter>                    <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;expires=0</parameter></parameter>
+        <parameter>From: </parameter>                       <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;tag=</parameter><localvariable>random</localvariable></parameter>
+        <parameter>To: </parameter>                         <parameter><parameter>&lt;</parameter><localvariable>PUBLIC_URI</localvariable><parameter>&gt;</parameter></parameter>
+        <parameter>Call-ID: </parameter>                    <localvariable>callid</localvariable>
+        <parameter>Via: </parameter>                        <parameter><parameter>SIP/2.0/UDP </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=z9hG4bK2491c1bad54e954f88d9404094e7</parameter><localvariable>random</localvariable></parameter>
+        <parameter></parameter>                             <parameter></parameter>
+    </function>
+
+	<!-- Send UN-REGISTER Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>
+            <parameter>unregister_headers</parameter>
+            <localvariable>PUBLIC_URI</localvariable>
+        </variable>
+    </function>
+
+    <!-- Wait for the UN-REGISTER Response -->
+    <function name="waitForVariable" module="Basic">
+        <parameter><parameter>SIP/UDP/RESPONSE/</parameter><localvariable>callid</localvariable></parameter>
+    </function>
+
+	<!-- Print the UN-REGISTER Response Code -->
+	<!--function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><localvariable>callid</localvariable></variable>
+	</function-->
+
+    <!-- Check the UN-REGISTER Response Code -->
+    <function name="queryText" module="Basic">
+        <variable><parameter>SIP/UDP/RESPONSE/</parameter><localvariable>callid</localvariable></variable>
+        <parameter>dev/null</parameter>
+        <parameter>200</parameter>
+    </function>
+
+	<!-- Set Received UN-REGISTER Response Code to null -->
+    <function name="removeVariables" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><localvariable>callid</localvariable></parameter>
+    </function>
+</test>

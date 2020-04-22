@@ -1,0 +1,62 @@
+<test>	
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.6638</parameter>
+	</function>
+	
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    <function name="startWebServer" module="HTTP" />
+  
+	<!--function name="setHeader" module="HTTP">
+		<parameter>content-type</parameter>	
+		<parameter>multipart/form-data</parameter>
+  	</function-->
+  	
+  	<function name="setPostData" module="HTTP">
+  		<file>a.txt</file>
+  		<parameter/>
+  	</function>
+
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>http://</parameter>
+		<configuration>system/ip</configuration>
+		<parameter>/</parameter>	
+	</function>
+	
+	<function name="sleep" module="Basic">	
+		<parameter>5000</parameter>
+	</function>
+	
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>http://</parameter>
+		<configuration>system/ip</configuration>
+		<parameter>/</parameter>	
+	</function>	
+	
+	<function name="sleep" module="Basic">	
+		<parameter>5000</parameter>
+	</function>	
+	
+	<function name="clearPostData" module="HTTP" />
+
+    <function name="setPostData" module="HTTP">
+        <file>b.txt</file>
+        <parameter />
+    </function>
+	
+	<function name="sendPostRequest" module="HTTP">
+   		<parameter>http://</parameter>
+   		<configuration>system/ip</configuration>
+   		<parameter>/</parameter>	
+	</function>	
+	
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    <function name="stopWebServer" module="HTTP"/>
+</test>

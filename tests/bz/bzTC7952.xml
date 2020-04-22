@@ -1,0 +1,228 @@
+<!-- $Id: bzTC7952.xml,v 1.4 2008/10/28 07:19:30 dkaufmann Exp $ -->
+<!--# Test Case 1105 aka REQMOD.TC.005
+    # proxy tests    -->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>../reqmod/reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.7952</parameter>
+    </function>
+
+    <!-- extract current configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms extract data requestmodifications </parameter>
+        <configuration>XMG/PATH</configuration>
+        <parameter>cfg/bzTC7952.test.xml</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC7952-reqmod.xml </parameter>
+        <file>bzTC7952-reqmod.xml</file>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data bzTC7952-reqmod.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+
+
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+
+    <function NAME="startProxyServer" module="Proxy">
+        <parameter>8111</parameter>
+        <parameter>goldproxy</parameter>
+        <parameter>10000</parameter>
+    </function>
+
+    <function NAME="startProxyServer" module="Proxy">
+        <parameter>8222</parameter>
+        <parameter>silverproxy</parameter>
+        <parameter>10000</parameter>
+    </function>
+
+
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://proxy1.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check if the request came over the correct proxy -->
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>Via</parameter>
+        <parameter>HTTP/1.1 goldproxy</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://proxy2.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check if the request came over the correct proxy -->
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>Via</parameter>
+        <parameter>HTTP/1.1 silverproxy</parameter>
+    </function>
+
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://proxy3.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check if the request came over the correct proxy -->
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>Via</parameter>
+        <parameter>HTTP/1.1 goldproxy</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>www.xtt724.com</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>ExternalUseridProxy3</parameter>
+        <configuration>RADIUS/USER</configuration>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>ProxyRewriteTest3</parameter>
+        <parameter>ProxyTest3</parameter>
+    </function>
+
+
+    <function NAME="startProxyServer" module="Proxy">
+        <parameter>8333</parameter>
+        <parameter>Threeproxy3</parameter>
+        <parameter>10000</parameter>
+    </function>
+    <function NAME="startProxyServer" module="Proxy">
+        <parameter>8334</parameter>
+        <parameter>Threeproxy4</parameter>
+        <parameter>10000</parameter>
+    </function>
+    <function NAME="startProxyServer" module="Proxy">
+        <parameter>8335</parameter>
+        <parameter>Threeproxy5</parameter>
+        <parameter>10000</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://proxy4.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check if the request came over the correct proxy -->
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>Via</parameter>
+        <parameter>HTTP/1.1 Threeproxy</parameter>
+    </function>
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www1.proxy4.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check if the request came over the correct proxy -->
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>Via</parameter>
+        <parameter>HTTP/1.1 Threeproxy</parameter>
+    </function>
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www2.proxy4.xtt724.com</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check if the request came over the correct proxy -->
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>Via</parameter>
+        <parameter>HTTP/1.1 Threeproxy</parameter>
+    </function>
+
+    <!-- load the old reqmod configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms load data </parameter>
+        <configuration>XMG/PATH</configuration>
+        <parameter>cfg/bzTC7952.test.xml</parameter>
+    </function>
+
+
+    <function NAME="stopProxyServer" module="Proxy">
+        <parameter>goldproxy</parameter>
+    </function>
+    <function NAME="stopProxyServer" module="Proxy">
+        <parameter>silverproxy</parameter>
+    </function>
+    <function NAME="stopProxyServer" module="Proxy">
+        <parameter>Threeproxy3</parameter>
+    </function>
+    <function NAME="stopProxyServer" module="Proxy">
+        <parameter>Threeproxy4</parameter>
+    </function>
+    <function NAME="stopProxyServer" module="Proxy">
+        <parameter>Threeproxy5</parameter>
+    </function>
+
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+
+
+
+</test>

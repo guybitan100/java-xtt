@@ -1,0 +1,42 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>CONNECT.TC.006</parameter>
+	</function>
+
+    <description>A local jpg GET with radius logon/logoff</description>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    <function name="startWebServer" module="HTTP"/>
+    
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>image/jpeg,*/*;q=0.1</parameter>
+    </function>    
+    
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+        	<parameter>http://</parameter>
+        	<configuration>system/ip</configuration>
+        	<parameter>/images/jpg.jpg</parameter>
+        </parameter>
+    </function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>    
+    
+    <function name="isJpg" module="content">
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>
+    
+    <function name="stopWebServer" module="HTTP"/>
+    
+    <function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>    
+</test>

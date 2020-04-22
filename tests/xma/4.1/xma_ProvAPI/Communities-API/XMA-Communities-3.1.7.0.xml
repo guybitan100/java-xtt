@@ -1,0 +1,87 @@
+<test>
+       
+      <description> SOAP-API-Communities{(create( )}: Create Communities. </description>
+      
+	 <function name="testName" module="Basic">
+		<parameter>XMA-Communities-3.1.7.0</parameter>
+	</function>
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>addusers.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-communities/communities</parameter>
+		</parameter>
+		<file>XMA-Create-Community_COMM1.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-communities/communities</parameter>
+		</parameter>
+		<file>XMA-Create-Community_COMM1.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>500</parameter>
+	</function>
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>removeusers.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-communities/communities</parameter>
+		</parameter>
+		<file>XMA-Destroy-Community-COMM1.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+       
+ </test>

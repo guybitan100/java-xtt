@@ -1,0 +1,20 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>NAI.TC.001</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	    <parameter>
+		    <configuration>remote/command</configuration>
+    		<parameter>pse3cli da! TI:F.CEE.PSE:PSE3</parameter>
+        </parameter>
+    </function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.google.com/</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>403</parameter>
+	</function>
+</test>

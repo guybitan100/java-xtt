@@ -1,0 +1,255 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM4.MM1.TC.010</name>
+    <description>STI Interface - MM Content Adaptation Succeeded 
+    [DeliveryReport=Yes, ReadReply=Yes] 
+    [Recipient's DB_MmsDisabled=false] 
+    [Recipient's DB_ExternalContentConversionDisabled=false] 
+    [Recipient's DB_UseEmail=false] 
+    [Recipient's DB_Email=user@domain]</description>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <function name="startSMSCServer" module="SMS"/>
+    <function name="startSTIServer" module="STI"/>
+    <function name="startSMTPServer" module="SMTP"/>
+
+    <subtest>../loadMNO.xml</subtest>
+  
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN</parameter>
+        <configuration>XMA/POSTPAY/ECCENABLED/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMSISDN</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETEMAIL</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+
+    <function name="createDateString" module="Basic">
+        <parameter>EEE', 'dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+        <parameter>date</parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>headers</parameter>
+        <parameter>To: </parameter>                     <variable>MMSADDRESS</variable>
+        <parameter>From: </parameter>                   <variable>OFFNETMMSADDRESS</variable>
+        <parameter>Date: </parameter>                   <variable>date</variable>
+        <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_forward.REQ</parameter>
+        <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>4.2.0</parameter>
+        <parameter>X-Mms-Ack-Request: </parameter>      <parameter>yes</parameter>
+        <parameter>X-MMS-Transaction-ID: </parameter>   <parameter>"ABCDEFGHIJ0123456789"</parameter>
+        <parameter>X-MMS-Message-ID: </parameter>       <parameter>"originator-username/123456789"</parameter>
+        <parameter>x-mms-delivery-report: </parameter>  <parameter>Yes</parameter>
+        <parameter>x-mms-read-reply: </parameter>       <parameter>Yes</parameter>
+        <parameter>Content-Type: </parameter>           <parameter>text/plain</parameter>
+    </function>
+
+    <function name="setDATA" module="SMTP">
+        <variable>headers</variable>
+        <parameter>Hello World!</parameter>
+    </function>
+
+    <function name="connectMailServer" module="SMTP">
+        <configuration>XMA/MM4Ip</configuration>
+        <configuration>XMA/MM4Port</configuration>
+    </function>
+    <function name="sendHELO" module="SMTP">
+        <parameter>xtttestmachine</parameter>
+    </function>
+    <function name="sendMAILFROM" module="SMTP">
+        <variable>OFFNETEMAIL</variable>
+    </function>
+    <function name="sendRCPTTO" module="SMTP">
+        <variable>EMAIL</variable>
+    </function>
+
+    <function name="sendDATA" module="SMTP"/>
+
+    <function name="disconnectMailServer" module="SMTP"/>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>
+    
+    <function name="setVariable" module="BASIC">
+        <parameter>originalMessageId</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>OFFNETEMAIL</variable>
+            <parameter>/header/x-mms-message-id</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>log/messageid</parameter>
+        <variable>originalMessageId</variable>
+    </function>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN</variable>
+            <parameter>/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN</variable>
+            <parameter>/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>deferred</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <variable>MSISDN</variable>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+
+    <function name="sleep" module="Basic">
+        <parameter>2000</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+        <variable>MSISDN</variable>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml</parameter>
+    </function>
+    <!--function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function-->
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Get</parameter>
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="sendMM1AcknowledgeIndicator" module="SMS">
+        <parameter>yes</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <variable>MSISDN</variable>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+   <function name="waitForMails" module="SMTP">
+        <parameter>2</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="SMTP">
+        <variable>OFFNETEMAIL</variable>
+        <parameter>x-mms-message-type</parameter>
+        <parameter>MM4_delivery_report.REQ</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="SMTP">
+        <variable>OFFNETEMAIL</variable>
+        <parameter>x-mms-mm-status-code</parameter>
+        <parameter>Retrieved</parameter>
+     </function>
+
+    <function name="sendMM1ReadRec" module="SMS">
+        <parameter>read</parameter>
+        <variable>PACKET1Get/MMS/message_id</variable>
+        <variable>PACKET1Get/MMS/from</variable>
+        <variable>PACKET1Get/MMS/to</variable>
+        <variable>MSISDN</variable>
+    </function>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>3</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="SMTP">
+        <variable>OFFNETEMAIL</variable>
+        <parameter>x-mms-message-type</parameter>
+        <parameter>MM4_read_reply_report.REQ</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="SMTP">
+        <variable>OFFNETEMAIL</variable>
+        <parameter>x-mms-read-status</parameter>
+        <parameter>Read</parameter>
+     </function>
+    
+    <function name="waitForRequests" module="STI">
+        <parameter>1</parameter>
+    </function>
+    <function name="validateXML" module="XML">
+        <variable>STISERVER/STI/SOAP</variable>
+        <parameter></parameter>
+        <parameter>http://schemas.xmlsoap.org/soap/envelope/</parameter>
+        <parameter>soapEnvelope.xsd</parameter>
+        <parameter>http://www.openmobilealliance.org/schema/sti/v1_0</parameter>
+        <parameter>OMA-TS-SCHEMA-STI-V1_0-20050607-C.xsd</parameter>
+    </function>
+
+
+    <function name="stopSTIServer" module="STI"/>
+    <function name="stopSMSCServer" module="SMS"/>
+    <function name="stopSMTPServer" module="SMTP"/>
+</test>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmpProductView>
+   <configuration configurationName="XMPTest" description="Post Build XMP Integration" licenseFile="/home/xmp/license-XOriant-xmp.xml" systemName="XMPTest" />
+   <systemEnvironment jdkDirectory="/usr/local/java" operatingSystem="Linux" userId="xmp" windowsFileSystemRoot="C:/" workspaceDirectory="/home/xmp/4.1.1/process" />
+	<capacity>
+		<capacityLimits processType="DEFAULT" blockSizeKBytes="32" concurrentConnections="20" concurrentRequests="100" />
+	</capacity>
+	<auxiliarySystems>
+		<dns>
+			<dnsServer ipAddress="172.20.2.91" />
+			<!-- dnsServer ipAddress="172.20.1.2" / -->
+		</dns>
+		<icap>
+			<icapServer name="xttrespmod" url="icap://172.20.2.91:1344/respmod" />
+			<icapServer name="xttreqmod" url="icap://172.20.2.91:1344/reqmod" />
+		</icap>
+		<radius>
+			<radiusProfile name="default" useInterimUpdateForSessionStart="true" useInterimUpdateForDynamicUpdates="true" obey3gppStopRules="false" dummySubscriberIdPrefix="999_">
+				<radiusAttributes>
+					<ipAddressAttribute radiusAttributeNumber="8" vendorAttribute="0" vendorId="0" conversionType="Ip4AddrToString" />
+					<subscriberIdAttribute radiusAttributeNumber="1" vendorAttribute="0" vendorId="0" conversionType="OctSeqToString" />
+					<additionalAttribute name="NASIPAddress" radiusAttributeNumber="4" />
+					<additionalAttribute name="NASIdentifier" radiusAttributeNumber="32" />
+					<additionalAttribute name="IMSI" radiusAttributeNumber="224" />
+					<additionalAttribute name="SGSN_IpAddress" radiusAttributeNumber="228" />
+					<additionalAttribute name="GGSN_IpAddress" radiusAttributeNumber="227" />
+					<additionalAttribute name="GPRS_ChargingID" radiusAttributeNumber="225" />
+					<additionalAttribute name="Prepaid_Ind" radiusAttributeNumber="226" />
+					<additionalAttribute name="Vendor_Attr" radiusAttributeNumber="26" vendorId="0" vendorAttribute="0" conversionType="Ip4AddrToString" />
+				</radiusAttributes>
+			</radiusProfile>
+         <radiusServer radiusProfile="default" sharedSecret="tttester" ipAddress="172.20.2.91" />
+		 <radiusServer radiusProfile="default" sharedSecret="tttester" ipAddress="172.20.2.91" />
+		</radius>
+		<ldap>
+			<ldapServer authenticationMethod="simple" password="43zHcMEZBAf8BUR8It3oFTKA6lQsSnXSwarctDxLGT7aWKtpICY1/qeHKmuR/GZoRR/I+qFYHzg=" url="ldap://172.20.2.91:389" user="cn=Manager,o=wap_ext">
+				<query baseDn="cn=sis,o=wap_ext" defRefAlias="never" name="GetSubscriberId" scope="sub" searchFilter="'(login-ip=' + TCP_RemoteIpAddress + ')'" sizeLimit="1" timeLimitSecs="0" typesOnly="false">
+					<resultAttribute multipleValues="false" name="msisdn"/>
+				</query>
+			</ldapServer>
+		</ldap> 
+		<!--sti url="http://172.20.2.91:8989/OMASTI.xml" /-->
+	</auxiliarySystems>
+	<cookieStore typeOfStore="database" maxStoreMins="129600">
+	<!--cookieStore typeOfStore="in-memory" maxStoreMins="129600"-->
+		<storePersistentCookies deleteAtSessionStart="false" />
+	</cookieStore>
+	<database>
+		<embedded />
+		<!--oracle service="sunora10.internal.724.com" oracleClientDirectory="/opt/oracle/10.2.0" username="xmp41_b33" password="0d9PXL7jpDHNLLRvskPTKN8KL7bm/6k01v3p0i/gmsu0Kmj9XsKEWasWsHxE1YoRbPKzlsse46g=" /-->
+	</database>
+	<subscriberDatabase/>
+	<httpCache maxProcessCacheSizeMbytes="1" maxStoreTimeMins="1" maxStoreItemSizeKbytes="1" >
+		<intelligentCachingRefresh percentageItemAge="20" maxFreshnessTimeMins="4320" minFreshnessTimeMins="0" />
+	</httpCache>
+	<interception/>
+   <logging logDirectory="/home/xmp/4.1.1/log" logPeriod="Midnight" maxLogFileSizeMBytes="100" >
+	</logging>
+	<monitoring enableMetering="true" logInSyslog="true" >
+		<healthChecks>
+			<dbHelper maxLatencySecs="30" okLatencySecs="10" pollIntervalSecs="60" />
+			<dnsHelper pollIntervalSecs="60" resolveAddress="yahoo.com" />
+			<internetHelper pollIntervalSecs="60" >
+				<urlToPoll>http://www.google.com</urlToPoll>
+				<urlToPoll>http://www.yahoo.com</urlToPoll>
+			</internetHelper>
+		</healthChecks>
+		<snmp>
+			<accept>
+				<inet>
+					<sourceNms community="public" manager="172.20.2.91" accessRight="READ_WRITE" />
+				</inet>
+			</accept>
+      <send udpPort="1620">
+        <targetNms community="public" manager="172.20.2.91"/>
+      </send>
+		</snmp>
+	</monitoring>
+	<persistentHttpConnections maxInConnections="29" maxOutConnections="29" maxOutHosts="29" />
+	<!--presence/-->
+	<urlMatching>
+		<matchEquivalentHostsInUrls lookupIntervalSecs="10" >
+			<wildcardReplacement>www</wildcardReplacement>
+		</matchEquivalentHostsInUrls>
+	</urlMatching>
+	<virusScanning>
+		<kaspersky installDirectory="/home/xmp/kaspersky/KAV_Server-Linux-5.5.4.116" 
+		            maxWaitForKasperskyServerSecs="10" 
+                    serverRequestsInProgress="20"/>
+	</virusScanning>
+	<proxySets>
+		<proxySet name="TEST_SET_1" algorithm="OrderedPriority" maxPersistentConnections="10" >
+			<proxyServer name="TEST_SET_1_1" ipAddress="172.20.2.91" port="8111" />
+		</proxySet>
+		<proxySet name="TEST_SET_2" algorithm="OrderedPriority" maxPersistentConnections="10" >
+			<proxyServer name="TEST_SET_2_1" ipAddress="172.20.2.91" port="8222" />
+		</proxySet>
+		<proxySet name="TEST_SET_3" algorithm="OrderedPriority" maxPersistentConnections="10" >
+			<proxyServer name="TEST_SET_3_1" ipAddress="172.20.2.91" port="8333" />
+			<proxyServer name="TEST_SET_3_2" ipAddress="172.20.2.91" port="8334" />
+			<proxyServer name="TEST_SET_3_3" ipAddress="172.20.2.91" port="8335" />
+		</proxySet>
+		<proxySet name="BlueCoat" algorithm="EqualPriority" maxPersistentConnections="10" >
+			<proxyServer name="BlueCoat_1" ipAddress="172.20.2.91" port="8444" />
+			<!--proxyServer name="BlueCoat_1" ipAddress="83.224.72.226" port="80" /-->
+		</proxySet>
+	</proxySets>
+	<contentFiltering>
+		<ctengine connectionString="LicenseKey=00008001U1063Y07191H; ServerAddress=webres%d.t.ctmail.com" />
+	</contentFiltering>
+	<mediaStore reaperSecs="10800" chunkSizeBytes="8192" firstChunkRequestTimeout="5" chunkRequestTimeout="30" maxMemorySizeMBytes="100"/>
+	<xupdates>
+		<xupdate description="An XUpdate to enable memory debug" >
+         <file name="/home/xmp/xupdate-memory-debug-on.xml" />
+		</xupdate>
+		<xupdate description="Enable virus scanning for all content types" >
+         <file name="/home/xmp/virus-scanning-for-all-content.xml" />
+		</xupdate>		
+		<!--xupdate description="An XUpdate to configure WEB-APP" >
+         <file name="UPDATE_XFW_INSTALL_DIR/cfg/xupdate-web-app.xml" />
+		</xupdate-->
+		<!--xupdate description="A temporary XUpdate to properly configure WAP1-PROXY" >
+         <file name="UPDATE_XFW_INSTALL_DIR/cfg/xupdate-wap1-proxy.xml" />
+		</xupdate-->
+		<!--xupdate description="A temporary XUpdate to properly configure cache" >
+         <file name="UPDATE_XFW_INSTALL_DIR/cfg/xupdate-cache.xml" />
+		</xupdate-->
+	</xupdates>
+
+        <customModules>
+		<modules>
+			<reqmod name="XTTCustModule" description="XTTCustModule" >
+				<containerProcesses>
+					<containerProcess name="CUST.*" />
+				</containerProcesses>
+				<javaProgram className="XTTCustModule" storeCustomDataInMib="false">
+					<javaArchives>
+					<!-- Give path for custom module jar file -->
+						<javaArchive name="/home/xmp/XTTCustModule.jar"/>
+					</javaArchives>
+				</javaProgram>
+			</reqmod>
+		</modules>
+	</customModules>
+	
+	<machines>
+      <machine hostEmbeddedDatabase="true" hostExternalDatabaseSupport="false" hostName="lipe" operatingSystem="Linux" description="Post build integration">
+			<titaniumAddresses>
+				<titaniumAddress ipAddress="172.20.2.91"/>
+			</titaniumAddresses>
+			<managementServer>
+				<snmpListenAddress ipAddress="172.20.2.91" port="1610"/>
+				<dashboardListenAddress ipAddress="172.20.2.91" port="1453"/>
+				<dashboardListenAddressSecure ipAddress="172.20.2.91" port="1454"/>
+				<radiusListenAddress ipAddress="172.20.2.91" port="1813" />
+			</managementServer>
+			<processes>
+				<appServices processNameSuffix="1" />
+				<tcpRouter processNameSuffix="1" requestPreviewTimeoutMicros="0" responsePreviewTimeoutMicros="0" >
+					<listenAddress ipAddress="172.20.2.91" port="4000" />
+				</tcpRouter>
+				<tcpRouter processNameSuffix="2" requestPreviewTimeoutMicros="500000" responsePreviewTimeoutMicros="500000" >
+					<listenAddress ipAddress="172.20.2.91" port="4001" />
+				</tcpRouter>
+				<tcpRouter processNameSuffix="3" requestPreviewTimeoutMicros="500000" responsePreviewTimeoutMicros="0" >
+					<listenAddress ipAddress="172.20.2.91" port="4002" />
+				</tcpRouter>
+				<tcpRouter processNameSuffix="4" requestPreviewTimeoutMicros="0" responsePreviewTimeoutMicros="500000" >
+					<listenAddress ipAddress="172.20.2.91" port="4003" />
+				</tcpRouter>
+				<wap1Proxy processNameSuffix="1" maxPduSizeKbytes="64" segmentSizeBytes="1405" >
+					<wap1ListenAddress ipAddress="172.20.2.91" connectionOrientedPort="9201" connectionOrientedPortSecure="9203" connectionlessPort="9200" connectionlessPortSecure="9202" />
+				</wap1Proxy>
+        <webApplication enableWebServices="true" processNameSuffix="1" shutdownPort="8005">
+          <listenAddress ipAddress="172.20.2.91" port="9998"/>
+          <listenAddressSecure ipAddress="172.20.2.91" port="9999"/>
+          <webapps>
+            <webapp>XMPCustomerCare.war</webapp>
+            <webapp>advert.war</webapp>
+          </webapps>
+        </webApplication>
+				<kasperskyDaemon>
+					<listenAddress ipAddress="172.20.2.91" port="9001"/>
+				</kasperskyDaemon>
+				<pushPapIn processNameSuffix="1">
+					<listenAddress ipAddress="172.20.2.91" port="9002"/>
+				</pushPapIn>
+            <pushStorePartition backupMachineName="lipe" partitionNumber="1"/>
+				<pushSmsOut processNameSuffix="1" pushStorePartitionNumber="1"/>
+				<pushUdpOut processNameSuffix="1" pushStorePartitionNumber="1"/>
+				<smsConnect channel="SmsChannel" processNameSuffix="1"/>
+				<pushPapnOut processNameSuffix="1" pushStorePartitionNumber="1"/>
+				<mediaStorePartition backupMachineName="lipe" partitionNumber="1" />
+				<videoOptimizer mediaStorePartitionNumber="1" processNameSuffix="1" />
+				<videoOptimizer mediaStorePartitionNumber="1" processNameSuffix="2" />
+				<cust processNameSuffix="1"/>
+			</processes>
+		</machine>
+	</machines>
+</xmpProductView>

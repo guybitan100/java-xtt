@@ -1,0 +1,23 @@
+<!-- $Id: reqmodTC000.xml,v 1.2 2006/07/21 17:04:54 cvsbuild Exp $ -->
+<Configuration> 
+    <Webserver>
+        <!-- used by most of the tests -->
+        <!--<Port>80</Port> --><!-- if the server is not on port 80 the tests will fail -->
+        <Root>tests/reqmod</Root>
+        <Threads>1</Threads>
+    </Webserver>
+    <Radius>
+        <!-- used by all the tests -->
+        <user>xttuser</user>
+        <phone>123456</phone>
+        <!-- used by reqmodTC007 -->
+        <user2>xttuser2</user2>
+        <phone2>987654</phone2>
+    </Radius>
+    <reqmod>
+        <!-- used by most of the tests -->
+        <wwwtest1>http://www.test1.xtt724.com/index.html</wwwtest1>
+        <!-- used by reqmodTC 008,009,010,012,017 -->
+        <externalnai>xttuser</externalnai>
+    </reqmod>
+</Configuration>

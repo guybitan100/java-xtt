@@ -1,0 +1,58 @@
+<test>
+    <configuration>mm5.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>MM5.TC.011</parameter>
+    </function>
+    
+    <subtest>mm5loadmno.xml</subtest>
+    <subtest>deleteMessagestoreAll.xml</subtest>
+    
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <parameter>
+            <configuration>MM5TC/msisdn31</configuration>
+            <parameter>@</parameter>
+            <configuration>MM5TC/domain3</configuration>
+        </parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>MM5Req.txt</file>
+    </function>
+    <!--function name="previewRequest" module="VASP" /-->
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+    </function>   
+    
+    <function name="setVariable" module="Basic">
+        <parameter>mm5TC/outProtocol</parameter>
+        <parameter>MM4</parameter>
+    </function>
+    <subtest>mm5checkOutProtocol.xml</subtest>
+    <subtest>mm5emptymno.xml</subtest>
+</test>

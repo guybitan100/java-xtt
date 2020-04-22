@@ -1,0 +1,18 @@
+<test>
+
+    <function name="testName" module="Basic">
+        <parameter>SECURITY.TC.999</parameter>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>delete file cacert.der</parameter>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>delete file userCert1.der</parameter>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>delete file crlprep.rls</parameter>
+    </function>    
+</test>

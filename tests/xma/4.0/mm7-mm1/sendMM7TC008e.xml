@@ -1,0 +1,22 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.008e</parameter>
+    </function>
+    <description>Missing the Mandatory header field Content-Type</description>
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+    <subtest name="deleteMessagestoreAll" file="../deleteMessagestoreAll.xml"/>
+    <function name="sendTextPacket" module="TCP">
+        <configuration>VASP/RemoteIp</configuration>
+        <configuration>VASP/RemotePort</configuration>
+        <file>sendMM7TC008e-msg.txt</file>
+    </function>
+    <function name="queryTextResponse" module="TCP">
+        <parameter>response-code</parameter>
+        <parameter>HTTP/1.0 400 Bad request</parameter>
+    </function>
+
+
+</test>

@@ -1,0 +1,62 @@
+<test>
+	<name>URLListsForURLClassification.TC.003</name>
+	<description>Validate Illegal List could be properly loaded into the CONFIG-SERVER</description>
+	
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>IllegalList_Plain.txt</parameter>
+		<file>IllegalList.txt</file>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>
+		<parameter>run command reqmodcrypt </parameter>
+		<parameter>-p testpassword </parameter>
+		<parameter>IllegalList_Plain.txt </parameter>
+		<parameter>IllegalList.txt</parameter>
+		</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<parameter>IllegalList.txt /url/IllegalList.txt</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded '/url/IllegalList.txt' from 'IllegalList.txt'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract file </parameter>
+			<parameter>/url/IllegalList.txt IL_Encrypted.txt</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Extracted  '/url/IllegalList.txt' into file 'IL_Encrypted.txt'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>
+		<parameter>run command reqmodcrypt </parameter>
+		<parameter>-d -p testpassword </parameter>
+		<parameter>IL_Encrypted.txt </parameter>
+		<parameter>IL.txt</parameter>
+		</parameter>
+	</function>
+	
+	<function name="readRemoteFile" module="Remote">
+		<parameter>IL.txt</parameter>
+		<parameter>IL</parameter>
+	</function>
+	
+	<function name="compareString" module="Basic">
+		<file>IllegalList.txt</file>
+		<variable>IL</variable>
+	</function>
+	
+</test>

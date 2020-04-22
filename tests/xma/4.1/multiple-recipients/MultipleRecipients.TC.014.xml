@@ -1,0 +1,288 @@
+<test>
+
+	<name>MultipleRecipients.TC.014</name>
+	<description>EAIF -> MM4 / MM is sent to 1000 Recipients and distributed across multiple MESSAGE-STORE partitions</description>
+
+	<configuration>../xmaConfig.xml</configuration>
+	<configuration>xmabulkConfig.xml</configuration>
+
+	<!-- Load VASP File -->
+	<subtest>../loadVASP.xml</subtest>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Load MNO file -->
+	<subtest>../loadMNO.xml</subtest>
+
+	<loop name="loop" start="0" stop="1000" step="1">
+	<function name="setVariable" module="BASIC">
+	<parameter>MSISDN</parameter>	   
+		<parameter>
+			<parameter>MSISDN</parameter>
+			<variable>loop</variable>  
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<variable>MSISDN</variable> 
+		<parameter>
+			<configuration>
+				<parameter>XMA/UNKNOWN/BULKPARTNER/</parameter>
+				<parameter>
+					<variable>MSISDN</variable>
+				</parameter>
+			</configuration>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		 <parameter>
+			<parameter>MMSADDRESS</parameter>
+			<variable>loop</variable></parameter>
+			<parameter>
+				<parameter>+</parameter>
+				<variable>
+					<parameter>MSISDN</parameter>
+					<parameter>
+						<variable>loop</variable>
+					</parameter>
+				</variable> 
+				<parameter>/TYPE=PLMN</parameter>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="Basic">
+	<parameter><parameter>EMAIL</parameter><variable>loop</variable></parameter>
+		<parameter>
+			<variable>
+			<parameter>
+				<parameter>MMSADDRESS</parameter>
+				<variable>loop</variable>
+			</parameter>
+			</variable>
+			<configuration>XMA/PARTNERDOMAIN</configuration>
+		</parameter>
+	</function>
+	</loop>
+
+	<!-- Set EAIF Address - Request is being hit from -->
+	<function name="setVariable" module="Basic">
+		<parameter>ADDR_FROM</parameter>
+		<configuration>EAIF/NUMBER</configuration>
+	</function>
+
+	<!-- Start Web Server -->
+	<function name="startWebServer" module="HTTP"> 
+		<configuration>EAIF/PORT</configuration>
+	</function>
+
+	<!-- Start SMTP Server -->
+	<function name="startSMTPServer" module="SMTP"/>
+
+	<!-- Set Return Code/Message of Web Server for DR-->
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>204</parameter>
+	</function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+		<parameter> No Content</parameter>
+	</function>
+
+	<function name="createMM1Packet" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>M_SEND_REQ</parameter>
+		<parameter>XTTTRANSACTIONID0001</parameter>
+		<parameter>0x17</parameter>
+		<parameter></parameter>
+		<variable>ADDR_FROM</variable>
+		<parameter>text/plain</parameter>
+		<parameter>utf-8</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>divider</parameter>
+		<parameter></parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>to_list</parameter>
+		<parameter></parameter>
+	</function>
+
+	<loop name="loop" start="0" stop="1000" step="1">
+		<function name="createMM1PacketOptions" module="SMS">
+			<parameter>sendPacket1</parameter>
+			<parameter>TO</parameter>
+			<variable>
+				<parameter>MSISDN</parameter>
+				<variable>loop</variable>
+			</variable>
+		</function>
+		<function name="setVariable" module="BASIC">
+			<parameter>to_list</parameter>
+			<parameter>
+				<variable>
+					<parameter>MSISDN</parameter>
+					<variable>loop</variable>
+				</variable>
+				<variable>divider</variable>
+				<variable>to_list</variable>
+			</parameter>
+		</function>
+		<function name="setVariable" module="BASIC">
+			<parameter>divider</parameter>
+			<parameter>;</parameter>
+		</function>
+	</loop>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_DELIVERY_REPORT</parameter>
+		<parameter>false</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_READ_REPORT</parameter>
+		<parameter>false</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_EXPIRY</parameter>
+		<parameter>false</parameter>
+		<parameter>120</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>SUBJECT</parameter>
+		<parameter>No, they're all going to laugh at you!</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_MESSAGE_CLASS</parameter>
+		<parameter>128</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_PRIORITY</parameter>
+		<parameter>130</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_SENDER_VISIBILITY</parameter>
+		<parameter>128</parameter>
+	</function>
+
+	<function name="createMM1PacketContent" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<base64encode>Hello World!</base64encode>
+	</function>
+
+	<function name="storeMM1Packet" module="SMS">
+		<parameter>sendPacket1Base64</parameter>
+		<parameter>sendPacket1</parameter>
+	</function>
+
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>PACKET1Request</parameter>
+		<variable>sendPacket1Base64</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<function name="setBase64PostData" module="HTTP">
+		<variable>sendPacket1Base64</variable>
+	</function>
+
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>XMA/EAIFIP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/EAIFPORT</configuration>
+			<parameter>/</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>204</parameter>
+	</function>
+
+	<!-- Wait for 1000 SMTP messages on Mail Server -->
+	<function name="waitForMails" module="SMTP">
+		<parameter>1000</parameter>
+	</function>
+
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MSP</parameter>
+		<parameter>MSP</parameter>
+	</function>
+
+	<loop name="activeprocess" start="0" stop="msp/length">
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>
+				<parameter>msp/</parameter>
+				<variable>activeprocess</variable>
+			</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: \d++ items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>response</variable>
+		<variable>activeprocess</variable>
+		<parameter>\d++</parameter>
+	</function>
+	</loop> 
+
+	<function name="setVariable" module="Basic">
+		<parameter>TOTAL</parameter>
+		<parameter>TOTAL</parameter>
+	</function> 
+
+	<function name="addVariable" module="Basic">
+		<variable>TOTAL</variable>
+		<variable>0</variable>
+		<variable>1</variable>
+		<variable>2</variable>
+	</function>
+
+	<function name="compareString" module="Basic">
+		<variable>TOTAL</variable>
+		<parameter>1000</parameter>
+	</function>
+
+	<!-- Stop SMTP Server -->
+	<function name="stopSMTPServer" module="SMTP"/>
+
+	<!-- Stop WebServer -->
+	<function name="stopWebServer" module="HTTP"/>	
+
+	<!-- Restore MNO file -->
+	<subtest>../restoreMNO.xml</subtest>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+</test>

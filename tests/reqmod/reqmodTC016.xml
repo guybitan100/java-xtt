@@ -1,0 +1,138 @@
+<!-- $Id: reqmodTC016.xml,v 1.4 2007/05/21 09:34:07 gcattell Exp $ -->
+<!-- # Test Case 1116 aka REQMOD.TC.016
+     # Check that reqmod rules are correctly loaded
+     # when being reloaded into the gateway.
+-->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.016</parameter>
+    </function>
+    <description>Check for correctly loaded rules when being reloaded into the gateway</description>
+    
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <!-- extract current configuration -->
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>rm -f reqmodTC016.test.xml reqmodTC016.test1.xml</parameter>
+    </function>
+
+    <!-- extract current configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>extract data requestmodifications reqmodTC016.test.xml</parameter>
+    </function>
+
+    <!-- check if extraction worked -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Extracted.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <!-- upload new reqmod configuration-->
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmodTC016.test1.xml</parameter>
+        <!--
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;\\n</parameter>
+        <parameter>&lt;requestModifications&gt;\\n</parameter>
+        <parameter>    &lt;table name="reqmodTC016"&gt;\\n</parameter>
+        <parameter>        &lt;selector urlPattern="http://*.xtt724.com/*"&gt;\\n</parameter>
+        <parameter>            &lt;header name="reqmodTC016" value="'Check if this HEADER is in and removed later'"&gt;&lt;/header&gt;\\n</parameter>
+        <parameter>        &lt;/selector&gt;\\n</parameter>
+        <parameter>    &lt;/table&gt;\\n</parameter>
+        <parameter>&lt;/requestModifications&gt;\\n</parameter>
+        -->
+        <file>reqmodTC016.test1.xml</file>
+    </function>
+
+    <!-- load new reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data reqmodTC016.test1.xml</parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test1.xtt724.com/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check if the header of the new rule was received by the webserver -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC016</parameter>
+        <parameter>Check if this HEADER is in and removed later</parameter>
+    </function>
+    <!-- that should always work, if that fails something realy bad happend-->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>SpecificRuleTest</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <!-- load the old reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data reqmodTC016.test.xml</parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test1.xtt724.com/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did NOT receive the header -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC016</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <!-- remove file -->
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>rm -f reqmodTC016.test.xml reqmodTC016.test1.xml</parameter>
+    </function>
+
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+</test>

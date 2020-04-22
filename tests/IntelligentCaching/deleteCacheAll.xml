@@ -1,0 +1,27 @@
+<test>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>HTTP-ROUTER</parameter>
+        <parameter>service</parameter>
+    </function>
+    <loop name="processLoop" start="0" stop="service/length" step="1">
+        <function name="executeRemoteXMSCommand" module="Remote">
+            <parameter>
+                <configuration>remote/command</configuration>
+                <parameter>
+                    <parameter>cmu -C HTTPCACHE_CFG_CacheInvalidate </parameter>
+                    <variable>
+                        <parameter>service/</parameter>
+                        <variable>processLoop</variable>
+                    </variable>
+                    <parameter> true</parameter>
+                </parameter>
+            </parameter>
+        </function>
+        <function name="queryResponse" module="Remote">
+            <parameter>Update successful</parameter>
+            <parameter>response</parameter>
+        </function>
+    </loop>    
+
+</test>

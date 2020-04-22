@@ -1,0 +1,62 @@
+<test>
+    <name>PUSH.TC.000</name>
+    
+    <conditional configuration="SMSCSERVER/PROTOCOL" targetValue="UCP">
+        <function name="setVariable" module="Basic">
+            <parameter>push-smsconnections.xml</parameter>
+            <file>push-UCP-smsconnections.xml</file>
+        </function>
+    </conditional>
+    <conditional configuration="SMSCSERVER/PROTOCOL" targetValue="SMPP">
+        <function name="setVariable" module="Basic">
+            <parameter>push-smsconnections.xml</parameter>
+            <file>push-SMPP-smsconnections.xml</file>
+        </function>
+    </conditional>
+        
+    <function name="replace" module="Basic">
+        <parameter>push-smsconnections.xml</parameter>
+        <parameter>ipAddress=""</parameter>
+        <parameter>
+            <parameter>ipAddress="</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>"</parameter>
+        </parameter>
+    </function>
+
+    <function name="replace" module="Basic">
+        <parameter>push-smsconnections.xml</parameter>
+        <parameter>port=""</parameter>
+        <parameter>
+            <parameter>port="</parameter>
+            <configuration>SMSCSERVER/PORT</configuration>
+            <parameter>"</parameter>
+        </parameter>
+    </function>
+
+    <conditional configuration="SMSCSERVER/PASSWORD" targetValue="null" inverted="true">
+        <function name="replace" module="Basic">
+            <parameter>push-smsconnections.xml</parameter>
+            <parameter>password=""</parameter>
+            <parameter>
+                <parameter>password="</parameter>
+                <configuration>SMSCSERVER/PASSWORD</configuration>
+                <parameter>"</parameter>
+            </parameter>
+        </function>
+    </conditional>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>push-smsconnections.xml</parameter>
+        <variable>push-smsconnections.xml</variable>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data push-smsconnections.xml</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>dev/null</parameter>
+    </function>    
+</test>

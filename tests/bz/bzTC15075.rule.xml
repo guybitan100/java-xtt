@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+<!-- $Id: bzTC15075.rule.xml,v 1.1 2007/10/19 08:11:14 gcattell Exp $ -->
+    <table name="Proxy rules 1" >
+        <selector context="Internal_Groups contains 'SILVER'" >
+            <selectProxy name="TEST_SET_1" />
+        </selector>
+    </table>
+    <table name="Proxy rules 2" >
+        <selector urlPattern="*://proxy1.xtt724.com/*" >
+            <selectProxy name="TEST_SET_1" />
+        </selector>
+        <selector urlPattern="*://proxy2.xtt724.com/*" >
+            <selectProxy name="TEST_SET_2" />
+        </selector>
+    </table>
+    <table name="Proxy rules 3a" >
+        <selector urlPattern="*://proxy3.xtt724.com/*" >
+            <selectProxy name="TEST_SET_1" />
+        </selector>
+    </table>
+    <table name="Proxy rules 3b" >
+        <selector urlPattern="*://proxy3.xtt724.com/*" >
+            <modifyHeader name="ExternalUseridProxy3" value="Internal_NAI"/>
+            <modifyHeader name="ProxyRewriteTest3" value="'ProxyTest3'"/>
+        </selector>
+    </table>
+    <table name="Proxy rules 3c" >
+        <selector urlPattern="*://proxy3.xtt724.com/*" >
+            <modifyUrl newUrl="http://www.xtt724.com/" />
+        </selector>
+    </table>
+    <table name="Proxy rules 4a" >
+        <selector urlPattern="*://proxy4.xtt724.com/*" >
+            <selectProxy name="TEST_SET_3" />
+        </selector>
+    </table>
+    <table name="Proxy rules 4b" >
+        <selector urlPattern="*://*.proxy4.xtt724.com/*" >
+            <selectProxy name="TEST_SET_3" />
+        </selector>
+    </table>
+    <table name="Proxy rules 4c" >
+        <selector urlPattern="*://*.proxy4.xtt724.com/*" >
+            <modifyUrl newUrl="http://proxy4.xtt724.com/" />
+        </selector>
+    </table>
+</requestModifications>

@@ -1,0 +1,446 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>IntegrationTest.TC.000</parameter>
+	</function>
+
+	<description>Loading and setup all config files used for MMSX</description>
+
+	<!--Check if all processes are running -->
+	<function name="checkAllProcessesStatus" module="Remote">
+		<parameter>Running</parameter>
+	</function>
+
+<!-- Loading Workflow XPDL for XTT test cases -->
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>link work </parameter>
+			<parameter>-out </parameter>
+			<configuration>REMOTE/PATH</configuration>
+			<parameter>/cfg/mmsx.cxpdl</parameter>
+			<parameter> </parameter>
+			<configuration>REMOTE/PATH</configuration>
+			<parameter>/cfg/mmsx.xpdl</parameter>
+		</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<configuration>REMOTE/PATH</configuration>
+			<parameter>/cfg/mmsx.cxpdl</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded xpdl</parameter>
+		<parameter>response</parameter>
+	</function>
+
+<!-- Loading Workflow constant file for XTT test cases -->
+
+	<!-- Load the workflow file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<parameter>load data </parameter>
+		<configuration>remote/path</configuration>
+		<parameter>/examples/mmsx_WorkflowConstants.xml</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded workflowconstants</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+<!-- Loading Workflow constant file for XTT test cases setting "smsOutCharacterSet" = "text"-->
+
+	<subtest>PrepareWorkflowConstants.xml</subtest>
+
+<!-- Loading Appconfig file for XTT test cases -->
+
+	<!-- Load the workflow file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<parameter>load data </parameter>
+		<configuration>remote/path</configuration>
+		<parameter>/examples/mmsx_Appconfig.xml</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded appconfig</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+<!-- Loading SMSC Connection file for XTT test cases -->
+
+	<!--lets fetch serviceSmsShortcode from loaded appconfig file-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract data </parameter>
+			<parameter>appconfig default_appconfig.xml</parameter>
+		</parameter>
+	</function>
+
+	<!--  Read the appconfig in a variable-->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_appconfig.xml</parameter>
+		<parameter>default_appconfig</parameter>
+	</function>
+
+	<function name="createDocument" module="XML">
+		<parameter>appconfigxmldocument</parameter>
+		<variable>default_appconfig</variable>
+	</function>
+
+	<!--fetch serviceSmsShortcode from appconfig-->
+	<function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='serviceSmsShortcode']/value</parameter>
+		<parameter>serviceSmsShortcode</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>REMOTE/COMMAND</configuration>
+			<parameter>pwcrypt -f </parameter>
+			<configuration>productlicense</configuration>
+			<parameter> </parameter>
+			<configuration>SMSCServer/Password</configuration>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>.*</parameter>
+		<parameter>PASSWORD1</parameter>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>smsConnections_SMPP.xml</parameter>
+		<file>smsConnections_SMPP.xml</file>
+	</function>
+
+	<function name="replace" module="Basic">
+		<parameter>smsConnections_SMPP.xml</parameter>
+		<parameter>ipAddress=""</parameter>
+		<parameter>
+			<parameter>ipAddress="</parameter>
+			<configuration>SYSTEM/IP</configuration>
+			<parameter>"</parameter>
+		</parameter>
+	</function>
+
+	<function name="replace" module="Basic">
+		<parameter>smsConnections_SMPP.xml</parameter>
+		<parameter>port1=""</parameter>
+		<parameter>
+			<parameter>port="</parameter>
+			<configuration>SMSCSERVER/PORT</configuration>
+			<parameter>"</parameter>
+		</parameter>
+	</function>
+
+	<function name="replace" module="Basic">
+		<parameter>smsConnections_SMPP.xml</parameter>
+		<parameter>port2=""</parameter>
+		<parameter>
+			<parameter>port="</parameter>
+			<configuration>SMSCSERVER/PORT</configuration>
+			<parameter>"</parameter>
+		</parameter>
+	</function>
+
+	<function name="replace" module="Basic">
+		<parameter>smsConnections_SMPP.xml</parameter>
+		<parameter>port3=""</parameter>
+		<parameter>
+			<parameter>port="</parameter>
+			<configuration>SMSCSERVER1/PORT</configuration>
+			<parameter>"</parameter>
+		</parameter>
+	</function>
+
+	<function name="replace" module="Basic">
+		<parameter>smsConnections_SMPP.xml</parameter>
+		<parameter>password=""</parameter>
+		<parameter>
+			<parameter>password="</parameter>
+			<variable>PASSWORD1</variable>
+			<parameter>"</parameter>
+		</parameter>
+	</function>
+
+	<function name="replace" module="Basic">
+		<parameter>smsConnections_SMPP.xml</parameter>
+		<parameter>address=""</parameter>
+		<parameter>
+			<parameter>address="</parameter>
+			<variable>serviceSmsShortcode</variable>
+			<parameter>"</parameter>
+		</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>smsConnections_SMPP.xml</parameter>
+		<variable>smsConnections_SMPP.xml</variable>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>dos2unix smsConnections_SMPP.xml</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data smsConnections_SMPP.xml</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+<!-- Setting Security SSL fetaure for MMSX -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>REMOTE/COMMAND</configuration>
+			<parameter>pwcrypt -f </parameter>
+			<configuration>productlicense</configuration>
+			<parameter> demo1234</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>.*</parameter>
+		<parameter>PASSWORD2</parameter>
+	</function>
+
+	<!-- load required certificates as per BZ26878-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>
+				<parameter>load file </parameter>
+				<configuration>remote/path</configuration>
+				<parameter>key/demo_inet_server_certificate.der</parameter>
+			</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>
+				<parameter>load file </parameter>
+				<configuration>remote/path</configuration>
+				<parameter>key/demo_inet_server_private_key.der</parameter>
+			</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>
+				<parameter>load file </parameter>
+				<configuration>remote/path</configuration>
+				<parameter>key/demo_inet_server_ca_certificate.der</parameter>
+			</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Creating Seurity file -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>MMSX_Security.xml</parameter>
+		<parameter>
+		<parameter>&lt;mmsxSecurity&gt;
+	&lt;httpIn allowWeakEncryption="true"&gt;
+		&lt;serverCertificate privateKeyFile="demo_inet_server_private_key.der" privateKeyPassword="</parameter><variable>PASSWORD2</variable><parameter>"&gt;
+			&lt;certificateChain&gt;
+				&lt;certificate name="demo_inet_server_certificate.der"/&gt;
+				&lt;certificate name="demo_inet_server_ca_certificate.der"/&gt;
+			&lt;/certificateChain&gt;
+		&lt;/serverCertificate&gt;
+	&lt;/httpIn&gt;
+	&lt;guis allowWeakEncryption="true"&gt;
+		&lt;serverCertificate privateKeyFile="demo_inet_server_private_key.der" privateKeyPassword="</parameter><variable>PASSWORD2</variable><parameter>"&gt;
+			&lt;certificateChain&gt;
+				&lt;certificate name="demo_inet_server_certificate.der"/&gt;
+				&lt;certificate name="demo_inet_server_ca_certificate.der"/&gt;
+			&lt;/certificateChain&gt;
+		&lt;/serverCertificate&gt;
+	&lt;/guis&gt;
+	&lt;/mmsxSecurity&gt;</parameter>
+		</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data MMSX_Security.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded mmsxsecurity</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+<!-- Writing required files for Auto Responder functionality -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>datafile</parameter>
+		<file>../datafile</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 datafile</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>sampletext1.txt</parameter>
+		<file>../sampletext1.txt</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 sampletext1.txt</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>sampletext2.txt</parameter>
+		<file>../sampletext2.txt</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 sampletext2.txt</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>sampletext3.txt</parameter>
+		<file>../sampletext3.txt</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 sampletext3.txt</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>sampletext4.txt</parameter>
+		<file>../sampletext4.txt</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 sampletext4.txt</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>send-multipart-related-img-txt.bin</parameter>
+		<file>../send-multipart-related-img-txt.bin</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 send-multipart-related-img-txt.bin</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>send-multipart-mixed-img-txt.bin</parameter>
+		<file>../send-multipart-mixed-img-txt.bin</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 send-multipart-mixed-img-txt.bin</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>RUSS_send-multipart-related-img-txt.bin</parameter>
+		<file>../RUSS_send-multipart-related-img-txt.bin</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 RUSS_send-multipart-related-img-txt.bin</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>MultiPart-Related30kb.txt.bin</parameter>
+		<file>../AutoResponder/MultiPart-Related30kb.txt.bin</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 MultiPart-Related30kb.txt.bin</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>MultiPart-Mixed30kb.txt.bin</parameter>
+		<file>../AutoResponder/MultiPart-Mixed30kb.txt.bin</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 MultiPart-Mixed30kb.txt.bin</parameter>
+	</function>
+
+<!-- Loading mmsx_PhonePrefix.pat for normalization -->
+
+	<!-- Load the mmsx_PhonePrefix.pat file -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<parameter>load file </parameter>
+		<configuration>remote/path</configuration>
+		<parameter>/examples/mmsx_PhonePrefix.pat</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded '/url/mmsx_PhonePrefix.pat' from .*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+<!-- Loading mmsx_PhonePrefixPatternLoader.xml request modification file for normalization -->
+
+	<!-- Load the mmsx_PhonePrefixPatternLoader.xml file -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<parameter>load data </parameter>
+		<configuration>remote/path</configuration>
+		<parameter>/examples/mmsx_PhonePrefixPatternLoader.xml</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+<!-- Loading DB for MMSX XTT test cases -->
+
+	<!-- Write a remote file with all the DB values -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>MMSX_db_config</parameter>
+		<file>../MMSX_db_config</file>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>chmod 777 MMSX_db_config</parameter>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>dos2unix MMSX_db_config</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>run command sh MMSX_db_config</parameter>
+	</function>
+
+	<!-- Validate DB is loaded properly -->
+	<function name="checkReturnCode" module="Remote">
+		<parameter>0</parameter>
+	</function>
+
+</test>

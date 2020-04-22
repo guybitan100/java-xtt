@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:setDeviceByGAN>
+      <arg0>84728592930586</arg0>
+      <arg1>
+        <profile>hfjhdjfh</profile>
+        <profileUrl>fkldjfjdfkl</profileUrl>
+        <userAgent>nfkdsufiouj</userAgent>
+      </arg1>
+    </tns:setDeviceByGAN>
+  </soap:Body>
+</soap:Envelope>

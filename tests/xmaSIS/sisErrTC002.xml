@@ -1,0 +1,155 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SIS.ERR.TC.002</parameter>
+    </function>
+    <description>Check all 16 SIS eceptions with pessimistic behaviour</description>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>startnumber</parameter>
+        <parameter>53790000000</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>stopnumber</parameter>
+        <parameter>53790000016</parameter>
+    </function>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile deviceInfoListNokia.xml </parameter>
+        <file>deviceInfoListNokia.xml</file>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/device</configuration>
+        <parameter>deviceInfoListNokia.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <subtest>sisSTART.xml</subtest>
+    <function name="setVariable" module="Basic">
+        <parameter>SISOPTIMISITC</parameter>
+        <parameter>false</parameter>
+    </function>
+    <subtest>loadVASP.xml</subtest>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+
+        <function name="createTPISoap" module="VASP"/>
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>username</parameter>
+            <parameter>XTTUser</parameter>
+        </function>
+    
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>password</parameter>
+            <parameter>XTTUserPassword</parameter>
+        </function>
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>short-id</parameter>
+            <configuration>VASP/VASID</configuration>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>service-name</parameter>
+            <parameter>XTTService001</parameter>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>subject</parameter>
+            <parameter>XTT Test Message 001</parameter>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>from</parameter>
+            <configuration>VASP/NUMBER</configuration>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>bill-text</parameter>
+            <parameter>XTT Billing Text</parameter>
+        </function>    
+    
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>transaction-state</parameter>
+            <parameter>XTTState</parameter>
+        </function> 
+    
+        <function name="addSOAPContentID" module="VASP">
+            <file>sendTPIdata.txt</file>
+        </function>    
+        <function name="addContent" module="VASP">
+            <file>sendTPIdata.txt</file>
+        </function>
+    
+    <thread>
+    <loop name="number" start="startNumber" stop="stopNumber" step="1">
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>to-recipient</parameter>
+            <variable>number</variable>
+        </function>    
+        <!--function name="previewRequest" module="VASP"/-->
+        <function name="sendPostRequest" module="VASP"/>
+        
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;state xsi:type=&quot;xsd:string&quot;&gt;0&lt;/state&gt;</parameter>
+        </function>            
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;state-text xsi:type=&quot;xsd:string&quot;&gt;O[Kk]&lt;/state-text&gt;</parameter>
+        </function>            
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>
+                <parameter>&lt;message-state recipient=&quot;</parameter>
+                <variable>number</variable>
+                <parameter>&quot; state=&quot;4&quot; state-text=&quot;&amp;quot;SIS N/A&amp;quot;&quot;/&gt;</parameter>
+            </parameter>
+        </function>            
+
+
+        <function name="subtractVariable" module="BASIC">
+            <parameter>numbercount</parameter>
+            <variable>number</variable>
+            <variable>startnumber</variable>
+            <parameter>-1</parameter>
+        </function>
+    
+        <function name="waitForSISCalls" module="SIS">
+            <variable>numbercount</variable>
+        </function>
+    </loop>
+    </thread>
+
+        <function name="waitForTimeoutWSPMessages" module="SMS">
+            <parameter>60000</parameter>
+        </function>
+
+
+    <function name="stopSMSCServer" module="SMS"/>    
+    <subtest>sisSTOP.xml</subtest>
+    <subtest>restoreVASP.xml</subtest>
+
+    
+</test>

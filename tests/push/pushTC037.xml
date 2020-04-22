@@ -1,0 +1,172 @@
+<test>
+    <configuration>push.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>PUSH.TC.037</parameter>
+    </function>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>   
+
+    <function name="setPostData" module="Push">
+        <file>push-DeliverBefore-DeliverAfter.txt</file>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <parameter>3333333</parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+    
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>    
+
+    <function name="createDateString" module="Basic">
+        <parameter>yyyy-MM-dd'T'HH:mm:ss'Z'</parameter>
+        <parameter>futureDate1</parameter>
+        <parameter>10</parameter>
+        <parameter>UTC</parameter>
+    </function>    
+    
+    <function name="createDateString" module="Basic">
+        <parameter>yyyy-MM-dd'T'HH:mm:ss'Z'</parameter>
+        <parameter>futureDate2</parameter>
+        <parameter>120</parameter>
+        <parameter>UTC</parameter>
+    </function>
+ 
+    <function name="replaceAttribute" module="Push">
+        <parameter>deliver-after-timestamp</parameter>
+        <variable>futureDate1</variable>
+    </function>  
+            
+    <function name="replaceAttribute" module="Push">
+        <parameter>deliver-before-timestamp</parameter>
+        <variable>futureDate2</variable>
+    </function>        
+   
+    <function name="replaceAttribute" module="Push">
+        <parameter>priority</parameter>
+        <parameter>low</parameter>
+    </function>           
+   
+    <function name="sendPushRequest" module="Push"/>
+    
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>    
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>priority</parameter>
+        <parameter>high</parameter>
+    </function>           
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <parameter>1111111</parameter>
+    </function>
+   
+    <function name="sendPushRequest" module="Push"/>
+    
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>    
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>priority</parameter>
+        <parameter>medium</parameter>
+    </function>           
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <parameter>2222222</parameter>
+    </function>
+   
+    <function name="sendPushRequest" module="Push"/>
+    
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>3</parameter>
+    </function>
+    
+    <function name="lessThan" module="Basic">
+        <variable>
+            <parameter>smsc/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/1111111/xtttimestamp</parameter>
+        </variable>
+        <variable>
+            <parameter>smsc/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/2222222/xtttimestamp</parameter>
+        </variable>        
+    </function>    
+
+    <function name="lessThan" module="Basic">
+        <variable>
+            <parameter>smsc/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/2222222/xtttimestamp</parameter>
+        </variable>
+        <variable>
+            <parameter>smsc/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/3333333/xtttimestamp</parameter>
+        </variable>        
+    </function> 
+        
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

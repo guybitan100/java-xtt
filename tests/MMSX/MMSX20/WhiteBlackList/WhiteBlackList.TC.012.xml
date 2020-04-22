@@ -1,0 +1,82 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>WhiteBlackList.TC.012</parameter>
+	</function>
+
+	<description> Validate Recipient has a Black List and Sender is in not the Black List / Via non-secure HTTP-IN Application receives MM4 Message 
+	-----------------------------------------------------------------------
+1. Send MM4 Message to MMS Proxy.
+2. MMS Proxy should intercept this message and send Request to Application as HTTPS GET Request.
+3. Application checks whether Recipient is registered for the Application Features or not.
+4. The billing transaction will be done only for the sender as he has to be charged for sending MMS
+5. Application sends "pass" instruction to MM4 proxy to pass the message.
+	-----------------------------------------------------------------------
+	</description>
+
+			<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>MM4_forward.REQ</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN6</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN5</configuration>
+	</function>
+
+	<!-- Set Subject line for white list test -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>Hello Foreign Sender... you are not in my black List</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "pass" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+</test>

@@ -1,0 +1,40 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.9537</parameter>
+	</function>
+	
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+	<!--<function name="addAdditionalAttributes" module="Radius">
+		<parameter>26</parameter>
+	    <parameter>11</parameter>
+    </function>-->
+	<!--<function name="addAdditionalAttributes" module="Radius">
+		<parameter>30</parameter>
+	    <parameter>xtt.724.com</parameter>
+    </function>-->
+	<function name="radiusDo" module="Radius">
+		<parameter>4</parameter>
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.google.com/</parameter>
+	</function>
+	<function name="queryHeader" module="HTTP">
+		<parameter>temp</parameter>
+		<parameter>server</parameter>
+		<parameter>GWS</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+</test>

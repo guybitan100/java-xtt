@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+    <table name="augmentations5">
+        <selector urlPattern="http://172.20.14.11/*">
+            <modifyParameter name="user" value="Internal_NAI"/>
+            <modifyParameter name="foo" value="'bar'"/>
+	        <modifyParameter name="removeme"/>
+        </selector>
+    </table>
+</requestModifications>

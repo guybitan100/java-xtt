@@ -1,0 +1,419 @@
+#!/usr/bin/ksh
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5001 msisdn="0891115001"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5001  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115101" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5001  msisdn="0891115111"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5001  msisdn="0891115112"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5001  msisdn="0891115113"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5001  msisdn="0891115114"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5001  msisdn="0891115115"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5002 msisdn="0891115002"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5002  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115201" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5002  msisdn="0891115211"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5002  msisdn="0891115212"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5002  msisdn="0891115213"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5002  msisdn="0891115214"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addForwardSender subscriberId=5002  msisdn="0891115215"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5003 msisdn="0891115003"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5003  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115301" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5004 msisdn="0891115004"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5004  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115401" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5005 msisdn="0891115005"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5005  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115501" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5006 msisdn="0891115006"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5006  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115601" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5007 msisdn="0891115007"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5007  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115701" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5008 msisdn="0891115008"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5008  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115801" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5009 msisdn="0891115009"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5009  serviceEnabled=true serviceConditional=false forwardingMsisdn="0891115901" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5010 msisdn="0891115010"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5010  serviceEnabled=true serviceConditional=false forwardingMsisdn="08911151001" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5011 msisdn="0891115011"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5011  serviceEnabled=true serviceConditional=false forwardingMsisdn="08911151101" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5012 msisdn="0891115012"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5012  serviceEnabled=true serviceConditional=false forwardingMsisdn="08911151201" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5013 msisdn="0891115013"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5013  serviceEnabled=true serviceConditional=false forwardingMsisdn="08911151301" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5014 msisdn="0891115014"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5014  serviceEnabled=true serviceConditional=false forwardingMsisdn="08911151401" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5015 msisdn="0891115015"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5015  serviceEnabled=true serviceConditional=false forwardingMsisdn="08911151501" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5016 msisdn="0891115016"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5016  serviceEnabled=true serviceConditional=false forwardingMsisdn="08911151601" subjectPrefix="Forwarded" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=5017 msisdn="0891115017"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=5017  serviceEnabled=true serviceConditional=false forwardingMsisdn="08911151701" subjectPrefix="Forwarded" forwardingAll=true
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=6001 msisdn="0891116001"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=6001  serviceEnabled=true nickname="nickname1" serviceConditional=false
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7001 msisdn="0891117001"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7001  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=7001  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7001  msisdn="0891117101" password="qwerty"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7001  msisdn="0891117102" password="QWERTY"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7001  msisdn="0891117103" password="123456"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7001  msisdn="0891117104" password="poiuyt"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7001  msisdn="0891117105" password="poiuyz"
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7002 msisdn="0891117002"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7002  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7002  msisdn="0891117101" password="qwerty"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7002  msisdn="0891117102" password="QWERTY"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7002  msisdn="0891117103" password="123456"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7002  msisdn="0891117104" password="poiuyt"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7002  msisdn="0891117105" password="poiuyz"
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7003 msisdn="0891117003"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7003  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7003  msisdn="0891117101" password="qwerty"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7003  msisdn="0891117102" password="QWERTY"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7003  msisdn="0891117103" password="1234567"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7003  msisdn="0891117104" password="poiuyt"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7003  msisdn="0891117105" password="poiuyz"
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7004 msisdn="0891117004"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7004  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7004  msisdn="0891117101" password="qwerty"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7004  msisdn="0891117102" password="QWERTY"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=7004  msisdn="0891117103" password="12345678"
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7101 msisdn="0891117101"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7101  serviceEnabled=true
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7102 msisdn="0891117102"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7102  serviceEnabled=true
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7103 msisdn="0891117103"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7103  serviceEnabled=true
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7104 msisdn="0891117104"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7104  serviceEnabled=true
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=7105 msisdn="0891117105"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=7105  serviceEnabled=true
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8001 msisdn="0891118001"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8001  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8001  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8001  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8001  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8001  serviceEnabled=true whitelistMode=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8001  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8001  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8001  msisdn="0891118101"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8001  msisdn="0891118102"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8001  msisdn="0891118103"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8001  msisdn="0891118104"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8001  msisdn="0891118105"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8001  msisdn="0891118003"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8001  msisdn="0291118101"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8002 msisdn="0891118002"   user="user name2" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8002  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8002  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8002  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8002  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8002  serviceEnabled=true whitelistMode=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8002  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8002  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8002  msisdn="0891118101"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8002  msisdn="0891118102"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8002  msisdn="0891118103"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8002  msisdn="0891118104"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8002  msisdn="0891118105"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8002  msisdn="0891118003"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8002  msisdn="0891118010"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8003 msisdn="0891118003"   user="user name3" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8003  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8003  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8003  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8003  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8003  serviceEnabled=true whitelistMode=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8003  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8003  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8003  msisdn="0891118101"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8004 msisdn="0891118004"   user="user name4" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8004  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8004  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8004  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8004  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8004  serviceEnabled=true whitelistMode=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8004  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8004  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8004  msisdn="0891118101"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8005 msisdn="0891118005"   user="user name5" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8005  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8005  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8005  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8005  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8005  serviceEnabled=true whitelistMode=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8005  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8005  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8005  msisdn="0891118101"
+
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8006 msisdn="0891118006"   user="user name6" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8006  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8006  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8006  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8006  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8006  serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8006  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8006  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8006  msisdn="0891118101"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8006  msisdn="111111111111"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8006  msisdn="0291118101"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8007 msisdn="0891118007"   user="user name7" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8007  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8007  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8007  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8007  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8007  serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8007  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8007  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8007  msisdn="0891118101"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8007  msisdn="08911112101"
+
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8008 msisdn="0891118008"   user="user name8" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8008  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8008  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8008  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8008  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8008  serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8008  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8008  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8008  msisdn="0891118101"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8009 msisdn="0891118009"   user="user name9" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8009  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8009  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8009  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8009  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8009  serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8009  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8009  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8009  msisdn="0891118101"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8010 msisdn="0891118010"   user="user name10" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8010  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8010  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8010  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8010  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8010  serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8010  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8010  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8010  msisdn="0891118101"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=8010  msisdn="0891118201"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=8201 msisdn="0891118201"   user="user name21" region="region2" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=8201  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=8201  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=8201  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=8201  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=8201  serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=8201  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=8201  serviceEnabled=false
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=300 msisdn="0795111300"   user="user name300" region="region2" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=301 msisdn="0795111301"   user="user name400" region="region2" masterSwitchOn=true
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=10001 msisdn="0991110001"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=10001  serviceEnabled=true nickname="nickname1" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=10001  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=10001  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=10001  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=10001  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addGroup subscriberId=10001  groupId=10001 groupName="group10001"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=10001 msisdn="0991110201"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=10001 msisdn="0991110301"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.setPassword subscriberId=10001  msisdn="0991110201" password="qwerty"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=10002 msisdn="0991110201"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=10002 serviceEnabled=true whitelistMode=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=10002  msisdn="0991110001"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=10002  serviceEnabled=true serviceConditional=false forwardingMsisdn="0991110111" subjectPrefix="Fwd" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=10003 msisdn="0991110301"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=10003 serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addWhiteBlackList subscriberId=10003  msisdn="0991110001"
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=9001 msisdn="0891119001"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=9001  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addGroup subscriberId=9001  groupId=9004 groupName="group9004"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9004 msisdn="0891119401"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addGroup subscriberId=9001  groupId=9005 groupName="group9005"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9005 msisdn="0891119501"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=9111 msisdn="0891119501"   user="user name9111" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addGroup subscriberId=9001  groupId=9002 groupName="group9002"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119201"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119202"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119203"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119204"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119205"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119206"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119207"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119208"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119209"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119210"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119211"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119212"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119213"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119214"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9002 msisdn="0891119215"
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addGroup subscriberId=9001  groupId=9003 groupName="group9003"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119301"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119302"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119303"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119304"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119305"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119306"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119307"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119308"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119309"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119310"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119311"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119312"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119313"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119314"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119315"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119316"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119317"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119318"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119319"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119320"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119321"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119322"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119323"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119324"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119325"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119326"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119327"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119328"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119329"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119330"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119331"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119332"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119333"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119334"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119335"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119336"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119337"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119338"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119339"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119340"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119341"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119342"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119343"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119344"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119345"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119201"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119202"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119203"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119204"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119205"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119206"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119207"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119208"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119209"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119210"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119211"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119212"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119213"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119214"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addRecipientToGroup groupId=9003 msisdn="0891119215"
+
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=11101 msisdn=0999111101 user=user20001 region=lenzburg masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=11101  serviceEnabled=true
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=1001 msisdn="0891111001"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=1001  serviceEnabled=true
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=1101 msisdn="0891111101"   user="user name1" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=1101  serviceEnabled=true
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=55101 msisdn="0591155101"   user="AuRUser1" region="region1" masterSwitchOn="true" 
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=55101 serviceEnabled=true serviceConditional=false defaultEnabled=true alreadySent=
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=1 subscriberId=55101 created="2010-04-29 14:28:16.969" folderName=".ooo" messageName="defaultAutoResponseMessage" subject="Meeting" to="" from="" cc=""  bcc="" status="" size="./datafile" data="./datafile"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=2 subscriberId=55101 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="custooo"    subject="custooo"           to="" from="" cc=""  bcc="" status="" size="./sampletext1.txt" data="./sampletext1.txt"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55101 msisdn=0591155001  messageName="custooo"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=3 subscriberId=55101 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="outofofficecoooMPR"    subject="outofofficecoooMPR"           to="" from="" cc=""  bcc="" status="" size="./send-multipart-related-img-txt.bin" data="./send-multipart-related-img-txt.bin"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55101 msisdn=0591155002  messageName="outofofficecoooMPR"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=4 subscriberId=55101 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="outofofficecoooMPM"    subject="outofofficecoooMPM"           to="" from="" cc=""  bcc="" status="" size="./send-multipart-mixed-img-txt.bin" data="./send-multipart-mixed-img-txt.bin"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55101 msisdn=0591155003  messageName="outofofficecoooMPM"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=5 subscriberId=55101 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="outofofficecoooRUSS"    subject="outofofficecoooRUSS"           to="" from="" cc=""  bcc="" status="" size="./RUSS_send-multipart-related-img-txt.bin" data="./RUSS_send-multipart-related-img-txt.bin"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55101 msisdn=0591155004  messageName="outofofficecoooRUSS"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=55103 msisdn="0591155103"   user="AuRUser2" region="region1" masterSwitchOn="true" 
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=55103 serviceEnabled=true serviceConditional=false defaultEnabled=true alreadySent=
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=6 subscriberId=55103 created="2010-04-29 14:28:16.969" folderName=".ooo" messageName="defaultAutoResponseMessage" subject="Meeting" to="" from="" cc=""  bcc="" status="" size="./datafile" data="./datafile"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=7 subscriberId=55103 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="custooo"    subject="custooo"           to="" from="" cc=""  bcc="" status="" size="./sampletext1.txt" data="./sampletext1.txt"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55103 msisdn=0591155006  messageName="custooo"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55103 msisdn=0591155001  messageName="custooo"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=55102 msisdn="0591155102"   user="AuRUser3" region="region1" masterSwitchOn="true" 
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=55102 serviceEnabled=true serviceConditional=false defaultEnabled=false alreadySent=
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=8 subscriberId=55102 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="custooo2"    subject="custooo2"           to="" from="" cc=""  bcc="" status="" size="./sampletext2.txt" data="./sampletext2.txt"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55102 msisdn=0591155001  messageName="custooo2"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=55104 msisdn="0591155104"   user="AuRUser4" region="region1" masterSwitchOn="true" 
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=55104 serviceEnabled=true serviceConditional=false defaultEnabled=false alreadySent=
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=9 subscriberId=55104 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="custooo3"    subject="custooo3"           to="" from="" cc=""  bcc="" status="" size="./sampletext3.txt" data="./sampletext3.txt"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55104 msisdn=0591155001  messageName="custooo3"
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=55105 msisdn="0591155105"   user="AuRUser5" region="region1" masterSwitchOn="true" 
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=55105 serviceEnabled=true serviceConditional=false defaultEnabled=false alreadySent=
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=10 subscriberId=55105 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="custooo4"    subject="custooo4"           to="" from="" cc=""  bcc="" status="" size="./sampletext4.txt" data="./sampletext4.txt"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55105 msisdn=0591155001  messageName="custooo4"
+
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=55106 msisdn="0591155106"   user="AuRUser1" region="region1" masterSwitchOn="true" 
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=55106 serviceEnabled=true serviceConditional=false defaultEnabled=true alreadySent=
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=11 subscriberId=55106 created="2010-04-29 14:28:16.969" folderName=".ooo" messageName="defaultAutoResponseMessage" subject="Meeting" to="" from="" cc=""  bcc="" status="" size="./datafile" data="./datafile"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=12 subscriberId=55106 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="outofofficecoooMPM"    subject="outofofficecoooMPM"           to="" from="" cc=""  bcc="" status="" size="./MultiPart-Related30kb.txt.bin" data="./MultiPart-Related30kb.txt.bin"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55106 msisdn=0591155007  messageName="outofofficecoooMPM"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55106 msisdn=0591155006  messageName="outofofficecoooMPM"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55106 msisdn=0591155010  messageName="outofofficecoooMPM"
+
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=55108 msisdn="0591155108"   user="AuRUser1" region="region1" masterSwitchOn="true" 
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=55108 serviceEnabled=true serviceConditional=false defaultEnabled=true alreadySent=
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=13 subscriberId=55106 created="2010-04-29 14:28:16.969" folderName=".ooo" messageName="defaultAutoResponseMessage" subject="Meeting" to="" from="" cc=""  bcc="" status="" size="./datafile" data="./datafile"
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxArchive.storeMessage messageId=14 subscriberId=55106 created="2010-04-30 14:28:16.969" folderName=".ooo" messageName="outofofficecoooMPM"    subject="outofofficecoooMPM"           to="" from="" cc=""  bcc="" status="" size="./MultiPart-Mixed30kb.txt.bin" data="./MultiPart-Mixed30kb.txt.bin"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55108 msisdn=0591155008  messageName="outofofficecoooMPM"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55108 msisdn=0591155006  messageName="outofofficecoooMPM"
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addAutoresponseMessage subscriberId=55106 msisdn=0591155010  messageName="outofofficecoooMPM"
+
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=55010 msisdn="0591155010"   user="AuRUser1" region="region1" masterSwitchOn="true" 
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=55010  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=55010  serviceEnabled=false serviceConditional=true defaultEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=55010  serviceEnabled=false serviceConditional=true forwardingMsisdn="0791111111" subjectPrefix="FWD" forwardingAll=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=55010  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=55010  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=55010  serviceEnabled=false whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=55010  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=55010  serviceEnabled=false
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=12001 msisdn="08911112001"   user="user name10" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=12001  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceAutoResponder subscriberId=12001 serviceEnabled=false serviceConditional=false defaultEnabled=false alreadySent=
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=12001  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=12001  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=12001  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=12001  serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=12001  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=12001  serviceEnabled=false
+
+querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber password= attemptedLoginCount=0 loginBlocked=false attemptedResetPasswordCount=0 resetPasswordFirstAttemptTime=0 resetPasswordBlockedTime=0 subscriberId=12101 msisdn="08911112101"   user="user name10" region="region1" masterSwitchOn=true
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceArchive subscriberId=12101  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceForward subscriberId=12101  serviceEnabled=false serviceConditional=false forwardingMsisdn="" subjectPrefix="" forwardingAll=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=12101  serviceEnabled=false nickname="" serviceConditional=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceSecret subscriberId=12101  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceWhiteBlacklist subscriberId=12101  serviceEnabled=true whitelistMode=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceCalendar subscriberId=12101  serviceEnabled=false
+querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceExpressMessage subscriberId=12101  serviceEnabled=false

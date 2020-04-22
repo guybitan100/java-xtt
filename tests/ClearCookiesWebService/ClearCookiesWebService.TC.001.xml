@@ -1,0 +1,205 @@
+<test>
+	<configuration>../EngineeringImprovements/DBConfig.xml</configuration>
+	<name>ClearCookiesWebService.TC.001.xml</name>
+	<description>Execute "ClearAllCookies" Web Service Call When There are Cookies Stored on XMP</description>
+	
+	<!-- Execute Web Server & Set its Parameters -->
+	<function name="startWebServer" module="HTTP"/>
+			
+	<function name="setCacheFile" module="HTTP">
+	<parameter>test1.html</parameter>
+	<xml>
+<html>
+<body>
+This is a test1.html.
+</body>
+</html>
+	</xml>
+	</function>
+	
+	<function name="setCacheFile" module="HTTP">
+	<parameter>test2.html</parameter>
+	<xml>
+<html>
+<body>
+This is a test2.html.
+</body>
+</html>
+	</xml>
+	</function>
+	
+	<!-- Set Cookies -->
+	<function name="setServerHeader" module="HTTP">
+		<parameter>set-cookie</parameter>
+		<parameter>
+			<parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; Expires=Tue, 19-Oct-2014 11:11:01 GMT; Path=/,</parameter>
+			<parameter>P2-Pers-Cookie-20-Min=Cookie-Value-P2; Expires=Tue, 19-Oct-2014 12:12:02 GMT; Path=/,</parameter>
+			<parameter>P3-Pers-Cookie-30-Min=Cookie-Value-P3; Expires=Tue, 19-Oct-2014 13:13:03 GMT; Path=/,</parameter>
+			<parameter>P4-Pers-Cookie-40-Min=Cookie-Value-P4; Expires=Tue, 19-Oct-2014 14:14:04 GMT; Path=/,</parameter>
+			<parameter>P5-Pers-Cookie-50-Min=Cookie-Value-P5; Expires=Tue, 19-Oct-2014 15:15:05 GMT; Path=/,</parameter>
+			<parameter>S1-Session-Cookie-1=Cookie-Value-S1; Path=/,</parameter>
+			<parameter>S2-Session-Cookie-2=Cookie-Value-S2; Path=/,</parameter>
+			<parameter>S3-Session-Cookie-3=Cookie-Value-S3; Path=/;</parameter>
+		</parameter>
+	</function>
+	
+	<!-- Log in Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>XTTTESTUSER</parameter>
+		<parameter>41791234567</parameter>
+	</function>
+	
+	<!-- Connect to WAP Gateway -->
+	<function name="connectGateway" module="WAP"/>
+	
+	<!-- HTTP GET Requests -->
+	<function name="sendGetRequest" module="WAP">
+		<parameter>http://test.cookie.xtt724.com/test1.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="WAP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="queryBody" module="WAP">
+		<parameter>dev/null</parameter>
+		<parameter>This is a test1.html.</parameter>
+	</function>
+	
+	<function name="checkHeader" module="WAP">
+		<parameter>set-cookie</parameter>
+		<parameter>null</parameter>
+	</function>
+
+<function name="sleep" module="Basic">
+<parameter>15</parameter>
+</function>
+    
+	<!-- Check if Cookies are injected -->
+	<function name="clearHeader" module="WAP"> </function>
+	<function name="clearServerHeader" module="HTTP"> </function>
+
+	<function name="sendGetRequest" module="WAP">
+		<parameter>http://test.cookie.xtt724.com/test2.html</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="WAP">
+		<parameter>200</parameter>
+	</function>
+    
+	<function name="queryBody" module="WAP">
+		<parameter>dev/null</parameter>
+		<parameter>This is a test2.html.</parameter>
+	</function>
+
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>\$Version=0;</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; \$Path="/";</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>P2-Pers-Cookie-20-Min=Cookie-Value-P2; \$Path="/";</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>P3-Pers-Cookie-30-Min=Cookie-Value-P3; \$Path="/";</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>P4-Pers-Cookie-40-Min=Cookie-Value-P4; \$Path="/";</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>P5-Pers-Cookie-50-Min=Cookie-Value-P5; \$Path="/";</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>S1-Session-Cookie-1=Cookie-Value-S1; \$Path="/";</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>S2-Session-Cookie-2=Cookie-Value-S2; \$Path="/";</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+                <parameter>dev/null</parameter>
+		<parameter>cookie</parameter>
+		<parameter>S3-Session-Cookie-3=Cookie-Value-S3; \$Path="/";</parameter>
+	</function>
+	<function name="checkServerHeader" module="HTTP">
+		<parameter>cookie2</parameter>
+		<parameter>$Version=1;</parameter>
+	</function>
+	
+	<!-- Invoke Clear Cookies Web Service -->
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>system/remoteip</configuration>
+			<parameter>:6543</parameter>
+			<parameter>/cookiemgmt/CoreInterfaceImplService</parameter>
+		</parameter>
+		<file>ClearCookiesSoap.xml</file>
+		<parameter>Body/removeAllCookiesByUserIdResponse/cookiesRemoved</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+	
+	<function name="queryResponse" module="SOAP_API">
+	     <!-- You want to check what the last command did, this is a java regular expression -->
+	     <parameter>8</parameter>
+	     <!-- Ignore this paramter, it stores the result to a variable (not important in this test -->
+	     <parameter>dev/null</parameter>
+	</function>
+	
+	<!-- Check if the Cookies are not there anymore -->
+	<function name="clearHeader" module="WAP"> </function>
+	<function name="clearServerHeader" module="HTTP"> </function>
+
+	<function name="sendGetRequest" module="WAP">
+		<parameter>http://test.cookie.xtt724.com/test2.html</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="WAP">
+		<parameter>200</parameter>
+	</function>
+    
+	<function name="queryBody" module="WAP">
+		<parameter>dev/null</parameter>
+		<parameter>This is a test2.html.</parameter>
+	</function>
+
+	<function name="checkServerHeaderNot" module="HTTP">
+		<parameter>cookie</parameter>
+	</function>
+
+	<function name="checkServerHeaderNot" module="HTTP">
+		<parameter>cookie2</parameter>
+	</function>
+	
+	<!-- Disconnect from WAP Gateway -->
+	<function name="disconnectGateway" module="WAP" />
+	
+	<!-- Log off Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>XTTTESTUSER</parameter>
+		<parameter>41791234567</parameter>
+	</function>	
+
+	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>	
+	
+</test>

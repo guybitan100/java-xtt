@@ -1,0 +1,24 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>FAIL.TC.001</parameter>
+    </function>
+    <description>Start and stop a machine in a multi machine setup</description>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>hostname</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>.++</parameter>
+        <parameter>hostname</parameter>
+    </function>
+
+
+    <function name="shutdownMachine" module="Remote">
+        <variable>hostname</variable>
+    </function>
+    <function name="startMachine" module="Remote">
+        <variable>hostname</variable>
+    </function>
+
+</test>

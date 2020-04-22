@@ -1,0 +1,27 @@
+<test>
+    <!-- put the <useMM5/> tag into your config (xma/useMM5) to enable mm5 -->
+
+    <conditional configuration="XMA/USEMM5" targetValue="null">
+        <function name="writeRemoteFile" module="Remote">
+            <parameter>default-mno.xml</parameter>
+            <file>default-mno.xml</file>
+        </function>
+        <function name="executeRemoteXMSCommand" module="Remote">
+            <parameter>load data default-mno.xml</parameter>
+        </function>
+    </conditional>
+    <conditional configuration="XMA/USEMM5" targetValue="null" inverted="true">
+        <function name="writeRemoteFile" module="Remote">
+            <parameter>mm5ss7-mno.xml</parameter>
+            <file>mm5ss7-mno.xml</file>
+        </function>
+        <function name="executeRemoteXMSCommand" module="Remote">
+            <parameter>load data mm5ss7-mno.xml</parameter>
+        </function>
+    </conditional>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>    
+</test>

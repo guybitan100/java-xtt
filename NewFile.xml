@@ -1,0 +1,196 @@
+<test>
+<name>XMP.MULTIPART.TC.001</name>
+<qcid>33</qcid>
+<description>
+MULTIPART WURFL no User Agent match
+</description>
+<steps>
+deleteCacheAll.xml
+loadWURFL.xml
+Remote/writeRemoteFile
+Remote/executeRemoteXMSCommand
+Remote/queryResponse
+Radius/radiusLogon
+HTTP/startWebServer
+HTTP/setHeader
+HTTP/setServerHeader
+HTTP/setCacheFileBase64
+HTTP/setCacheFileBase64
+HTTP/setCacheFile
+HTTP/setCacheFile
+HTTP/setCacheFile
+Thread: HTTP/waitForRequests
+Thread: HTTP/waitForTimeoutRequests
+HTTP/sendGetRequest
+HTTP/checkResponseCode
+HTTP/queryBody
+HTTP/queryBodyNegative
+HTTP/queryHeader
+emptyWURFL.xml
+HTTP/stopWebServer
+Radius/radiusLogoff
+</steps>
+<designer>guyb </designer>
+<creationdate>2012-01-22 11:32:37 </creationdate>
+<testlevel>Integration</testlevel>
+<xfwVersion>XMP_XFW006</xfwVersion>
+<stepname>deleteCacheAll.xml</stepname>
+<subtest>deleteCacheAll.xml</subtest>
+<stepname>loadWURFL.xml</stepname>
+<subtest>loadWURFL.xml</subtest>
+<stepname>Remote/writeRemoteFile</stepname>
+<function name="writeRemoteFile" module="Remote">
+<parameter>xmp_WorkflowConstants_wurfl_true.xml</parameter>
+<file>xmp_WorkflowConstants_wurfl_true.xml</file>
+</function>
+<stepname>Remote/executeRemoteXMSCommand</stepname>
+<function name="executeRemoteXMSCommand" module="Remote">
+<parameter>
+<parameter>load data xmp_WorkflowConstants_wurfl_true.xml</parameter>
+</parameter>
+</function>
+<stepname>Remote/queryResponse</stepname>
+<function name="queryResponse" module="Remote">
+<parameter>^Loaded</parameter>
+<parameter>dev/null</parameter>
+</function>
+<stepname>Radius/radiusLogon</stepname>
+<function name="radiusLogon" module="Radius">
+<parameter>xttuser</parameter>
+<parameter>12346</parameter>
+</function>
+<stepname>HTTP/startWebServer</stepname>
+<function name="startWebServer" module="HTTP"/>
+<stepname>HTTP/setHeader</stepname>
+<function name="setHeader" module="HTTP">
+<parameter>User-Agent</parameter>
+<parameter>XTT/notfound</parameter>
+</function>
+<stepname>HTTP/setServerHeader</stepname>
+<function name="setServerHeader" module="HTTP">
+<parameter>Last-Modified</parameter>
+<parameter>Wed, 15 Nov 1995 04:58:08 GMT</parameter>
+</function>
+<stepname>HTTP/setCacheFileBase64</stepname>
+<function name="setCacheFileBase64" module="HTTP">
+<parameter>MULTIPARTTC001_img1.gif</parameter>
+<base64File>gif.gif</base64File>
+</function>
+<stepname>HTTP/setCacheFileBase64</stepname>
+<function name="setCacheFileBase64" module="HTTP">
+<parameter>MULTIPARTTC001_img2.png</parameter>
+<base64File>png.png</base64File>
+</function>
+<stepname>HTTP/setCacheFile</stepname>
+<function name="setCacheFile" module="HTTP">
+<parameter>MULTIPARTTC001.css</parameter>
+<parameter>body 
+{ 
+	margin: 0px; 
+	padding: 0px; 
+	background: #FFF; 
+	font-family: Verdana, Arial, helvetica, Tahoma, Trebuchet MS, sans-serif; 
+	font-size: 10px; 
+	color: #000; 
+}</parameter>
+</function>
+<stepname>HTTP/setCacheFile</stepname>
+<function name="setCacheFile" module="HTTP">
+<parameter>MULTIPARTTC001.js</parameter>
+<parameter>var pgml = 0;
+
+function init_sitemenu() {
+}
+
+function showHide(layerName,n){ // shows and hides a given layer
+	if (document.getElementById) {
+		//alert('ns7');
+		var fred = document.getElementById(layerName);
+		if (n == 1) {
+			fred.style.display = "";
+		} else if (n == 0) {
+			fred.style.display = "none";
+		} else if (n == 2) {
+			fred.style.display = fred.style.display ? '' : 'none';	
+		}
+		return;
+	}
+}</parameter>
+</function>
+<stepname>HTTP/setCacheFile</stepname>
+<function name="setCacheFile" module="HTTP">
+<parameter>MULTIPARTTC001.html</parameter>
+<parameter>
+<parameter><html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://</parameter>
+<configuration>system/ip</configuration>
+<parameter>/MULTIPARTTC001.css">
+<script src="http://</parameter>
+<configuration>system/ip</configuration>
+<parameter>/MULTIPARTTC001.js" type="text/javascript"></script>
+</head>
+<body>
+<pre>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX
+</pre>
+<br/><img src="http://</parameter>
+<configuration>system/ip</configuration>
+<parameter>/MULTIPARTTC001_img1.gif"/>
+<br/><img src="http://</parameter>
+<configuration>system/ip</configuration>
+<parameter>/MULTIPARTTC001_img2.png"/>
+</body>
+</html>
+</parameter>
+</parameter>
+</function>
+<threadname>Thread</threadname>
+<thread>
+<stepname>HTTP/waitForRequests</stepname>
+<function name="waitForRequests" module="HTTP">
+<parameter>5</parameter>
+</function>
+<stepname>HTTP/waitForTimeoutRequests</stepname>
+<function name="waitForTimeoutRequests" module="HTTP">
+<parameter>5000</parameter>
+<parameter>5</parameter>
+</function>
+</thread>
+<stepname>HTTP/sendGetRequest</stepname>
+<function name="sendGetRequest" module="HTTP">
+<parameter>
+<parameter>http://</parameter>
+<configuration>system/ip</configuration>
+<parameter>/MULTIPARTTC001.html</parameter>
+</parameter>
+</function>
+<stepname>HTTP/checkResponseCode</stepname>
+<function name="checkResponseCode" module="HTTP">
+<parameter>200</parameter>
+</function>
+<stepname>HTTP/queryBody</stepname>
+<function name="queryBody" module="HTTP">
+<parameter>dev/null</parameter>
+<parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+</function>
+<stepname>HTTP/queryBodyNegative</stepname>
+<function name="queryBodyNegative" module="HTTP">
+<parameter>dev/null</parameter>
+<parameter>This is the file that should not be retrieved AGAINDOTHEFILLXXXX</parameter>
+</function>
+<stepname>HTTP/queryHeader</stepname>
+<function name="queryHeader" module="HTTP">
+<parameter>dev/null</parameter>
+<parameter>content-type</parameter>
+<parameter>text/html</parameter>
+</function>
+<stepname>emptyWURFL.xml</stepname>
+<subtest>emptyWURFL.xml</subtest>
+<stepname>HTTP/stopWebServer</stepname>
+<function name="stopWebServer" module="HTTP"/>
+<stepname>Radius/radiusLogoff</stepname>
+<function name="radiusLogoff" module="Radius">
+<parameter>xttuser</parameter>
+<parameter>12346</parameter>
+</function>
+</test>

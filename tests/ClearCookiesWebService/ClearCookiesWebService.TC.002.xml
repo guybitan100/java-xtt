@@ -1,0 +1,41 @@
+<test>
+	<configuration>../EngineeringImprovements/DBConfig.xml</configuration>
+	<name>ClearCookiesWebService.TC.002.xml</name>
+	<description>Execute "ClearAllCookies" Web Service Call When There is no Cookie Stored on XMP</description>
+		
+	<!-- Log in Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>XTTTESTUSER</parameter>
+		<parameter>41791234567</parameter>
+	</function>
+	
+	<!-- Invoke Clear Cookies Web Service -->
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>system/remoteip</configuration>
+			<parameter>:6543</parameter>
+			<parameter>/cookiemgmt/CoreInterfaceImplService</parameter>
+		</parameter>
+		<file>ClearCookiesSoap.xml</file>
+		<parameter>Body/removeAllCookiesByUserIdResponse/cookiesRemoved</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+	
+	<function name="queryResponse" module="SOAP_API">
+	     <!-- You want to check what the last command did, this is a java regular expression -->
+	     <parameter>0</parameter>
+	     <!-- Ignore this paramter, it stores the result to a variable (not important in this test -->
+	     <parameter>dev/null</parameter>
+	</function>
+	
+	<!-- Log off Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>XTTTESTUSER</parameter>
+		<parameter>41791234567</parameter>
+	</function>	
+	
+</test>

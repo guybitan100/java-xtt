@@ -1,0 +1,100 @@
+XTT : start 
+
+subst Y: C:/BUILDTREES/HEAD
+cd Y:
+export MIM_UNC=0
+PS1='${PWD} $ '
+. source/se
+cd y:/xtt
+run-XMP_401-branch_lanta_XTTregression.bat
+run-XMP_401-branch_lanta_XTT.bat
+run-XMP-401-branch_lanta_XTT-loop.bat
+
+Add url's to C:\WINDOWS\system32\drivers\etc\hosts and restart DNS CLIENT
+
+RemoteXtt
+_________
+bash
+cd /home/danielk/XTT
+./start.sh
+
+ 
+Build xtt.jar
+_________
+cd y:/xtt
+c:/ant/bin/ant
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+lanta postgres:
+
+bash
+export PATH=/usr/local/java/bin:/opt/xmp4.0.1/bin:/opt/titanium/lib:/sbin:/opt/oracle/OraHome92/bin:$PATH
+export ORACLE_HOME=/opt/oracle/OraHome92
+cd /home/danielk/XMP/XMP_401-branch
+xms -xmp ac pa 4.0.1.059
+xms -xmp run command bash
+xms sh ve
+
+/opt/titanium/bin/tispy 0:0
+xms edit config pv_lanta_BZ20664.xml
+xms generate configuration pv_lanta_BZ20664.xml  cv_lanta.xml
+
+xms shutdown system
+rm -rf /home/danielk/XMP/XMP_401-branch/log/*
+rm -rf /home/danielk/XMP/XMP_401-branch/process/*
+xms -xmp initialize machine -allowroot cv_lanta.xml
+
+
+
+xms start system -clean cv_lanta.xml
+xms load data /opt/xmp4.0.1/r4.0.1.059/training/xmp-xpdl.xml
+xms load data /opt/xmp4.0.1/training/xmp_RequestModifications.xml
+xms load data /opt/xmp4.0.1/training/Dashboard.xml  
+xms load data /opt/xmp4.0.1/training/wurfl.xml
+
+radiuscli 172.20.2.89 start -a User-Name=0787367500 -a Framed-IP-Address=172.20.4.120  
+
+http://172.20.2.89:1453/dash.html   ( 724 / 724 )
+
+pse3cli rbng TI:F.CEE.PSE1:PSE3
+
+xms -xmp enable tracing -verbose "TCP|HTA|DSP|HTTPCACHE" HTTP-ROUTER.lanta.*
+xms -xmp enable tracing -fail "." HTTP-ROUTER.lanta.*
+xms -xmp enable tracing -fail "." HTTP-ROUTER.lanta.*
+xms -xmp enable tracing -verbose "RAD" RADIUS.lanta
+xms -xmp enable tracing -fail "." RADIUS.lanta
+
+
+##############################################################################
+
+Settings F5 :
+_____________
+we have two APN:
+
+1. "724.test"               (this will send NO radius start/stop)
+
+2. "724.radius.test"  (this will send radius start/stop to IP: 172.20.9.250:1813
+
+ 
+
+I am using the F5 to route the radius and the HTTP request to my Gateway.
+
+F5: APN-HTTP:                IN : 172.20.9.250:8080  >  172.29.9.47:8080
+
+F5: APN-radius-HTTP:  IN : 172.20.9.250:1813  >  172.29.9.47:1813
+
+ 
+
+But you can go directly to your gateway if you don't use radius.
+
+ 
+
+F5 is: https://172.20.9.75              admin admin
+
+############################################################################
+
+lanta route
+
+LINUX   : /sbin/route add -net 172.20.16.0  netmask 255.255.255.0 gw 172.20.9.250
+SOLARIS : /sbin/route add -net 172.20.16.0 -netmask 255.255.255.0    172.20.9.250

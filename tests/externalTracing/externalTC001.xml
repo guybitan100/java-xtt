@@ -1,0 +1,97 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>EXTERNAL.TC.001</parameter>
+    </function>
+    <description>XMG external tracing in PSE process</description>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>PSE</parameter>
+        <parameter>PSE-alpha</parameter>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+        <variable>PSE-alpha</variable>
+    </function>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>PSE</parameter>
+        <parameter>PSE-beta</parameter>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+        <variable>PSE-beta</variable>
+    </function>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>PSE</parameter>
+        <parameter>PSE-alpha2</parameter>
+    </function>
+
+    <function name="compareString" module="Basic">
+        <variable>PSE-alpha</variable>
+        <variable>PSE-alpha2</variable>
+    </function>
+
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>enable tracing -external E://</parameter>
+    </function>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+	<function name="startWebServer" module="HTTP"/>
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://</parameter>
+    		<configuration>SYSTEM/IP</configuration>
+    		<parameter>/index.html</parameter>
+        </parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+    <function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+<function name="stopWebServer" module="HTTP"/>
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+<function name="sleep" module="Basic">
+<parameter>15000</parameter>
+</function>
+
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>
+           <parameter>/bin/grep E:// </parameter>
+           <configuration>XMG/PROCPATH</configuration>
+           <parameter>/</parameter>
+           <variable>PSE-alpha</variable>
+           <parameter>/</parameter>
+           <variable>PSE-alpha</variable>
+           <parameter>.out</parameter>
+        </parameter>
+    </function>
+
+
+
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://PRESENCE/STARTED/(LIVE-FEED-)?SESSION</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://PRESENCE/LOOKUP/ADDRESS</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://PRESENCE/STOPPED/(LIVE-FEED-)?SESSION</parameter>
+        <parameter>response</parameter>
+    </function>
+
+</test>

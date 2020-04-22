@@ -1,0 +1,264 @@
+<test>	    
+	<name>Bugzilla24191.TC.001.xml</name>
+	<description>Develop a custom module which invokes "custInformationTrap" method with an invalid resource-name / Resource-Monitor process should not restart and generate core dumps anymore</description>
+
+	<!-- Load list1.url -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>list1.url</parameter>
+		<parameter>http://*.724xtt.com/a* optional data 1
+http://www.724xtt.com/a* optional data 2
+http://*.sales.724xtt.com/a* optional data 3
+http://*.724xtt.com/ab* optional data 4
+http://www.724xtt.com/* optional data 5
+http://www.724xtt.com/index* optional data 6
+http://www.724xtt.com/index/test* optional data 7</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<parameter>list1.url</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded '/url/list1.url' from 'list1.url'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+
+	<!-- Load list2.url -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>list2.url</parameter>
+		<parameter>http://*.xtt724.com/a* optional data 10
+http://www.xtt724.com/a* optional data 20
+http://*.sales.xtt724.com/a* optional data 30
+http://*.xtt724.com/ab* optional data 40
+http://www.xtt724.com/* optional data 50
+http://www.xtt724.com/index* optional data 60
+http://www.xtt724.com/index/test* optional data 70</parameter>
+	</function>
+    
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<parameter>list2.url</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded '/url/list2.url' from 'list2.url'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+
+	<!-- Load Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>reqmod1.xml</parameter>
+		<xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+	<table name="DummyTableName" phase="httpRequest" matchType="first">
+		<selector urlList="list1.url">
+			<tokenize value="REQMOD_MatchedData"/>
+			<callCustomModule name="XTTCustModule"/>
+			<modifyHeader name="REQMOD_MatchedPattern" value="REQMOD_MatchedPattern"/>
+			<modifyHeader name="REQMOD_MatchedData" value="REQMOD_MatchedData"/>
+			<modifyHeader name="REQMOD_selector" value="'list1'"/>
+			<modifyHeader name="Token00" value="$0"/>
+			<modifyHeader name="Token01" value="$1"/>
+			<modifyHeader name="Token02" value="$2"/>
+			<modifyHeader name="Token03" value="$3"/>
+			<modifyHeader name="REQMOD_Items" value="REQMOD_Items"/>
+		</selector>
+		<selector urlPattern="http://www.bad.com/index/test1.html">
+			<modifyHeader name="REQMOD_MatchedPattern" value="REQMOD_MatchedPattern"/>
+			<modifyHeader name="REQMOD_MatchedData" value="REQMOD_MatchedData + 'abc'"/>
+			<modifyHeader name="REQMOD_selector" value="'pattern1'"/>
+		</selector>
+		<selector urlList="list2.url">
+			<modifyHeader name="REQMOD_MatchedPattern" value="REQMOD_MatchedPattern"/>
+			<modifyHeader name="REQMOD_MatchedData" value="REQMOD_MatchedData"/>
+			<modifyHeader name="REQMOD_selector" value="'list2'"/>
+		</selector>
+		<selector urlPattern="http://www.bad.com/index/test2.html">
+			<modifyHeader name="REQMOD_MatchedPattern" value="REQMOD_MatchedPattern"/>
+			<modifyHeader name="REQMOD_MatchedData" value="REQMOD_MatchedData + 'abc'"/>
+			<modifyHeader name="REQMOD_selector" value="'pattern2'"/>
+		</selector>
+	</table>
+</requestModifications>
+		</xml>
+	</function>
+    
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>reqmod1.xml</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded requestmodifications</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	
+	<!-- Start Target Web Server -->
+	<function name="startWebServer" module="HTTP">
+		<parameter>80</parameter>
+		<testpath/>
+		<parameter>30000</parameter>
+	</function>
+	
+	<!-- Define The Content in the Target Web Server -->
+	<function name="setCacheFile" module="HTTP">
+			<parameter>index/test1.html</parameter>
+<xml><html>
+<body>
+This is the contents of the page... Enjoy it.
+</body>
+</html>
+</xml>
+	</function>
+	
+	<!-- Radius Accounting Start for the Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	
+	
+	<!-- Send HTTP GET Request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>ClientHeaderChangeThis</parameter>
+		<parameter>abc</parameter>
+	</function>
+	<function name="setHeader" module="HTTP">
+		<parameter>ClientHeaderRemoveThis</parameter>
+		<parameter>123</parameter>
+	</function>
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.724xtt.com/index/test1.html</parameter>
+	</function>
+	
+	<!-- Check Response Code sent by XMP -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	
+	<!-- Check Response Data sent by XMP -->
+	<function name="queryBody" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>This is the contents of the page\.\.\. Enjoy it\.</parameter>
+	</function>
+	
+	<!-- Check Response Headers -->
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>reqmod_matchedpattern</parameter>
+		<parameter>^http://www.724xtt.com/\*$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>reqmod_matcheddata</parameter>
+		<parameter>^optional data 5$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>reqmod_selector</parameter>
+		<parameter>^list1$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>clientheaderaddthis</parameter>
+		<parameter>^ghi$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>ClientHeaderChangeThis</parameter>
+		<parameter>^def$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>reqmod_items</parameter>
+		<parameter>^http://www.724xtt.com/\*optional data 5httpwww.724xtt.com80index/test1.html$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token00</parameter>
+		<parameter>^optional data 5_01$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token01</parameter>
+		<parameter>^optional_02$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token02</parameter>
+		<parameter>^data_03$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token03</parameter>
+		<parameter>^5_04$</parameter>
+	</function>
+	<function name="checkServerHeaderNot" module="HTTP">
+		<parameter>ClientHeaderRemoveThis</parameter>
+	</function>
+	
+	
+	<!-- Radius Accounting Stop for the Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function> 
+	
+	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>
+
+
+	<!-- Load Empty Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>reqmodTCemptyrules.xml</parameter>
+		<parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data reqmodTCemptyrules.xml</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded requestmodifications</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	
+	<!-- Remove list1.url -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>delete file </parameter>
+			<parameter>list1.url</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Deleted file '/url/list1.url'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	
+	<!-- Remove list2.url -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>delete file </parameter>
+			<parameter>list2.url</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Deleted file '/url/list2.url'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+</test>

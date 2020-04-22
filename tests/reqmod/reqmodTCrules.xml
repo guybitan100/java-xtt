@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+<!-- $Id: reqmodTCrules.xml,v 1.6 2007/05/22 14:05:53 esutculer Exp $ -->
+    <table name="urlSubstitutions">
+        <selector urlPattern="http://*.yahoo.com/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/yahoo/" />
+        </selector>
+        <selector urlPattern="http://*.google.ch/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/yahoo/" method="redirect"/>
+        </selector>
+        <selector urlPattern="http://www.acme.com/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/" appendPath="true"/>
+        </selector>
+        <selector urlPattern="http://{www[0-9]*}.acme.com/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/" />
+        </selector>
+        <selector urlPattern="http://test.acme.com/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/ac" appendPath="true"/>
+        </selector>
+        <selector urlPattern="http://www2.xtt724.com/ukde/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/acme/" appendPath="true"/>
+        </selector>
+        <selector urlPattern="http://xxx.acme.com/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/" />
+        </selector>
+        <selector urlPattern="http://{www\.yahoo\.(co\.uk|de)}/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/ukde/" />
+        </selector>
+        <selector urlPattern="http://*.abc.com:{80[01][0-9]}/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/" />
+        </selector>
+        <selector urlPattern="http://*.def.com:{80[01][0-9]}/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/ac" appendPath="true"/>
+        </selector>
+        <selector urlPattern="http://172.21.*/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/" />
+        </selector>
+        <selector urlPattern="http://10.99.1.{1[01][0-9]}/*">
+            <modifyUrl newUrl="http://test6.xtt724.com/" />
+        </selector>
+        <selector urlPattern="http://10.99.1.99/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/" />
+        </selector>
+        <selector urlPattern="http://10.99.1.120/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/" />
+        </selector>
+    </table>
+
+    <table name="accessdeny">
+        <selector urlPattern="http://www.denyaccess.com/*">
+            <denyAccess reason="'Site blocked by reqmod.'"/>
+        </selector>
+    </table>
+
+    <table name="augmentations1">
+        <selector urlPattern="http://*.xtt724.com/*">
+            <modifyHeader name="SpecificRuleTest" value="'NotSoSpecificRule'"/>
+        </selector>
+    </table>
+    <table name="augmentations2">
+        <selector urlPattern="http://*.test1.xtt724.com/*">
+            <modifyHeader name="ExternalUserid" value="Internal_NAI"/>
+            <modifyHeader name="FixedValue" value="'TheFixedValue'"/>
+            <modifyHeader name="SpecificRuleTest" value="'ALittleMoreSpecificRule'"/>
+            <modifyHeader name="RemoveHeader"/>
+        </selector>
+    </table>
+    <table name="augmentations3">
+        <selector urlPattern="http://www.test1.xtt724.com/*">
+            <modifyHeader name="AdditionalHeader" value="'AdditionalHeaderValue'"/>
+            <modifyHeader name="AnOtherHeader" value="'AnOtherHeaderValue'"/>
+            <modifyHeader name="SpecificRuleTest" value="'VerySpecificRule'"/>
+        </selector>
+    </table>
+    <table name="urlParameters">
+        <selector urlPattern="http://test2.xtt724.com/acme/*">
+            <modifyParameter name="user" value="Internal_NAI" caseSensitive="false"/>
+            <modifyParameter name="foo" value="'bar'" caseSensitive="false"/>
+            <modifyParameter name="removeme" caseSensitive="false"/>
+        </selector>
+        <selector urlPattern="http://test2.xtt724.com/*">
+            <modifyParameter name="user" value="Internal_NAI"/>
+            <modifyParameter name="foo" value="'bar'"/>
+            <modifyParameter name="removeme"/>
+        </selector>
+    </table>
+    <table name="reqmodTC012">
+        <selector urlPattern="http://*.test3.xtt724.com/*">
+            <modifyHeader name="reqmodTC012" value="Internal_NAI"/>
+        </selector>
+    </table>
+    <table name="reqmodTC007">
+        <selector urlPattern="http://test4.xtt724.com/*" context="Internal_NAI equals 'xttuser2'">
+            <modifyHeader name="reqmodTC007" value="'UserSuccessfullyFound'"/>
+        </selector>
+    </table>
+    <table name="reqmodTC007b">
+        <selector urlPattern="http://test4.xtt724.com/*" context="Internal_NAI equals 'xttuser2'">
+            <modifyContext name="External_NAI" value="'ExternalNAISuccessfullySET'"/>
+        </selector>
+    </table>
+    <table name="reqmodTC007c">
+        <selector urlPattern="http://test4.xtt724.com/*" context="Internal_NAI equals 'xttuser2'">
+            <modifyHeader name="reqmodTC007PartC" value="External_NAI"/>
+        </selector>
+    </table>
+
+    <table name="grouptest1">
+        <selector urlPattern="http://group1.xtt724.com/*">
+            <modifyHeader name="GroupTest1" value="Internal_Groups"/>
+        </selector>
+    </table>
+    <table name="grouptest2">
+        <selector urlPattern="http://group1.xtt724.com/*" context="Internal_Groups contains 'UNDER_12'">
+            <modifyHeader name="GoldMember" value="'ThisIsAGoldMember'"/>
+        </selector>
+    </table>
+    <table name="cookies">
+        <selector urlPattern="*://cookie1.xtt724.com/*" >
+            <modifyContext name="Skip_COOKIE" value="'true'"/>
+        </selector>
+        <selector urlPattern="*://cookie2.xtt724.com/*" >
+            <modifyContext name="Skip_COOKIE" value="'false'"/>
+        </selector>
+        <selector urlPattern="*://cookie3.xtt724.com/*" context="[HTA_ReqHdr_user-agent] matches 'Mozilla/4\.0 \(Store my cookies.*'" >
+            <modifyContext name="Skip_COOKIE" value="'false'"/>
+        </selector>
+        <selector urlPattern="*://cookie3.xtt724.com/*" context="[HTA_ReqHdr_user-agent] matches 'Mozilla/5\.0 \(Do not mess with my cookies.*'" >
+            <modifyContext name="Skip_COOKIE" value="'true'"/>
+        </selector>
+    </table>
+    <table name="cookies2">
+        <selector urlPattern="*://cookie4.xtt724.com:8080/*" >
+            <modifyContext name="Skip_COOKIE" value="'true'"/>
+        </selector>
+        <selector urlPattern="*://cookie5.xtt724.com/acme/*" >
+            <modifyContext name="Skip_COOKIE" value="'true'"/>
+        </selector>
+    </table>
+
+</requestModifications>

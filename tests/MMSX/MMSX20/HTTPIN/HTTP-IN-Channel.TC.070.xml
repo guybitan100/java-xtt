@@ -1,0 +1,78 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>HTTP-IN-Channel.TC.070</parameter>
+	</function>
+
+	<description>Validate Application sends proper error code / Via HTTP-IN Application receives MM7 Message with missing mandatory MMS Header(s) (Application may discard the message)</description>
+
+	<!-- Available MSISDN  -->
+	<configuration>../subscriber_config.xml</configuration>
+	
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Set mandatory headers for request-->
+
+	<!-- Setting Missing mandetory header Headre  -->
+	<!--<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>-->
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>MM7_submit.REQ</parameter>
+	</function>
+
+	<!-- Set To field as recipient mobile number  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/FORWARD/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<!-- Set From field as sender mobile number  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/FORWARD/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject in message for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a  Message with messing mandateory headers</parameter>
+	</function>
+
+	<!-- Send Metadeta Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validating error response received from application -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mmsx-error-text</parameter>
+		<parameter>missing mandatory headers</parameter>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-proxy-handle</parameter>
+		<parameter>error</parameter>
+	</function>
+
+</test>

@@ -1,0 +1,235 @@
+<!--
+  $Id: build.xml,v 1.70 2010/03/22 16:25:16 cvsbuild Exp $
+  Build.xml file, valid only on NT
+-->
+
+<project name="xtt" default="dist" basedir=".">
+    <property environment="env"/>
+    <property name="dest"                   value="dest/"/>
+    <property name="src"                    value="com/mobixell/xtt"/>
+    <property name="src.gui"                value="com/mobixell/xtt/gui"/>
+	<property name="src.images"             value="com/mobixell/xtt/images"/>
+	<property name="src.mapping"            value="com/mobixell/xtt/gui/mapping"/>
+    <property name="src.hive"               value="com/mobixell/xtt/hive"/>
+    <property name="src.jacorb"             value="org/jacorb/naming"/>
+    <property name="src.jar"                value="xtt.jar"/>
+    <property name="xtt.package"            value="XTT_Package_2.0."/>
+    <property name="cvs.root"               value="${env.CVSROOT}"/>
+    <property name="build.number"           value="0${env.BUILD_NUMBER}"/>
+
+    <target name="Full" description="CVS checkout, build, package and FTP">
+        <property name="PrepareWithCVS" value="true"/>
+        <ant target="dist"/>
+        <!--ant target="ftp"/-->
+        <!--ant target="sendmail"/-->
+    </target>
+
+    <target name="ftp" description="FTP files to Fondue, and Chnobli">
+        <!-- Delete the old one -->
+        <ftp server="fondue" action="del" remotedir="/raid/Development/MAIN/LATEST_XTT/" userid="administrator" password="Panasonic" binary="yes">
+            <fileset dir=".">
+                <include name="*.tar.gz"/>
+            </fileset>
+        </ftp>
+        <!-- Send the new one -->
+        <ftp server="fondue" action="put" remotedir="/raid/Development/MAIN/LATEST_XTT/" userid="administrator" password="Panasonic" binary="yes">
+            <fileset dir=".">
+                <include name="*.tar.gz"/>
+            </fileset>
+        </ftp>
+        <ftp server="chnobli" remotedir="/var/www/html/javadoc/" userid="root" password="Lenzburg" binary="no">
+            <fileset dir="doc/"/>
+        </ftp>
+    </target>
+
+    <!--target name="sendmail" if="XTTHasChanged">
+        <mail from="mgarcia@724.com" tolist="mgarcia@724.com" mailhost="lenmail01.internal.724.com" subject="${xtt.package}${build.number}">
+            <message>Download the new XTT package here: http://fondue.len.tantau.com/Development/MAIN/LATEST_XTT/</message>
+        </mail>
+    </target-->
+
+    <target name="compile" description="Compile all the java code">
+    	 <delete dir = "${dest}" />
+    	 <mkdir dir =  "${dest}" />
+        
+    	<javac destdir="${dest}" debug="on">
+            <classpath refid="classpath"/>
+            <src path="${src}"/>
+            <src path="${src.gui}"/>
+            <src path="${src.hive}"/>
+            <src path="${src.jacorb}"/>
+        </javac>
+    	<copy todir="${dest}${src.images}">
+    	    <fileset dir="${src.images}"/>
+    	</copy>
+    	<copy file="${src.mapping}/XttMapping.properties" todir="${dest}${src.mapping}" />
+    </target>
+
+    <target name="jar" depends="compile" description="Creates the xtt.jar file">
+        <property file="xtt.buildnumber"/>
+        <tstamp>
+            <format property="build.time" pattern="EEE, d MMM yyyy HH:mm:ss z" locale="en,CH"/>
+        </tstamp>
+        <manifest file="META-INF/MANIFEST.MF" mode="update">
+        	<attribute name="Main-Class" value="${src}/XTT"/>
+        	<attribute name="Class-Path" value="${manifest.classpath}"/>
+            <attribute name="XTT-Build"  value="${build.number}"/>
+            <attribute name="XTT-BuildTimeStamp" value="${build.time}"/>
+        </manifest>
+        <echo message="Build Number: ${build.number}"/>
+        <jar jarfile="${src.jar}" basedir="${dest}" manifest="META-INF/MANIFEST.MF" excludes=""/>
+    	
+    	<copy file="${src.jar}" todir="${src}/lib" />
+    	<delete dir = "${dest}" />  	
+    </target>
+
+    <target name="dist" depends="jar" description="Creates the xtt package"> <!-- depends javadoc -->
+        <tstamp>
+            <format property="build.time" pattern="EEE, d MMM yyyy HH:mm:ss z" locale="en,CH"/>
+        </tstamp>
+        <javadoc bottom="XTT Javadoc. Last update: ${build.time}" destdir="doc" verbose="false" classpathref="classpath" access="public">
+            <link href="http://www.jdom.org/docs/apidocs/"/>
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+            <packageset dir="." defaultexcludes="yes">
+                <include name="com/mobixell/xtt/**"/>
+            </packageset>
+        </javadoc>
+        <move file="${src.jar}" todir="lib/"/>
+        <fixcrlf srcdir="." eol="unix" includes="xtt.ksh"/>
+        <fixcrlf srcdir="tests/" eol="unix" includes="**/*.xml,**/*.txt,**/*.sh,**/*.ksh,**/*.html,**/*.htm,**/*.wml,**/*.ksh,**/*.properties,**/*.list,**/*.css,**/*.lst"/>
+        <tar destfile="${xtt.package}${build.number}.tar">
+            <!-- You have to change xtt.ksh to xtt otherwise the scripts spaz out -->
+            <tarfileset dir="." mode="755" includes="xtt.ksh" fullpath="${xtt.package}${build.number}/bin/xtt" />
+            <tarfileset dir="." mode="755" includes="xtt.bat" fullpath="${xtt.package}${build.number}/bin/xtt.bat" />
+        	<tarfileset dir="." mode="755" includes="splash.jpg" fullpath="${xtt.package}${build.number}/bin/splash.jpg" />
+        	<tarfileset dir="." mode="755" includes="run_xtt.cmd" fullpath="${xtt.package}${build.number}/run_xtt.cmd" />
+        	<tarfileset dir="." mode="755" includes="run_xtt.sh" fullpath="${xtt.package}${build.number}/run_xtt.sh" />
+            <tarfileset dir="." includes="remoteconfig.xml" prefix="${xtt.package}${build.number}/"/>
+            <tarfileset dir="lib" prefix="${xtt.package}${build.number}/lib" />
+            <tarfileset dir="tests/" prefix="${xtt.package}${build.number}/tests"/>
+            <tarfileset dir="webroot" prefix="${xtt.package}${build.number}/webroot"/>
+            <tarfileset dir="key" prefix="${xtt.package}${build.number}/key"/>
+            <tarfileset dir="doc" prefix="${xtt.package}${build.number}/doc"/>
+            <tarfileset dir="documentation/PDF" includes="XTT_Installation_Guide.pdf" prefix="${xtt.package}${build.number}/doc/"/>
+            <tarfileset dir="documentation/PDF" includes="XTT_User_Interface.pdf" prefix="${xtt.package}${build.number}/doc/"/>
+            <tarfileset dir="documentation/PDF" includes="XTT_Function_Modules_Guide.pdf" prefix="${xtt.package}${build.number}/doc/"/>
+            <tarfileset dir="documentation/PDF" includes="XTT_Utility.pdf" prefix="${xtt.package}${build.number}/doc/"/>
+        </tar>
+        <gzip destfile="${xtt.package}${build.number}.tar.gz" src="${xtt.package}${build.number}.tar"/>
+        <delete file="${xtt.package}${build.number}.tar" failonerror="false"/>
+
+        <!-- OLD PACKAGE SUPPORT -->
+        <tar destfile="Build_Regression_Test_Package.tar">
+            <!-- You have to change xtt.ksh to xtt otherwise the scripts spaz out -->
+            <tarfileset dir="." mode="755" includes="xtt.ksh" fullpath="Build_Regression_Test_Package/bin/xtt" />
+            <tarfileset dir="." mode="755" includes="xtt.bat" fullpath="Build_Regression_Test_Package/bin/xtt.bat" />
+            <tarfileset dir="." includes="remoteconfig.xml" prefix="Build_Regression_Test_Package/"/>
+            <tarfileset dir="lib" prefix="Build_Regression_Test_Package/lib" />
+            <tarfileset dir="tests/" prefix="Build_Regression_Test_Package/tests"/>
+            <tarfileset dir="webroot" prefix="Build_Regression_Test_Package/webroot"/>
+            <tarfileset dir="key" prefix="Build_Regression_Test_Package/key"/>
+            <tarfileset dir="doc" prefix="Build_Regression_Test_Package/doc"/>
+            <tarfileset dir="documentation/PDF" includes="XTT_Installation_Guide.pdf" prefix="Build_Regression_Test_Package/doc/"/>
+            <tarfileset dir="documentation/PDF" includes="XTT_User_Interface.pdf" prefix="Build_Regression_Test_Package/doc/"/>
+            <tarfileset dir="documentation/PDF" includes="XTT_Function_Modules_Guide.pdf" prefix="Build_Regression_Test_Package/doc/"/>
+            <tarfileset dir="documentation/PDF" includes="XTT_Utility.pdf" prefix="Build_Regression_Test_Package/doc/"/>
+        </tar>
+        <gzip destfile="Build_Regression_Test_Package.tar.gz" src="Build_Regression_Test_Package.tar"/>
+        <delete file="Build_Regression_Test_Package.tar" failonerror="false"/>
+    </target>
+
+
+    <target name="ChangeBuildNumber" if="XTTHasChanged">
+        <tstamp>
+            <format property="build.time" pattern="EEE, d MMM yyyy HH:mm:ss z" locale="en,CH"/>
+        </tstamp>
+        <propertyfile file="xtt.buildnumber">
+            <entry key="build.number" type="int" operation="+" value="1" pattern="0000"/>
+            <entry key="xtt.changed.date" value="${build.time}"/>
+        </propertyfile>
+
+        <property file="xtt.buildnumber"/>
+
+        <echo message="${build.number}"/>
+        <cvs command="ci -m 'New Build ${build.number}' xtt.buildnumber" cvsroot="${cvs.root}"/>
+    </target>
+
+    <target name="getPreviousBuildNumber" >
+        <property file="xtt.buildnumber" prefix="previous"/>
+    </target>
+
+    <target name="javadoc" depends="compile" description="Generate the java doc">
+        <tstamp>
+            <format property="build.time" pattern="EEE, d MMM yyyy HH:mm:ss z" locale="en,CH"/>
+        </tstamp>
+        <javadoc bottom="XTT Javadoc. Last update: ${build.time}" destdir="doc" verbose="false" classpathref="classpath" access="public">
+            <link href="http://www.jdom.org/docs/apidocs/"/>
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+            <packageset dir="." defaultexcludes="yes">
+                <include name="com/mobixell/xtt/**"/>
+            </packageset>
+        </javadoc>
+    </target>
+
+    <target name="clean" description="Clean up">
+        <delete includeEmptyDirs="true" failonerror="false">
+            <fileset dir="." includes="${xtt.package}*.tar.gz"/>
+            <fileset dir="." includes="${src.jar}"/>
+            <fileset dir="${dest}"/>
+            <fileset dir="./doc" includes="**/*"/>
+        </delete>
+    </target>
+    <target name="prepare" depends="clean" description="Prepare the build directory">
+        <!-- Create classes and generated directories if they do not exist -->
+        <mkdir dir="${dest}"/>
+    </target>
+
+    <target name="CVSCheckOut" depends="prepare,getPreviousBuildNumber" if="PrepareWithCVS">
+        <delete includeEmptyDirs="true" failonerror="false">
+            <fileset dir="." includes="xtt.ksh"/>
+            <fileset dir="tests"/>
+        </delete>
+
+        <tstamp>
+            <format property="build.time" pattern="EEE, d MMM yyyy HH:mm:ss z" locale="en,CH"/>
+        </tstamp>
+
+        <exec executable="cmd">
+          <arg line="/c cvs -Q diff --brief -D '${previous.xtt.changed.date}' -D '${build.time}' com/mobixell/xtt"/>
+          <redirector outputproperty="codechanges">
+            <outputfilterchain>
+              <linecontainsregexp>
+                <regexp pattern="mobixell"/>
+              </linecontainsregexp>
+            </outputfilterchain>
+          </redirector>
+        </exec>
+        <condition property="XTTHasChanged">
+            <contains string="${codechanges}" substring="file"/>
+        </condition>
+        <echo message="Code Changes: ${codechanges}"/>
+        <ant target="ChangeBuildNumber"/>
+        <property file="xtt.buildnumber"/>
+        <echo message="Current Number.: ${build.number}"/>
+        <echo message="Current Time...: ${xtt.changed.date}"/>
+        <cvs command="update -P -d -C" cvsroot="${cvs.root}" failonerror="true"/>
+    </target>
+
+    <path id="classpath">
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <pathconvert property="manifest.classpath" pathsep=" ">
+        <mapper>
+            <chainedmapper>
+                <flattenmapper />
+                <!--globmapper from="*" to="lib/*" /-->
+            </chainedmapper>
+        </mapper>
+         <path refid="classpath"/>
+    </pathconvert>
+
+    <taskdef name="ftp" classname="org.apache.tools.ant.taskdefs.optional.net.FTP"/>
+</project>

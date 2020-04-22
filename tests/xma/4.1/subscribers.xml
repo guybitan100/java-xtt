@@ -1,0 +1,1190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbupdates>
+    <subscribers>
+        <!-- PREPAY ENABLED -->
+        <remove subscriber="41791110001"/>
+        <remove subscriber="41791110002"/>
+        <remove subscriber="41791110003"/>
+        <remove subscriber="41791110004"/>
+        <remove subscriber="41791110005"/>
+        <remove subscriber="41791110006"/>
+        <remove subscriber="41791110007"/>
+        <remove subscriber="41791110008"/>
+        <remove subscriber="41791110009"/>
+        <remove subscriber="41791110000"/>
+        <!-- PREPAY DISABLED -->
+        <remove subscriber="41792220001"/>
+        <remove subscriber="41792220002"/>
+        <remove subscriber="41792220003"/>
+        <remove subscriber="41792220004"/>
+        <remove subscriber="41792220005"/>
+        <remove subscriber="41792220006"/>
+        <remove subscriber="41792220007"/>
+        <remove subscriber="41792220008"/>
+        <remove subscriber="41792220009"/>
+        <remove subscriber="41792220000"/>
+        <!-- PREPAY USEEMAIL -->
+        <remove subscriber="41793330001"/>
+        <remove subscriber="41793330002"/>
+        <remove subscriber="41793330003"/>
+        <remove subscriber="41793330004"/>
+        <remove subscriber="41793330005"/>
+        <remove subscriber="41793330006"/>
+        <remove subscriber="41793330007"/>
+        <remove subscriber="41793330008"/>
+        <remove subscriber="41793330009"/>
+        <remove subscriber="41793330000"/>
+        <!-- PREPAY DISABLEDUSEEMAIL -->
+        <remove subscriber="41792230001"/>
+        <remove subscriber="41792230002"/>
+        <remove subscriber="41792230003"/>
+        <remove subscriber="41792230004"/>
+        <remove subscriber="41792230005"/>
+        <remove subscriber="41792230006"/>
+        <remove subscriber="41792230007"/>
+        <remove subscriber="41792230008"/>
+        <remove subscriber="41792230009"/>
+        <remove subscriber="41792230000"/>
+        <!-- POSTPAY ENABLED -->
+        <remove subscriber="41794440001"/>
+        <remove subscriber="41794440002"/>
+        <remove subscriber="41794440003"/>
+        <remove subscriber="41794440004"/>
+        <remove subscriber="41794440005"/>
+        <remove subscriber="41794440006"/>
+        <remove subscriber="41794440007"/>
+        <remove subscriber="41794440008"/>
+        <remove subscriber="41794440009"/>
+        <remove subscriber="41794440000"/>
+        <!-- POSTPAY DISABLED -->
+        <remove subscriber="41795550001"/>
+        <remove subscriber="41795550002"/>
+        <remove subscriber="41795550003"/>
+        <remove subscriber="41795550004"/>
+        <remove subscriber="41795550005"/>
+        <remove subscriber="41795550006"/>
+        <remove subscriber="41795550007"/>
+        <remove subscriber="41795550008"/>
+        <remove subscriber="41795550009"/>
+        <remove subscriber="41795550000"/>
+        <!-- POSTPAY USEEMAIL -->
+        <remove subscriber="41796660001"/>
+        <remove subscriber="41796660002"/>
+        <remove subscriber="41796660003"/>
+        <remove subscriber="41796660004"/>
+        <remove subscriber="41796660005"/>
+        <remove subscriber="41796660006"/>
+        <remove subscriber="41796660007"/>
+        <remove subscriber="41796660008"/>
+        <remove subscriber="41796660009"/>
+        <remove subscriber="41796660000"/>
+        <!-- POSTPAY DISABLEDUSEEMAIL -->
+        <remove subscriber="41795560001"/>
+        <remove subscriber="41795560002"/>
+        <remove subscriber="41795560003"/>
+        <remove subscriber="41795560004"/>
+        <remove subscriber="41795560005"/>
+        <remove subscriber="41795560006"/>
+        <remove subscriber="41795560007"/>
+        <remove subscriber="41795560008"/>
+        <remove subscriber="41795560009"/>
+        <remove subscriber="41795560000"/>
+        <!-- POSTPAY ECCENABLED -->
+        <remove subscriber="41798810001"/>
+        <remove subscriber="41798810002"/>
+        <remove subscriber="41798810003"/>
+        <remove subscriber="41798810004"/>
+        <remove subscriber="41798810005"/>
+        <remove subscriber="41798810006"/>
+        <remove subscriber="41798810007"/>
+        <remove subscriber="41798810008"/>
+        <remove subscriber="41798810009"/>
+        <remove subscriber="41798810000"/>
+        <!-- PREPAY ECCENABLED -->
+        <remove subscriber="41798820001"/>
+        <remove subscriber="41798820002"/>
+        <remove subscriber="41798820003"/>
+        <remove subscriber="41798820004"/>
+        <remove subscriber="41798820005"/>
+        <remove subscriber="41798820006"/>
+        <remove subscriber="41798820007"/>
+        <remove subscriber="41798820008"/>
+        <remove subscriber="41798820009"/>
+        <remove subscriber="41798820000"/>
+        <!-- PREPAY NOCREDIT -->
+        <remove subscriber="41799990001"/>
+        <remove subscriber="41799990002"/>
+        <remove subscriber="41799990003"/>
+        <remove subscriber="41799990004"/>
+        <remove subscriber="41799990005"/>
+        <remove subscriber="41799990006"/>
+        <remove subscriber="41799990007"/>
+        <remove subscriber="41799990008"/>
+        <remove subscriber="41799990009"/>
+        <remove subscriber="41799990000"/>
+
+        <!-- INVALID -->
+        <remove subscriber="41790001000"/>
+
+    <!-- PREPAY ENABLED -->
+        <add subscriber="41791110001">
+            <attribute name="Msisdn"      value="41791110001"/>
+            <attribute name="Email"       value="41791110001@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110002">
+            <attribute name="Msisdn"      value="41791110002"/>
+            <attribute name="Email"       value="41791110002@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110003">
+            <attribute name="Msisdn"      value="41791110003"/>
+            <attribute name="Email"       value="41791110003@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110004">
+            <attribute name="Msisdn"      value="41791110004"/>
+            <attribute name="Email"       value="41791110004@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110005">
+            <attribute name="Msisdn"      value="41791110005"/>
+            <attribute name="Email"       value="41791110005@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110006">
+            <attribute name="Msisdn"      value="41791110006"/>
+            <attribute name="Email"       value="41791110006@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110007">
+            <attribute name="Msisdn"      value="41791110007"/>
+            <attribute name="Email"       value="41791110007@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110008">
+            <attribute name="Msisdn"      value="41791110008"/>
+            <attribute name="Email"       value="41791110008@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110009">
+            <attribute name="Msisdn"      value="41791110009"/>
+            <attribute name="Email"       value="41791110009@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41791110000">
+            <attribute name="Msisdn"      value="41791110000"/>
+            <attribute name="Email"       value="41791110000@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+    <!-- PREPAY DISABLED -->
+        <add subscriber="41792220001">
+            <attribute name="Msisdn"      value="41792220001"/>
+            <attribute name="Email"       value="41792220001@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220002">
+            <attribute name="Msisdn"      value="41792220002"/>
+            <attribute name="Email"       value="41792220002@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220003">
+            <attribute name="Msisdn"      value="41792220003"/>
+            <attribute name="Email"       value="41792220003@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220004">
+            <attribute name="Msisdn"      value="41792220004"/>
+            <attribute name="Email"       value="41792220004@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220005">
+            <attribute name="Msisdn"      value="41792220005"/>
+            <attribute name="Email"       value="41792220005@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220006">
+            <attribute name="Msisdn"      value="41792220006"/>
+            <attribute name="Email"       value="41792220006@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220007">
+            <attribute name="Msisdn"      value="41792220007"/>
+            <attribute name="Email"       value="41792220007@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220008">
+            <attribute name="Msisdn"      value="41792220008"/>
+            <attribute name="Email"       value="41792220008@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220009">
+            <attribute name="Msisdn"      value="41792220009"/>
+            <attribute name="Email"       value="41792220009@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792220000">
+            <attribute name="Msisdn"      value="41792220000"/>
+            <attribute name="Email"       value="41792220000@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+    <!-- PREPAY USEEMAIL -->
+        <add subscriber="41793330001">
+            <attribute name="Msisdn"      value="41793330001"/>
+            <attribute name="Email"       value="41793330001@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330002">
+            <attribute name="Msisdn"      value="41793330002"/>
+            <attribute name="Email"       value="41793330002@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330003">
+            <attribute name="Msisdn"      value="41793330003"/>
+            <attribute name="Email"       value="41793330003@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330004">
+            <attribute name="Msisdn"      value="41793330004"/>
+            <attribute name="Email"       value="41793330004@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330005">
+            <attribute name="Msisdn"      value="41793330005"/>
+            <attribute name="Email"       value="41793330005@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330006">
+            <attribute name="Msisdn"      value="41793330006"/>
+            <attribute name="Email"       value="41793330006@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330007">
+            <attribute name="Msisdn"      value="41793330007"/>
+            <attribute name="Email"       value="41793330007@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330008">
+            <attribute name="Msisdn"      value="41793330008"/>
+            <attribute name="Email"       value="41793330008@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330009">
+            <attribute name="Msisdn"      value="41793330009"/>
+            <attribute name="Email"       value="41793330009@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41793330000">
+            <attribute name="Msisdn"      value="41793330000"/>
+            <attribute name="Email"       value="41793330000@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+
+    <!-- PREPAY USEEMAILDISABLED -->
+        <add subscriber="41792230001">
+            <attribute name="Msisdn"      value="41792230001"/>
+            <attribute name="Email"       value="41792230001@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230002">
+            <attribute name="Msisdn"      value="41792230002"/>
+            <attribute name="Email"       value="41792230002@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230003">
+            <attribute name="Msisdn"      value="41792230003"/>
+            <attribute name="Email"       value="41792230003@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230004">
+            <attribute name="Msisdn"      value="41792230004"/>
+            <attribute name="Email"       value="41792230004@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230005">
+            <attribute name="Msisdn"      value="41792230005"/>
+            <attribute name="Email"       value="41792230005@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230006">
+            <attribute name="Msisdn"      value="41792230006"/>
+            <attribute name="Email"       value="41792230006@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230007">
+            <attribute name="Msisdn"      value="41792230007"/>
+            <attribute name="Email"       value="41792230007@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230008">
+            <attribute name="Msisdn"      value="41792230008"/>
+            <attribute name="Email"       value="41792230008@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230009">
+            <attribute name="Msisdn"      value="41792230009"/>
+            <attribute name="Email"       value="41792230009@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41792230000">
+            <attribute name="Msisdn"      value="41792230000"/>
+            <attribute name="Email"       value="41792230000@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+
+    <!-- POSTPAY ENABLED -->
+        <add subscriber="41794440001">
+            <attribute name="Msisdn"      value="41794440001"/>
+            <attribute name="Email"       value="41794440001@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440002">
+            <attribute name="Msisdn"      value="41794440002"/>
+            <attribute name="Email"       value="41794440002@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440003">
+            <attribute name="Msisdn"      value="41794440003"/>
+            <attribute name="Email"       value="41794440003@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440004">
+            <attribute name="Msisdn"      value="41794440004"/>
+            <attribute name="Email"       value="41794440004@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440005">
+            <attribute name="Msisdn"      value="41794440005"/>
+            <attribute name="Email"       value="41794440005@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440006">
+            <attribute name="Msisdn"      value="41794440006"/>
+            <attribute name="Email"       value="41794440006@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440007">
+            <attribute name="Msisdn"      value="41794440007"/>
+            <attribute name="Email"       value="41794440007@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440008">
+            <attribute name="Msisdn"      value="41794440008"/>
+            <attribute name="Email"       value="41794440008@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440009">
+            <attribute name="Msisdn"      value="41794440009"/>
+            <attribute name="Email"       value="41794440009@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41794440000">
+            <attribute name="Msisdn"      value="41794440000"/>
+            <attribute name="Email"       value="41794440000@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+    <!-- POSTPAY DISABLED -->
+        <add subscriber="41795550001">
+            <attribute name="Msisdn"      value="41795550001"/>
+            <attribute name="Email"       value="41795550001@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550002">
+            <attribute name="Msisdn"      value="41795550002"/>
+            <attribute name="Email"       value="41795550002@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550003">
+            <attribute name="Msisdn"      value="41795550003"/>
+            <attribute name="Email"       value="41795550003@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550004">
+            <attribute name="Msisdn"      value="41795550004"/>
+            <attribute name="Email"       value="41795550004@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550005">
+            <attribute name="Msisdn"      value="41795550005"/>
+            <attribute name="Email"       value="41795550005@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550006">
+            <attribute name="Msisdn"      value="41795550006"/>
+            <attribute name="Email"       value="41795550006@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550007">
+            <attribute name="Msisdn"      value="41795550007"/>
+            <attribute name="Email"       value="41795550007@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550008">
+            <attribute name="Msisdn"      value="41795550008"/>
+            <attribute name="Email"       value="41795550008@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550009">
+            <attribute name="Msisdn"      value="41795550009"/>
+            <attribute name="Email"       value="41795550009@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795550000">
+            <attribute name="Msisdn"      value="41795550000"/>
+            <attribute name="Email"       value="41795550000@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+
+
+    <!-- POSTPAY USEEMAIL -->
+        <add subscriber="41796660001">
+            <attribute name="Msisdn"      value="41796660001"/>
+            <attribute name="Email"       value="41796660001@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660002">
+            <attribute name="Msisdn"      value="41796660002"/>
+            <attribute name="Email"       value="41796660002@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660003">
+            <attribute name="Msisdn"      value="41796660003"/>
+            <attribute name="Email"       value="41796660003@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660004">
+            <attribute name="Msisdn"      value="41796660004"/>
+            <attribute name="Email"       value="41796660004@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660005">
+            <attribute name="Msisdn"      value="41796660005"/>
+            <attribute name="Email"       value="41796660005@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660006">
+            <attribute name="Msisdn"      value="41796660006"/>
+            <attribute name="Email"       value="41796660006@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660007">
+            <attribute name="Msisdn"      value="41796660007"/>
+            <attribute name="Email"       value="41796660007@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660008">
+            <attribute name="Msisdn"      value="41796660008"/>
+            <attribute name="Email"       value="41796660008@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660009">
+            <attribute name="Msisdn"      value="41796660009"/>
+            <attribute name="Email"       value="41796660009@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41796660000">
+            <attribute name="Msisdn"      value="41796660000"/>
+            <attribute name="Email"       value="41796660000@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+		<add subscriber="41796660010">
+		    <attribute name="Msisdn"      value="41796660010"/>
+			<attribute name="Email"       value="41796660010@xma.724.com"/>
+			<attribute name="PrePaid"     value="false"/>
+			<attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            </add>
+        <add subscriber="41796660011">
+            <attribute name="Msisdn"      value="41796660011"/>
+            <attribute name="Email"       value="41796660011@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>         
+		<add subscriber="41796660012">
+            <attribute name="Msisdn"      value="41796660012"/>
+            <attribute name="Email"       value="41796660012@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+         </add>
+         <add subscriber="41796660013">
+            <attribute name="Msisdn"      value="41796660013"/>
+            <attribute name="Email"       value="41796660013@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+         </add>
+         <add subscriber="41796660014">
+            <attribute name="Msisdn"      value="41796660014"/>
+            <attribute name="Email"       value="41796660014@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+         </add>
+    <!-- POSTPAY USEEMAIL -->
+        <add subscriber="41795560001">
+            <attribute name="Msisdn"      value="41795560001"/>
+            <attribute name="Email"       value="41795560001@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560002">
+            <attribute name="Msisdn"      value="41795560002"/>
+            <attribute name="Email"       value="41795560002@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560003">
+            <attribute name="Msisdn"      value="41795560003"/>
+            <attribute name="Email"       value="41795560003@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560004">
+            <attribute name="Msisdn"      value="41795560004"/>
+            <attribute name="Email"       value="41795560004@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560005">
+            <attribute name="Msisdn"      value="41795560005"/>
+            <attribute name="Email"       value="41795560005@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560006">
+            <attribute name="Msisdn"      value="41795560006"/>
+            <attribute name="Email"       value="41795560006@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560007">
+            <attribute name="Msisdn"      value="41795560007"/>
+            <attribute name="Email"       value="41795560007@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560008">
+            <attribute name="Msisdn"      value="41795560008"/>
+            <attribute name="Email"       value="41795560008@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560009">
+            <attribute name="Msisdn"      value="41795560009"/>
+            <attribute name="Email"       value="41795560009@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41795560000">
+            <attribute name="Msisdn"      value="41795560000"/>
+            <attribute name="Email"       value="41795560000@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="true"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+    <!-- POSTPAY ECCENABLED -->
+        <add subscriber="41798810001">
+            <attribute name="Msisdn"      value="41798810001"/>
+            <attribute name="Email"       value="41798810001@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810002">
+            <attribute name="Msisdn"      value="41798810002"/>
+            <attribute name="Email"       value="41798810002@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810003">
+            <attribute name="Msisdn"      value="41798810003"/>
+            <attribute name="Email"       value="41798810003@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810004">
+            <attribute name="Msisdn"      value="41798810004"/>
+            <attribute name="Email"       value="41798810004@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810005">
+            <attribute name="Msisdn"      value="41798810005"/>
+            <attribute name="Email"       value="41798810005@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810006">
+            <attribute name="Msisdn"      value="41798810006"/>
+            <attribute name="Email"       value="41798810006@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810007">
+            <attribute name="Msisdn"      value="41798810007"/>
+            <attribute name="Email"       value="41798810007@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810008">
+            <attribute name="Msisdn"      value="41798810008"/>
+            <attribute name="Email"       value="41798810008@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810009">
+            <attribute name="Msisdn"      value="41798810009"/>
+            <attribute name="Email"       value="41798810009@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798810000">
+            <attribute name="Msisdn"      value="41798810000"/>
+            <attribute name="Email"       value="41798810000@xma.724.com"/>
+            <attribute name="PrePaid"     value="false"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+    <!-- PREPAY ECCENABLED -->
+        <add subscriber="41798820001">
+            <attribute name="Msisdn"      value="41798820001"/>
+            <attribute name="Email"       value="41798820001@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820002">
+            <attribute name="Msisdn"      value="41798820002"/>
+            <attribute name="Email"       value="41798820002@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820003">
+            <attribute name="Msisdn"      value="41798820003"/>
+            <attribute name="Email"       value="41798820003@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820004">
+            <attribute name="Msisdn"      value="41798820004"/>
+            <attribute name="Email"       value="41798820004@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820005">
+            <attribute name="Msisdn"      value="41798820005"/>
+            <attribute name="Email"       value="41798820005@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820006">
+            <attribute name="Msisdn"      value="41798820006"/>
+            <attribute name="Email"       value="41798820006@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820007">
+            <attribute name="Msisdn"      value="41798820007"/>
+            <attribute name="Email"       value="41798820007@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820008">
+            <attribute name="Msisdn"      value="41798820008"/>
+            <attribute name="Email"       value="41798820008@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820009">
+            <attribute name="Msisdn"      value="41798820009"/>
+            <attribute name="Email"       value="41798820009@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+        <add subscriber="41798820000">
+            <attribute name="Msisdn"      value="41798820000"/>
+            <attribute name="Email"       value="41798820000@xma.724.com"/>
+            <attribute name="PrePaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="100"/>
+            <attribute name="ExternalContentConversionDisabled"      value="false"/>
+        </add>
+    <!-- PREPAY NOCREDIT -->
+        <add subscriber="41799990001">
+            <attribute name="Msisdn"      value="41799990001"/>
+            <attribute name="Email"       value="41799990001@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990002">
+            <attribute name="Msisdn"      value="41799990002"/>
+            <attribute name="Email"       value="41799990002@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990003">
+            <attribute name="Msisdn"      value="41799990003"/>
+            <attribute name="Email"       value="41799990003@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990004">
+            <attribute name="Msisdn"      value="41799990004"/>
+            <attribute name="Email"       value="41799990004@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990005">
+            <attribute name="Msisdn"      value="41799990005"/>
+            <attribute name="Email"       value="41799990005@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990006">
+            <attribute name="Msisdn"      value="41799990006"/>
+            <attribute name="Email"       value="41799990006@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990007">
+            <attribute name="Msisdn"      value="41799990007"/>
+            <attribute name="Email"       value="41799990007@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990008">
+            <attribute name="Msisdn"      value="41799990008"/>
+            <attribute name="Email"       value="41799990008@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990009">
+            <attribute name="Msisdn"      value="41799990009"/>
+            <attribute name="Email"       value="41799990009@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+        <add subscriber="41799990000">
+            <attribute name="Msisdn"      value="41799990000"/>
+            <attribute name="Email"       value="41799990000@xma.724.com"/>
+            <attribute name="Prepaid"     value="true"/>
+            <attribute name="UseEmail"    value="false"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+
+    <!-- INVALID -->
+        <add subscriber="41790001000">
+            <attribute name="Msisdn"      value="41790001000"/>
+            <attribute name="Email"       value=""/>
+            <attribute name="Prepaid"     value="false"/>
+            <attribute name="UseEmail"    value="true"/>
+            <attribute name="MmsDisabled" value="false"/>
+            <attribute name="Credit"      value="0"/>
+            <attribute name="ExternalContentConversionDisabled"      value="true"/>
+        </add>
+    </subscribers>
+</dbupdates>

@@ -1,0 +1,90 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>EAIF_Msg-MM1_Msg.TC.065</name>
+    <description>Missing Mandatory Parameters in the incoming EAIF m-send-req requests are properly realized and handled by XMA [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes]</description>
+
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_TO</parameter>
+       <configuration>XMA/POSTPAY/ENABLED/MSISDN2</configuration>
+    </function> 
+   
+    <function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+        <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+	<function name="startWebServer" module="HTTP">
+        <configuration>EAIF/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+    <function name="startSMSCServer" module="SMS"/>
+    
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>invalidPacket</parameter>
+        <parameter>
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+            12 34 56 78 90 AB CD EF 
+            23 45 67 89 0A BC DE F1 
+            A1 B2 C3 D4 F5 6A 7B 8C 
+        </parameter>
+    </function>
+    
+    <function name="setBase64PostData" module="HTTP">
+        <bytestringtobase64>
+            <variable>invalidPacket</variable>
+        </bytestringtobase64>
+    </function>
+
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>400</parameter>
+    </function>
+
+	<!-- Restore VASP File -->
+    <subtest>../restoreVASP.xml</subtest>
+    
+    <function name="stopSMSCServer" module="SMS"/>
+
+	<function name="stopWebServer" module="HTTP"/>
+
+</test>

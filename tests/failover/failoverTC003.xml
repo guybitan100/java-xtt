@@ -1,0 +1,42 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>FAIL.TC.003</parameter>
+    </function>
+    <description>Start and stop the CONFIGSERVER and check that the system still works</description>
+
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>hostname</parameter>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12345</parameter>
+    </function>
+
+    <function name="stopProcesses" module="Remote">
+        <parameter>CONFIG</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.google.com/</parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="startProcesses" module="Remote">
+        <parameter>CONFIG</parameter>
+    </function>
+
+    <function name="checkProcessStatus" module="Remote">
+        <parameter>CONFIG</parameter>
+        <parameter>Running</parameter>
+        <parameter>*Running</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12345</parameter>
+    </function>
+</test>

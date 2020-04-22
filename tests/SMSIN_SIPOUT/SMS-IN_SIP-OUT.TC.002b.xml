@@ -1,0 +1,607 @@
+<test>
+	<name>SMS-IN_SIP-OUT.TC.002b.xml</name>
+	<description>SMS-IN->SIP-OUT [UDP] [vnd.3gpp.sms payload] [Content Size less than 160 greater than 1300] - 258 Characters / 3gpp sms capable device</description>
+	<configuration>../3rdPartyRegistration/config.xml</configuration>
+	
+	<!-- Start SMSC Server & Wait for SLM to Bind SMSC -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Start SIP Server -->
+	<function name="startSIPServer" module="SIP"/>
+	<function name="disableResponse" module="SIP"/>
+
+
+	<!-- Create the REGISTER Request Headers -->
+	<function name="timeToVariable" module="Basic">
+		<parameter>random</parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>register_headers</parameter>
+        <parameter>REGISTER sip:724.com SIP/2.0</parameter><parameter></parameter>
+        <parameter>Max-Forwards: </parameter>            <parameter>70</parameter>
+        <parameter>CSeq: </parameter>               <parameter>1 REGISTER</parameter>
+        <parameter>Expires: </parameter>               <parameter>7200</parameter>
+        <parameter>Content-Length: </parameter>                 <parameter>0</parameter>
+        <parameter>Contact: </parameter>                <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;expires=7200</parameter></parameter>
+        <parameter>From: </parameter>       <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;tag=</parameter><variable>random</variable></parameter>
+        <parameter>To: </parameter>       <parameter><parameter>&lt;</parameter><configuration>IMS/PUBLIC_URI1_1</configuration><parameter>&gt;</parameter></parameter>
+        <parameter>Call-ID: </parameter>   <parameter><parameter>e7770a8b76fae407e4bb1f4d472b</parameter><variable>random</variable><parameter>@</parameter><configuration>IMS/IP</configuration></parameter>
+        <parameter>Via: </parameter>     <parameter><parameter>SIP/2.0/UDP </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=z9hG4bK2491c1bad54e954f88d9404094e7</parameter><variable>random</variable></parameter>
+        <parameter></parameter><parameter></parameter>
+    </function>
+	
+	<!-- Send REGISTER Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>register_headers</variable>
+    </function>
+    
+    <!-- Wait for the REGISTER Response -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/USER_URI1</configuration></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+     </function>
+	
+	<!-- Print the REGISTER Response Code -->
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/USER_URI1</configuration></variable>
+	</function>
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></variable>
+	</function>
+    
+    <!-- Check the REGISTER Response Code -->
+    <function name="queryText" module="Basic">
+        <variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/USER_URI1</configuration></variable>
+        <parameter>dev/null</parameter>
+        <parameter>200</parameter>
+    </function>
+    
+	<!-- Set Received REGISTER Response Code to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/USER_URI1</configuration></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+    </function>
+
+
+
+
+
+     <!-- Wait for SUBSCRIBE Request -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Call-ID</parameter></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Via</parameter></parameter>
+     </function>
+      <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/From</parameter></parameter>
+     </function>  
+      <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/To</parameter></parameter>
+     </function>  
+          
+     <!-- Acquire Necessary SUBSCRIBE Request Headers -->
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Call-ID</parameter></parameter></variable>
+        <parameter>Subs_CallID</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Via</parameter></parameter></variable>
+        <parameter>Subs_Via</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/From</parameter></parameter></variable>
+        <parameter>Subs_From</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+      <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/To</parameter></parameter></variable>
+        <parameter>Subs_To</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+    
+    <!-- Print SUBSCRIBE Headers -->
+    <function name="info" module="Basic">
+    	<parameter>Subs_CallID: </parameter><variable>Subs_CallID</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Subs_Via: </parameter><variable>Subs_Via</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Subs_From: </parameter><variable>Subs_From</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Subs_To: </parameter><variable>Subs_To</variable>
+    </function>
+    
+    <!-- Check SUBSCRIBE Headers -->
+    <function name="queryText" module="Basic">
+        <variable>Subs_To</variable>
+        <parameter>temp</parameter>
+        <configuration>IMS/SCSCF_IPPORT</configuration>
+    </function>
+    
+    <function name="queryText" module="Basic">
+        <variable>Subs_From</variable>
+        <parameter>temp</parameter>
+       <parameter>724.com</parameter>
+    </function>
+    
+    <function name="checkServerURL" module="SIP">
+        <configuration>IMS/PUBLIC_URI1_1</configuration>
+    </function>
+    
+	<!-- Create the 200 OK Response Headers against SUBSCRIBE Request-->
+	<function name="timeToVariable" module="Basic">
+		<parameter>random</parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>subscribe200OK_headers</parameter>
+		 <parameter>SIP/2.0 200 OK</parameter><parameter></parameter>
+		 <parameter>Contact: </parameter>  <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;</parameter></parameter>
+		 <parameter>Expires: </parameter><parameter>0</parameter>
+		 <parameter>CSeq: </parameter><parameter>1 SUBSCRIBE</parameter>
+		 <parameter>Via: </parameter><parameter><variable>Subs_Via</variable><parameter>;received_port_ext=</parameter><configuration>IMS/SCSCF_PORT</configuration><parameter>;received=</parameter><configuration>IMS/SLM_IP</configuration></parameter>
+		 <parameter>Content-Length: </parameter><parameter>0</parameter>
+		 <parameter>Call-ID: </parameter><parameter><variable>Subs_CallID</variable></parameter>
+		 <parameter>From: </parameter><parameter><variable>Subs_From</variable></parameter>
+		 <parameter>To: </parameter><parameter><variable>Subs_To</variable><parameter>;tag=</parameter><variable>random</variable></parameter>
+        <parameter></parameter><parameter></parameter>
+    </function>        
+        
+    <!-- Send 200 OK Response against SUBSCRIBE Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>subscribe200OK_headers</variable>
+    </function>
+    
+    <!-- Create the NOTIFY Request Body -->
+    <function name="setVariableLines" module="Basic">
+       <parameter>2</parameter>
+       <parameter>notify_body</parameter>
+       <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</parameter><parameter></parameter>
+		<parameter>&lt;reginfo xmlns="urn:ietf:params:xml:ns:reginfo" state="full" version="0"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;registration aor="</parameter><configuration>IMS/PUBLIC_URI1_1</configuration><parameter>" id="</parameter><variable>random</variable><parameter>" state="active"&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;contact event="registered" id="21" state="active"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;uri&gt;sip:</parameter><configuration>IMS/IP</configuration><parameter>:5060&lt;/uri&gt;</parameter></parameter><parameter></parameter>
+		<parameter><parameter>&lt;display-name&gt;</parameter><configuration>IMS/NAME_URI1</configuration><parameter>&lt;/display-name&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;unknown-param name="+g.3gpp.smsip"/&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/contact&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/registration&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;registration aor="</parameter><configuration>IMS/PUBLIC_URI1_2</configuration><parameter>;user=phone" id="</parameter><variable>random</variable><parameter>" state="active"&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;contact event="created" id="22" state="active"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;uri&gt;sip:</parameter><configuration>IMS/IP</configuration><parameter>:5060&lt;/uri&gt;</parameter></parameter><parameter></parameter>
+		<parameter><parameter>&lt;display-name&gt;</parameter><configuration>IMS/NAME_URI1</configuration><parameter>&lt;/display-name&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;unknown-param name="+g.3gpp.smsip"/&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/contact&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/registration&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/reginfo&gt;</parameter><parameter></parameter>
+		<parameter></parameter><parameter></parameter>
+	</function>
+	
+    <!-- Create the NOTIFY Request Headers -->
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>notify_headers</parameter>
+        <parameter>NOTIFY sip:724.com SIP/2.0</parameter><parameter></parameter>
+		 <parameter>Max-Forwards: </parameter><parameter>70</parameter>
+		 <parameter>Subscription-State: </parameter><parameter>terminated</parameter>
+		 <parameter>Event: </parameter><parameter>reg</parameter>
+		 <parameter>CSeq: </parameter><parameter>1 NOTIFY</parameter>
+		 <parameter>Content-Length: </parameter><parameter><bytelength><variable>notify_body</variable></bytelength></parameter>
+		 <parameter>Contact: </parameter><parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;</parameter></parameter>
+		 <parameter>To: </parameter><parameter><variable>Subs_From</variable></parameter>
+		 <parameter>From: </parameter><parameter><variable>Subs_To</variable><parameter>;tag=</parameter><variable>random</variable></parameter>
+		 <parameter>Call-ID: </parameter><parameter><variable>Subs_CallID</variable></parameter>
+		 <parameter>Content-Type: </parameter><parameter>application/reginfo+xml</parameter>
+		 <parameter>Via: </parameter><parameter><parameter>SIP/2.0/udp </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=</parameter><variable>random</variable></parameter>
+		 <parameter></parameter><parameter></parameter>
+		 <variable>notify_body</variable>
+    </function>
+    
+	<!-- Send NOTIFY Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>notify_headers</variable>
+    </function>
+    
+    <!-- Wait for the NOTIFY Response -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter>SIP/UDP/RESPONSE/724.com</parameter>
+     </function>
+	
+	<!-- Print the NOTIFY Response Code -->
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></variable>
+	</function>
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/724.com</parameter></variable>
+	</function>
+    
+    <!-- Check the NOTIFY Response Code -->
+    <function name="queryText" module="Basic">
+        <variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></variable>
+        <parameter>dev/null</parameter>
+        <parameter>200</parameter>
+    </function>
+    
+	<!-- Set Received NOTIFY Response Code to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter>SIP/UDP/RESPONSE/724.com</parameter>
+    </function>
+
+
+	<!-- Set Received SUBSCRIBE Request Headers to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Call-ID</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/Via</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/From</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/SUBSCRIBE/</parameter><configuration>IMS/IP</configuration><parameter>/To</parameter></parameter>
+    </function>
+
+
+
+
+
+
+
+	<!-- Send SMS-IN Message -->
+	<function name="openConnection" module="UCP">
+		<parameter>connection1</parameter>
+		<configuration>system/Ip</configuration>
+		<configuration>SMSCServer/Port</configuration>
+	</function>
+	
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<!-- recipient -->
+		<parameter><parameter>00</parameter><configuration>IMS/PUBLIC_URI1_NUMBER</configuration></parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter><parameter>00</parameter><configuration>IMS/PUBLIC_URI2_NUMBER</configuration></parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>Now this is a really long message! It must have taken me ages to write this on my damn phone! What w</byteStringEncode>
+		<parameter>//////////010706080400000301///</parameter>
+		</parameter>            
+	</function>    
+
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<!-- recipient -->
+		<parameter><parameter>00</parameter><configuration>IMS/PUBLIC_URI1_NUMBER</configuration></parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter><parameter>00</parameter><configuration>IMS/PUBLIC_URI2_NUMBER</configuration></parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>as I thinking? I could easily have just called you in this time!!! Now I would like to make the leng</byteStringEncode>
+		<parameter>//////////010706080400000302///</parameter>
+		</parameter>            
+	</function> 
+	
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<!-- recipient -->
+		<parameter><parameter>00</parameter><configuration>IMS/PUBLIC_URI1_NUMBER</configuration></parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter><parameter>00</parameter><configuration>IMS/PUBLIC_URI2_NUMBER</configuration></parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>th of this message more than two hundred and fifty eighttt</byteStringEncode>
+		<parameter>//////////010706080400000303///</parameter>
+		</parameter>            
+	</function> 
+
+	<function name="queryTextResponse" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>\d\d/\d\d\d\d\d/R/51/A//[^/]++/\w\w</parameter>
+	</function>    
+	
+	<function name="closeConnection" module="UCP">
+		<parameter>connection1</parameter>
+	</function>
+
+
+
+
+
+
+     <!-- Wait for MESSAGE Request -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/Call-ID</parameter></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/Via</parameter></parameter>
+     </function>
+      <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/From</parameter></parameter>
+     </function>  
+      <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/To</parameter></parameter>
+     </function>  
+          
+     <!-- Acquire Necessary MESSAGE Request Headers -->
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/Call-ID</parameter></parameter></variable>
+        <parameter>Mesg_CallID</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/Via</parameter></parameter></variable>
+        <parameter>Mesg_Via</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/From</parameter></parameter></variable>
+        <parameter>Mesg_From</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+      <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/To</parameter></parameter></variable>
+        <parameter>Mesg_To</parameter>
+        <parameter>(.*)</parameter>
+    </function>
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/From</parameter></parameter></variable>
+        <parameter>Mesg_FromTag</parameter>
+        <parameter>tag=(.*)</parameter>
+    </function>
+    
+    <!-- Print MESSAGE Headers -->
+    <function name="info" module="Basic">
+    	<parameter>Mesg_CallID: </parameter><variable>Mesg_CallID</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Mesg_Via: </parameter><variable>Mesg_Via</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Mesg_From: </parameter><variable>Mesg_From</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Mesg_To: </parameter><variable>Mesg_To</variable>
+    </function>
+    <function name="info" module="Basic">
+    	<parameter>Mesg_FromTag: </parameter><variable>Mesg_FromTag</variable>
+    </function>
+    
+    <!-- Check MESSAGE Headers -->
+    <function name="queryText" module="Basic">
+        <variable>Mesg_To</variable>
+        <parameter>temp</parameter>
+        <configuration>IMS/USER_URI1</configuration>
+    </function>
+    
+    <function name="queryText" module="Basic">
+        <variable>Mesg_From</variable>
+        <parameter>temp</parameter>
+       <parameter><parameter>&lt;tel:</parameter><configuration>IMS/PUBLIC_URI2_NUMBER</configuration><parameter>&gt;;tag=</parameter></parameter>
+    </function>
+    
+    <function name="checkServerURL" module="SIP">
+        <configuration>IMS/PUBLIC_URI1_1</configuration>
+    </function>
+    
+ 	<function name="sleep" module="Basic">
+		<parameter>1000</parameter>
+	</function>
+	
+     <function name="queryText" module="Basic">
+        <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/BODY/PLAIN</parameter></parameter></variable>
+        <parameter>temp</parameter>
+        <parameter>Now this is a really long message! It must have taken me ages to write this on my damn phone! What was I thinking\? I could easily have just called you in this time!!! Now I would like to make the length of this message more than two hundred and fifty eighttt</parameter>
+    </function>
+    
+	<!-- Create the 200 OK Response Headers against MESSAGE Request-->
+	<function name="timeToVariable" module="Basic">
+		<parameter>random</parameter>
+    </function>
+
+    <function name="setVariableLines" module="Basic">
+       <parameter>2</parameter>
+       <parameter>message200OK_headers</parameter>
+		<parameter>SIP/2.0 200 OK</parameter><parameter></parameter>
+	 	<parameter>CSeq: </parameter><parameter>1 MESSAGE</parameter>
+ 		<parameter>Content-Length: </parameter><parameter>0</parameter>
+ 		<parameter>p-access-network-info: </parameter><parameter>3GPP-UTRAN-TDD; utran-cell-id-3gpp=00000000</parameter>
+ 		<parameter>Record-Route: </parameter><parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;from-tag=</parameter><variable>Mesg_FromTag</variable><parameter>;lr&gt;</parameter></parameter>
+ 		<parameter>Contact: </parameter><parameter><parameter>"</parameter><configuration>IMS/NAME_URI1</configuration><parameter>" &lt;sip:</parameter><configuration>IMS/IP</configuration><parameter>:5060&gt;</parameter></parameter>
+ 		<parameter>User-Agent: </parameter><parameter>Fraunhofer FOKUS/NGNI Java IMS UserEndpoint FoJIE 0.1 (jdk1.3)</parameter>
+ 		<parameter>To: </parameter><parameter><variable>Mesg_To</variable><parameter>;tag=</parameter><variable>random</variable></parameter>
+ 		<parameter>From: </parameter><parameter><variable>Mesg_From</variable></parameter>
+ 		<parameter>Call-ID: </parameter><parameter><variable>Mesg_CallID</variable></parameter>
+ 		<parameter>Via: </parameter><parameter><variable>Mesg_Via</variable><parameter>;received_port_ext=</parameter><configuration>IMS/SCSCF_PORT</configuration><parameter>;received=</parameter><configuration>IMS/SLM_IP</configuration></parameter>
+        <parameter></parameter><parameter></parameter>
+    </function>        
+        
+    <!-- Send 200 OK Response against MESSAGE Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>message200OK_headers</variable>
+    </function>
+
+	<!-- Set Received MESSAGE Request Headers to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/Call-ID</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/Via</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/From</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/To</parameter></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/MESSAGE/</parameter><configuration>IMS/USER_URI1</configuration><parameter>/BODY/PLAIN</parameter></parameter>
+    </function>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- Create the UN-REGISTER Request Headers -->   
+    <function name="timeToVariable" module="Basic">
+		<parameter>random</parameter>
+    </function>
+    
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>unregister_headers</parameter>
+        <parameter>REGISTER sip:724.com SIP/2.0</parameter><parameter></parameter>
+        <parameter>Max-Forwards: </parameter>            <parameter>70</parameter>
+        <parameter>CSeq: </parameter>               <parameter>1 REGISTER</parameter>
+        <parameter>Expires: </parameter>               <parameter>0</parameter>
+        <parameter>Content-Length: </parameter>                 <parameter>0</parameter>
+        <parameter>Contact: </parameter>                <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;expires=0</parameter></parameter>
+        <parameter>From: </parameter>       <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;;tag=</parameter><variable>random</variable></parameter>
+        <parameter>To: </parameter>       <parameter><parameter>&lt;</parameter><configuration>IMS/PUBLIC_URI1_1</configuration><parameter>&gt;</parameter></parameter>
+        <parameter>Call-ID: </parameter>   <parameter><parameter>e7770a8b76fae407e4bb1f4d472b</parameter><variable>random</variable><parameter>@</parameter><configuration>IMS/IP</configuration></parameter>
+        <parameter>Via: </parameter>     <parameter><parameter>SIP/2.0/UDP </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=z9hG4bK2491c1bad54e954f88d9404094e7</parameter><variable>random</variable></parameter>
+        <parameter></parameter><parameter></parameter>
+    </function>
+	
+	<!-- Send UN-REGISTER Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>unregister_headers</variable>
+    </function>
+    
+    <!-- Wait for the UN-REGISTER Response -->
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/USER_URI1</configuration></parameter>
+     </function>
+     <function name="waitForVariable" module="Basic">
+         <parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+     </function>
+	
+	<!-- Print the UN-REGISTER Response Code -->
+	<function name="info" module="Basic">
+		<variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/USER_URI1</configuration></variable>
+	</function>
+    
+    <!-- Check the UN-REGISTER Response Code -->
+    <function name="queryText" module="Basic">
+        <variable><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/USER_URI1</configuration></variable>
+        <parameter>dev/null</parameter>
+        <parameter>200</parameter>
+    </function>
+    
+	<!-- Set Received UN-REGISTER Response Code to null -->
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/USER_URI1</configuration></parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+    	<parameter><parameter>SIP/UDP/RESPONSE/</parameter><configuration>IMS/IP</configuration></parameter>
+    </function>
+    
+    
+    
+    
+    
+   <!-- Check the Presence-Store -->
+	<function name="sleep" module="Basic">
+		<parameter>3000</parameter>
+	</function>
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>pse3cli rbng TI:F.CEE.PRESENCE-STORE_1.1:PSE3</parameter>
+		</parameter>
+	</function>
+		
+	<function name="queryResponse" module="Remote">
+		<parameter>&lt;value&gt;terminated&lt;/value&gt;</parameter>
+		<parameter>response</parameter>
+	</function>
+	
+	<function name="queryResponseNegative" module="Remote">
+		<parameter>&lt;value&gt;active&lt;/value&gt;</parameter>
+	</function>
+	
+   <!-- Check the Message-Store -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>amocli s TI:F.CEE.MESSAGE-STORE.1.1:AMO</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: No items found</parameter>
+		<parameter>response</parameter>
+	</function>
+    
+    
+    
+    
+    <!-- Stop SIP Server -->
+   <function name="closeConnection" module="SIP"/>
+	<function name="stopSIPServer" module="SIP"/>
+	
+	<!-- Shut Down SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+</test>
+

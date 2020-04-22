@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE pap PUBLIC "-//WAPFORUM//DTD PAP 2.0//EN" "http://www.wapforum.org/DTD/pap_2.0.dtd"> <?wap-pap-ver supported-versions="2.0,1.*"?>
+<pap>
+<cancel-message push-id="">
+<address address-value="000111222"></address>
+</cancel-message>
+</pap>

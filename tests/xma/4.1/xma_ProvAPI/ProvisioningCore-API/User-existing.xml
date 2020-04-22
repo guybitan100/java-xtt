@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:setDeviceByUserId>
+      <arg0>101</arg0>
+      <arg1>
+        <profile>Nokia3650/1.0 SymbianOS/6.0</profile>
+        <profileUrl>yospace_nokia_v1_3650_ver2_web0</profileUrl>
+        <userAgent>Nokia3650/1.0 SymbianOS/6.0</userAgent>
+      </arg1>
+    </tns:setDeviceByUserId>
+  </soap:Body>
+</soap:Envelope>

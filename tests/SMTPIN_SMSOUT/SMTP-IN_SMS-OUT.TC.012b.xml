@@ -1,0 +1,57 @@
+<test>
+	<name>SMTP-IN_SMS-OUT.TC.012b</name>
+	<description>SMTP-IN -> SMS-OUT Scenario - Validate Large Input Message - 400 Characters SMS Message / 3 Parts</description>
+	
+	<!-- Start SMSC Server & Wait for SLM to Bind SMSC -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+	
+	<!-- 1st Message -->
+	<!-- Create SMTP-IN Message -->
+	<function name="createDateString" module="Basic">
+		<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+		<parameter>date</parameter>
+	</function>
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To:</parameter>
+		<parameter>erkan.sutculer@gmail.com</parameter>
+		<parameter>From:</parameter>
+		<parameter>From@sender.com</parameter>
+		<parameter>Date:</parameter>
+		<variable>date</variable>
+		<parameter>Content-Type:</parameter>
+		<parameter>text/plain</parameter>
+	</function>
+	
+	<!-- Send SMTP-IN Message -->
+	<function name="setDATA" module="SMTP">
+		<variable>headers</variable>
+		<parameter>This is 0040 characters long message 01.This is 0040 characters long message 02.This is 0040 characters long message 03.This is 0040 characters long message 04.This is 0040 characters long message 05.This is 0040 characters long message 06.This is 0040 characters long message 07.This is 0040 characters long message 08.This is 0040 characters long message 09.This is 0040 characters long message 10.</parameter>
+	</function>
+	<function name="connectMailServer" module="SMTP">
+		<configuration>XMA/MM4Ip</configuration>
+		<configuration>XMA/MM4Port</configuration>
+	</function>
+	<function name="sendHELO" module="SMTP">
+		<parameter>xtttestmachine</parameter>
+	</function>
+	<function name="sendMAILFROM" module="SMTP">
+		<parameter>From@sender.com</parameter>
+	</function>
+	<function name="sendRCPTTO" module="SMTP">
+		<parameter>erkan.sutculer@gmail.com</parameter>
+	</function>
+	<function name="sendDATA" module="SMTP"/>
+	<function name="disconnectMailServer" module="SMTP"/>
+	
+	
+	<!-- Wait for the SMS-OUT Message -->
+	<function name="waitForMessages" module="SMS">
+		<parameter>5</parameter>
+	</function>
+
+	<!-- Shut Down SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+</test>

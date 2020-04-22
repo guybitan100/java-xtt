@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- =========================================================================================== -->
+<!-- Definition of the STI (Standard Transcoding Interface) data types and elements.             -->
+<!--                                                                                             -->
+<!-- Specification: OMA-BAC-STI                                                                  -->
+<!-- Version: 1.0                                                                                -->
+<!-- Submitted: May 16th, 2005                                                                   -->
+<!-- Approved:                                                                                   -->
+<!--                                                                                             -->
+<!-- Reference: OMA-TS-STI-V1_0-20050516-D                                                          -->
+<!-- URL: http://www.openmobilealliance.org                                                      -->
+<!--                                                                                             -->
+<!--                                                                                             -->
+<!-- XML Schema Overview:                                                                        -->
+<!--    Target Namespace: "http://www.openmobilealliance.org/schema/sti/v1_0"                    -->
+<!--    Namespace prefix: sti_xsd                                                                -->
+<!--    version: 1.0                                                                             -->
+<!--                                                                                             -->
+<!-- =========================================================================================== -->
+
+<xsd:schema targetNamespace="http://www.openmobilealliance.org/schema/sti/v1_0"
+            xmlns:sti_xsd="http://www.openmobilealliance.org/schema/sti/v1_0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified"
+            version="1.0" >
+
+
+    <!-- =================================                     ================================= -->
+    <!-- ================================= STI PUBLIC ELEMENTS ================================= -->
+    <!-- =================================                     ================================= -->
+
+
+    <!-- TranscodingRequest root element. -->
+    <xsd:element name="TranscodingRequest" type="sti_xsd:TranscodingRequest">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               A transcoding request can contain multiple transcoding jobs
+               which must have a JobID unique per transcoding operation.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:unique name="uniqueTranscodingJobID">
+            <xsd:selector xpath="sti_xsd:TranscodingJob"/>
+            <xsd:field xpath="sti_xsd:jobID"/>
+        </xsd:unique>
+    </xsd:element>
+
+
+    <!-- TranscodingResponse root element. -->
+    <xsd:element name="TranscodingResponse" type="sti_xsd:TranscodingResponse">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               A transcoding response can contain multiple job results
+               which must have a JobID unique per transcoding operation.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:unique name="uniqueJobResultID">
+            <xsd:selector xpath="sti_xsd:JobResult"/>
+            <xsd:field xpath="sti_xsd:jobID"/>
+        </xsd:unique>
+    </xsd:element>
+
+
+
+    <!-- ==============================                           ============================== -->
+    <!-- ============================== OPERATION DATA STRUCTURES ============================== -->
+    <!-- ==============================                           ============================== -->
+
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+           =========================================================================================
+           STI OPERATION data types.
+           They contain specific data used by the transcoding request operation
+           and by the transcoding response operation.
+
+           - TranscodingRequest type
+           - TranscodingResponse type
+           - ReturnResult type
+           =========================================================================================
+        </xsd:documentation>
+    </xsd:annotation>
+
+
+
+    <!-- ========================== TRANSCODING REQUEST ========================= -->
+    <xsd:complexType name="TranscodingRequest">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Transcoding Request type containing data specific to a transcoding request.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="originatorID"      type="xsd:token"                 minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="operationID"       type="xsd:token"                 minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="profileID"         type="xsd:string"                minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="applicationType"   type="xsd:string"                minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="applicationSizeLimit" type="sti_xsd:unboundedLong"  minOccurs="0" maxOccurs="1"/>            
+            <xsd:element name="policyRef"         type="xsd:anyURI"                minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="adaptationClasses" type="sti_xsd:AdaptationClasses" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="transcodingParams" type="sti_xsd:TranscodingParams" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="transcodingJob"    type="sti_xsd:TranscodingJob"    minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="extensionData"     type="sti_xsd:Properties"        minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ======================== TRANSCODING RESPONSE ========================== -->
+    <xsd:complexType name="TranscodingResponse">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                Transcoding Response type containing data specific to a transcoding response.
+
+                Notes:
+                    `originatorID` is a conditional element (see STI spec for details).
+                    `operationID` is a conditional element (see STI spec for details).
+                    `jobResult` is a conditional element (see STI spec for details).
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="originatorID"            type="xsd:token"              minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="operationID"             type="xsd:token"              minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="mainReturnResult"        type="sti_xsd:ReturnResult"   minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="additionalReturnResults" type="sti_xsd:ReturnResults"  minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="totalDuration"           type="sti_xsd:nonNegativeInt" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="jobResult"               type="sti_xsd:JobResult"      minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="extensionData"           type="sti_xsd:Properties"     minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ============================== RETURN RESULT ============================== -->
+    <xsd:complexType name="ReturnResult">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                This complex type contains result details:
+                    - returnCode:    Contains the specific result code (see possible values in "ReturnCodes").
+                    - returnString: Contains the result message to add more details about the result code.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="returnCode"   type="sti_xsd:ReturnCodes" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="returnString" type="xsd:string"          minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ============================= RETURN RESULTS ============================== -->
+    <xsd:complexType name="ReturnResults">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                This complex type contains a collection of ReturnResult elements:
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="returnResult" type="sti_xsd:ReturnResult" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ============================== RETURN CODES =============================== -->
+    <xsd:simpleType name="ReturnCodes">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                    This simple type defines the restriction on the possible return codes.
+                    Return codes allowed are between 1000 and 5999 only.
+
+                      1000-1999 (info)        : Informational return codes.
+                      2000 (success)          : Successful return code.
+                      2001-2999 (warning)     : Warning (but successful) return codes.
+                      4000-4999 (clientError) : Client Error return codes.
+                      5000-5999 (serverError) : Server Error return codes.
+                </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="1000"/>
+            <xsd:maxInclusive value="5999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+
+    <!-- =================================                     ================================= -->
+    <!-- ================================= JOB DATA STRUCTURES ================================= -->
+    <!-- =================================                     ================================= -->
+
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+           =========================================================================================
+           Job details data types.
+
+           - Job abstract type
+           - TranscodingJob type
+           - Source type
+           - Target type
+           - JobResult type
+           - Output type
+           - AdaptionClass type
+           =========================================================================================
+        </xsd:documentation>
+    </xsd:annotation>
+
+
+    <!-- The JOB data type contains elements common to TranscodingJob and JobResult. -->
+    <xsd:complexType name="Job" abstract="true">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Base job type containing data common to the TranscodingJob and to the JobResult types.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="jobID"         type="xsd:token"          minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="extensionData" type="sti_xsd:Properties" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- The TRANSCODING JOB data type contains the details of one transcoding job. -->
+    <xsd:complexType name="TranscodingJob">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains source and target media info to use in order to perform a transcoding job.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="sti_xsd:Job">
+                <xsd:sequence>
+                    <xsd:element name="source" minOccurs="1" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">
+                                   Contains source media info to be used for the transcoding job.
+                                </xsd:documentation>
+                            </xsd:annotation>
+
+                            <xsd:sequence>
+                                <xsd:element name="contentType"       type="xsd:token"          minOccurs="1" maxOccurs="1"/>
+                                <xsd:element name="contentTypeParams" type="sti_xsd:Properties" minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="location"          type="xsd:anyURI"         minOccurs="1" maxOccurs="1"/>
+                                <xsd:element name="extensionData"     type="sti_xsd:Properties" minOccurs="0" maxOccurs="1"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+
+                    <xsd:element name="target" minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">
+                                   Contains target media info to used to perform a transcoding job.
+                                </xsd:documentation>
+                            </xsd:annotation>
+
+                            <xsd:sequence>
+                                <xsd:element name="externalLocation" minOccurs="0" maxOccurs="1">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="path" type="xsd:anyURI" minOccurs="1" maxOccurs="1"/>
+                                            <xsd:element name="name" type="xsd:token"  minOccurs="0" maxOccurs="1"/>
+                                          </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+
+                                <xsd:element name="profileID"         type="xsd:string"     minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="applicationType"   type="xsd:string"     minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="applicationSizeLimit" type="sti_xsd:unboundedLong"  minOccurs="0" maxOccurs="1"/>                                
+                                <xsd:element name="transcodingParams" type="sti_xsd:TranscodingParams"    minOccurs="0"
+                                                                                                          maxOccurs="1"/>
+                                <xsd:element name="extensionData" type="sti_xsd:Properties" minOccurs="0" maxOccurs="1"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+
+                    <xsd:element name="policyRef"         type="xsd:anyURI"                minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="adaptationClasses" type="sti_xsd:AdaptationClasses" minOccurs="0" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+    <!-- The JOB RESULT data type contains the details of one job result. -->
+    <xsd:complexType name="JobResult">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                Contains transcoding job result data.
+
+                Note:
+                    `output` is a conditional element (see STI spec for details).
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="sti_xsd:Job">
+                <xsd:sequence>
+                    <xsd:element name="mainReturnResult"        type="sti_xsd:ReturnResult"  minOccurs="1" maxOccurs="1"/>
+                    <xsd:element name="additionalReturnResults" type="sti_xsd:ReturnResults" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="adaptationsPerformed"    minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="adaptationPerformed" type="xsd:token" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+
+                    <xsd:element name="duration" type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+
+                    <xsd:element name="output" minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="contentType"       type="xsd:token"               minOccurs="1" maxOccurs="1"/>
+                                <xsd:element name="contentTypeParams" type="sti_xsd:Properties"      minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="location"          type="xsd:anyURI"              minOccurs="1" maxOccurs="1"/>
+                                <xsd:element name="mediaSize"         type="sti_xsd:nonNegativeLong" minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="extensionData"     type="sti_xsd:Properties"      minOccurs="0" maxOccurs="1"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+    <!-- ============================ ADAPTATION CLASS ============================= -->
+    <xsd:complexType name="AdaptationClass">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                Information about Adaptation Classes; which are of interest and if they are allowed or not.
+                Contains specific rules about how to adapt the content.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="className" type="xsd:token"   minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="allowed"   type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="classRef"  type="xsd:anyURI"  minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- ============================ ADAPTATION CLASSES ============================= -->
+    <xsd:complexType name="AdaptationClasses">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                This complex type contains a collection of AdaptationClass elements:
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="adaptationClass" type="sti_xsd:AdaptationClass" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+
+    <!-- =========================                                    ========================== -->
+    <!-- ========================= TRANSCODING PARAMS DATA STRUCTURES ========================== -->
+    <!-- =========================                                    ========================== -->
+
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+           =========================================================================================
+           Transcoding Params and its internal data types.
+
+           - TranscodingParams type
+           - Media abstract type
+           - Audio type (+ Synthetic)
+           - Image type (+ ColorScheme, ResizeDirective)
+           - Video type (+ VideoVisual, VideoAudio)
+           - Text type (empty)
+           - Multipart type (+ Presentation)
+           - Transformation type
+           =========================================================================================
+        </xsd:documentation>
+    </xsd:annotation>
+
+
+    <!-- The TRANSCODING PARAMS data type. -->
+    <xsd:complexType name="TranscodingParams">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains the transcoding params data for all media types.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:choice minOccurs="0" maxOccurs="1">
+                <xsd:element name="audio"            type="sti_xsd:Audio"        minOccurs="0" maxOccurs="1"/>
+                <xsd:element name="image"            type="sti_xsd:Image"        minOccurs="0" maxOccurs="1"/>
+                <xsd:element name="video"            type="sti_xsd:Video"        minOccurs="0" maxOccurs="1"/>
+                <xsd:element name="text"             type="sti_xsd:Text"         minOccurs="0" maxOccurs="1"/>
+                <xsd:element name="multipart"        type="sti_xsd:Multipart"    minOccurs="0" maxOccurs="1"/>
+            </xsd:choice>
+            <xsd:element name="sizeLimit"            type="sti_xsd:unboundedLong" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="extensionData"        type="sti_xsd:Properties"    minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- The MEDIA abstract data type. -->
+    <xsd:complexType name="Media" abstract="true">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains transcoding params data common to all media types.
+               Each media type structure should extend that abstract data type.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="contentType"        type="xsd:token"               minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="contentTypeParams"  type="sti_xsd:Properties"      minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="sizeLimit"          type="sti_xsd:unboundedLong"   minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="transformations"    type="sti_xsd:Transformations" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="extensionData"      type="sti_xsd:Properties"      minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+
+    <!-- The AUDIO madia data type. -->
+    <xsd:complexType name="Audio">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains audio-specific transcoding params data.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="sti_xsd:Media">
+                <xsd:sequence>
+                    <xsd:element name="codec"              type="xsd:token"              minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="codecParams"        type="sti_xsd:Properties"     minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="bitRate"            type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="samplingRate"       type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="samplingResolution" type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="channels"           type="xsd:token"              minOccurs="0" maxOccurs="1"/>
+
+                    <xsd:element name="synthetic" minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="channelToUse"     type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="channelsPriority" type="xsd:token"              minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="instrument"       type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+
+    <!-- The IMAGE media data type. -->
+    <xsd:complexType name="Image">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains image-specific transcoding params data.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="sti_xsd:Media">
+                <xsd:sequence>
+                    <xsd:element name="codec"       type="xsd:token"          minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="codecParams" type="sti_xsd:Properties" minOccurs="0" maxOccurs="1"/>
+
+                    <xsd:element name="colorScheme" minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="scheme" type="xsd:token"              minOccurs="1" maxOccurs="1"/>
+                                <xsd:element name="depth"  type="sti_xsd:nonNegativeInt" minOccurs="1" maxOccurs="1"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+
+                    <xsd:element name="width"           type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="height"          type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="resizeDirective" type="xsd:token"              minOccurs="0" maxOccurs="1"
+                                                                                            default="AspectRatio"/>
+                    <xsd:element name="upsizeAllowed"  type="xsd:boolean"            minOccurs="0" maxOccurs="1"
+                                                                                                  default="false"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+
+    <!-- The VIDEO media data type. -->
+    <xsd:complexType name="Video">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains image-specific transcoding params data.
+               A video media type is composed of a visual part and of an audio part.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="sti_xsd:Media">
+                <xsd:sequence>
+
+                    <xsd:element name="videoVisual" minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">
+                                   Contains transcoding params data specific to the visual part of a video.
+                                </xsd:documentation>
+                            </xsd:annotation>
+
+                            <xsd:sequence>
+                                <xsd:element name="codec"           type="xsd:token"               minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="codecParams"     type="sti_xsd:Properties"      minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="sizeLimit"       type="sti_xsd:unboundedLong"   minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="bitRate"         type="sti_xsd:nonNegativeInt"  minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="frameRate"       type="xsd:float"               minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="width"           type="sti_xsd:nonNegativeInt"  minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="height"          type="sti_xsd:nonNegativeInt"  minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="resizeDirective" type="xsd:token"               minOccurs="0" maxOccurs="1"
+                                                                                                         default="AspectRatio"/>
+                                <xsd:element name="upsizeAllowed"  type="xsd:boolean"             minOccurs="0" maxOccurs="1"
+                                                                                                               default="false"/>
+                                <xsd:element name="transformations" type="sti_xsd:Transformations" minOccurs="0" maxOccurs="1"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+
+                    <xsd:element name="videoAudio" minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">
+                                   Contains transcoding params data specific to the audio part of a video.
+                                </xsd:documentation>
+                            </xsd:annotation>
+
+                            <xsd:sequence>
+                                <xsd:element name="codec"              type="xsd:token"               minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="codecParams"        type="sti_xsd:Properties"      minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="sizeLimit"          type="sti_xsd:unboundedLong"   minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="bitRate"            type="sti_xsd:nonNegativeInt"  minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="samplingRate"       type="sti_xsd:nonNegativeInt"  minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="samplingResolution" type="sti_xsd:nonNegativeInt"  minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="channels"           type="xsd:token"               minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="transformations"    type="sti_xsd:Transformations" minOccurs="0" maxOccurs="1"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+    <!-- The TEXT media data type. -->
+    <!-- Empty, every elements/attributes are in the generic media type. -->
+    <xsd:complexType name="Text">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains text-specific transcoding params data.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="sti_xsd:Media">
+                <xsd:sequence/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+    <!-- The MULTIPART media data type. -->
+    <xsd:complexType name="Multipart">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains multipart-specific transcoding params data.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="sti_xsd:Media">
+                <xsd:sequence>
+
+                    <xsd:element name="presentation" minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">
+                                   Contains presentation-specific transcoding params data.
+                                </xsd:documentation>
+                            </xsd:annotation>
+
+                            <xsd:sequence>
+                                <xsd:element name="contentType"       type="xsd:token"          minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="contentTypeParams" type="sti_xsd:Properties" minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="template"          type="xsd:anyURI"         minOccurs="0" maxOccurs="1"/>
+                                <xsd:element name="layout"            type="sti_xsd:LayoutEnum" minOccurs="0" maxOccurs="1"
+                                                                                                         default="Portrait"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+
+                    <xsd:element name="audio" type="sti_xsd:Audio" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="image" type="sti_xsd:Image" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="video" type="sti_xsd:Video" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="text"  type="sti_xsd:Text"  minOccurs="0" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+        <!-- The LAYOUT enum data type. -->
+        <xsd:simpleType name="LayoutEnum">
+            <xsd:restriction base="xsd:token">
+                <xsd:enumeration value="Portrait"/>
+                <xsd:enumeration value="Landscape"/>
+            </xsd:restriction>
+        </xsd:simpleType>
+
+
+
+    <!-- The TRANSFORMATION data type. -->
+    <xsd:complexType name="Transformation">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains transformation data.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="type"       type="xsd:token"              minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="attributes" type="sti_xsd:Properties"     minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="order"      type="sti_xsd:nonNegativeInt" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- The TRANSFORMATIONS data type. -->
+    <xsd:complexType name="Transformations">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+               Contains a collection of transformations.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element name="transformation" type="sti_xsd:Transformation" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+
+    <!-- ===============================                        ================================ -->
+    <!-- =============================== GLOBAL DATA STRUCTURES ================================ -->
+    <!-- ===============================                        ================================ -->
+
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+           =========================================================================================
+           Global Data Types:
+
+           - nonNegativeInt simple type: A 32 bits signed int which does not accept negative values.
+           - unboundedInt simple type: A 32 bits signed int which only accepts -1 as negative
+                                       value that means infinite value (no limit).
+           - nonNegativeLong simple type: A 64 bits signed long which does not accept negative values.
+           - unboundedLong simple type: A 64 bits signed long which only accepts -1 as negative
+                                        value that means infinite value (no limit).
+           - Property type:   Represents one property made of a name (string) and a value (string).
+           - Properties type: Represents a collection of "Property" objects (0..n).
+           =========================================================================================
+        </xsd:documentation>
+    </xsd:annotation>
+
+
+    <!-- nonNegativeInt simple type -->
+    <xsd:simpleType name="nonNegativeInt">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                A 32 bits signed int which does not accept any negative value.
+                A nonNegativeInt type accepts values from "0" to "+2147483647" (2^31) inclusively.
+
+                NOTE: This simple type is used instead of the standard XSD "unsignedInt" which cannot be mapped with the
+                      same range of values to all languages (ex.: Java does not support unsigned types).
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- unboundedInt simple type. -->
+    <xsd:simpleType name="unboundedInt">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                A 32 bits signed int which only accepts -1 as negative value that means infinite value (no limit).
+                An unboundedInt type accepts values from "-1" to "+2147483647" (2^31) inclusively.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:restriction base="xsd:int">
+            <xsd:minInclusive value="-1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- nonNegativeLong simple type -->
+    <xsd:simpleType name="nonNegativeLong">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                A 64 bits signed long which does not accept any negative value.
+                A nonNegativeLong type accepts values from "0" to "+9223372036854775807" (2^63) inclusively.
+
+                NOTE: This simple type is used instead of the standard XSD "unsignedLong" which cannot be mapped with the
+                      same range of values to all languages (ex.: Java does not support unsigned types).
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:restriction base="xsd:long">
+            <xsd:minInclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- unboundedLong simple type. -->
+    <xsd:simpleType name="unboundedLong">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+                A 64 bits signed long which only accepts -1 as negative value that means infinite value (no limit).
+                An unboundedLong type accepts values from "-1" to "+9223372036854775807" (2^63) inclusively.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:restriction base="xsd:long">
+            <xsd:minInclusive value="-1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <!-- The PROPERTY data type. -->
+    <xsd:complexType name="Property">
+        <xsd:sequence>
+            <xsd:element name="name"  type="xsd:token"  minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="value" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- The PROPERTIES data type. -->
+    <xsd:complexType name="Properties">
+        <xsd:sequence>
+            <xsd:element name="property" type="sti_xsd:Property" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,44 @@
+<test>
+	<name>URLListsForURLClassification.TC.005</name>
+	<description>Validate Banned Keyword List could be properly loaded into the CONFIG-SERVER</description>
+	
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>BannedKeywordList.txt</parameter>
+		<file>BannedKeywordList.txt</file>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<parameter>BannedKeywordList.txt /url/BannedKeywordList.txt</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded '/url/BannedKeywordList.txt' from 'BannedKeywordList.txt'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract file </parameter>
+			<parameter>/url/BannedKeywordList.txt BKL.txt</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Extracted  '/url/BannedKeywordList.txt' into file 'BKL.txt'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<function name="readRemoteFile" module="Remote">
+		<parameter>BKL.txt</parameter>
+		<parameter>BKL</parameter>
+	</function>
+	
+	<function name="compareString" module="Basic">
+		<file>BannedKeywordList.txt</file>
+		<variable>BKL</variable>
+	</function>
+	
+</test>

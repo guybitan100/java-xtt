@@ -1,0 +1,32 @@
+<test>
+    <name>WURFL.TC.000</name>
+    
+    <description>Load the files needed to run Wurfl tests</description>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>xtt-wurfl.xml</parameter>
+        <file>xtt-wurfl.xml</file>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data xtt-wurfl.xml</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>    
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load data </parameter>
+            <configuration>REMOTE/PATH</configuration>
+            <parameter>training/xmp_RequestModifications.xml</parameter>
+        </parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>      
+</test>

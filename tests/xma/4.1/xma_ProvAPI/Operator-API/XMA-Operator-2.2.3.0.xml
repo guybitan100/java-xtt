@@ -1,0 +1,24 @@
+<test>
+       
+      <description> SOAP-API-Operator {(find( )}: Checking with only the values for maxNrOperators. </description>
+      
+	 <function name="testName" module="Basic">
+		<parameter>XMA-Operator-2.2.3.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>find-only-maxNrOperators.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+        
+ </test>

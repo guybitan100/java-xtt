@@ -1,0 +1,37 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.9113</parameter>
+    </function>
+    
+    <description>This test sends an old style TPI message to check that it gets rejected by XMA.</description>
+    
+    <subtest>deleteMessagestoreAll.xml</subtest>
+    
+    <function name="sendPacketFromFile" module="TCP">
+        <configuration>Xma/MM7Ip</configuration>
+        <configuration>Xma/MM7Port</configuration>
+        <parameter>bzTC9113-msg.bin</parameter>
+    </function>
+    
+    <function name="queryTextResponse" module="TCP">
+        <parameter>response-code</parameter>
+        <parameter>HTTP/1.1 200 OK</parameter>
+    </function>
+    
+    <function name="queryTextResponse" module="TCP">
+        <parameter>temp</parameter>
+        <parameter>&lt;state xsi:type=&quot;xsd:string&quot;&gt;31&lt;/state&gt;</parameter>
+    </function>     
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/command</configuration>
+        <parameter>amocli count TI:F.CEE.MSP.1:AMO</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>: 0 items counted</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+</test>

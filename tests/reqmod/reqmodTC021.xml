@@ -1,0 +1,410 @@
+<!-- $Id: reqmodTC021.xml,v 1.2 2006/07/21 17:04:56 cvsbuild Exp $ -->
+<!-- # Test Case .... aka REQMOD.TC.021
+     # Check that Rule can be defined that
+     # enables/disables cookies for urls and User-Agents.
+     # -->
+<test>
+    <configuration>reqmodTC000.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.021</parameter>
+    </function>
+    <description>Enables/disables cookies for urls and User-Agents</description>
+
+    <function name="startWebServer" module="HTTP"/>
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+
+    <!-- Normal Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>Normal client side handled cookies</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="WILE_E_COYOTE"; Version=1; Path="/acme"; Max-Age="2"</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie1.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="WILE_E_COYOTE"; Version=1; Path="/acme"; Max-Age="2"</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/acme";</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie1.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/acme";</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie1.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <!-- Normal XMG Intercepted Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>XMG side handled cookies</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="WILE_E_COYOTE"; Version=1; Path="/acme"; Max-Age="2"</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie2.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie2.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/acme";</parameter>
+    </function>
+
+    <!-- Normal XMG Intercepted Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>XMG side handled cookies 2</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="HANS E HANSEN"; Version=1; Path="/"; Comment="Just a comment!"; Max-Age="2"</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie2.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie2.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/acme"; Customer="HANS E HANSEN"; $Path="/";</parameter>
+    </function>
+
+    <!-- Normal XMG Intercepted Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>XMG side handled cookies expired</parameter>
+    </function>
+    <function name="sleep" module="Basic">
+        <parameter>3000</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie2.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <!-- Same test again but for diffrent User-Agents thistime -->
+    <!-- no touch agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/5.0 (Do not mess with my cookies or ELSE)</parameter>
+    </function>
+
+
+    <!-- Normal Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>Normal client side handled cookies</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="WILE_E_COYOTE"; Version=1; Path="/acme"; Max-Age="2"</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie3.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/5.0 (Do not mess with my cookies or ELSE)</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="WILE_E_COYOTE"; Version=1; Path="/acme"; Max-Age="2"</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/acme";</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie3.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/5.0 (Do not mess with my cookies or ELSE)</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/acme";</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie3.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/5.0 (Do not mess with my cookies or ELSE)</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <!-- do store agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/4.0 (Store my cookies)</parameter>
+    </function>
+    <!-- Normal XMG Intercepted Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>XMG side handled cookies</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="WILE_E_COYOTE"; Version=1; Path="/acme"; Max-Age="2"</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie3.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/4.0 (Store my cookies)</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie3.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/4.0 (Store my cookies)</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/acme";</parameter>
+    </function>
+
+    <!-- Normal XMG Intercepted Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>XMG side handled cookies 2</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>Customer="HANS E HANSEN"; Version=1; Path="/"; Comment="Just a comment!"; Max-Age="2"</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie3.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/4.0 (Store my cookies)</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie3.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/4.0 (Store my cookies)</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; Customer="WILE_E_COYOTE"; $Path="/acme"; Customer="HANS E HANSEN"; $Path="/";</parameter>
+    </function>
+
+    <!-- Normal XMG Intercepted Cookie Server to Client behaviour -->
+    <function name="info" module="Basic">
+        <parameter>XMG side handled cookies expired</parameter>
+    </function>
+    <function name="sleep" module="Basic">
+        <parameter>3000</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie3.xtt724.com/acme/</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>Mozilla/4.0 (Store my cookies)</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+    <!-- Normal XMG Intercepted Cookie Server to Client behaviour with domain=.xtt724.com -->
+    <function name="info" module="Basic">
+        <parameter>XMG side handled cookies</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>leCook="DOMAINCOOKIE"; Version=1; Path="/"; Max-Age="2"; domain=".cookie2.xtt724.com"</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie2.xtt724.com/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Set-Cookie</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie2.xtt724.com/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>$Version=1; leCook="DOMAINCOOKIE"; $Path="/"; $Domain=".cookie2.xtt724.com";</parameter>
+    </function>
+
+    <function name="sleep" module="Basic">
+        <parameter>3000</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://cookie2.xtt724.com/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

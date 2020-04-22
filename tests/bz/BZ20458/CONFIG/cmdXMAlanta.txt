@@ -1,0 +1,58 @@
+XTT : start 
+
+subst Y: C:/BUILDTREES/HEAD
+cd Y:
+export MIM_UNC=0
+PS1='${PWD} $ '
+. source/se
+cd y:/xtt
+run-XMA40_lanta_BZ20458.bat
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+lanta xtt:
+
+bash
+export PATH=/usr/local/java/bin:/opt/xma4.0/bin:/opt/titanium/lib:/sbin:/opt/oracle/OraHome92/bin:$PATH
+export ORACLE_HOME=/opt/oracle/OraHome92
+cd /home/danielk/XMA/XMA_40-branch
+xms -xma ac pa 4.0.0.085
+xms -xma run command bash
+xms sh ve
+
+
+xms edit config xma-pv-lanta.xml
+
+/opt/titanium/bin/tispy 0:0
+
+xms generate configuration pv-xma-lanta.xml  cv-xma-lanta.xml
+
+xms shutdown system
+rm -rf /home/danielk/XMA/XMA_40-branch/log/*
+rm -rf /home/danielk/XMA/XMA_40-branch/proc/*
+
+xms initialize machine cv-xma-lanta.xml
+
+xms start system cv-xma-lanta.xml
+xms load data /opt/xma4.0/training/Dashboard.xml  
+xms sh pr 
+
+
+xms load db ./PERLSCRIPT/addSubscriberAttr-XMA-5000000.xml
+xms extract db ./PERLSCRIPT/extractDB-XMA-5000000.xml
+
+
+
+./proc/DB-MANAGER.1/pgsql/bin/psql -p 5432 XMS1A XMS
+./proc/DB-MANAGER.1/pgsql/bin/psql -p 5432 XMS1B XMS
+./proc/DB-MANAGER.1/pgsql/bin/psql -p 5433 XMS2A XMS
+./proc/DB-MANAGER.1/pgsql/bin/psql -p 5433 XMS2B XMS
+
+\d
+\?
+SELECT count(scr_identifier) FROM subscriber;
+SELECT count(scr_userid) FROM subscriber;
+SELECT count(scr_identifier) FROM subscriber_attributes;
+
+
+xms -xma enable tracing -verbose "mor"  DB-ACCESS.*
+

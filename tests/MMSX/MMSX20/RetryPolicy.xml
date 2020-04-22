@@ -1,0 +1,144 @@
+<test>
+    <name>Retry_change</name>
+    <description>
+	------------------------------
+	SMS/MMS Retry Config change
+	------------------------------
+	</description>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>extract data </parameter>
+            <parameter>workflowconstants default_workflowconstants.xml</parameter>
+        </parameter>
+    </function>
+
+    <!--  Read the workflowconstants in a variable-->
+    <function name="readRemoteFile" module="Remote">
+        <parameter>default_workflowconstants.xml</parameter>
+        <parameter>default_workflowconstants</parameter>
+    </function>
+
+    <function name="createDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <variable>default_workflowconstants</variable>
+    </function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='pushSmsOutNumberOfRetries']</parameter>
+        <parameter>pushSmsOutNumberOfRetries</parameter>
+    </function>
+
+    <!--change smsOutCharacterSet = text-->
+    <function name="updateNode" module="XML">
+       <parameter>default_workflowconstantsxmldocument</parameter>
+       <parameter>/workflowConstants/workflowConstant[@name='pushSmsOutNumberOfRetries']</parameter>
+       <parameter>2</parameter>
+    </function>
+
+    <function name="info" module="Basic">
+		    <variable>pushSmsOutNumberOfRetries</variable>
+	</function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='pushSmsOutRetryIntervalSecs']</parameter>
+        <parameter>pushSmsOutRetryIntervalSecs</parameter>
+    </function>
+
+    <!--change smsOutCharacterSet = text-->
+    <function name="updateNode" module="XML">
+       <parameter>default_workflowconstantsxmldocument</parameter>
+       <parameter>/workflowConstants/workflowConstant[@name='pushSmsOutRetryIntervalSecs']</parameter>
+       <parameter>60</parameter>
+    </function>
+
+    <function name="info" module="Basic">
+		    <variable>pushSmsOutRetryIntervalSecs</variable>
+	</function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='smsOutNumberOfRetries']</parameter>
+        <parameter>smsOutNumberOfRetries</parameter>
+    </function>
+
+    <!--change smsOutCharacterSet = text-->
+    <function name="updateNode" module="XML">
+       <parameter>default_workflowconstantsxmldocument</parameter>
+       <parameter>/workflowConstants/workflowConstant[@name='smsOutNumberOfRetries']</parameter>
+       <parameter>2</parameter>
+    </function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='smsOutRetryIntervalSecs']</parameter>
+        <parameter>smsOutRetryIntervalSecs</parameter>
+    </function>
+
+    <!--change smsOutCharacterSet = text-->
+    <function name="updateNode" module="XML">
+       <parameter>default_workflowconstantsxmldocument</parameter>
+       <parameter>/workflowConstants/workflowConstant[@name='smsOutRetryIntervalSecs']</parameter>
+       <parameter>60</parameter>
+    </function>
+
+   <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='mm7VaspOutNumberOfRetries']</parameter>
+        <parameter>mm7VaspOutNumberOfRetries</parameter>
+    </function>
+
+    <!--change smsOutCharacterSet = text-->
+    <function name="updateNode" module="XML">
+       <parameter>default_workflowconstantsxmldocument</parameter>
+       <parameter>/workflowConstants/workflowConstant[@name='mm7VaspOutNumberOfRetries']</parameter>
+       <parameter>2</parameter>
+    </function>
+
+    <function name="info" module="Basic">
+		    <variable>mm7VaspOutNumberOfRetries</variable>
+	</function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='mm7VaspOutRetryIntervalSecs']</parameter>
+        <parameter>mm7VaspOutRetryIntervalSecs</parameter>
+    </function>
+
+    <!--change smsOutCharacterSet = text-->
+    <function name="updateNode" module="XML">
+       <parameter>default_workflowconstantsxmldocument</parameter>
+       <parameter>/workflowConstants/workflowConstant[@name='mm7VaspOutRetryIntervalSecs']</parameter>
+       <parameter>60</parameter>
+    </function>
+
+    <function name="documentToVariable" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>changed_workflowconstants</parameter>
+    </function>
+
+    <!--  Read the workflowconstants in a variable-->
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>changed_workflowconstants.xml</parameter>
+        <variable>changed_workflowconstants</variable>
+    </function>
+
+    <!-- Load the updated workflow constant file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data changed_workflowconstants.xml</parameter>
+	</function>
+
+    <function name="queryResponse" module="Remote">
+		<parameter>^Loaded workflowconstants.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+</test>

@@ -1,0 +1,187 @@
+#ifndef SUBSINFOACCESS_SERVICE_IDL
+#define SUBSINFOACCESS_SERVICE_IDL 1
+// no includes
+module ch
+{
+    module intersys
+    {
+        module sis
+        {
+            module corba
+            {
+                module idl
+                {
+                    module SubsInfoAccessServiceModul
+                    {
+                        // Struct definitionen
+                        //AttributValueStruct
+                        struct AttributValueStruct 
+                        {
+                            string mAttribute;
+                            string mValue;
+                            string mValueDescription;
+                        };
+                        
+                        // grantStruct
+                        struct GrantDecisionStruct
+                        {
+                            long mDecisionCode;
+                            string mDecisionInfo;
+                        };
+                        
+                        // Typedefinitions
+                        //
+                        typedef long NrType_t; // Valid values: 1 for MSISDN, 2 for IMSI
+                        typedef sequence<string> NumberList_t;
+                        typedef sequence<AttributValueStruct> AttributValues_t;
+                        typedef sequence<AttributValues_t> AttributValuesList_t;
+                        
+                        // Exception definitions
+                        //
+                        exception SubsInfoAccessServiceException 
+                        {
+                            unsigned long fReasonCode;
+                            string fReason;
+                        };
+                        
+                        // Interface definitions
+                        //
+                        interface SubsInfoAccessService
+                        {
+                        // Returns
+                        // GrantDecisionStruct
+                        //
+                        // Throws exception if number is not found and service is not supported
+                        GrantDecisionStruct grantService ( in NrType_t aNumberType,
+                            in string aNumber,
+                            in string aService,
+                            in string aServiceAction,
+                            in string aLanguage
+                        ) raises (
+                        SubsInfoAccessServiceException );
+                        // Returns
+                        // AttributValueStruct List holding:
+                        // mAttribute String
+                        // mValue String
+                        // mValueInfo String
+                        //
+                        // Possible Attributtes are: (there will be additional ones not
+                        // described here)
+                        // ActiveScCustomer : 0 if number is no active Swisscom
+                        // customer
+                        // 1 if number is from a Prepaid Swisscom
+                        // customer
+                        // 2 if number is from a Postpaid Swisscom
+                        // customer
+                        // 3 if number is from TELE2 customer
+                        // SubscriptionType : Stype as defined in HLR
+                        // BarringState : 0 no Barring
+                        // 1 Credit Limit reached
+                        // 2 Barring or pNumber unknown
+                        // UserLanguage : "de" for German
+                        // "fr" for French
+                        // "it" for Italien
+                        // "en" for English
+                        // "?" for unknown
+                        // VasLimitReached : 0 limit not reached
+                        // 1 limit reached, set by SCM
+                        // 2 limit reached, set on customers
+                        // demand
+                        // VasBlocked : 0 no premium services blocked
+                        // 1 all premium services blocked, set by
+                        // SCM
+                        // 2 all premium services blocked, set on
+                        // customers demand
+                        // 3 adult content premium services
+                        // blocked, set by SCM
+                        // 4 adult content premium services
+                        // blocked, set on customers demand
+                        // OppositeNumber : IMSI or MSISDN opposite of given number
+                        // CustomerAge : age of customer; 0 if age is unknown
+                        // CustomerID : SubscriberId
+                        // CompanyID : if unstructerd subscriber then same
+                        // mSubscriberID
+                        // else mSubscriberID without last part
+                        // CustomerType : 0 if subscriber type is undefined
+                        // 1 if subscriber type is RESIDENTIAL
+                        // (Privater Kunde)
+                        // 2 if subscriber type is CORPORATE
+                        // (Firmenkunde)
+                        //
+                        
+                        // Throws exception if number is not found
+                        AttributValues_t getSubscriptionInfo(
+                            in NrType_t aNumberType,
+                            in string aNumber,
+                            in short aIncludeInfos
+                        ) raises (SubsInfoAccessServiceException);
+                        // Returns
+                        // AttributValues holding a list with a List of Attribute Value
+                        // triplets:
+                        // mAttribute String
+                        // mValue String
+                        // mValueInfo String
+                        //
+                        // Possible Attributtes are: (there will be additional ones not
+                        // described here)
+                        // ActiveScCustomer : 0 if number is no active Swisscom
+                        // customer
+                        // 1 if number is from a Prepaid Swisscom
+                        // customer
+                        // 2 if number is from a Postpaid Swisscom
+                        // customer
+                        // 3 if number is from TELE2 customer
+                        // SubscriptionType : Stype as defined in HLR
+                        // BarringState : 0 no Barring
+                        // 1 Credit Limit reached
+                        // 2 Barring or pNumber unknown
+                        // UserLanguage : "de" for German
+                        // "fr" for French
+                        // "it" for Italien
+                        // "en" for English
+                        // "?" for unknown
+                        // VasLimitReached : 0 limit not reached
+                        // 1 limit reached, set by SCM
+                        // 2 limit reached, set on customers
+                        // demand
+                        // VasBlocked : 0 no premium services blocked
+                        // 1 all premium services blocked, set by
+                        // SCM
+                        // 2 all premium services blocked, set on
+                        // customers demand
+                        // 3 adult content premium services
+                        // blocked, set by SCM
+                        // 4 adult content premium services
+                        // blocked, set on customers demand
+                        // OppositeNumber : IMSI or MSISDN opposite of given number
+                        // CustomerAge : age of customer; 0 if age is unknown
+                        // CustomerID : SubscriberId
+                        // CompanyID : if unstructerd subscriber then same
+                        // mSubscriberID
+                        // else mSubscriberID without last part
+                        // CustomerType : 0 if subscriber type is undefined
+                        // 1 if subscriber type is RESIDENTIAL
+                        // (Privater Kunde)
+                        // 2 if subscriber type is CORPORATE
+                        // (Firmenkunde)
+                        //
+                        // Throws exception if number is not found
+                        AttributValuesList_t getSubscriptionInfoList(
+                            in NrType_t aNumberType,
+                            in NumberList_t aNumberList,
+                            in short aIncludeInfos
+                        ) raises
+                        (SubsInfoAccessServiceException);
+                        // Returns
+                        // String describing all supported Attributes and its Values
+                        //
+                        //
+                        string getAttributeValueDescriptions();
+                        };// interface end
+                    }; //module SubsInfoAccessServiceModul end
+                }; //module idl end
+            }; //module corba end
+        }; //module sis end
+    }; //module intersys end
+}; //module ch end
+#endif

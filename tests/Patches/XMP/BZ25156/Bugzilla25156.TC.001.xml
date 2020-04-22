@@ -1,0 +1,520 @@
+<test>	    
+	<name>Bugzilla25156.TC.001.xml</name>
+	<description>Validate $0 to $20 of tokenize Operation when a table has a urlList match / separator tag is not present which is space</description>
+
+	<!-- Load list1.url -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>list1.url</parameter>
+		<parameter>http://*.724xtt.com/a* optional data 1
+http://www.724xtt.com/a* optional data 2
+http://*.sales.724xtt.com/a* optional data 3
+http://*.724xtt.com/ab* optional data 4
+http://www.724xtt.com/*   tok01  tok02  tok03  tok04  tok05  tok06  tok07  tok08  tok09  tok10  tok11  tok12  tok13  tok14  tok15  tok16  tok17  tok18  tok19  tok20  tok21  tok22  tok23  tok24  tok25  tok26  tok27  tok28  tok29  tok30  tok31  tok32  tok33  tok34  tok35  tok36  tok37  tok38  tok39  tok40  tok41  tok42  tok43  tok44  tok45  tok46  tok47  tok48  tok49  tok50      
+http://www.724xtt.com/index* optional data 6
+http://www.724xtt.com/index/test* optional data 7</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<parameter>list1.url</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded '/url/list1.url' from 'list1.url'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+
+	<!-- Load list2.url -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>list2.url</parameter>
+		<parameter>http://*.xtt724.com/a* optional data 10
+http://www.xtt724.com/a* optional data 20
+http://*.sales.xtt724.com/a* optional data 30
+http://*.xtt724.com/ab* optional data 40
+http://www.xtt724.com/* optional data 50
+http://www.xtt724.com/index* optional data 60
+http://www.xtt724.com/index/test* optional data 70</parameter>
+	</function>
+    
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<parameter>list2.url</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded '/url/list2.url' from 'list2.url'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+
+	<!-- Load Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>reqmod1.xml</parameter>
+		<xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+	<table name="DummyTableName" phase="httpRequest" matchType="first">
+		<selector urlList="list1.url">
+			<modifyHeader name="REQMOD_MatchedPattern" value="REQMOD_MatchedPattern"/>
+			<modifyHeader name="REQMOD_MatchedData" value="REQMOD_MatchedData"/>
+			<modifyHeader name="REQMOD_selector" value="'list1'"/>
+			<tokenize value="REQMOD_MatchedData"/>
+			<modifyHeader name="Token00" value="$0"/>
+			<modifyHeader name="Token01" value="$1"/>
+			<modifyHeader name="Token02" value="$2"/>
+			<modifyHeader name="Token03" value="$3"/>
+			<modifyHeader name="Token04" value="$4"/>
+			<modifyHeader name="Token05" value="$5"/>
+			<modifyHeader name="Token06" value="$6"/>
+			<modifyHeader name="Token07" value="$7"/>
+			<modifyHeader name="Token08" value="$8"/>
+			<modifyHeader name="Token09" value="$9"/>
+			<modifyHeader name="Token10" value="$10"/>
+			<modifyHeader name="Token11" value="$11"/>
+			<modifyHeader name="Token12" value="$12"/>
+			<modifyHeader name="Token13" value="$13"/>
+			<modifyHeader name="Token14" value="$14"/>
+			<modifyHeader name="Token15" value="$15"/>
+			<modifyHeader name="Token16" value="$16"/>
+			<modifyHeader name="Token17" value="$17"/>
+			<modifyHeader name="Token18" value="$18"/>
+			<modifyHeader name="Token19" value="$19"/>
+            <modifyHeader name="Token20" value="$20"/>
+            <modifyHeader name="Token21" value="$21"/>
+            <modifyHeader name="Token22" value="$22"/>
+            <modifyHeader name="Token23" value="$23"/>
+			<modifyHeader name="Token24" value="$24"/>
+			<modifyHeader name="Token25" value="$25"/>
+			<modifyHeader name="Token26" value="$26"/>
+			<modifyHeader name="Token27" value="$27"/>
+			<modifyHeader name="Token28" value="$28"/>
+			<modifyHeader name="Token29" value="$29"/>
+			<modifyHeader name="Token30" value="$30"/>
+			<modifyHeader name="Token31" value="$31"/>
+			<modifyHeader name="Token32" value="$32"/>
+			<modifyHeader name="Token33" value="$33"/>
+			<modifyHeader name="Token34" value="$34"/>
+			<modifyHeader name="Token35" value="$35"/>
+			<modifyHeader name="Token36" value="$36"/>
+			<modifyHeader name="Token37" value="$37"/>
+			<modifyHeader name="Token38" value="$38"/>
+			<modifyHeader name="Token39" value="$39"/>
+			<modifyHeader name="Token40" value="$40"/>
+			<modifyHeader name="Token41" value="$41"/>
+			<modifyHeader name="Token42" value="$42"/>
+			<modifyHeader name="Token43" value="$43"/>
+			<modifyHeader name="Token44" value="$44"/>
+			<modifyHeader name="Token45" value="$45"/>
+			<modifyHeader name="Token46" value="$46"/>
+			<modifyHeader name="Token47" value="$47"/>
+			<modifyHeader name="Token48" value="$48"/>
+			<modifyHeader name="Token49" value="$49"/>
+			<modifyHeader name="Token50" value="$50 + 'schmetterlinge'"/>
+		</selector>
+		<selector urlPattern="http://www.bad.com/index/test1.html">
+			<modifyHeader name="REQMOD_MatchedPattern" value="REQMOD_MatchedPattern"/>
+			<modifyHeader name="REQMOD_MatchedData" value="REQMOD_MatchedData + 'abc'"/>
+			<modifyHeader name="REQMOD_selector" value="'pattern1'"/>
+		</selector>
+		<selector urlList="list2.url">
+			<modifyHeader name="REQMOD_MatchedPattern" value="REQMOD_MatchedPattern"/>
+			<modifyHeader name="REQMOD_MatchedData" value="REQMOD_MatchedData"/>
+			<modifyHeader name="REQMOD_selector" value="'list2'"/>
+		</selector>
+		<selector urlPattern="http://www.bad.com/index/test2.html">
+			<modifyHeader name="REQMOD_MatchedPattern" value="REQMOD_MatchedPattern"/>
+			<modifyHeader name="REQMOD_MatchedData" value="REQMOD_MatchedData + 'abc'"/>
+			<modifyHeader name="REQMOD_selector" value="'pattern2'"/>
+		</selector>
+	</table>
+</requestModifications>
+		</xml>
+	</function>
+    
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>reqmod1.xml</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded requestmodifications</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	
+	<!-- Start Target Web Server -->
+	<function name="startWebServer" module="HTTP">
+		<parameter>80</parameter>
+		<testpath/>
+		<parameter>30000</parameter>
+	</function>
+	
+	<!-- Define The Content in the Target Web Server -->
+	<function name="setCacheFile" module="HTTP">
+			<parameter>index/test1.html</parameter>
+<xml><html>
+<body>
+This is the contents of the page... Enjoy it.
+</body>
+</html>
+</xml>
+	</function>
+	
+	<!-- Radius Accounting Start for the Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	
+	
+	<!-- Send HTTP GET Request -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.724xtt.com/index/test1.html</parameter>
+	</function>
+	
+	<!-- Check Response Code sent by XMP -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+	
+	<!-- Check Response Data sent by XMP -->
+	<function name="queryBody" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>This is the contents of the page\.\.\. Enjoy it\.</parameter>
+	</function>
+	
+	<!-- Check Response Headers -->
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>reqmod_matchedpattern</parameter>
+		<parameter>^http://www.724xtt.com/\*$</parameter>
+	</function>
+	
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>reqmod_matcheddata</parameter>
+		<parameter>^tok01  tok02  tok03  tok04  tok05  tok06  tok07  tok08  tok09  tok10  tok11  tok12  tok13  tok14  tok15  tok16  tok17  tok18  tok19  tok20  tok21  tok22  tok23  tok24  tok25  tok26  tok27  tok28  tok29  tok30  tok31  tok32  tok33  tok34  tok35  tok36  tok37  tok38  tok39  tok40  tok41  tok42  tok43  tok44  tok45  tok46  tok47  tok48  tok49  tok50$</parameter>
+	</function>
+	
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>reqmod_selector</parameter>
+		<parameter>^list1$</parameter>
+	</function>
+	
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token00</parameter>
+		<parameter>^tok01  tok02  tok03  tok04  tok05  tok06  tok07  tok08  tok09  tok10  tok11  tok12  tok13  tok14  tok15  tok16  tok17  tok18  tok19  tok20  tok21  tok22  tok23  tok24  tok25  tok26  tok27  tok28  tok29  tok30  tok31  tok32  tok33  tok34  tok35  tok36  tok37  tok38  tok39  tok40  tok41  tok42  tok43  tok44  tok45  tok46  tok47  tok48  tok49  tok50$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token01</parameter>
+		<parameter>^tok01$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token02</parameter>
+		<parameter>^tok02$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token03</parameter>
+		<parameter>^tok03$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token04</parameter>
+		<parameter>^tok04$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token05</parameter>
+		<parameter>^tok05$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token06</parameter>
+		<parameter>^tok06$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token07</parameter>
+		<parameter>^tok07$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token08</parameter>
+		<parameter>^tok08$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token09</parameter>
+		<parameter>^tok09$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token10</parameter>
+		<parameter>^tok10$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token11</parameter>
+		<parameter>^tok11$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token12</parameter>
+		<parameter>^tok12$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token13</parameter>
+		<parameter>^tok13$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token14</parameter>
+		<parameter>^tok14$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token15</parameter>
+		<parameter>^tok15$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token16</parameter>
+		<parameter>^tok16$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token17</parameter>
+		<parameter>^tok17$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token18</parameter>
+		<parameter>^tok18$</parameter>
+	</function>
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>token19</parameter>
+		<!--parameter>^tok19  tok20  tok21  tok22  tok23$</parameter-->
+		<parameter>^tok19$</parameter>
+	</function>
+    <function name="queryServerHeader" module="HTTP">
+         <parameter>dev/null</parameter>
+         <parameter>token20</parameter>
+         <parameter>^tok20$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+         <parameter>dev/null</parameter>
+         <parameter>token21</parameter>
+         <parameter>^tok21$</parameter>
+    </function>
+        <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token22</parameter>
+        <parameter>^tok22$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token23</parameter>
+        <parameter>^tok23$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token24</parameter>
+        <parameter>^tok24$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token25</parameter>
+        <parameter>^tok25$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token26</parameter>
+        <parameter>^tok26$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token27</parameter>
+        <parameter>^tok27$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token28</parameter>
+        <parameter>^tok28$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token29</parameter>
+        <parameter>^tok29$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token30</parameter>
+        <parameter>^tok30$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token31</parameter>
+        <parameter>^tok31$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token32</parameter>
+        <parameter>^tok32$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token33</parameter>
+        <parameter>^tok33$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token34</parameter>
+        <parameter>^tok34$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token35</parameter>
+        <parameter>^tok35$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token36</parameter>
+        <parameter>^tok36$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token37</parameter>
+        <parameter>^tok37$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token38</parameter>
+        <parameter>^tok38$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token39</parameter>
+        <parameter>^tok39$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token40</parameter>
+        <parameter>^tok40$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token41</parameter>
+        <parameter>^tok41$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token42</parameter>
+        <parameter>^tok42$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token43</parameter>
+        <parameter>^tok43$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token44</parameter>
+        <parameter>^tok44$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token45</parameter>
+        <parameter>^tok45$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token46</parameter>
+        <parameter>^tok46$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token47</parameter>
+        <parameter>^tok47$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token48</parameter>
+        <parameter>^tok48$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token49</parameter>
+        <parameter>^tok49$</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>token50</parameter>
+        <parameter>^tok50schmetterlinge$</parameter>
+    </function>
+	<!-- Radius Accounting Stop for the Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function> 
+	
+	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>
+
+
+	<!-- Load Empty Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>reqmodTCemptyrules.xml</parameter>
+		<parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data reqmodTCemptyrules.xml</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded requestmodifications</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	
+	<!-- Remove list1.url -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>delete file </parameter>
+			<parameter>list1.url</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Deleted file '/url/list1.url'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	
+	<!-- Remove list2.url -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>delete file </parameter>
+			<parameter>list2.url</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Deleted file '/url/list2.url'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+</test>

@@ -1,0 +1,183 @@
+D: Host: pbl02
+   IP: 10.1.1.195
+   LoginUser: root
+   OSArch: amd64
+   OSName: Linux
+   OSVersion: 2.6.32-220.el6.x86_64
+
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteip' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteip' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteport' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteip' wasn't found
+D: : Parser: Constructing Parser() of XTT Version: Private Build
+D: : Parser: Build Date:  - Mon, 16 Apr 2012 13:52:35 IDT Tools Versions:
+  Parser       : 1.69
+  HTTPHelper   : 1.47
+  ConvertLib   : 1.62
+  XTTXML       : 1.27
+  XTTProperties: 1.115
+D: : com.mobixell.xtt.FunctionModule_Basic: 1.52
+D: : Parser(): Loaded Module: Basic 1.52
+D: : com.mobixell.xtt.FunctionModule_Content: 1.14
+D: : Parser(): Loaded Module: Content 1.14
+D: : com.mobixell.xtt.FunctionModule_DNS: 1.20
+D: : Parser(): Loaded Module: DNS 1.20
+D: : com.mobixell.xtt.FunctionModule_Diameter: 1.17
+D: : com.mobixell.xtt.FunctionModule_Diameter: DiameterServer: 1.6
+D: : com.mobixell.xtt.FunctionModule_Diameter: DiameterWorker: 1.21
+D: : Parser(): Loaded Module: Diameter 1.17
+D: : com.mobixell.xtt.FunctionModule_EWS: 1.7
+D: : com.mobixell.xtt.FunctionModule_EWS: WebWorkerExtensionEWS : 1.2
+D: : com.mobixell.xtt.FunctionModule_EWS: HTTPHelper            : 1.47
+D: : com.mobixell.xtt.FunctionModule_EWS: WebServer             : 1.14
+D: : com.mobixell.xtt.FunctionModule_EWS: WebWorker             : 1.69
+D: : Parser(): Loaded Module: EWS 1.7
+D: : com.mobixell.xtt.FunctionModule_HTTP: 1.65
+D: : com.mobixell.xtt.FunctionModule_HTTP: HTTPHelper: 1.47
+D: : com.mobixell.xtt.FunctionModule_HTTP: WebServer : 1.14
+D: : com.mobixell.xtt.FunctionModule_HTTP: WebWorker : 1.69
+D: : Parser(): Loaded Module: HTTP 1.65
+D: : com.mobixell.xtt.FunctionModule_ICAP: 1.8
+D: : com.mobixell.xtt.FunctionModule_ICAP: ICAPServer: 1.4
+D: : com.mobixell.xtt.FunctionModule_ICAP: ICAPWorker: 1.12
+D: : Parser(): Loaded Module: ICAP 1.8
+D: : com.mobixell.xtt.FunctionModule_IMAP: 1.15
+D: : com.mobixell.xtt.FunctionModule_IMAP: IMAPServer: 1.2
+D: : com.mobixell.xtt.FunctionModule_IMAP: IMAPWorker: 1.1
+D: : Parser(): Loaded Module: IMAP 1.15
+D: : com.mobixell.xtt.AbstractFunctionModule_Jacorb: 1.5
+D: : org.jacorb.naming.NameServer: 1.4
+D: : com.mobixell.xtt.FunctionModule_JacorbTest: 1.6
+D: : Parser(): Loaded Module: JacorbTest 1.6
+D: : com.mobixell.xtt.FunctionModule_LDAP: 1.9
+D: : com.mobixell.xtt.FunctionModule_LDAP: LDAPServer: 1.9
+D: : com.mobixell.xtt.FunctionModule_LDAP: LDAPWorker: 1.10
+D: : Parser(): Loaded Module: LDAP 1.9
+D: : com.mobixell.xtt.FunctionModule_MMSC: 1.21
+D: : com.mobixell.xtt.FunctionModule_MMSC: MMSCServer: 1.8
+D: : com.mobixell.xtt.FunctionModule_MMSC: MMSCWorker: 1.32
+D: : Parser(): Loaded Module: MMSC 1.21
+D: : com.mobixell.xtt.FunctionModule_MSRP: 1.15
+D: : Parser(): Loaded Module: MSRP 1.15
+D: : com.mobixell.xtt.FunctionModule_Multipart: 1.2
+D: : Parser(): Loaded Module: Multipart 1.2
+D: : com.mobixell.xtt.FunctionModule_Proxy: 1.14
+D: : com.mobixell.xtt.FunctionModule_Proxy: ProxyServer: 1.3
+D: : com.mobixell.xtt.FunctionModule_Proxy: ProxyWorker: 1.12
+D: : Parser(): Loaded Module: Proxy 1.14
+D: : com.mobixell.xtt.FunctionModule_Push: 1.19
+D: : Parser(): Loaded Module: Push 1.19
+D: : com.mobixell.xtt.FunctionModule_RTSP: 1.7
+D: : com.mobixell.xtt.FunctionModule_RTSP: RTSPServer: 1.6
+D: : com.mobixell.xtt.FunctionModule_RTSP: RTSPWorker: 1.7
+D: : Parser(): Loaded Module: RTSP 1.7
+D: : com.mobixell.xtt.FunctionModule_Radius: 1.15
+D: : com.mobixell.xtt.FunctionModule_Radius: RadiusServer: 1.6
+D: : com.mobixell.xtt.FunctionModule_Radius: RadiusWorker: 1.5
+D: : Parser(): Loaded Module: Radius 1.15
+D: : com.mobixell.xtt.FunctionModule_Remote: 1.59
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteip' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteport' wasn't found
+F: : !!!!! com.mobixell.xtt.FunctionModule_Remote.initialize(): No address for RemoteXTT configured.
+W: : Trying to set test status to '55', but no tests were found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'remote/path' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'remote/path' wasn't found
+W: : com.mobixell.xtt.FunctionModule_Remote.initialize(): Couldn't find any configuration for RemoteXTT.
+D: : Parser(): Loaded Module: Remote 1.59
+D: : com.mobixell.xtt.FunctionModule_SIP: 1.15
+D: : com.mobixell.xtt.FunctionModule_SIP: SIPServer: 1.14
+D: : com.mobixell.xtt.FunctionModule_SIP: SIPWorker: 1.25
+D: : Parser(): Loaded Module: SIP 1.15
+D: : com.mobixell.xtt.AbstractFunctionModule_Jacorb: 1.5
+D: : org.jacorb.naming.NameServer: 1.4
+D: : com.mobixell.xtt.FunctionModule_SIS: 1.9
+D: : Parser(): Loaded Module: SIS 1.9
+D: : com.mobixell.xtt.FunctionModule_SMPP: 1.12
+D: : Parser(): Loaded Module: SMPP 1.12
+D: : com.mobixell.xtt.FunctionModule_SMS: 1.64
+D: : com.mobixell.xtt.FunctionModule_SMS: SMSCServer: 1.15
+D: : com.mobixell.xtt.FunctionModule_SMS: SMPPWorker: 1.28
+D: : com.mobixell.xtt.FunctionModule_SMS: UCPWorker : 1.35
+D: : com.mobixell.xtt.FunctionModule_SMS: CIMDWorker: 1.6
+D: : Parser(): Loaded Module: SMS 1.64
+D: : com.mobixell.xtt.FunctionModule_SMTP: 1.21
+D: : com.mobixell.xtt.FunctionModule_SMTP: SMTPServer: 1.7
+D: : com.mobixell.xtt.FunctionModule_SMTP: SMTPWorker: 1.20
+D: : Parser(): Loaded Module: SMTP 1.21
+D: : com.mobixell.xtt.FunctionModule_SNMP: 1.14
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'snmp/STARTONLOAD' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'snmp/showalltraps' wasn't found
+D: : Parser(): Loaded Module: SNMP 1.14
+D: : com.mobixell.xtt.FunctionModule_SOAP_API: 1.14
+D: : Parser(): Loaded Module: SOAP_API 1.14
+D: : com.mobixell.xtt.FunctionModule_SQL: 1.5
+D: : Parser(): Loaded Module: SQL 1.5
+D: : com.mobixell.xtt.FunctionModule_STI: 1.14
+D: : com.mobixell.xtt.FunctionModule_STI: STIServer: 1.9
+D: : com.mobixell.xtt.FunctionModule_STI: STIWorker: 1.22
+D: : Parser(): Loaded Module: STI 1.14
+D: : com.mobixell.xtt.FunctionModule_Semaphore: 1.3
+D: : Parser(): Loaded Module: Semaphore 1.3
+D: : com.mobixell.xtt.FunctionModule_TCP: 1.20
+D: : Parser(): Loaded Module: TCP 1.20
+D: : com.mobixell.xtt.FunctionModule_Throttle: 1.3
+D: : Parser(): Loaded Module: Throttle 1.3
+D: : com.mobixell.xtt.FunctionModule_UCP: 1.14
+D: : Parser(): Loaded Module: UCP 1.14
+D: : com.mobixell.xtt.FunctionModule_UDP: 1.13
+D: : Parser(): Loaded Module: UDP 1.13
+D: : com.mobixell.xtt.FunctionModule_VASP: 1.27
+D: : Parser(): Loaded Module: VASP 1.27
+D: : com.mobixell.xtt.FunctionModule_WAP: 1.11
+D: : Parser(): Loaded Module: WAP 1.11
+D: : com.mobixell.xtt.FunctionModule_XML: 1.24
+D: : Parser(): Loaded Module: XML 1.24
+D: : com.mobixell.xtt.FunctionModule_XTT: 1.22
+D: : Parser(): Loaded Module: XTT 1.22
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'SYSTEM/IP' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteip' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteport' wasn't found
+W: : getProperty: No config loaded
+W: : Trying to set test status to '1', but no tests were found
+D: : Property 'system/remoteip' wasn't found
+I: : SYSTEM/IP: 10.1.1.195
+I: : DNSServer ip: 10.1.1.195 listening on port 53
+

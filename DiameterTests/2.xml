@@ -1,0 +1,57 @@
+<test>
+
+	<name>Default Use case of Login and Advertising activation Followed by disabling the feature</name>
+
+	<description>defaultAuthenticationType=radius; starting a web session, enabling Advertising, disabling advetising and ending the session</description>
+
+<function name="info" module="BASIC">
+			<variable>STORED_SESSION_ID</variable>
+		</function>
+
+		<function name="setVariable" module="BASIC">
+			<parameter>STORED_SESSION_ID</parameter>
+            <variable>1200</variable>
+		</function>
+
+		
+
+		<!-- create the connection to the PCEF to send the RAR -->
+		<function name="createConnection" module="Diameter">
+        <parameter>CCRI</parameter>
+        <parameter>10.0.1.51</parameter>
+        <parameter>3868</parameter>
+    </function>
+
+	
+		<!-- Sleep for 3 seconds before Sending the RAR message to remove the Rule -->
+		
+		 <function name="sleep" module="Basic">
+                <parameter>3000</parameter>
+        </function>	
+	
+		<!-- send the RAR message to Remove the Rule -->
+		<function name="sendDiameterRequest" module="Diameter">
+			<parameter>one</parameter>
+			<xml>
+				<CREDIT_CONTROL_REQUEST proxiable="true" error="false" tretr="false" matchAVP="CC_REQUEST_TYPE" matchREGEX="INITIAL_REQUEST">
+                        <SESSION_ID             request="STORED_SESSION_ID"/>
+                        <ORIGIN_HOST            value="diameter.client.com" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_REALM           request="ORIGIN_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+						<DESTINATION_REALM           value="DESTINATION_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<DESTINATION_HOST           value="diameter.xtt724.com"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <AUTH_APPLICATION_ID    value="4"                   mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <CC_REQUEST_TYPE        request="CC_REQUEST_TYPE"   mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+						<CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+						<SUBSCRIPTION_ID         mandatory="true" protected="false" vendorspecific="false"  vendorid="">
+							<SUBSCRIPTION_ID_DATA value="417894569" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>  
+							<SUBSCRIPTION_ID_TYPE value="END_USER_E164" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>  
+						</SUBSCRIPTION_ID>                        
+                        <CHARGING_RULE_INSTALL mandatory="true" protected="false" vendorspecific="true"  vendorid="10415">
+							<CHARGING_RULE_NAME  value="61637469766174655f6164766572746973696e67" mandatory="true" protected="false" vendorspecific="true"  vendorid="10415"/>
+						</CHARGING_RULE_INSTALL>
+                    </CREDIT_CONTROL_REQUEST>
+			</xml>
+			<parameter>STORERESULT</parameter>
+		</function>
+	
+</test>

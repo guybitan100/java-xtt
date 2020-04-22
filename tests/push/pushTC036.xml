@@ -1,0 +1,129 @@
+<test>
+    <configuration>push.xml</configuration>
+
+    <name>PUSH.TC.036</name>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+
+    
+    <!-- Setup message -->
+    
+    <function name="setPostData" module="Push">
+        <file>push-UDP-OnlyMandatory.txt</file>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+
+    <!-- Test any/any network bearer -->
+    
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>network</parameter>
+        <parameter>any</parameter>
+    </function>    
+    <function name="replaceAttribute" module="Push">
+        <parameter>bearer</parameter>
+        <parameter>any</parameter>
+    </function>    
+    
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+
+    <!-- Test THISISNOTANETWORK/SMS network bearer -->
+    
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>network</parameter>
+        <parameter>THISISNOTANETWORK</parameter>
+    </function>    
+    <function name="replaceAttribute" module="Push">
+        <parameter>bearer</parameter>
+        <parameter>SMS</parameter>
+    </function>    
+    
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>3009</parameter>
+    </function>    
+
+    <!-- Test GSM/NOSUCHBEARER network bearer -->
+    
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>network</parameter>
+        <parameter>GSM</parameter>
+    </function>    
+    <function name="replaceAttribute" module="Push">
+        <parameter>bearer</parameter>
+        <parameter>NOSUCHBEARER</parameter>
+    </function>    
+    
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>3010</parameter>
+    </function>
+
+    <!-- CLEAN UP -->
+
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

@@ -1,0 +1,123 @@
+--multipart-boundary
+Content-Type: application/xml
+
+<?xml version="1.0"?>
+<!DOCTYPE pap PUBLIC "-//WAPFORUM//DTD PAP 2.0//EN" "http://www.wapforum.org/DTD/pap_2.0.dtd"> <?wap-pap-ver supported-versions="2.0,1.*"?>
+<pap>
+<push-message push-id="9fjeo39jf084@pi.com">
+<address address-value="000111001"></address>
+<address address-value="000111002"></address>
+<address address-value="000111003"></address>
+<address address-value="000111004"></address>
+<address address-value="000111005"></address>
+<address address-value="000111006"></address>
+<address address-value="000111007"></address>
+<address address-value="000111008"></address>
+<address address-value="000111009"></address>
+<address address-value="000111010"></address>
+<address address-value="000111011"></address>
+<address address-value="000111012"></address>
+<address address-value="000111013"></address>
+<address address-value="000111014"></address>
+<address address-value="000111015"></address>
+<address address-value="000111016"></address>
+<address address-value="000111017"></address>
+<address address-value="000111018"></address>
+<address address-value="000111019"></address>
+<address address-value="000111020"></address>
+<address address-value="000111021"></address>
+<address address-value="000111022"></address>
+<address address-value="000111023"></address>
+<address address-value="000111024"></address>
+<address address-value="000111025"></address>
+<address address-value="000111026"></address>
+<address address-value="000111027"></address>
+<address address-value="000111028"></address>
+<address address-value="000111029"></address>
+<address address-value="000111030"></address>
+<address address-value="000111031"></address>
+<address address-value="000111032"></address>
+<address address-value="000111033"></address>
+<address address-value="000111034"></address>
+<address address-value="000111035"></address>
+<address address-value="000111036"></address>
+<address address-value="000111037"></address>
+<address address-value="000111038"></address>
+<address address-value="000111039"></address>
+<address address-value="000111040"></address>
+<address address-value="000111041"></address>
+<address address-value="000111042"></address>
+<address address-value="000111043"></address>
+<address address-value="000111044"></address>
+<address address-value="000111045"></address>
+<address address-value="000111046"></address>
+<address address-value="000111047"></address>
+<address address-value="000111048"></address>
+<address address-value="000111049"></address>
+<address address-value="000111050"></address>
+<address address-value="000111051"></address>
+<address address-value="000111052"></address>
+<address address-value="000111053"></address>
+<address address-value="000111054"></address>
+<address address-value="000111055"></address>
+<address address-value="000111056"></address>
+<address address-value="000111057"></address>
+<address address-value="000111058"></address>
+<address address-value="000111059"></address>
+<address address-value="000111050"></address>
+<address address-value="000111061"></address>
+<address address-value="000111062"></address>
+<address address-value="000111063"></address>
+<address address-value="000111064"></address>
+<address address-value="000111065"></address>
+<address address-value="000111066"></address>
+<address address-value="000111067"></address>
+<address address-value="000111068"></address>
+<address address-value="000111069"></address>
+<address address-value="000111070"></address>
+<address address-value="000111071"></address>
+<address address-value="000111072"></address>
+<address address-value="000111073"></address>
+<address address-value="000111074"></address>
+<address address-value="000111075"></address>
+<address address-value="000111076"></address>
+<address address-value="000111077"></address>
+<address address-value="000111078"></address>
+<address address-value="000111079"></address>
+<address address-value="000111080"></address>
+<address address-value="000111081"></address>
+<address address-value="000111082"></address>
+<address address-value="000111083"></address>
+<address address-value="000111084"></address>
+<address address-value="000111085"></address>
+<address address-value="000111086"></address>
+<address address-value="000111087"></address>
+<address address-value="000111088"></address>
+<address address-value="000111089"></address>
+<address address-value="000111090"></address>
+<address address-value="000111091"></address>
+<address address-value="000111092"></address>
+<address address-value="000111093"></address>
+<address address-value="000111094"></address>
+<address address-value="000111095"></address>
+<address address-value="000111096"></address>
+<address address-value="000111097"></address>
+<address address-value="000111098"></address>
+<address address-value="000111099"></address>
+<address address-value="000111100"></address>
+<quality-of-service network="GSM" bearer="SMS"></quality-of-service>
+</push-message>
+</pap>
+
+--multipart-boundary
+X-Wap-Application-Id: x-wap-application:wml.ua
+Content-Type: text/vnd.wap.si
+
+<?xml version="1.0"?>
+<!DOCTYPE si PUBLIC "-//WAPFORUM//DTD SI 1.0//EN" "http://www.wapforum.org/DTD/si.dtd">
+<si>
+<indication href="wab.sbb.ch" si-id="papsitc001"
+created="2004-07-31T10:13:00Z" si-expires="2005-08-07T10:13:00Z">You have 4 new emails</indication>
+</si>
+
+--multipart-boundary--

@@ -1,0 +1,71 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>RADIUS.TC.006</parameter>
+	</function>
+
+	<function name="setProcesses" module="Remote"/>
+
+	<function name="sendRemoteCommand" module="Remote">
+		<configuration>xmg/path</configuration>
+		<configuration>xmg/tool</configuration>
+		<parameter>pse3cli da! TI:F.CEE.PSE:PSE3</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+    	<parameter>[Dd]eleted</parameter>
+    	<parameter>temp</parameter>
+    </function>
+	<function name="sendRemoteCommand" module="Remote">
+		<configuration>xmg/path</configuration>
+		<configuration>xmg/tool</configuration>
+		<parameter>pse3cli -i RemoteXTT/pseLogons.xml write TI:F.CEE.PSE:PSE3</parameter>
+    </function>
+
+	<function name="stopProcess" module="Remote">
+		<parameter>PSE.1</parameter>
+    </function>
+
+	<function name="sleep" module="Basic">
+		<parameter>1000</parameter>
+	</function>
+
+	<function name="runOnEvent" module="Remote">
+		<parameter>/nishome/gavinc/XMG/bin/xms start pro PSE.1</parameter>
+		<parameter>variables/radiusloop</parameter>
+		<parameter>25000</parameter>
+	</function>
+
+	<function name="radiusLogoffLogon" module="Radius">
+		<parameter>0</parameter>
+		<parameter>123.0.0.1</parameter>
+		<parameter>100000</parameter>
+		<parameter>variables/radiusloop</parameter>
+	</function>
+
+	<function name="stopProcess" module="Remote">
+		<parameter>PSE.2</parameter>
+    </function>
+
+	<function name="sleep" module="Basic">
+		<parameter>1000</parameter>
+	</function>
+
+	<function name="sendRemoteCommand" module="Remote">
+		<configuration>xmg/path</configuration>
+		<configuration>xmg/tool</configuration>
+		<parameter>pse3cli -o RemoteXTT/testPSE2.xml rbng TI:F.CEE.PSE:PSE3</parameter>
+    </function>
+
+	<function name="sendRemoteCommand" module="Remote">
+		<parameter>checkpsecontent RemoteXTT/testPSE2.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+    	<parameter>(PASSED)</parameter>
+    	<parameter/>
+    </function>
+
+	<function name="startProcess" module="Remote">
+		<parameter>PSE.2</parameter>
+    </function>
+</test>

@@ -1,0 +1,69 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.7360</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeBinaryFile wukvo_20030821.key.der </parameter>
+        <base64file>wukvo_20030821.key.der</base64file>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeBinaryFile wukvo_20030821.crt.der </parameter>
+        <base64file>wukvo_20030821.crt.der</base64file>
+    </function>    
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeBinaryFile VeriSign_RSA_Secure_Server_CA.cer </parameter>
+        <base64file>VeriSign_RSA_Secure_Server_CA.cer</base64file>
+    </function>
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load file VeriSign_RSA_Secure_Server_CA.cer</parameter>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load file wukvo_20030821.crt.der</parameter>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load file wukvo_20030821.key.der</parameter>
+    </function>    
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bz7542-security.xml </parameter>
+        <file>bz7542-security.xml</file>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load date bz7542-security.xml</parameter>
+    </function>    
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bz7542-security-2.xml </parameter>
+        <file>bz7542-security.xml</file>
+    </function>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load date bz7542-security-2.xml</parameter>
+    </function>   
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile security.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;security&gt;
+            &lt;/security&gt;</parameter>
+    </function>    
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load date security.xml</parameter>
+    </function>     
+    
+</test>

@@ -1,0 +1,909 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM1.MM4.TC.020</name>
+    <description>10 On-Net + 10 Off-Net Recipients / 15 Success + 5 Fails 
+    [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes] 
+    [Sn's DB_Prepaid=true] 
+    [Rc's DB_MmsDisabled=false] 
+    [Rc's DB_UseEmail=false] 
+    [Rc's DB_Email=user@domain]</description>
+
+    <div comment="Set Users">
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN1</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS1</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN1</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL1</parameter>
+            <parameter>
+                <variable>MMSADDRESS1</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN2</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN2</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS2</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN2</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL2</parameter>
+            <parameter>
+                <variable>MMSADDRESS2</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN3</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN3</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS3</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN3</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL3</parameter>
+            <parameter>
+                <variable>MMSADDRESS3</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN4</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN4</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS4</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN4</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL4</parameter>
+            <parameter>
+                <variable>MMSADDRESS4</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN5</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN5</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS5</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN5</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL5</parameter>
+            <parameter>
+                <variable>MMSADDRESS5</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN6</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN6</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS6</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN6</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL6</parameter>
+            <parameter>
+                <variable>MMSADDRESS6</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN7</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN7</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS7</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN7</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL7</parameter>
+            <parameter>
+                <variable>MMSADDRESS7</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN8</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN8</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS8</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN8</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL8</parameter>
+            <parameter>
+                <variable>MMSADDRESS8</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN9</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN9</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS9</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN9</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL9</parameter>
+            <parameter>
+                <variable>MMSADDRESS9</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN0</parameter>
+            <configuration>XMA/UNKNOWN/PARTNER/MSISDN0</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MMSADDRESS0</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>MSISDN0</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>EMAIL0</parameter>
+            <parameter>
+                <variable>MMSADDRESS0</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN10</parameter>
+            <configuration>XMA/POSTPAY/ENABLED/MSISDN0</configuration>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN11</parameter>
+            <configuration>XMA/POSTPAY/ENABLED/MSISDN1</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN12</parameter>
+            <configuration>XMA/POSTPAY/ENABLED/MSISDN2</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN13</parameter>
+            <configuration>XMA/POSTPAY/ENABLED/MSISDN3</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN14</parameter>
+            <configuration>XMA/POSTPAY/ENABLED/MSISDN4</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN15</parameter>
+            <configuration>XMA/POSTPAY/DISABLED/MSISDN5</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN16</parameter>
+            <configuration>XMA/POSTPAY/DISABLED/MSISDN6</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN17</parameter>
+            <configuration>XMA/POSTPAY/DISABLED/MSISDN7</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN18</parameter>
+            <configuration>XMA/POSTPAY/DISABLED/MSISDN8</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>MSISDN19</parameter>
+            <configuration>XMA/POSTPAY/DISABLED/MSISDN9</configuration>
+        </function>                                        
+    
+        <function name="setVariable" module="Basic">
+            <parameter>SENDERMSISDN</parameter>
+            <configuration>XMA/PREPAY/ENABLED/MSISDN1</configuration>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>SENDERMMSADDRESS</parameter>
+            <parameter>
+                <parameter>+</parameter>
+                <variable>SENDERMSISDN</variable>
+                <parameter>/TYPE=PLMN</parameter>
+            </parameter>
+        </function>    
+        <function name="setVariable" module="Basic">
+            <parameter>SENDEREMAIL</parameter>
+            <parameter>
+                <variable>SENDERMMSADDRESS</variable>
+                <configuration>XMA/PARTNERDOMAIN</configuration>
+            </parameter>
+        </function>            
+    </div>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Start SMTP Server and wait until it binds to XMA -->
+    <function name="startSMTPServer" module="SMTP"/>
+    <function name="startSMSCServer" module="SMS"/>
+    
+	<!-- Load MNO file -->
+    <subtest>../loadMNO.xml</subtest>
+
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+    
+    <function name="waitForBind" module="SMS"/>
+
+    <div comment="Create MM1 Packet">
+        <function name="createMM1Packet" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>M_SEND_REQ</parameter>
+            <parameter>XTTTRANSACTIONID0001</parameter>
+            <parameter>0x17</parameter>
+            <parameter></parameter>
+            <parameter></parameter>
+            <parameter>text/plain</parameter>
+            <parameter>utf-8</parameter>
+        </function>
+        
+        <loop name="loop" start="0" stop="20" step="1">
+            <function name="createMM1PacketOptions" module="SMS">
+                <parameter>sendPacket1</parameter>
+                <parameter>TO</parameter>
+                <variable>
+                    <parameter>MSISDN</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>
+        </loop>    
+        
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>X_MMS_DELIVERY_REPORT</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>X_MMS_READ_REPORT</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>SUBJECT</parameter>
+            <parameter>Ola!</parameter>
+        </function>
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>X_MMS_MESSAGE_CLASS</parameter>
+            <parameter>128</parameter>
+        </function>
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>X_MMS_PRIORITY</parameter>
+            <parameter>130</parameter>
+        </function>
+        <function name="createMM1PacketOptions" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+            <parameter>129</parameter>
+        </function>
+        <function name="createMM1PacketContent" module="SMS">
+            <parameter>sendPacket1</parameter>
+            <base64encode>Hello World!</base64encode>
+        </function>
+        <function name="storeMM1Packet" module="SMS">
+            <parameter>sendPacket1Base64</parameter>
+            <parameter>sendPacket1</parameter>
+        </function>
+    
+        <function name="decodeMM1Packet" module="SMS">
+            <parameter>PACKET1Request</parameter>
+            <variable>sendPacket1Base64</variable>
+        </function>
+    
+        <function name="setHeader" module="HTTP">
+            <configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+            <variable>SENDERMSISDN</variable>
+        </function>
+        <function name="setHeader" module="HTTP">
+            <parameter>Accept</parameter>
+            <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+        </function>
+        <function name="setHeader" module="HTTP">
+            <parameter>Content-Type</parameter>
+            <parameter>application/vnd.wap.mms-message</parameter>
+        </function>
+    
+        <function name="setBase64PostData" module="HTTP">
+            <variable>sendPacket1Base64</variable>
+        </function>
+    
+        <!--function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET</parameter>
+            <variable>sendPacket1Base64</variable>
+        </function-->
+    
+        <function name="sendPostRequest" module="HTTP">
+            <parameter>
+                <parameter>http://</parameter>
+                <configuration>SMSCSERVER/MM1Ip</configuration>
+                <parameter>:</parameter>
+                <configuration>SMSCSERVER/MM1Port</configuration>
+                <parameter>/</parameter>
+            </parameter>
+        </function>
+    
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="decodeMM1Packet" module="SMS">
+            <parameter>PACKET1Response</parameter>
+            <variable>HTTP/BODY/BASE64</variable>
+        </function>
+        <function name="queryVariable" module="BASIC">
+            <parameter>PACKET1Response/MMS/x_mms_response_status</parameter>
+            <parameter>dev/null</parameter>
+            <parameter>Ok</parameter>
+        </function>
+        <function name="setVariable" module="BASIC">
+            <parameter>originalMessageid</parameter>
+            <variable>PACKET1Response/MMS/message_id</variable>
+        </function>
+    </div>
+    
+    <function name="waitForMails" module="SMTP">
+        <parameter>10</parameter>
+    </function>
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>10</parameter>
+    </function>
+    
+    <div comment="Send/Check Delivery Report for MM4 recipients">
+        <loop name="loop" start="0" stop="10" step="1">
+            <function name="setVariable" module="Basic">
+                <parameter>OFFNETEMAIL</parameter>
+                <variable>
+                    <parameter>EMAIL</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>
+            <function name="setVariable" module="Basic">
+                <parameter>MMSADDRESS</parameter>
+                <variable>
+                    <parameter>MMSADDRESS</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>
+            <function name="setVariable" module="Basic">
+                <parameter>MSISDN</parameter>
+                <variable>
+                    <parameter>MSISDN</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>            
+            
+            <function name="createDateString" module="Basic">
+                <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+                <parameter>date</parameter>
+            </function>
+    
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_header_to</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/header/to</parameter>
+                </parameter>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_header_from</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/header/from</parameter>
+                </parameter>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_mail_from</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/mail from</parameter>
+                </parameter>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_header_x-mms-transaction-id</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/header/x-mms-transaction-id</parameter>
+                </parameter>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_header_x-mms-message-id</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/header/x-mms-message-id</parameter>
+                </parameter>
+            </function>
+    
+            <function name="setVariableLines" module="Basic">
+                <parameter>2</parameter>
+                <parameter>headers</parameter>
+                <parameter>To: </parameter>                     <variablepointer>smtp_header_from</variablepointer>
+                <parameter>Sender: </parameter>                 <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+                <parameter>From: </parameter>                   <variable>MMSADDRESS</variable>
+                <parameter>Date: </parameter>                   <variable>date</variable>
+                <parameter>message-id: </parameter>             <parameter>date</parameter>
+                <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_delivery_report.REQ</parameter>
+                <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>6.14.0</parameter>
+                <parameter>X-MMS-Transaction-ID: </parameter>   <variablepointer>smtp_header_x-mms-transaction-id</variablepointer>
+                <parameter>X-MMS-Message-ID: </parameter>       <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+                <parameter>X-Mms-Mm-Status-Code: </parameter>   <parameter>Retrieved</parameter>
+            </function>
+    
+            <function name="setDATA" module="SMTP">
+                <variable>headers</variable>
+            </function>
+    
+            <function name="connectMailServer" module="SMTP">
+                <configuration>xma/MM4Ip</configuration>
+                <configuration>xma/MM4Port</configuration>
+            </function>
+            <function name="sendHELO" module="SMTP">
+                <parameter>xtttestmachine</parameter>
+            </function>
+            <function name="sendMAILFROM" module="SMTP">
+                <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+            </function>
+            <function name="sendRCPTTO" module="SMTP">
+                <variablepointer>smtp_mail_from</variablepointer>
+            </function>
+    
+            <function name="sendDATA" module="SMTP"/>
+    
+            <function name="disconnectMailServer" module="SMTP"/>
+    
+            <function name="calculate" module="Basic">
+                <parameter>messages</parameter>
+                <parameter>
+                    <parameter>11</parameter>
+                    <parameter>+</parameter>
+                    <variable>loop</variable>
+                </parameter>
+            </function>
+            <function name="waitForWSPMessages" module="SMS">
+                <variable>messages</variable>
+            </function>
+    
+            <function name="compareString" module="BASIC">
+                <variable>originalMessageId</variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/message_id</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <parameter>Retrieved</parameter>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/x_mms_status</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <variable>
+                    <parameter>MSISDN</parameter>
+                    <variable>loop</variable>
+                </variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/to</parameter>
+                </variable>
+            </function>            
+        </loop>
+    </div>
+    <div comment="Send/Check Read Reply Reports for MM4 recipients">
+        <loop name="loop" start="0" stop="10" step="1">
+            <function name="setVariable" module="Basic">
+                <parameter>OFFNETEMAIL</parameter>
+                <variable>
+                    <parameter>EMAIL</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>
+            <function name="setVariable" module="Basic">
+                <parameter>MSISDN</parameter>
+                <variable>
+                    <parameter>MSISDN</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>
+            <function name="setVariable" module="Basic">
+                <parameter>MMSADDRESS</parameter>
+                <variable>
+                    <parameter>MMSADDRESS</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>                 
+        <!-- send the read report -->
+    
+            <function name="createDateString" module="Basic">
+                <parameter>dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+                <parameter>date</parameter>
+            </function>
+    
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_header_to</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/header/to</parameter>
+                </parameter>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_header_from</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/header/from</parameter>
+                </parameter>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_mail_from</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/mail from</parameter>
+                </parameter>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_header_x-mms-transaction-id</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/header/x-mms-transaction-id</parameter>
+                </parameter>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>smtp_header_x-mms-message-id</parameter>
+                <parameter>
+                    <parameter>smtp/</parameter>
+                    <variable>OFFNETEMAIL</variable>
+                    <parameter>/header/x-mms-message-id</parameter>
+                </parameter>
+            </function>
+    
+            <function name="setVariableLines" module="Basic">
+                <parameter>2</parameter>
+                <parameter>headers</parameter>
+                <parameter>To: </parameter>                     <variablepointer>smtp_header_from</variablepointer>
+                <parameter>Sender: </parameter>                 <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+                <parameter>From: </parameter>                   <variable>MMSADDRESS</variable>
+                <parameter>Date: </parameter>                   <variable>date</variable>
+                <parameter>message-id: </parameter>             <parameter>date</parameter>
+                <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_read_reply_report.REQ</parameter>
+                <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>6.14.0</parameter>
+                <parameter>X-MMS-Transaction-ID: </parameter>   <variablepointer>smtp_header_x-mms-transaction-id</variablepointer>
+                <parameter>X-MMS-Message-ID: </parameter>       <variablepointer>smtp_header_x-mms-message-id</variablepointer>
+                <parameter>X-Mms-Read-Status: </parameter>      <parameter>Read</parameter>
+            </function>
+    
+            <function name="setDATA" module="SMTP">
+                <variable>headers</variable>
+            </function>
+    
+            <function name="connectMailServer" module="SMTP">
+                <configuration>xma/MM4Ip</configuration>
+                <configuration>xma/MM4Port</configuration>
+            </function>
+            <function name="sendHELO" module="SMTP">
+                <parameter>xtttestmachine</parameter>
+            </function>
+            <function name="sendMAILFROM" module="SMTP">
+                <configuration>XMA/SERVERSYSTEMADDRESS</configuration>
+            </function>
+            <function name="sendRCPTTO" module="SMTP">
+                <variablepointer>smtp_mail_from</variablepointer>
+            </function>
+    
+            <function name="sendDATA" module="SMTP"/>
+    
+            <function name="disconnectMailServer" module="SMTP"/>
+            
+            <function name="calculate" module="Basic">
+                <parameter>messages</parameter>
+                <parameter>
+                    <parameter>21</parameter>
+                    <parameter>+</parameter>
+                    <variable>loop</variable>
+                </parameter>
+            </function>
+            <function name="waitForWSPMessages" module="SMS">
+                <variable>messages</variable>
+            </function>
+            
+            <function name="compareString" module="BASIC">
+                <variable>originalMessageId</variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/message_id</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <parameter>Read</parameter>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/x_mms_read_status</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <variable>
+                    <parameter>MMSADDRESS</parameter>
+                    <variable>loop</variable>
+                </variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/from</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <variable>SENDERMMSADDRESS</variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/to</parameter>
+                </variable>
+            </function>            
+        </loop>
+    </div>
+    <div comment="Download MM1 message, send ACK for all MM1 recipients">
+        <loop name="loop" start="10" stop="15" step="1">
+            <function name="setVariable" module="Basic">
+                <parameter>MSISDN</parameter>
+                <variable>
+                    <parameter>MSISDN</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>    	
+    	    <function name="setVariable" module="BASIC">
+    	        <parameter>x_mms_content_location</parameter>
+    	        <parameter>
+    	            <parameter>SMSC/</parameter>
+    	            <configuration>SMSCSERVER/PROTOCOL</configuration>
+    	            <parameter>/</parameter>
+                    <variable>MSISDN</variable>
+    	            <parameter>/MMS/x_mms_content_location</parameter>
+    	        </parameter>
+    	    </function>
+    	    <function name="setVariable" module="BASIC">
+    	        <parameter>x_mms_transaction_id</parameter>
+    	        <parameter>
+    	            <parameter>SMSC/</parameter>
+    	            <configuration>SMSCSERVER/PROTOCOL</configuration>
+    	            <parameter>/</parameter>
+                    <variable>MSISDN</variable>
+    	            <parameter>/MMS/x_mms_transaction_id</parameter>
+    	        </parameter>
+    	    </function>
+    	
+    		<!-- Target MMS Client sends M-NotifyResp.ind to XMA -->
+    	    <function name="sendMM1NotifyResponse" module="SMS">
+    	        <parameter>deferred</parameter>
+    	        <variablepointer>x_mms_transaction_id</variablepointer>
+                <variable>MSISDN</variable>
+    	    </function>
+    	    <function name="checkResponseCode" module="SMS">
+    	        <parameter>200</parameter>
+    	        <parameter>204</parameter>
+    	    </function>
+    	
+    		<!-- Target MMS Client sends WSP/HTTP GET to XMA -->
+    	    <function name="sendGetRequest" module="SMS">
+                <variable>MSISDN</variable>
+    	        <variablepointer>x_mms_content_location</variablepointer>
+    	    </function>
+    	    <function name="checkResponseCode" module="SMS">
+    	        <parameter>200</parameter>
+    	    </function>
+    	    
+    	    <!-- Target MMS Client sends M-Acknowledge.ind to XMA -->
+    	    <function name="sendMM1AcknowledgeIndicator" module="SMS">
+    	        <parameter>yes</parameter>
+    	        <variablepointer>x_mms_transaction_id</variablepointer>
+                <variable>MSISDN</variable>
+    	    </function>
+    	    <function name="checkResponseCode" module="SMS">
+    	        <parameter>200</parameter>
+    	        <parameter>204</parameter>
+    	    </function>
+    	        
+            <function name="calculate" module="Basic">
+                <parameter>messages</parameter>
+                <parameter>
+                    <parameter>21</parameter>
+                    <parameter>+</parameter>
+                    <variable>loop</variable>
+                </parameter>
+            </function>
+            <function name="waitForWSPMessages" module="SMS">
+                <variable>messages</variable>
+            </function>
+    
+            <function name="compareString" module="BASIC">
+                <variable>originalMessageId</variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/message_id</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <parameter>Retrieved</parameter>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/x_mms_status</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <variable>
+                    <parameter>MSISDN</parameter>
+                    <variable>loop</variable>
+                </variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/to</parameter>
+                </variable>
+            </function>	    
+        </loop>
+    </div>
+    <div comment="Send/Check Read Reply Reports for MM1 recipients">
+        <loop name="loop" start="10" stop="15" step="1">
+            <function name="setVariable" module="Basic">
+                <parameter>MSISDN</parameter>
+                <variable>
+                    <parameter>MSISDN</parameter>
+                    <variable>loop</variable>
+                </variable>
+            </function>    
+    	    <!-- Target MMS Client sends M-read-rec.ind to XMA -->
+    	    <function name="sendMM1ReadRec" module="SMS">
+    	        <parameter>read</parameter>
+    	        <variable>
+    	            <parameter>SMS/</parameter>
+                    <variable>MSISDN</variable>
+    	            <parameter>/MMS/message_id</parameter>
+    	        </variable>
+    	        <variable>
+    	            <parameter>SMS/</parameter>
+                    <variable>MSISDN</variable>
+    	            <parameter>/MMS/from</parameter>
+    	        </variable>
+                <variable>MSISDN</variable>
+                <variable>MSISDN</variable>
+    	    </function>
+    	    
+            <function name="calculate" module="Basic">
+                <parameter>messages</parameter>
+                <parameter>
+                    <parameter>26</parameter>
+                    <parameter>+</parameter>
+                    <variable>loop</variable>
+                </parameter>
+            </function>
+            <function name="waitForWSPMessages" module="SMS">
+                <variable>messages</variable>
+            </function>
+            
+            <function name="compareString" module="BASIC">
+                <variable>originalMessageId</variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/message_id</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <parameter>Read</parameter>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/x_mms_read_status</parameter>
+                </variable>
+            </function>
+            <function name="compareString" module="BASIC">
+                <variable>
+                    <parameter>MSISDN</parameter>
+                    <variable>loop</variable>
+                </variable>
+                <variable>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>SENDERMSISDN</variable>
+                    <parameter>/MMS/from</parameter>
+                </variable>
+            </function>	              	    
+    	</loop>
+    </div>
+
+    <function name="stopSMTPServer" module="SMTP"/>
+    <function name="stopSMSCServer" module="SMS"/>
+    
+	<subtest>../restoreVASP.xml</subtest>
+    <subtest>../restoreMNO.xml</subtest>
+
+</test>

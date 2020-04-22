@@ -1,0 +1,41 @@
+<test>
+
+	<description> SOAP-API-provisioning-core{addDevice( )}: Check for the addition of an user with an  attribute where Name field is null. </description>
+
+	<function name="testName" module="Basic">
+		<parameter>XMA-Provisioning-core-1.10.7.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>addusers_with_name_null.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>500</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>removeusers_with_name_null.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+</test>

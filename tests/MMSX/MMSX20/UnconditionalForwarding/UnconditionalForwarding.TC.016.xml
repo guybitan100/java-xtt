@@ -1,0 +1,270 @@
+<test>
+	<name>UnconditionalForwarding.TC.016</name>
+    <description>Validate confirmation SMS function can be activated/deactivated by system operator</description>
+
+    <!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceForward subscriberId=12001 serviceEnabled=false serviceConditional=false forwardingMsisdn= subjectPrefix=Forwarded forwardingAll=true
+        </parameter>
+    </function>
+
+<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active Message Store process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!--Change "smsOutCharacterSet" = "text" in Workflow Constants file and load it-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>extract data </parameter>
+            <parameter>workflowconstants default_workflowconstants.xml</parameter>
+        </parameter>
+    </function>
+
+    <!--  Read the workflowconstants in a variable-->
+    <function name="readRemoteFile" module="Remote">
+        <parameter>default_workflowconstants.xml</parameter>
+        <parameter>default_workflowconstants</parameter>
+    </function>
+
+    <function name="createDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <variable>default_workflowconstants</variable>
+    </function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='smsOutCharacterSet']</parameter>
+        <parameter>smsOutCharacterSet</parameter>
+    </function>
+
+    <!--change smsOutCharacterSet = text-->
+    <function name="updateNode" module="XML">
+       <parameter>default_workflowconstantsxmldocument</parameter>
+       <parameter>/workflowConstants/workflowConstant[@name='smsOutCharacterSet']</parameter>
+       <parameter>text</parameter>
+    </function>
+
+    <!--fetch smsOutCharacterSet from workflowconstants-->
+    <function name="getNodeFromDocument" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>/workflowConstants/workflowConstant[@name='smsOutCharacterSet']</parameter>
+        <parameter>smsOutCharacterSet</parameter>
+    </function>
+
+    <function name="info" module="Basic">
+		    <variable>smsOutCharacterSet</variable>
+	</function>
+
+    <function name="documentToVariable" module="XML">
+        <parameter>default_workflowconstantsxmldocument</parameter>
+        <parameter>changed_workflowconstants</parameter>
+    </function>
+
+    <!--  Read the workflowconstants in a variable-->
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>changed_workflowconstants.xml</parameter>
+        <variable>changed_workflowconstants</variable>
+    </function>
+
+    <!-- Load the updated workflow constant file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data changed_workflowconstants.xml</parameter>
+	</function>
+
+    <function name="queryResponse" module="Remote">
+		<parameter>^Loaded workflowconstants.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+<!-- load Appconfig file -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>extract data </parameter>
+            <parameter>appconfig default_appconfig.xml</parameter>
+        </parameter>
+    </function>
+
+    <!--  Read the appconfig in a variable-->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_appconfig.xml</parameter>
+		<parameter>default_appconfig</parameter>
+	</function>
+
+    <function name="createDocument" module="XML">
+		<parameter>appconfigxmldocument</parameter>
+		<variable>default_appconfig</variable>
+	</function>
+    
+    <!--fetch serviceSmsShortcode from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='serviceSmsShortcode']/value</parameter>
+		<parameter>serviceSmsShortcode</parameter>
+	</function>
+
+    <div comment="serviceSmsShortcode is">
+        <function name="info" module="Basic">
+		    <variable>serviceSmsShortcode</variable>
+	    </function>
+    </div>
+	<!--fetch systemShortcode from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='systemShortcode']/value</parameter>
+		<parameter>systemShortcode</parameter>
+	</function>
+<div comment="systemShortcode is">
+        <function name="info" module="Basic">
+		    <variable>systemShortcode</variable>
+	    </function>
+    </div>
+
+    <!--fetch forwardingSmsMessagePrefix from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='forwardingSmsMessagePrefix']/value</parameter>
+		<parameter>forwardingSmsMessagePrefix</parameter>
+	</function>
+
+    <!--fetch forwardingSmsOnText from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='forwardingSmsOnText']/value</parameter>
+		<parameter>forwardingSmsOnText</parameter>
+	</function>
+
+    <!--fetch forwardingStatusOnText from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='forwardingStatusOnText']/value</parameter>
+		<parameter>forwardingStatusOnText</parameter>
+	</function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>messageOn</parameter>
+		<parameter>
+                <variable>forwardingSmsMessagePrefix</variable>
+                <parameter> </parameter>
+                <variable>forwardingSmsOnText</variable>
+                <parameter> </parameter>
+                <configuration>MMSX/FORWARD/FORWARDINGMSISDN/MSISDN1</configuration>
+        </parameter>
+    </function>
+
+    <div comment="messageOn is">
+        <function name="info" module="Basic">
+		    <variable>messageOn</variable>
+	    </function>
+    </div>
+    
+    <!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+
+	<function name="waitForBind" module="SMS"/>
+
+  	<!--Saving Server connection for future SMS communication-->
+	<function name="getServerConnection" module="SMPP">
+         <parameter>MMSX</parameter>
+		<parameter>0</parameter>
+    </function>
+
+    <function name="sendSMPPPacket" module="SMPP">
+		<parameter>MMSX</parameter>
+		<parameter>DELIVER_SM</parameter>
+		<parameter>internal</parameter>
+		<parameter>1</parameter>
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration><!--source_address-->
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+        <variable>serviceSmsShortcode</variable><!--destination_addr-->
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter></parameter>
+		<parameter></parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<variable>messageOn</variable><!--short_message-->
+	</function>
+
+    <!-- wait for confirmation SMS message -->
+	<function name="waitForMessages" module="SMS">
+		<parameter>1</parameter>
+	</function>
+
+     <!-- Print SMS Headers source_addr -->
+    <function name="info" module="Basic">
+        <parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		<parameter>/source_addr:</parameter>
+		<variable><parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		<parameter>/source_addr</parameter></variable>
+    </function>
+
+    <!-- Check SMS Headers source_addr -->
+    <function name="compareString" module="Basic">
+       <variable><parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		<parameter>/source_addr</parameter></variable>
+        <variable>systemShortcode</variable>
+    </function>
+
+    <!-- Print SMS Headers destination_addr -->
+    <function name="info" module="Basic">
+        <parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		<parameter>/destination_addr: </parameter>
+		<variable>
+		<parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		<parameter>/destination_addr</parameter></variable>
+    </function>
+
+    <!-- Check SMS Headers destination_addr -->
+    <function name="compareString" module="Basic">
+        <variable><parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		<parameter>/destination_addr</parameter></variable>
+        <configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+    </function>
+
+    <!-- Print SMS Headers MESSAGE_PAYLOAD -->
+    <function name="info" module="Basic">
+        <parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		 <parameter>/MESSAGE_PAYLOAD: </parameter><base64decode><parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		 <parameter>/MESSAGE_PAYLOAD</parameter></base64decode>
+    </function>
+
+<function name="queryText" module="Basic">
+        <base64decode><parameter>>smsc/smpp/</parameter>
+		<configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration>
+		<parameter>/MESSAGE_PAYLOAD</parameter></base64decode>
+        <parameter>MMS Extra: Forwarding service is now turned on. Your forwarding address is: <configuration>MMSX/DISABLESERVICES/RECIPIENT/MSISDN1</configuration></parameter>
+		<parameter>.*</parameter>
+</function> 
+    
+    <!-- lets check in db is the status is turned on or not -->
+   <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceForward subscriberId=12001 serviceEnabled=false serviceConditional=false forwardingMsisdn= subjectPrefix=Forwarded forwardingAll=true
+        </parameter>
+    </function>
+     
+    <!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+</test>

@@ -1,0 +1,131 @@
+<test>
+    <configuration>smpp.xml</configuration>
+    <name>SMPPV5.TC.009</name>
+    <description>Validate XMP properly modifies its PDU transmission rate based on the congestion_state TLV in response of any Operations</description>
+
+    <subtest name="loadConnection" file="loadConnection.xml"/>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+    <function name="compareString" module="basic">
+        <variable>smsc/smpp/xmp/interface_version</variable>
+        <parameter>0x50</parameter>
+    </function>
+
+    <function name="setPostData" module="Push">
+        <file>smppv5TC009.txt</file>
+    </function>
+    
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+
+   
+    <thread>
+        <function name="waitForWSPMessages" module="SMS">
+            <parameter>1</parameter>
+        </function>
+        <function name="timeToVariable" module="Basic">
+            <parameter>beforeFast</parameter>
+        </function>    
+        <function name="waitForWSPMessages" module="SMS">
+            <parameter>100</parameter>
+        </function>
+        <function name="timeToVariable" module="Basic">
+            <parameter>afterFast</parameter>
+        </function>    
+    </thread>
+    <function name="sendPushRequest" module="Push"/>
+    
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+    <function name="waitOnThreads" module="Basic"/>
+    
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+    <function name="addResponseTLV" module="SMPP">
+        <parameter>DATA_SM</parameter>
+        <parameter>CONGESTION_STATE</parameter>
+        <parameter>100</parameter>
+    </function>
+
+    <thread>
+        <function name="waitForWSPMessages" module="SMS">
+            <parameter>101</parameter>
+        </function>
+        <function name="timeToVariable" module="Basic">
+            <parameter>beforeSlow</parameter>
+        </function>    
+        <function name="waitForWSPMessages" module="SMS">
+            <parameter>200</parameter>
+        </function>
+        <function name="timeToVariable" module="Basic">
+            <parameter>afterSlow</parameter>
+        </function>    
+    </thread>
+    <function name="sendPushRequest" module="Push"/>
+    
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+    <function name="waitOnThreads" module="Basic"/>
+    
+    
+    <function name="waitForTimeoutWSPMessages" module="SMS">
+        <parameter>15000</parameter>
+    </function>
+    <subtest name="unloadConnection" file="unloadConnection.xml"/>
+    <function name="stopSMSCServer" module="SMS"/>
+    <function name="subtractVariable" module="Basic">
+        <parameter>slow</parameter>
+        <variable>afterSlow</variable>
+        <variable>beforeSlow</variable>
+    </function>    
+    <function name="subtractVariable" module="Basic">
+        <parameter>fast</parameter>
+        <variable>afterFast</variable>
+        <variable>beforeFast</variable>
+    </function>    
+    <function name="info" module="Basic">
+        <parameter>Fast: </parameter>
+        <variable>fast</variable>
+        <parameter> Slow: </parameter>
+        <variable>slow</variable>
+    </function>    
+    <function name="greaterThan" module="Basic">
+        <variable>slow</variable>
+        <variable>fast</variable>
+    </function>    
+</test>

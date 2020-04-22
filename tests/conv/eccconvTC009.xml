@@ -1,0 +1,198 @@
+<test>	    
+	<name>ECC.CONV.TC.009</name>
+	<description>ECC and MULTIPART composition</description>
+
+	<function name="startSTIServer" module="STI"/>
+	<function name="startWebServer" module="HTTP"/>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>eccREQMOD.xml</parameter>
+        <xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+    <table name="DisableMultipart">
+        <selector>
+            <disableMimeMultipart value="false"/>
+            <bypassContentCache value="true"/>
+        </selector>
+    </table>
+    <table name="ecc">
+        <selector urlPattern="*://ecc1.xtt724.com/*">
+            <useExternalContentConvertor value="true" />
+        </selector>
+        <selector urlPattern="*://ecc2.xtt724.com/*">
+            <useExternalContentConvertor value="false" />
+        </selector>
+    </table>
+</requestModifications></xml>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>remote/loaddata</configuration>
+            <parameter>eccREQMOD.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>User-Agent</parameter>
+		<parameter>XTT/multipart</parameter>
+	</function>	
+
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>Last-Modified</parameter>
+		<parameter>Wed, 15 Nov 1995 04:58:08 GMT</parameter>
+	</function>	
+
+    <function name="setCacheFile" module="HTTP">
+		<parameter>eccConvTC009.css</parameter>
+<parameter>body 
+{ 
+	margin: 0px; 
+	padding: 0px; 
+	background: #FFF; 
+	font-family: Verdana, Arial, helvetica, Tahoma, Trebuchet MS, sans-serif; 
+	font-size: 10px; 
+	color: #000; 
+}</parameter>
+    </function>
+    
+    <function name="setCacheFile" module="HTTP">
+		<parameter>eccConvTC009.js</parameter>
+<parameter>var pgml = 0;
+
+function init_sitemenu() {
+}
+
+function showHide(layerName,n){ // shows and hides a given layer
+	if (document.getElementById) {
+		//alert('ns7');
+		var fred = document.getElementById(layerName);
+		if (n == 1) {
+			fred.style.display = "";
+		} else if (n == 0) {
+			fred.style.display = "none";
+		} else if (n == 2) {
+			fred.style.display = fred.style.display ? '' : 'none';	
+		}
+		return;
+	}
+}</parameter>
+    </function>
+    <function name="setCacheFile" module="HTTP">
+		<parameter>eccConvTC009.html</parameter>
+        <parameter>
+<parameter>&lt;html&gt;
+&lt;head&gt;
+&lt;link rel="stylesheet" type="text/css" href="eccConvTC009.css"&gt;
+&lt;script src="eccConvTC009.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX
+&lt;br/&gt;&lt;img src="images/gif.gif"/&gt;
+&lt;br/&gt;&lt;img src="images/png.png"/&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</parameter>
+        </parameter>
+    </function>
+
+    <thread>
+    	<function name="waitForRequests" module="HTTP">
+    		<parameter>5</parameter>
+    	</function>	
+    	<function name="waitForTimeoutRequests" module="HTTP">
+    		<parameter>5000</parameter>
+    		<parameter>5</parameter>
+    	</function>	
+	</thread>
+    <thread>
+        <function name="waitForRequests" module="STI">
+            <parameter>5</parameter>
+        </function>
+        <function name="waitForTimeoutRequests" module="STI">
+            <parameter>30000</parameter>
+        </function>
+    </thread>
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC009.html</parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+	<function name="checkHeaderPart" module="HTTP">
+		<parameter>content-type</parameter>
+		<parameter>multipart/related;boundary=</parameter>
+	</function>	
+	<function name="queryHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>warning</parameter>
+		<parameter>214 [a-z0-9]++ "Transformation applied"</parameter>
+	</function>	
+	<!--function name="writeFile" module="basic">
+		<parameter>test.txt</parameter>
+		<variable>HTTP/BODY/PLAIN</variable>
+	</function-->	
+
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>
+            <parameter>[cC]ontent-[tT]ype: image/png\r\n[cC]ontent-[tT]ransfer-[eE]ncoding: binary\r\n[cC]ontent-[lL]ocation: http://ecc1.xtt724.com/images/png.png</parameter>
+        </parameter>
+    </function>
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>
+            <parameter>[cC]ontent-[tT]ype: image/gif\r\n[cC]ontent-[tT]ransfer-[eE]ncoding: binary\r\n[cC]ontent-[lL]ocation: http://ecc1.xtt724.com/images/gif.gif</parameter>
+        </parameter>
+    </function>
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>
+            <parameter>[cC]ontent-[tT]ype: application/x-javascript\r\n[cC]ontent-[tT]ransfer-[eE]ncoding: binary\r\n[cC]ontent-[lL]ocation: http://ecc1.xtt724.com/eccConvTC009.js</parameter>
+        </parameter>
+    </function>
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>
+            <parameter>[cC]ontent-[tT]ype: text/css\r\n[cC]ontent-[tT]ransfer-[eE]ncoding: binary\r\n[cC]ontent-[lL]ocation: http://ecc1.xtt724.com/eccConvTC009.css</parameter>
+        </parameter>
+    </function>
+
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function> 
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmodTCemptyrules.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load data </parameter>
+            <parameter>reqmodTCemptyrules.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+    
+	<function name="waitOnThreads" module="Basic"/>
+	<function name="stopSTIServer" module="STI"/>
+	<function name="stopWebServer" module="HTTP"/>
+</test>

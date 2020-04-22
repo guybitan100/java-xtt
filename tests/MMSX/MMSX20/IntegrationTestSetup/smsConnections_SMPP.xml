@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xfwSmsConnections>
+    <channels>
+
+<!-- Make sure you set maxSegmentPduSize to the maximum segment size (in bytes) 
+     supported by the target SMSCs. -->
+		<connectChannel name="PushSmsChannel" maxSegmentPduSize="1024" policy="backup" protocol="SMPP3.4" settings="SmppSettings" >
+            <connection name="SmsConnection" address="" username="xfw" password="" />
+            <remoteAddress ipAddress=""
+                           port1="" />
+        </connectChannel> 
+        <connectChannel name="SmsChannel" maxSegmentPduSize="127" policy="backup" protocol="SMPP3.4" settings="SmppSettings" >
+            <connection name="SmsConnection" address="" username="xfw" password="" />
+            <remoteAddress ipAddress=""
+                           port2="" />
+        </connectChannel>
+		<connectChannel name="UssdChannel" maxSegmentPduSize="1024" policy="single_connection" protocol="SMPP3.4" settings="SmppSettings" >
+            <connection name="UssdConnection" address="" username="xfw" password="" />
+            <remoteAddress ipAddress=""
+                           port3="" />
+        </connectChannel>
+    </channels>
+    <settings>
+        <smppSettings name="SmppSettings" 
+                      linkDownMaxRetries="3"
+                      linkDownRetryTimeoutSeconds="12"
+                      maxConcurrentReq="1"
+                      maxMessagesPerSecond="10"
+                      maxPduSize="4096"
+                      passive="false"
+                      singleTransmitterSession="true" >
+            <smppConnectionOptions addrNpi="1" 
+                                   addrRange=""
+                                   addrTon="6" 
+                                   systemId=""
+                                   systemType="test" />
+            <smppMessageOptionSets>
+                <smppMessageOptionSet optionSetName="DEFAULT"
+                                    registeredDelivery="0"
+                                    dataCoding="0" />
+            </smppMessageOptionSets>
+        </smppSettings>
+    </settings>
+</xfwSmsConnections>

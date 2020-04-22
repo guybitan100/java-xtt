@@ -1,0 +1,240 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>MMSExpress.TC.015</parameter>
+	</function>
+
+	<description> Validate MMS Express Use Case 
+	---------------------------------------------------
+Via secure HTTP-IN Application receives MM1 Message with "application/vnd.wap.multipart.related" Content-Type (30 Kbytes) (mms.smil + text/plain + image) 
+Application sends MM via WAP-PUSH
+	---------------------------------------------------
+	</description>
+
+		<!-- Start SMSC server -->
+	<function name="startSMSCServer" module="SMS"/>
+	
+	<function name="waitForBind" module="SMS"/> 
+
+		<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active Message Store process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>multipart/related; boundary="----=_Part_1_31161848.1109320473531"</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN5</configuration>
+	</function>
+
+	<!-- Set Subject  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>! This is test Express message</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>https://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/securePort</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "Send body" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>multipart/related; boundary="----=_Part_1_31161848.1109320473531"</parameter>
+	</function>
+
+<!-- Set FileName for the 1st Part of Create-MultiPart-Related-File -->
+	 <function name="setVariable" module="Basic">
+		<parameter>file1</parameter>
+		<parameter>sampletext1.bin</parameter>
+	</function>
+
+	<!-- Set FileType for the 1st Part of Create-MultiPart-Related-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>type1</parameter>
+		<parameter>plain/text</parameter>
+	</function>
+
+	<!-- Set FileName for the 2nd Part of Create-MultiPart-Related-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>file2</parameter>
+		<parameter>image001.jpg</parameter>
+	</function>
+
+	<!-- Set FileType for the 2nd Part of Create-MultiPart-Related-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>type2</parameter>
+		<parameter>image/jpeg</parameter>
+	</function>
+
+	<!-- Set charset for the Create-base64-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>char</parameter>
+		<parameter>us-ascii</parameter>
+	</function>
+
+		<!-- Set Headers for Send Body request -->
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To: </parameter>                     <configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN1</configuration>
+		<parameter>From: </parameter>                   <configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN5</configuration>
+		<parameter>X-Mms-Message-Type: </parameter>     <parameter>m-send-req</parameter>
+		<parameter>X-Application-Context-Id: </parameter>   <variable>X-Application-Context-Id</variable>
+	</function>
+
+	<!-- Call Subtest to Greate Multipart File -->
+	<subtest>Create-MultiPart-File-Related1.xml</subtest>
+
+	<function name="setPostData" module="HTTP">
+		<file>send-multipart-related.bin</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>https://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/securePort</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- wait for 1 WSP sms message -->
+	<function name="waitForWSPMessages" module="SMS">
+		<parameter>1</parameter>
+	</function> 
+
+		<!-- Check for MMS message stored in Message Store for the recipient who recieved the SMS-->
+ 	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+ 	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 1 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+    <!-- Check SMS Headers destination_addr -->
+    <function name="compareString" module="Basic">
+        <variable>
+		<parameter>smsc/smpp/</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN1</configuration>
+		<parameter>/destination_addr</parameter>
+		</variable>
+        <configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN1</configuration>
+    </function>
+
+	<!-- Validate the SMS content response from Application to SMSC -->
+ <function name="queryText" module="Basic">
+        <base64decode><variable>smsc/smpp/0891118101/MESSAGE_PAYLOAD</variable></base64decode>
+        <parameter>MMS Extra: New message from 0891118005, click URL to display the message: </parameter>
+		<parameter>.*</parameter>
+ </function> 
+
+		<!-- amocli search for MMS content in Message Store -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli search TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check for subject without express indication in Message Store-->
+	<function name="queryResponse" module="Remote">
+		<parameter>reqProxySubject=This is test Express message</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Check for out subject line without express indication in Message Store-->
+	<function name="queryResponse" module="Remote">
+		<parameter>substituteOut=This is test Express message</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Check for service performed by the sender in Message Store-->
+	<function name="queryResponse" module="Remote">
+		<parameter>senderSdrServicesPerformed=EXPRS</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+</test>

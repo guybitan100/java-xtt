@@ -1,0 +1,216 @@
+<test>
+	<name>SMTP-IN_SMS-OUT.TC.001c</name>
+	<description>SMTP-IN -> SMS-OUT Scenario Triggered by Policy based Routing Rules Stored Locally in the Solution - 5 Messages</description>
+	
+	<!-- Start SMSC Server & Wait for SLM to Bind SMSC -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+	
+	<!-- 1st Message -->
+	<!-- Create SMTP-IN Message -->
+	<function name="createDateString" module="Basic">
+		<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+		<parameter>date</parameter>
+	</function>
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To:</parameter>
+		<parameter>erkan.sutculer@gmail.com</parameter>
+		<parameter>From:</parameter>
+		<parameter>From@sender.com</parameter>
+		<parameter>Date:</parameter>
+		<variable>date</variable>
+		<parameter>Content-Type:</parameter>
+		<parameter>text/plain</parameter>
+	</function>
+	
+	<!-- Send SMTP-IN Message -->
+	<function name="setDATA" module="SMTP">
+		<variable>headers</variable>
+		<parameter>This is a single line message1.</parameter>
+	</function>
+	<function name="connectMailServer" module="SMTP">
+		<configuration>XMA/MM4Ip</configuration>
+		<configuration>XMA/MM4Port</configuration>
+	</function>
+	<function name="sendHELO" module="SMTP">
+		<parameter>xtttestmachine</parameter>
+	</function>
+	<function name="sendMAILFROM" module="SMTP">
+		<parameter>From@sender.com</parameter>
+	</function>
+	<function name="sendRCPTTO" module="SMTP">
+		<parameter>erkan.sutculer@gmail.com</parameter>
+	</function>
+	<function name="sendDATA" module="SMTP"/>
+	<function name="disconnectMailServer" module="SMTP"/>
+	
+	<!-- 2nd Message -->
+	<!-- Create SMTP-IN MEssage -->
+	<function name="createDateString" module="Basic">
+		<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+		<parameter>date</parameter>
+	</function>
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To:</parameter>
+		<parameter>UserE@mail.com</parameter>
+		<parameter>From:</parameter>
+		<parameter>From@sender.com</parameter>
+		<parameter>Date:</parameter>
+		<variable>date</variable>
+		<parameter>Content-Type:</parameter>
+		<parameter>text/plain</parameter>
+	</function>
+	
+	<!-- Send SMTP-IN Message -->
+	<function name="setDATA" module="SMTP">
+		<variable>headers</variable>
+		<parameter>This is a single line message2.</parameter>
+	</function>
+	<function name="connectMailServer" module="SMTP">
+		<configuration>XMA/MM4Ip</configuration>
+		<configuration>XMA/MM4Port</configuration>
+	</function>
+	<function name="sendHELO" module="SMTP">
+		<parameter>xtttestmachine</parameter>
+	</function>
+	<function name="sendMAILFROM" module="SMTP">
+		<parameter>From@sender.com</parameter>
+	</function>
+	<function name="sendRCPTTO" module="SMTP">
+		<parameter>UserE@mail.com</parameter>
+	</function>
+	<function name="sendDATA" module="SMTP"/>
+	<function name="disconnectMailServer" module="SMTP"/>
+	
+	<!-- 3rd Message -->
+	<!-- Create SMTP-IN MEssage -->
+	<function name="createDateString" module="Basic">
+		<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+		<parameter>date</parameter>
+	</function>
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To:</parameter>
+		<parameter>UserD@mail.com</parameter>
+		<parameter>From:</parameter>
+		<parameter>From@sender.com</parameter>
+		<parameter>Date:</parameter>
+		<variable>date</variable>
+		<parameter>Content-Type:</parameter>
+		<parameter>text/plain</parameter>
+	</function>
+	
+	<!-- Send SMTP-IN Message -->
+	<function name="setDATA" module="SMTP">
+		<variable>headers</variable>
+		<parameter>This is a single line message3.</parameter>
+	</function>
+	<function name="connectMailServer" module="SMTP">
+		<configuration>XMA/MM4Ip</configuration>
+		<configuration>XMA/MM4Port</configuration>
+	</function>
+	<function name="sendHELO" module="SMTP">
+		<parameter>xtttestmachine</parameter>
+	</function>
+	<function name="sendMAILFROM" module="SMTP">
+		<parameter>From@sender.com</parameter>
+	</function>
+	<function name="sendRCPTTO" module="SMTP">
+		<parameter>UserD@mail.com</parameter>
+	</function>
+	<function name="sendDATA" module="SMTP"/>
+	<function name="disconnectMailServer" module="SMTP"/>
+	
+	<!-- 4th Message -->
+	<!-- Create SMTP-IN MEssage -->
+	<function name="createDateString" module="Basic">
+		<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+		<parameter>date</parameter>
+	</function>
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To:</parameter>
+		<parameter>UserC@mail.com</parameter>
+		<parameter>From:</parameter>
+		<parameter>From@sender.com</parameter>
+		<parameter>Date:</parameter>
+		<variable>date</variable>
+		<parameter>Content-Type:</parameter>
+		<parameter>text/plain</parameter>
+	</function>
+	
+	<!-- Send SMTP-IN Message -->
+	<function name="setDATA" module="SMTP">
+		<variable>headers</variable>
+		<parameter>This is a single line message4.</parameter>
+	</function>
+	<function name="connectMailServer" module="SMTP">
+		<configuration>XMA/MM4Ip</configuration>
+		<configuration>XMA/MM4Port</configuration>
+	</function>
+	<function name="sendHELO" module="SMTP">
+		<parameter>xtttestmachine</parameter>
+	</function>
+	<function name="sendMAILFROM" module="SMTP">
+		<parameter>From@sender.com</parameter>
+	</function>
+	<function name="sendRCPTTO" module="SMTP">
+		<parameter>UserC@mail.com</parameter>
+	</function>
+	<function name="sendDATA" module="SMTP"/>
+	<function name="disconnectMailServer" module="SMTP"/>
+
+	<!-- 5th Message -->
+	<!-- Create SMTP-IN MEssage -->
+	<function name="createDateString" module="Basic">
+		<parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+		<parameter>date</parameter>
+	</function>
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To:</parameter>
+		<parameter>UserB@mail.com</parameter>
+		<parameter>From:</parameter>
+		<parameter>From@sender.com</parameter>
+		<parameter>Date:</parameter>
+		<variable>date</variable>
+		<parameter>Content-Type:</parameter>
+		<parameter>text/plain</parameter>
+	</function>
+	
+	<!-- Send SMTP-IN Message -->
+	<function name="setDATA" module="SMTP">
+		<variable>headers</variable>
+		<parameter>This is a single line message5.</parameter>
+	</function>
+	<function name="connectMailServer" module="SMTP">
+		<configuration>XMA/MM4Ip</configuration>
+		<configuration>XMA/MM4Port</configuration>
+	</function>
+	<function name="sendHELO" module="SMTP">
+		<parameter>xtttestmachine</parameter>
+	</function>
+	<function name="sendMAILFROM" module="SMTP">
+		<parameter>From@sender.com</parameter>
+	</function>
+	<function name="sendRCPTTO" module="SMTP">
+		<parameter>UserB@mail.com</parameter>
+	</function>
+	<function name="sendDATA" module="SMTP"/>
+	<function name="disconnectMailServer" module="SMTP"/>
+	
+	<!-- Wait for the SMS-OUT Messages -->
+	<function name="waitForMessages" module="SMS">
+		<parameter>5</parameter>
+	</function>
+
+	<!-- Shut Down SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+</test>

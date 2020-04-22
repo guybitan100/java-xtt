@@ -1,0 +1,51 @@
+# Copyright (c) 1993-1999 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+127.0.0.1       localhost
+127.0.0.1       www.xtt724.com 
+127.0.0.1       www2.xtt724.com 
+127.0.0.1       www1.xtt724.com
+127.0.0.1       test1.xtt724.com
+127.0.0.1       test2.xtt724.com
+127.0.0.1       test3.xtt724.com
+127.0.0.1       test4.xtt724.com
+127.0.0.1       test5.xtt724.com
+127.0.0.1       group1.xtt724.com
+127.0.0.1       group2.xtt724.com
+127.0.0.1       group3.xtt724.com
+127.0.0.1       group4.xtt724.com
+127.0.0.1       group5.xtt724.com
+127.0.0.1       proxy1.xtt724.com
+127.0.0.1       proxy2.xtt724.com
+127.0.0.1       proxy3.xtt724.com
+127.0.0.1       proxy4.xtt724.com
+127.0.0.1       proxy5.xtt724.com
+127.0.0.1       cookie1.xtt724.com
+127.0.0.1       cookie2.xtt724.com
+127.0.0.1       cookie3.xtt724.com
+127.0.0.1       cookie4.xtt724.com
+127.0.0.1       cookie5.xtt724.com
+127.0.0.1       www.test1.xtt724.com
+127.0.0.1       vvv.test1.xtt724.com
+127.0.0.1       www.test2.xtt724.com
+127.0.0.1       aaa.test2.xtt724.com
+127.0.0.1       bbb.test2.xtt724.com
+127.0.0.1       www.test3.xtt724.com
+127.0.0.1       xxx.test3.xtt724.com
+127.0.0.1       yyy.test3.xtt724.com
+127.0.0.1       test.www.test3.xtt724.com

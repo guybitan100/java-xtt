@@ -1,0 +1,9 @@
+<configuration>
+    <vasp>
+        <xmlnsenv>http://schemas.xmlsoap.org/soap/envelope/</xmlnsenv>
+        <xmlns>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-6-MM7-1-2</xmlns>
+        <xmlnsmm7>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-6-MM7-1-2</xmlnsmm7>
+        <MM7XSD>REL-6-MM7-1-2.xsd</MM7XSD>
+        <MM7Version>6.3.0</MM7Version>
+    </vasp>
+ </configuration>

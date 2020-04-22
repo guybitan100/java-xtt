@@ -1,0 +1,187 @@
+<test>
+	<name>MMSNick.TC.045.xml</name>
+    <description> Validate MMSX Use case when subscriber sends SMS Message to the application to Turn "ON" the Nick feature/"nickSmsMessagePrefix"   , "nickSmsOnText" should be configured in appconfig file/Nick service should be turned ON and MMSX Should send SMS Message in Russian language to the subscriber saying Nick service is turned "ON"</description>
+
+   
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.addSubscriber subscriberId=20001 msisdn=9892161134 user=manoj region=region1 masterSwitchOn=true
+        </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.addServiceNickname subscriberId=20001 serviceEnabled=false serviceConditional=false nickname=
+        </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceNickname subscriberId=20001 serviceEnabled=false serviceConditional=false nickname=
+        </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>extract data </parameter>
+            <parameter>appconfig default_appconfig.xml</parameter>
+        </parameter>
+    </function>
+
+    <!--  Read the appconfig in a variable-->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_appconfig.xml</parameter>
+		<parameter>default_appconfig</parameter>
+	</function>
+
+    <function name="createDocument" module="XML">
+		<parameter>appconfigxmldocument</parameter>
+		<variable>default_appconfig</variable>
+	</function>
+    
+    <!--fetch serviceSmsShortcode from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='serviceSmsShortcode']/value</parameter>
+		<parameter>serviceSmsShortcode</parameter>
+	</function>
+
+    <div comment="serviceSmsShortcode is">
+        <function name="info" module="Basic">
+		    <variable>serviceSmsShortcode</variable>
+	    </function>
+    </div>
+
+    <!--fetch nicknameSmsMessagePrefix from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='nicknameSmsMessagePrefix']/value</parameter>
+		<parameter>nicknameSmsMessagePrefix</parameter>
+	</function>
+
+    <!--fetch nicknameSmsOnText from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='nicknameSmsOnText']/value</parameter>
+		<parameter>nicknameSmsOnText</parameter>
+	</function>
+
+    <!--fetch nicknameStatusOnText from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='nicknameStatusOnText']/value</parameter>
+		<parameter>nicknameStatusOnText</parameter>
+	</function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>messageOn</parameter>
+		<parameter>
+                <variable>nicknameSmsMessagePrefix</variable>
+                <parameter>                      </parameter><!--many spaces :-)-->
+                <variable>nicknameSmsOnText</variable>
+                <parameter>                      </parameter><!--many spaces :-)-->
+                <parameter>JACk</parameter>
+        </parameter>
+    </function>
+
+    <div comment="messageOn is">
+        <function name="info" module="Basic">
+		    <variable>messageOn</variable>
+	    </function>
+    </div>
+    
+    <!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+
+	<function name="waitForBind" module="SMS"/>
+
+	<!--Saving Server connection for future SMS communication-->
+	<function name="getServerConnection" module="SMPP">
+         <parameter>MMSX</parameter>
+		<parameter>0</parameter>
+    </function>
+
+    <function name="sendSMPPPacket" module="SMPP">
+		<parameter>MMSX</parameter>
+		<parameter>DELIVER_SM</parameter>
+		<parameter>internal</parameter>
+		<parameter>1</parameter>
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+		<parameter>9892161134</parameter><!--source_address-->
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+        <variable>serviceSmsShortcode</variable><!--destination_addr-->
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter></parameter>
+		<parameter></parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<variable>messageOn</variable><!--short_message-->
+	</function>
+
+    <!-- wait for confirmation SMS message -->
+	<function name="waitForMessages" module="SMS">
+		<parameter>1</parameter>
+	</function>
+
+    <!-- Print SMS Headers source_addr -->
+    <function name="info" module="Basic">
+        <parameter>smsc/smpp/9892161134/source_addr: </parameter><variable><parameter>smsc/smpp/9892161134/source_addr</parameter></variable>
+    </function>
+
+    <!-- Check SMS Headers source_addr -->
+    <function name="compareString" module="Basic">
+        <variable>smsc/smpp/9892161134/source_addr</variable>
+        <variable>serviceSmsShortcode</variable>
+    </function>
+
+    <!-- Print SMS Headers destination_addr -->
+    <function name="info" module="Basic">
+        <parameter>smsc/smpp/9892161134/destination_addr: </parameter><variable><parameter>smsc/smpp/9892161134/destination_addr</parameter></variable>
+    </function>
+
+    <!-- Check SMS Headers destination_addr -->
+    <function name="compareString" module="Basic">
+        <variable>smsc/smpp/9892161134/destination_addr</variable>
+        <parameter>9892161134</parameter>
+    </function>
+
+    <!-- Print SMS Headers MESSAGE_PAYLOAD -->
+    <function name="info" module="Basic">
+        <parameter>smsc/smpp/9892161134/MESSAGE_PAYLOAD: </parameter><base64decode><variable>smsc/smpp/9892161134/MESSAGE_PAYLOAD</variable></base64decode>
+    </function>
+
+
+<function name="queryText" module="BASIC">
+		<variable>smsc/smpp/9892161134/MESSAGE_PAYLOAD</variable>
+		<parameter>MESSAGE_PAYLOAD</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+
+
+
+    <!-- Check SMS Headers short_message -->
+   <!-- <function name="compareString" module="Basic">
+        <base64decode><variable>smsc/smpp/9892161134/MESSAGE_PAYLOAD</variable></base64decode>
+        <parameter><variable>nicknameStatusOnText</variable><parameter>JACk</parameter></parameter>
+    </function>-->
+
+    <!-- lets check in db is the status is turned on or not -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.getServiceNickname subscriberId=20001
+        </parameter>
+    </function>
+
+     <!--check serviceEnabled status = true -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^\s*serviceEnabled.*nickname.*\n.*\n\s*true.*JACk.*</parameter>
+		<parameter>response</parameter>
+	</function>
+
+    <!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+</test>

@@ -1,0 +1,138 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>WhiteBlackList.TC.034</parameter>
+	</function>
+
+	<description> Validate "White Black List" Use Case (15 Recipients distributed across To, Cc, Bcc Headers and Some Recipient have Black Lists, Some Recipients have White Lists, Some Recipients block, Some Recipients don't block) using MM4 Message
+	--------------------------------------------------------------------------
+1. Send MM4 Message to MMS Proxy 
+2. MMS Proxy should intercept this message and send Request to Application as HTTPS GET Request 
+	--------------------------------------------------------------------------
+	</description>
+
+		<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+		<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active Message Store process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>MM4_forward.REQ</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN1</configuration>
+	</function> 
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Cc</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN2</configuration>
+	</function> 
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Bcc</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN3</configuration>
+	</function> 
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN5</configuration>
+	</function>
+
+            <function name="setHeader" module="HTTP">
+                        <parameter>Content-Type</parameter>
+                        <parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+            </function>
+
+
+	<!-- Set Subject  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is test message for multiple recipients</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "Send body" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>pass</parameter>
+	</function>
+<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

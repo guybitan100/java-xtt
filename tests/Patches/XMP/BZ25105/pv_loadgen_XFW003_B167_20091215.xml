@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loadgenProductView>
+  <parameterization>
+    <code>baseDir="/home/lukasz/loadgen_xfw003/cfg";
+baseIpAddr="172.20.2.8";
+basePort=8350;
+blockSize=8;
+radius_port=6666;
+
+diameterServerIpAddress_1="172.20.9.130";
+diameterServerPort_1=3868;
+diameterServerIpAddress_2="172.20.9.131";
+diameterServerPort_2=3868;</code>
+  </parameterization>
+  <systemEnvironment jdkDirectory="/usr/local/jdk1.6.0_15" operatingSystem="Linux" userId="lukasz" workspaceDirectory="/home/lukasz/loadgen_xfw003/process"/>
+  <configuration configurationName="XMP42-Development" description="XMP42-Development" systemName="XMP42-Development-LOADGEN"/>
+  <logging logDirectory="/home/lukasz/loadgen_xfw003/log" logPeriod="Midnight" maxLogFileSizeMBytes="100"/>
+  <capacity>
+    <capacityLimits blockSizeKBytes="{blockSize}" concurrentConnections="100" concurrentRequests="20" processType="DEFAULT"/>
+  </capacity>
+  <auxiliarySystems>
+    <dns>
+      <dnsServer ipAddress="172.20.1.2"/>
+      <dnsServer ipAddress="172.20.1.3"/>
+    </dns>
+    <diameter originRealm="OriginRealm">
+      <channel application="Gx" ipAddress="{diameterServerIpAddress_1}" name="PCEF-CHANNEL1" port="{diameterServerPort_1}"/>
+      <channel application="Gx" ipAddress="{diameterServerIpAddress_2}" name="PCEF-CHANNEL2" port="{diameterServerPort_2}"/>
+    </diameter>
+  </auxiliarySystems>
+  <!--<interception/>
+-->
+  <machines>
+    <machine hostEmbeddedDatabase="false" hostName="sugarloaf" operatingSystem="Linux">
+      <managementServer/>
+      <titaniumAddresses>
+        <titaniumAddress ipAddress="{baseIpAddr}"/>
+      </titaniumAddresses>
+      <processes>
+        <loadgen processNameSuffix="1"/>
+        <pcef channel="PCEF-CHANNEL1" mode="peer" processNameSuffix="1" set="SET1">
+          <listenAddress ipAddress="{baseIpAddr}" port="{basePort+1}"/>
+          <hostIpAddress ipAddress="{baseIpAddr}"/>
+        </pcef>
+        <pcef channel="PCEF-CHANNEL2" mode="peer" processNameSuffix="1" set="SET1">
+          <listenAddress ipAddress="{baseIpAddr}" port="{basePort+2}"/>
+          <hostIpAddress ipAddress="{baseIpAddr}"/>
+        </pcef>
+        <httpClient httpClientSet="SOAP1" processNameSuffix="1"/>
+      </processes>
+    </machine>
+  </machines>
+  <xupdates>
+    <xupdate description="set higher value for DIAMETER timers">
+      <code>&lt;?xml version="1.0"?&gt;&lt;modifications xmlns="http://www.xmldb.org/xupdate" version="1.0"&gt;&lt;!-- set higher value for DIAMETER timers --&gt;&lt;update select="//processgroup[starts-with(@name,'PCEF.')]/component/DIAMETER_CFG/ChannelList/ChannelDef/peerConnections/PeerConnectionDef/reconnectTimeout"&gt;20&lt;/update&gt;&lt;update select="//processgroup[starts-with(@name,'PCEF.')]/component/DIAMETER_CFG/ChannelList/ChannelDef/peerConnections/PeerConnectionDef/watchdogTimeout"&gt;60&lt;/update&gt;&lt;/modifications&gt;</code>
+    </xupdate>
+    <xupdate description="set max number of trace files">
+      <code>&lt;?xml version="1.0"?&gt;&lt;modifications xmlns="http://www.xmldb.org/xupdate" version="1.0"&gt;&lt;!-- set max number of trace files --&gt;&lt;update select="//processgroup[starts-with(@name,'PCEF.')]/launch-policy/maxTraceFileCount"&gt;20&lt;/update&gt;&lt;/modifications&gt;</code>
+    </xupdate>
+    <xupdate description="Define HTTP-CLIENT's WPE tool">
+      <code>&lt;?xml version="1.0"?&gt;
+&lt;modifications xmlns="http://www.xmldb.org/xupdate" version="1.0"&gt;
+	&lt;!-- Define HTTP-CLIENT's WPE tool --&gt;
+	&lt;append select="//processgroup[starts-with(@name,'PCEF.')]/component/WPE_CFG/ToolTable"&gt;
+		&lt;element name="Tool"&gt;
+			&lt;element name="name"&gt;HTTP-CLIENT.SOAP1&lt;/element&gt;
+			&lt;element name="objref"&gt;TI:F.CEE.HTTP-CLIENT.SOAP1:^WPE+LOADGEN&lt;/element&gt;
+		&lt;/element&gt;
+	&lt;/append&gt;
+&lt;/modifications&gt;</code>
+    </xupdate>
+    <xupdate description="Essential stuff to test ">
+      <code>&lt;?xml version="1.0"?&gt;
+&lt;xupdate:modifications xmlns:xupdate="http://www.xmldb.org/xupdate" version="1.0"&gt;
+
+    &lt;!-- trace-essentials.xml: Essential stuff to test
+    --&gt;
+
+    &lt;xupdate:insert-before select="//processgroup/arguments"&gt;
+        &lt;xupdate:element name="env-variable"&gt;
+            &lt;xupdate:attribute name="extensible"&gt;false&lt;/xupdate:attribute&gt;
+            &lt;xupdate:attribute name="name"&gt;CEECFG_TraceFormat&lt;/xupdate:attribute&gt;
+            &lt;xupdate:value&gt;&lt;value&gt;#t:#i:#c:#s:#f:#m&lt;/value&gt;&lt;/xupdate:value&gt;
+        &lt;/xupdate:element&gt;
+    &lt;/xupdate:insert-before&gt;
+
+    &lt;xupdate:insert-before select="//processgroup/env-variable[@name='CEECFG_TraceFormat']"&gt;
+        &lt;xupdate:element name="env-variable"&gt;
+            &lt;xupdate:attribute name="extensible"&gt;false&lt;/xupdate:attribute&gt;
+            &lt;xupdate:attribute name="name"&gt;CEECFG_TraceFail&lt;/xupdate:attribute&gt;
+            &lt;xupdate:value&gt;&lt;value&gt;.&lt;/value&gt;&lt;/xupdate:value&gt;
+        &lt;/xupdate:element&gt;
+        &lt;xupdate:element name="env-variable"&gt;
+            &lt;xupdate:attribute name="extensible"&gt;false&lt;/xupdate:attribute&gt;
+            &lt;xupdate:attribute name="name"&gt;CEECFG_TraceWarn&lt;/xupdate:attribute&gt;
+            &lt;xupdate:value&gt;&lt;value&gt;CEE&lt;/value&gt;&lt;/xupdate:value&gt;
+        &lt;/xupdate:element&gt;
+    &lt;/xupdate:insert-before&gt;
+&lt;/xupdate:modifications&gt;
+</code>
+    </xupdate>
+  </xupdates>
+</loadgenProductView>
+

@@ -1,0 +1,33 @@
+<test>
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+    
+    <function name="setHeader" module="WAP">
+        <parameter>Transfer-Encoding</parameter>
+        <parameter>chunked</parameter>
+    </function>
+
+    <function name="connectGateway" module="WAP"/>
+  
+    <function name="sendPostRequest" module="WAP">
+        <parameter>text/plain</parameter>
+        <file>chunked.txt</file>
+        <parameter>http://</parameter>
+        <configuration>system/ip</configuration>
+        <parameter>/chunked.html</parameter>    
+    </function>
+    
+    <function name="disconnectGateway" module="WAP"/>    
+   
+    <function name="stopWebServer" module="HTTP"/>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function> 
+ 
+</test>

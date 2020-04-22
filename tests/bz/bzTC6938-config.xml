@@ -1,0 +1,6 @@
+<configuration>
+    <pushTestSpecific>
+        <msisdn>wappush=+44790903075/TYPE=PLMN@ppg.com</msisdn>
+        <href>wab.sbc.ch</href>
+    </pushTestSpecific>
+</configuration>

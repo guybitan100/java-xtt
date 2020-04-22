@@ -1,0 +1,30 @@
+<test>
+    <function name="sendGetRequest" module="SMS">
+        <variable>downloadNumber</variable>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>downloadNumber</variable>
+            <parameter>/MMS/x_mms_content_location</parameter>
+        </variable>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>downloadNumber</variable>
+            <parameter>/MMS/x_mms_transaction_id</parameter>
+        </variable>
+        <variable>downloadNumber</variable>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>    
+</test>

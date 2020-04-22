@@ -1,0 +1,81 @@
+<test>  
+    <!--configuration>xttTC007cfg.xml</configuration-->
+    <name>XTT.DIAMETER.TC.001</name>
+    <description>Test XTT Diameter</description>
+
+    <function name="startDiameterServer" module="Diameter">
+        <configuration>DIAMETERSERVER/PORT</configuration>
+        <xml>
+            <Diameter>
+                <response>
+                    <ACCOUNTING_REQUEST proxiable="true" error="false" tretr="false" matchAVP="USER_NAME" matchREGEX="user2">
+                        <SESSION_ID         request="SESSION_ID"        mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <USER_NAME          request="USER_NAME"         mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <RESULT_CODE        value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <CC_MONEY                                       mandatory="true"  protected="false" vendorspecific="false" vendorID="">
+                            <CC_REQUEST_TYPE    value="EVENT_REQUEST"   mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                            <CC_TIME            value="100"             mandatory="false" protected="false" vendorspecific="true"  vendorID="1000"/>
+                        </CC_MONEY>
+                    </ACCOUNTING_REQUEST>
+                    <ACCOUNTING_REQUEST proxiable="true" error="true" tretr="false">
+                        <SESSION_ID         request="SESSION_ID"        mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <USER_NAME          request="USER_NAME"         mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <TERMINATION_CAUSE  value="DIAMETER_USER_MOVED" mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <RESULT_CODE        value="DIAMETER_AUTHORIZATION_REJECTED"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ERROR_MESSAGE      value="He's not here, Doh!" mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                        <CC_MONEY                                       mandatory="true"  protected="false" vendorspecific="false" vendorID="">
+                            <CC_REQUEST_TYPE    value="EVENT_REQUEST"   mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+                            <CC_TIME            value="200"             mandatory="false" protected="false" vendorspecific="true"  vendorID="1000"/>
+                        </CC_MONEY>
+                    </ACCOUNTING_REQUEST>
+                    <DEVICE_WATCHDOG_REQUEST proxiable="true" error="false" tretr="false">
+                        <RESULT_CODE        value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                    </DEVICE_WATCHDOG_REQUEST>
+
+                    <CAPABILITIES_EXCHANGE_REQUEST proxiable="true" error="false" tretr="false">
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <VENDOR_ID              request="VENDOR_ID" />
+                        <PRODUCT_NAME           request="PRODUCT_NAME" />
+                        <SUPPORTED_VENDOR_ID    request="SUPPORTED_VENDOR_ID" />
+                        <AUTH_APPLICATION_ID    request="AUTH_APPLICATION_ID" />
+                    </CAPABILITIES_EXCHANGE_REQUEST>
+
+                    <CREDIT_CONTROL_REQUEST proxiable="true" error="false" tretr="false">
+                        <SESSION_ID             request="SESSION_ID"/>
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           request="DESTINATION_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <AUTH_APPLICATION_ID    value="4"                   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <CC_REQUEST_TYPE        request="CC_REQUEST_TYPE"   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <GRANTED_SERVICE_UNIT                               mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+                            <CC_MONEY                                       mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+                                <UNIT_VALUE                                 mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+                                    <VALUE_DIGITS    value="1000"           mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                                    <EXPONENT        value="-3"             mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                                    <CURRENCY_CODE   value="756"            mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                                </UNIT_VALUE>
+                            </CC_MONEY>
+                            <CC_SERVICE_SPECIFIC_UNITS value="1"            mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        </GRANTED_SERVICE_UNIT>
+                    </CREDIT_CONTROL_REQUEST>
+                </response>
+            </Diameter>
+        </xml>
+        <!--
+        <configuration>DIAMETERSERVER/Timeout</configuration>
+        -->
+        <parameter>120000</parameter>
+    </function>
+
+    <function name="enableExtendedOutput" module="Diameter"/>
+
+    <function name="stop" module="XTT"/>
+
+	<function name="stopDiameterServer" module="Diameter"/>
+
+</test>

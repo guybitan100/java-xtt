@@ -1,0 +1,91 @@
+<test>
+    <function name="testName" module="Basic">
+		<parameter>BZ.TC.8160</parameter>
+	</function>
+
+    <description>Check MM7 can restart with secure port.</description>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMA/PATH</configuration>
+        <parameter>bin/xms load file </parameter>
+        <configuration>XMA/PATH</configuration>
+        <parameter>/key/demo_inet_server_certificate.der</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+    	<parameter>^Loaded</parameter>
+    	<parameter>dev/null</parameter>
+    </function> 
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMA/PATH</configuration>
+        <parameter>bin/xms load file </parameter>
+        <configuration>XMA/PATH</configuration>
+        <parameter>/key/demo_inet_server_private_key.der</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+    	<parameter>^Loaded</parameter>
+    	<parameter>dev/null</parameter>
+    </function> 
+
+	<function name="sendRemoteCommand" module="Remote">
+		<parameter>writeFile bzTC8160-vasp.xml </parameter>
+		<xml>
+            <vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd">
+                <security allowWeakEncryption="true" >
+                    <serverCertificate privateKeyFile="demo_inet_server_private_key.der" privateKeyPassword="demo1234" >
+                        <certificateChain>
+                            <certificate>demo_inet_server_certificate.der</certificate>
+                        </certificateChain>
+                    </serverCertificate>
+                </security>
+                <vasp id="XTT Test VASP" address="12345678" mm7Url="http://www.ta.org:9999/reports" />
+            </vasps>		    
+		</xml>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMA/PATH</configuration>
+        <parameter>bin/xms load data </parameter>
+        <parameter>bzTC8160-vasp.xml</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+    	<parameter>^Loaded</parameter>
+    	<parameter>dev/null</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+    	<parameter>^Loaded</parameter>
+    	<parameter>dev/null</parameter>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+    	<parameter>IN.MM7</parameter>
+    </function>
+    
+    <function name="checkProcessStatus" module="Remote">
+    	<parameter>IN.MM7</parameter>
+    	<parameter>Running</parameter>
+    </function>   
+    
+	<function name="sendRemoteCommand" module="Remote">
+		<parameter>writeFile bzTC8160-empty-vasp.xml </parameter>
+		<xml>
+            <vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd">
+            </vasps>		    
+		</xml>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMA/PATH</configuration>
+        <parameter>bin/xms load data </parameter>
+        <parameter>bzTC8160-empty-vasp.xml</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+    	<parameter>^Loaded</parameter>
+    	<parameter>dev/null</parameter>
+    </function>     
+</test>

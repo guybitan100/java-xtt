@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<security>
+    <contentProviders>
+        <https allowWeakEncryption="true">
+            <clientCertificate privateKeyFile="wukvo_20030821.key.der" privateKeyPassword="">
+                <certificateChain>
+                    <certificate>wukvo_20030821.crt.der</certificate>
+                </certificateChain>
+            </clientCertificate>
+        </https>
+    </contentProviders>
+</security>

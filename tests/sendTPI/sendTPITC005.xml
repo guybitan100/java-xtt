@@ -1,0 +1,27 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.TPI.TC.005</parameter>
+    </function>
+    
+    <description>Send a TPI message with broken XML and check the response code.</description>
+    
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="sendPacketFromFile" module="TCP">
+        <configuration>Xma/MM7Ip</configuration>
+        <configuration>Xma/MM7Port</configuration>
+        <parameter>sendTPITC005-msg.bin</parameter>
+    </function>
+    
+    <function name="queryTextResponse" module="TCP">
+        <parameter>response-code</parameter>
+        <parameter>HTTP/1.1 200 OK</parameter>
+    </function>
+    
+        <function name="queryTextResponse" module="TCP">
+            <parameter>temp</parameter>
+            <parameter>&lt;state xsi:type=&quot;xsd:string&quot;&gt;2&lt;/state&gt;</parameter>
+        </function>       
+
+
+</test>

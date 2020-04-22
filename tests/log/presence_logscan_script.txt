@@ -1,0 +1,180 @@
+/*
+ * initialAction
+ *
+ * Called once before we receive any records
+ * Initialize variables and output the header lines
+ */
+
+function initialAction() {
+    version = "logscan run on " +new Date();
+    count = 0;
+    start = new Date().getTime();
+    months = new makeArray('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct',
+                               'Nov','Dec');
+
+}
+
+/*
+ * Called after all records have been read
+ * but before exporting JavaScript state.
+ */
+function finalAction() {
+    trace("final - count=", count, "\n");
+}
+
+
+/*
+ * Called to process every record
+ */
+function recordAction() {
+    //
+    // Get the timestamp from the log record and convert it
+    // to a JavaScript date
+    //
+    eventTime = new Date((parseFloat(LSA_EventTime) * 1000));
+
+    //
+    // Count the records we have processed
+    //
+    count++;
+
+    //
+    // Trace every thousandth record
+    // Ignored unless "-trace" option is supplied.
+    //
+    if (count % 1000 == 0) {
+        now = new Date().getTime();
+        elapsed = now - start;
+        trace("Record #" + count + " " + (elapsed / 1000) + "mS / record\n");
+        start =  now;
+    }	
+ 
+    //
+    // Calculate the response size
+    //
+    if (exists("DSP_BytesTransferredOut")) {
+        byteCount = DSP_BytesTransferredOut;
+    } else if (exists("IM_Ctx_contentLength")) {
+        byteCount = IM_Ctx_contentLength;
+    } else {
+        byteCount = "-";
+    }
+
+    //
+    // Internal_NAI etc. may be missing.
+    //
+    setDefault("Internal_NAI", "-");
+    setDefault("HTA_ResponseStatus", "-");
+    setDefault("HTA_ResponseReason", "-");
+    setDefault("LSA_SequenceNumber","-");
+    
+
+
+    //
+    // Ignored unless "-debug" option is specified
+    //
+    debug("Before write");
+
+    //
+    // Write to the file. The columns must match
+    //
+    write( eventTime.CLFDateTime(), " - ", LSA_Event , " - ", LSA_SequenceNumber, " ", PSE_USER_ID, " ",
+           "-", " ",
+           PSE_ADDRESS_TYPE_IP);    
+ 
+}
+
+/************************
+ *                      *
+ *   Utility functions  *
+ *                      *
+ ************************/
+
+/*
+ * Function to check if a variable exists
+ */
+ function exists(name)
+ {
+     return this[name] != undefined;
+ }
+
+ 
+ /*
+  * Function to access a context element
+  * and supply a default if it is empty
+  * or not defined
+  */
+ function setDefault(contextName, defaultValue)
+ {
+     if ((this[contextName] == undefined) ||
+         (this[contextName] == "")) {
+             this[contextName] = defaultValue;
+     }
+ }
+
+ function makeArray() {
+     for (i = 0; i<makeArray.arguments.length; i++)
+          this[i + 1] = makeArray.arguments[i];
+ }
+
+
+ /*
+  * Set of useful string handling functions from 
+  * http://webdeveloper.earthweb.com/webjs/article.php/640821
+  * Very efficient and concise.
+  * 
+  * Text.as(arg)                       Force arg to a string
+  * Text.is(arg)                       True if arg is a string
+  * Text.no(arg)                       Force arg to number (or zero)
+  * Text.ex(string, multiplier)        Expand (replicate) a string
+  * Text.pad(length, str, fill)        Pad,left justify
+  * Text.pad(str, length, fill)        Pad,right justify
+  * Text.trim(str)                     Remove leadin/gtrailing space
+  */
+ Text = {
+     as:function(a1) { return '' + (a1 || '') },
+     is:function(a1) { return '' + a1 === a1 },
+     no:function(a1) {
+         a1 = isNaN(a1=Number(a1)) ? parseFloat(a1) : a1;
+         return isNaN(a1) ? 0 : a1;
+     },
+     ex:function(a1,a2) {
+         var mo = Math.floor(a2/2);
+         if (mo > 1) return this.ex(a1 + a1, mo) + (a2 % 2 && a1 || '');
+         var fo = '';
+         while (a2 > 0) { fo += a1; a2-- }
+         return fo;
+     },
+     pad:function(a1,a2,a3) {
+     return this.is(a1)
+         ? a1 + this.ex(a3 || ' ', a2 - a1.length)
+         : this.ex(a3 || ' ', a1 - ('' + a2).length) + a2;
+     },
+     trim:function(a1,a2,a3) {
+         a1 = this.as(a1).replace(a3 || /^\s+|\s+$/g, '');
+         return a2 && a1.length > a2 ? a1.substr(0,a2-1) + '\u2026' : a1; 
+     },
+ }
+
+
+// date and time in format required by CLF
+
+
+Date.prototype.CLFDateTime = function() {
+   return  '[' + 
+           Text.pad(2, this.getDate(), '0') + '/' +
+           months[this.getMonth()+1] + '/' +
+           this.getFullYear() + ':' +  
+           Text.pad(2, this.getHours(), '0') + ':' + 
+           Text.pad(2, this.getMinutes(), '0') + ':' +
+           Text.pad(2, this.getSeconds(), '0') +          
+           ']';
+}
+ 
+
+
+
+
+
+
+

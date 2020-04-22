@@ -1,0 +1,34 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.9074</parameter>
+    </function>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>000061201</parameter>
+    </function>
+
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <parameter>http://172.20.9.29:1111/9JARVCI1P5IC1</parameter>
+        <parameter>000061201</parameter>
+    </function>
+
+    <function name="checkResponseCode" module="SMS">
+        <parameter>404</parameter>
+    </function>
+</test>

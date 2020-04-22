@@ -1,0 +1,32 @@
+<test>
+    <conditional variable="mm5TC/msisdn" targetValue="null">
+        <function name="sendRemoteCommand" module="Remote">
+            <configuration>xma/path</configuration>
+            <configuration>xma/xms</configuration>
+            <configuration>xma/command</configuration>
+            <parameter>amocli -m 0 s TI:F.CEE.MSP.1:AMO</parameter>
+        </function>
+    </conditional>
+
+    <conditional variable="mm5TC/msisdn" inverted="true" targetValue="null">
+        <function name="sendRemoteCommand" module="Remote">
+            <configuration>xma/path</configuration>
+            <configuration>xma/xms</configuration>
+            <configuration>xma/command</configuration>
+            <parameter>
+                <parameter>amocli -eMMS_Path=="</parameter>
+                <variable>mm5TC/msisdn</variable>
+                <parameter>" -m 0 s TI:F.CEE.MSP.1:AMO</parameter>
+            </parameter>
+        </function>
+    </conditional>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>
+            <parameter>MMS_ProtocolOut=</parameter>
+            <variable>mm5TC/outProtocol</variable>
+        </parameter>
+        <parameter>response</parameter>
+    </function>    
+</test>
+

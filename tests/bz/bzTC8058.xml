@@ -1,0 +1,21 @@
+<test>
+    <function name="testName" module="Basic">
+		<parameter>BZ.TC.8053</parameter>
+	</function>
+
+    <description>Check XMS does a license version check.</description>
+
+	<function name="sendRemoteCommand" module="Remote">
+		<parameter>writeFile bzTC8058-license.xml </parameter>
+		<file>bzTC8058-sugarloaf-license.xml</file>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data bzTC8058-license.xml</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+    	<parameter>but current version is</parameter>
+    	<parameter>dev/null</parameter>
+    </function>
+</test>

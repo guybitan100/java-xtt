@@ -1,0 +1,112 @@
+<test>
+<name>CompatibilityOfP1UseCases.TC.013a</name>
+    <description>Validate enable/disable  master switch feature when the subscriber turns on all the services
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+Scenario 1:
+1. Login to the subscriber portal as a subscriber 
+2. Turn off the Master switch.
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. MMSC
+	  2. Diameter
+	  3. Remote
+	  4. Basic -->
+  </description>
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+		<!-- Trun OFF Master Switch -->
+		<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>run command querier -y 1 -x 0 -o MMSX -p F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.updateSubscriber subscriberId=10001 msisdn=0991110001 user=username1 region=region1 masterSwitchOn=false</parameter>
+		</function>
+
+	<!-- sleep for DB updates -->
+	<function name="sleep" module="Basic">
+		<parameter>5000</parameter>
+	</function>
+
+		<!-- Set mandatory headers -->
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-MMS-Message-Type</parameter>
+			<parameter>m-send-req</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter>987654</parameter>
+		</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/NOTINDB/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a test message </parameter>
+	</function>
+
+	<!-- Send Metadeta  Request -->
+		<function name="sendGetRequest" module="HTTP">
+			<parameter>
+				<parameter>http://</parameter>
+				<configuration>MMS_Extra/Ip</configuration>
+				<parameter>:</parameter>
+				<configuration>MMS_Extra/Port</configuration>
+				<parameter>/New-Message-Intercepted</parameter>
+			</parameter>
+		</function>
+
+		<function name="checkResponseCode" module="HTTP">
+			<parameter>200</parameter>
+		</function>
+
+	<function name="checkHeader" module="HTTP">
+			<parameter>X-Proxy-Handle</parameter>
+			<parameter>pass</parameter>
+		</function>
+
+<!-- Check for MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+	
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<license xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="license.xsd"
+         number="BZ8058"
+         type="B"
+         issuer="Gavin Cattell, 724 Solutions Inc., Bahnhofstrasse 15, CH-5600 Lenzburg"
+         issuedOn="2006-09-01T09:10:05Z"
+         licensee="724 Solutions, internal use only"
+         product="XMG"
+         platform="linux"
+         version="724Solutions CEE INVALID"
+         validFrom="2006-09-01"
+         validUntil="2006-12-01"
+         signature="58E43FD9F5D85A5F0E4454C73A75285B41A930AC803EE4FF661F940C4310F98F">
+    <machine name="sugarloaf"/>
+</license>

@@ -1,0 +1,34 @@
+<test>
+ 
+      <!-- Test case 5.1.0.0: [SLM_create_communitiesTC001] Create_communities -->
+       
+      <description> SOAP-API: Settings : Get_UserByUserId</description>
+
+	 <function name="testName" module="Basic">
+		<parameter>SLM_get_UserByUserIdTC001</parameter>
+	</function>
+      
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			 <parameter>http://</parameter>
+			 <configuration>SLM/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>SLM/PORT</configuration>
+			 <parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>getUserByUserId.xml</file>
+		<parameter>Body</parameter>
+	</function>
+
+	<function name="queryResponse" module="SOAP_API">
+	     <!-- You want to check what the last command did, this is a java regular expression -->
+	     <parameter></parameter>
+	     <!-- Ignore this paramter, it stores the result to a variable (not important in this test -->
+	     <parameter>dev/null</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>200</parameter>
+	</function>
+        
+ </test>

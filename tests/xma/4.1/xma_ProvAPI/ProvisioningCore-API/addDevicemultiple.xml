@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:addDevice>
+      <arg0>
+        <profile>Nokia3650/1.0 SymbianOS/6.7 </profile>
+        <profileUrl>yospace_nokia_v1_3650_ver2_web7 </profileUrl>
+        <userAgent>Nokia3650/1.0 SymbianOS/6.7 </userAgent>
+      </arg0>
+	  <arg0>
+        <profile>Nokia3650/1.0 SymbianOS/6.8 </profile>
+        <profileUrl>yospace_nokia_v1_3650_ver2_web8 </profileUrl>
+        <userAgent>Nokia3650/1.0 SymbianOS/6.8 </userAgent>
+      </arg0>
+	  <arg0>
+        <profile>Nokia3650/1.0 SymbianOS/6.9 </profile>
+        <profileUrl>yospace_nokia_v1_3650_ver2_web9 </profileUrl>
+        <userAgent>Nokia3650/1.0 SymbianOS/6.9 </userAgent>
+      </arg0>
+    </tns:addDevice>
+  </soap:Body>
+</soap:Envelope>

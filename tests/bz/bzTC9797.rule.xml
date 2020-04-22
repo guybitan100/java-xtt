@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestModifications.xsd">
+    <table name="set external NAI">
+        <selector context="Internal_NAI = ''">
+            <modifyContext name="External_NAI" value="'ERROR_NO_INTERNAL_NAI'"/>
+        </selector>
+        <selector>
+            <modifyContext name="External_NAI" value="Internal_NAI"/>
+        </selector>
+    </table>
+    <table name="set x-userid">
+        <selector>
+            <modifyHeader name="x-userid" value="External_NAI"/>
+        </selector>
+    </table>
+</requestModifications>

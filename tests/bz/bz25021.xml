@@ -1,0 +1,83 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>bz25021</parameter>
+	</function>
+
+	<description>Validate MaxLiveFeedIdleSeconds for User Sessons</description>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>
+		<configuration>remote/command</configuration>
+		<parameter>pse3cli da! TI:F.CEE.PSE:PSE3</parameter>
+		</parameter>
+	</function>
+
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>PRESENCE-STORE</parameter>
+		<parameter>Presence_Process_Name</parameter>
+	</function>
+
+	<!-- Change MaxLiveFeedIdleSeconds as per test case -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>
+				<parameter>cmu -C PSE3_CFG_MaxLiveFeedIdleSeconds </parameter>
+				<variable>Presence_Process_Name</variable>
+				<parameter> 60</parameter>
+			</parameter>
+		</parameter>
+	</function>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>12346</parameter>
+		<parameter>12346</parameter>
+	</function>
+
+	<!-- Check user session in Presence Store -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>
+			<parameter>pse3cli -n 12346 -a </parameter>
+			<configuration>system/ip</configuration>
+			<parameter> rba TI:F.CEE.</parameter>
+			<variable>Presence_Process_Name</variable>
+			<parameter>:PSE3</parameter>
+			</parameter>
+		</parameter>
+	</function>
+
+	<!-- Sleep a while until video optimization will start -->
+	<function name="sleep" module="Basic">
+		<parameter>65000</parameter>
+	</function>
+
+	<!-- Check user session in Presence Store afer MaxLiveFeedIdleSeconds configured-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>
+			<parameter>pse3cli -n 12346 -a </parameter>
+			<configuration>system/ip</configuration>
+			<parameter> rba TI:F.CEE.</parameter>
+			<variable>Presence_Process_Name</variable>
+			<parameter>:PSE3</parameter>
+			</parameter>
+		</parameter>
+	</function>
+
+	<!-- Restore MaxLiveFeedIdleSeconds as actually configured -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>
+				<parameter>cmu -C PSE3_CFG_MaxLiveFeedIdleSeconds </parameter>
+				<variable>Presence_Process_Name</variable>
+				<parameter> 0</parameter>
+			</parameter>
+		</parameter>
+	</function>
+
+</test>

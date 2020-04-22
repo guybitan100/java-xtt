@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:getDeviceByIdentifier>
+      <arg0>5904321490031351370</arg0>
+      <arg1>true</arg1>
+    </tns:getDeviceByIdentifier>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,80 @@
+<test>
+
+		<description>Proxy sends "New-Message-Intercepted" request to Application via HTTPS GET / "X-Proxy-Region" header is duplicate in the request / Application replies with proper error code 
+		<!--  Test Steps
+		1. Sender and Recipient are provision in application.
+		2. Send MM1 Message to MMS Proxy 
+		3. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTPS GET Request but "X-Proxy-Region" header should be duplicate in the request
+		4. Application receives the message with duplicate " X-Proxy-Region " header and then respond New-Message-Intercepted-Response with "error" handle in "X-MMSX-Error-Text" response header -->
+		</description>
+
+		<function name="testName" module="Basic">
+			<parameter>HTTP-IN-Channel.TC.016</parameter>
+		</function>	
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+		<!-- Available MSISDN -->
+		<configuration>../subscriber_config.xml</configuration>
+
+		<!-- Set mandatory headers -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-MMS-Message-Type</parameter>
+			<parameter>m-send-req</parameter>
+		</function>
+
+		<!-- Set duplicate header -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>x-proxy-region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter>987654</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>To</parameter>
+			<configuration>MMSX/NOSERVICE/SUBSCRIBER/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>From</parameter>
+			<configuration>MMSX/NOSERVICE/SUBSCRIBER/MSISDN2</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>Subject</parameter>
+			<parameter>Sample Test</parameter>
+		</function>
+
+		<!-- Send Metadeta  Request -->
+		<function name="sendGetRequest" module="HTTP">
+			<parameter>
+				<parameter>http://</parameter>
+				<configuration>MMS_Extra/Ip</configuration>
+				<parameter>:</parameter>
+				<configuration>MMS_Extra/SECUREPORT</configuration>
+				<parameter>/New-Message-Intercepted</parameter>
+			</parameter>
+		</function>
+
+		<function name="checkResponseCode" module="HTTP">
+			<parameter>200</parameter>
+		</function>
+
+		<function name="checkHeader" module="HTTP">
+			<parameter>X-Proxy-Handle</parameter>
+			<parameter>error</parameter>
+		</function>
+
+		<function name="stopWebServer" module="HTTP"/>
+
+</test>

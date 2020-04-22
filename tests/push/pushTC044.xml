@@ -1,0 +1,110 @@
+<test>
+    <name>PUSH.TC.044</name>
+
+    <!-- CHECK FOR 3004 CCQ not supported error -->
+
+    <function name="setPostData" module="Push">
+        <parameter>&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE pap PUBLIC "-//WAPFORUM//DTD PAP 2.0//EN" "http://www.wapforum.org/DTD/pap_2.0.dtd"&gt; &lt;?wap-pap-ver supported-versions="2.0,1.*"?&gt;
+&lt;pap&gt;
+&lt;ccq-message&gt;
+&lt;address address-value="000111222"&gt;&lt;/address&gt;
+&lt;/ccq-message&gt;
+&lt;/pap&gt;</parameter>
+    </function>
+
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>2002</parameter>
+    </function>    
+    
+    <!-- CHECK FOR 2004 push id not found error -->
+    
+    <function name="setPostData" module="Push">
+        <file>push-Statusquery.txt</file>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>thisdoesntexist</parameter>
+    </function>
+    
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>  
+      
+    <function name="checkPAPCode" module="Push">
+        <parameter>2004</parameter>
+    </function>
+    
+    <!-- CHECK FOR 3002 version not supported error -->
+    
+    <function name="setPostData" module="Push">
+        <file>push-OnlyMandatory.txt</file>
+    </function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>supported-versions</parameter>
+        <parameter>99</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+    
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>3002</parameter>
+    </function> 
+    
+    <!-- CHECK FOR 3011 Replace not supported -->
+
+
+    
+    <function name="setPostData" module="Push">
+        <file>push-OnlyMandatory-Replace.txt</file>
+    </function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>3011</parameter>
+    </function>    
+    
+</test>

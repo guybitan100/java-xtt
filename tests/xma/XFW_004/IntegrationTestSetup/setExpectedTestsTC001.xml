@@ -1,0 +1,8 @@
+<test>
+	<name>SET.EXPECTED.TESTS.TC.001</name>
+	<description>Sets the number of tests that will be expected to be run in total for the integration tests
+	Make sure it's set to the Amount of tests that call RemoteXTT, other test will not count.</description>
+    <function name="setRemoteXTTExpectedTests" module="Remote">
+        <parameter>1070</parameter>
+    </function>
+</test>

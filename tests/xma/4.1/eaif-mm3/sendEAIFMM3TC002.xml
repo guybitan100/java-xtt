@@ -1,0 +1,176 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+	<name>EAIF_Msg-MM3_Msg.TC.002</name>
+	<description>MM Message is sent to the Legacy Recipient <!-- As per BZ:22206 comment#5 DR and RR will not work -->
+					[X-Mms-Delivery-Report=No, X-Mms-Read-Report=Yes]
+					[Sn's DB_Prepaid=true]
+					[Rc's DB_MmsDisabled=false]
+					[Rc's DB_ExternalContentConversionDisabled=true]
+					[Rc's DB_UseEmail=true]
+					[Rc's DB_Email=user@domain]
+    </description>
+
+	<!-- Load MNO file -->
+    <subtest>../loadMNO.xml</subtest>
+
+	<!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+	<!-- Load MSISDN -->
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+	<!-- Start SMTP Server and wait until it binds to XMA -->
+    <function name="startSMTPServer" module="SMTP"/>
+    	
+     <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<!-- Set EAIF Address - Request is being hit from -->
+	<function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+       <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>MSISDN/1</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>application/vnd.wap.multipart.mixed</parameter>
+    </function>
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_EXPIRY</parameter>
+		<parameter>false</parameter>
+		<parameter>10</parameter>
+	</function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+
+    <function name="createMM1PacketContentMultipart" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64file>plaintext.bin</base64file>
+        <parameter>text/plain</parameter>
+        <parameter>plaintext.txt</parameter>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>
+
+	<function name="setVariable" module="BASIC">
+        <parameter>smtp_body</parameter>
+        <parameter>
+            <parameter>smtp/</parameter>
+            <variable>MSISDN/1</variable>
+			<parameter>@xma.724.com</parameter>
+            <parameter>/body</parameter>
+        </parameter>
+    </function>
+
+	<function name="setVariable" module="BASIC">
+        <parameter>text_file</parameter>
+        <base64file>plaintext.bin</base64file>
+    </function>
+
+	<function name="queryText" module="BASIC">
+        <variablepointer>smtp_body</variablepointer>
+        <parameter>dev/null</parameter>
+        <variable>text_file</variable>
+    </function>
+
+     <function name="checkServerHeader" module="SMTP">
+        <parameter>
+            <variable>MSISDN/1</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+        <parameter>from</parameter>
+        <parameter>
+            <variable>ADDR_FROM</variable>
+        </parameter>
+    </function>
+    <function name="checkServerHeader" module="SMTP">
+        <parameter>
+            <variable>MSISDN/1</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+        <parameter>to</parameter>
+        <parameter>
+            <variable>MSISDN/1</variable>
+        </parameter>
+    </function>
+
+	<!-- Stop SMTP Server -->
+	<function name="stopSMTPServer" module="SMTP"/>
+
+    <!-- Restore MNO file -->
+    <subtest>../restoreMNO.xml</subtest>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+</test>

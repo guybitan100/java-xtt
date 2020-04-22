@@ -1,0 +1,79 @@
+<test>
+    <configuration>smpp.xml</configuration>
+    <name>SMPPV5.TC.011b</name>
+    <description>Validate XMP supports and realizes ESME_RSERTYPUNAVAIL error code in response of data_sm Operation</description>
+
+    <subtest name="loadConnection" file="loadConnection.xml"/>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+    <function name="compareString" module="basic">
+        <variable>smsc/smpp/xmp/interface_version</variable>
+        <parameter>0x50</parameter>
+    </function>
+
+    <function name="setPostData" module="Push">
+        <file>smppv5TC001.txt</file>
+    </function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+
+    <function name="setResponseStatus" module="SMPP">
+        <parameter>DATA_SM</parameter>
+        <parameter>0x00000102</parameter>
+    </function>
+
+    <!--function name="addResponseTLV" module="SMPP">
+        <parameter>DATA_SM</parameter>
+        <parameter>NETWORK_ERROR_CODE</parameter>
+        <parameter>070001</parameter>
+    </function-->
+
+
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="setResponseStatus" module="SMPP">
+        <parameter>DATA_SM</parameter>
+        <parameter>0x00000000</parameter>
+    </function>
+    <function name="waitForTimeoutWSPMessages" module="SMS">
+        <parameter>60000</parameter>
+    </function>
+
+    <subtest name="unloadConnection" file="unloadConnection.xml"/>
+    
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

@@ -1,0 +1,193 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>MMSNick.TC.029</parameter>
+	</function>
+
+	<description>Validate Application does not perform MM7_submit.REQ operation if the subscriber is not allowed to do the purchase during "Check & Reserve Credit" Operation </description>
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+     <function name="startDiameterServer" module="Diameter">
+        <configuration>DIAMETERSERVER/PORT</configuration>
+        <xml>
+            <Diameter>
+                <response>
+                    <DEVICE_WATCHDOG_REQUEST proxiable="true" error="false" tretr="false">
+                        <RESULT_CODE        value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                    </DEVICE_WATCHDOG_REQUEST>
+                    <CAPABILITIES_EXCHANGE_REQUEST proxiable="true" error="false" tretr="false">
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <VENDOR_ID              request="VENDOR_ID" />
+                        <PRODUCT_NAME           request="PRODUCT_NAME" />
+                        <SUPPORTED_VENDOR_ID    request="SUPPORTED_VENDOR_ID" />
+                        <AUTH_APPLICATION_ID    request="AUTH_APPLICATION_ID" />
+                    </CAPABILITIES_EXCHANGE_REQUEST>
+				<CREDIT_CONTROL_REQUEST proxiable="true" error="false" matchAVP="SUBSCRIPTION_ID_DATA" matchREGEX="0891116001" tretr="false">
+                        <SESSION_ID             request="SESSION_ID"/>
+                        <RESULT_CODE            value="DIAMETER_CREDIT_LIMIT_REACHED"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           request="DESTINATION_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <AUTH_APPLICATION_ID    value="4"                   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<SERVICE_CONTEXT_ID value="1" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<CC_REQUEST_TYPE        value="INITIAL_REQUEST"   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                    </CREDIT_CONTROL_REQUEST>                    
+                    <CREDIT_CONTROL_REQUEST proxiable="true" error="false" matchAVP="CC_REQUEST_TYPE" matchREGEX="TERMINATION_REQUEST" tretr="false">
+                        <SESSION_ID             request="SESSION_ID"/>
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <ORIGIN_REALM           request="DESTINATION_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <AUTH_APPLICATION_ID    value="4"                   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<SERVICE_CONTEXT_ID value="1" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<CC_REQUEST_TYPE        value="TERMINATION_REQUEST"   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                        <CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+                    </CREDIT_CONTROL_REQUEST>
+                </response>
+            </Diameter>
+        </xml>
+        <!--
+        <configuration>DIAMETERSERVER/Timeout</configuration>
+        -->
+        <parameter>10000</parameter>
+    </function>
+
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>MM7_submit.REQ</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<!-- Set To field as recipient mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/NOTINDB/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<!-- Set X-Proxy-Subscriber-MSISDN field as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/NICKNAME/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a Nick name Message</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>https://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/secureport</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>https://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/secureport</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Wait for second CCR request as Initial_Request -->
+	<function name="waitForSpecificRequests" module="Diameter">
+		<configuration>DiameterServer/Port</configuration>
+		<parameter>CREDIT_CONTROL_REQUEST</parameter>
+		<parameter>1</parameter>
+	</function>
+
+	<!-- Wait for second CCR request as Terminate_Request -->
+	<function name="waitForSpecificRequests" module="Diameter">
+		<configuration>DiameterServer/Port</configuration>
+		<parameter>CREDIT_CONTROL_REQUEST</parameter>
+		<parameter>2</parameter>
+	</function>
+
+
+	<!-- Stop Diameter Server -->
+	<function name="stopDiameterServer" module="Diameter"/>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+
+</test>

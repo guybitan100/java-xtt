@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+  <table name="test1">
+    <selector urlPattern="http://*test.xtt724.com/*">
+       <modifyUrl newUrl="http://test5.xtt724.com/" appendPath="true"/>
+       <modifyHeader name="TESTRULE" value="'TEST'"/>
+    </selector>
+  </table>
+  <table name="test2">
+    <selector urlPattern="http://*someurl.xtt724.com/*">
+       <modifyUrl newUrl="http://test1.xtt724.com/" appendPath="true"/>
+       <modifyHeader name="TESTONE" value="'ONE'"/>
+    </selector>
+    <selector urlPattern="http://test2.xtt724.com/*">
+       <modifyUrl newUrl="http://test3.xtt724.com/" appendPath="true"/>
+       <modifyHeader name="TESTTWO" value="'THREE'"/>
+    </selector>
+  </table>
+</requestModifications>

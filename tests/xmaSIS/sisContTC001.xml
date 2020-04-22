@@ -1,0 +1,432 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SIS.CONT.TC.001</parameter>
+    </function>
+    <description>TPI continuation message with SIS lookup and no body</description>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>startnumberA</parameter>
+        <parameter>41794440000</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>stopnumberA</parameter>
+        <parameter>41794440001</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>startnumberB</parameter>
+        <parameter>41795550000</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>stopnumberB</parameter>
+        <parameter>41795550001</parameter>
+    </function>
+
+    <subtest>sisSTART.xml</subtest>
+    <function name="setVariable" module="Basic">
+        <parameter>SISOPTIMISITC</parameter>
+        <parameter>true</parameter>
+    </function>
+    <subtest>loadVASP.xml</subtest>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile deviceInfoListNokia.xml </parameter>
+        <file>deviceInfoListNokia.xml</file>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/device</configuration>
+        <parameter>deviceInfoListNokia.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+
+        <function name="createTPISoap" module="VASP"/>
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>username</parameter>
+            <parameter>XTTUser</parameter>
+        </function>
+    
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>password</parameter>
+            <parameter>XTTUserPassword</parameter>
+        </function>
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>short-id</parameter>
+            <configuration>VASP/VASID</configuration>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>service-name</parameter>
+            <parameter>XTTService001</parameter>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>subject</parameter>
+            <parameter>XTT Test Message 001</parameter>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>from</parameter>
+            <configuration>VASP/NUMBER</configuration>
+        </function>    
+        
+        <loop name="number" start="startnumberA" stop="stopnumberA" step="1">
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>to-recipient</parameter>
+            <variable>number</variable>
+        </function>
+        </loop>
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>bill-text</parameter>
+            <parameter>XTT Billing Text</parameter>
+        </function>    
+    
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>transaction-state</parameter>
+            <parameter>XTTState</parameter>
+        </function> 
+
+        <function name="addSOAPContentID" module="VASP">
+            <file>sendTPIdata.txt</file>
+        </function>    
+        <function name="addContent" module="VASP">
+            <file>sendTPIdata.txt</file>
+        </function>
+        
+        <!--function name="previewRequest" module="VASP"/-->
+        
+
+        <function name="sendPostRequest" module="VASP"/>
+        
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;state-text xsi:type=&quot;xsd:string&quot;&gt;O[Kk]&lt;/state-text&gt;</parameter>
+        </function>            
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;state xsi:type=&quot;xsd:string&quot;&gt;0&lt;/state&gt;</parameter>
+        </function>            
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID</parameter>
+            <parameter>&lt;message-id xsi:type=&quot;xsd:string&quot;&gt;(\p{Alnum}{13})&lt;/message-id&gt;</parameter>
+        </function>
+        <function name="setVariable" module="Basic">
+            <parameter>bodyA</parameter>
+            <variable>HTTP/BODY/PLAIN</variable>
+        </function>            
+        <function name="writeFile" module="Basic">
+            <parameter>temp1.txt</parameter>
+            <variable>HTTP/BODY/PLAIN</variable>
+        </function>            
+
+        <function name="createTPISoap" module="VASP"/>
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>username</parameter>
+            <parameter>XTTUser</parameter>
+        </function>
+    
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>password</parameter>
+            <parameter>XTTUserPassword</parameter>
+        </function>
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>short-id</parameter>
+            <configuration>VASP/VASID</configuration>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>service-name</parameter>
+            <parameter>XTTService001</parameter>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>subject</parameter>
+            <parameter>XTT Test Message 001</parameter>
+        </function>    
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>from</parameter>
+            <configuration>VASP/NUMBER</configuration>
+        </function>    
+        
+        <loop name="number" start="startnumberB" stop="stopnumberB" step="1">
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>to-recipient</parameter>
+            <variable>number</variable>
+        </function>
+        </loop>
+        
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>bill-text</parameter>
+            <parameter>XTT Billing Text</parameter>
+        </function>    
+    
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>transaction-state</parameter>
+            <parameter>XTTState</parameter>
+        </function> 
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>bulk-indicator</parameter>
+            <variable>MessageID</variable>
+        </function> 
+    
+        <function name="setHeader" module="VASP">
+            <parameter>content-type</parameter>
+            <parameter>text/xml; charset=&quot;utf-8&quot;</parameter>
+        </function> 
+        <function name="addContent" module="VASP">
+            <parameter></parameter>
+        </function>
+
+        <!--function name="previewRequest" module="VASP"/-->
+        <function name="sendPostRequest" module="VASP"/>
+        
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;state-text xsi:type=&quot;xsd:string&quot;&gt;O[Kk]&lt;/state-text&gt;</parameter>
+        </function>            
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;state xsi:type=&quot;xsd:string&quot;&gt;0&lt;/state&gt;</parameter>
+        </function>            
+        <function name="queryBody" module="VASP">
+            <parameter>MessageID2</parameter>
+            <parameter>&lt;message-id xsi:type=&quot;xsd:string&quot;&gt;</parameter>
+            <variable>MessageID</variable>
+            <parameter>&lt;/message-id&gt;</parameter>
+        </function>
+        <function name="writeFile" module="Basic">
+            <parameter>temp2.txt</parameter>
+            <variable>HTTP/BODY/PLAIN</variable>
+        </function>            
+
+    <function name="subtractVariable" module="BASIC">
+        <parameter>numbercount</parameter>
+        <variable>stopnumberA</variable>
+        <variable>startnumberA</variable>
+        <parameter>
+            <parameter>-</parameter>
+            <variable>stopnumberB</variable>
+        </parameter>
+        <variable>startnumberB</variable>
+    </function>
+
+    <function name="waitForSISLookups" module="SIS">
+        <variable>numbercount</variable>
+    </function>
+    <thread>
+        <function name="waitForTimeoutSISLookups" module="SIS">
+            <parameter>35000</parameter>
+            <variable>numbercount</variable>
+        </function>
+        <subtest>sisSTOP.xml</subtest>
+        <subtest>restoreVASP.xml</subtest>
+        <function name="sendRemoteCommand" module="Remote">
+            <parameter>writeFile deviceListEmpty.xml </parameter>
+            <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+                &lt;deviceinfolist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="S:\source\xsd\deviceinfolist.xsd"&gt;
+                &lt;/deviceinfolist&gt;
+            </parameter>
+        </function>
+        <function name="sendRemoteCommand" module="Remote">
+            <configuration>xma/path</configuration>
+            <configuration>xma/xms</configuration>
+            <configuration>xma/mno</configuration>
+            <parameter>deviceListEmpty.xml</parameter>
+        </function>
+        <function name="queryResponse" module="Remote">
+            <parameter>^Loaded </parameter>
+            <parameter>response</parameter>
+        </function>
+    </thread>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <variable>numbercount</variable>
+    </function>
+    <thread>
+        <function name="waitForTimeoutWSPMessages" module="SMS">
+            <parameter>30000</parameter>
+            <variable>numbercount</variable>
+        </function>
+        <function name="stopSMSCServer" module="SMS"/>    
+    </thread>
+
+
+   <loop name="number" start="startnumberA" stop="stopnumberA" step="1">
+        
+        <function name="setVariable" module="Basic">
+            <parameter>downloadNumber</parameter>
+            <variable>number</variable>
+        </function>
+        <function name="sendGetRequest" module="SMS">
+            <variable>downloadNumber</variable>
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </variable>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryVariable" module="Basic">
+            <parameter>
+                <parameter>SMS/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/subject</parameter>
+            </parameter>
+            <parameter>temp</parameter>
+            <parameter>XTT Test Message 001</parameter>
+        </function>
+        <function name="sendMM1NotifyResponse" module="SMS">
+            <parameter>retrieved</parameter>
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/x_mms_transaction_id</parameter>
+            </variable>
+            <variable>downloadNumber</variable>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+            <parameter>204</parameter>
+        </function>    
+        
+        <function name="queryVariable" module="Basic">
+            <parameter>bodyA</parameter>
+            <parameter>temp</parameter>
+            <parameter>
+                <parameter>&lt;message-state recipient=&quot;</parameter>
+                <variable>number</variable>
+                <parameter>&quot; state=&quot;0&quot; state-text=&quot;O[Kk]&quot;/&gt;</parameter>
+            </parameter>
+        </function>            
+        <function name="info" module="Basic">
+            <parameter>Nummer: </parameter>
+            <variable>number</variable>
+            <parameter>  Location: </parameter>
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>number</variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </variable>
+        </function>
+    </loop>
+
+   <loop name="number" start="startnumberB" stop="stopnumberB" step="1">
+        
+        <function name="setVariable" module="Basic">
+            <parameter>downloadNumber</parameter>
+            <variable>number</variable>
+        </function>
+        <function name="sendGetRequest" module="SMS">
+            <variable>downloadNumber</variable>
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </variable>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryVariable" module="Basic">
+            <parameter>
+                <parameter>SMS/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/subject</parameter>
+            </parameter>
+            <parameter>temp</parameter>
+            <parameter>XTT Test Message 001</parameter>
+        </function>
+        <function name="sendMM1NotifyResponse" module="SMS">
+            <parameter>retrieved</parameter>
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>downloadNumber</variable>
+                <parameter>/MMS/x_mms_transaction_id</parameter>
+            </variable>
+            <variable>downloadNumber</variable>
+        </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+            <parameter>204</parameter>
+        </function>    
+        
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>
+                <parameter>&lt;message-state recipient=&quot;</parameter>
+                <variable>number</variable>
+                <parameter>&quot; state=&quot;0&quot; state-text=&quot;O[Kk]&quot;/&gt;</parameter>
+            </parameter>
+        </function>            
+        <function name="info" module="Basic">
+            <parameter>Nummer: </parameter>
+            <variable>number</variable>
+            <parameter>  Location: </parameter>
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>number</variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </variable>
+        </function>
+    </loop>
+
+</test>

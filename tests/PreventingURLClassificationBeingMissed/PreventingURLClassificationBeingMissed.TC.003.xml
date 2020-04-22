@@ -1,0 +1,147 @@
+<test>
+	<name>PreventingURLClassificationBeingMissed.TC.003.xml</name>
+	<description>Validate URLs are properly classified either their Domain Names or IP Addresses are provided</description>
+	
+<function name="startDNSServer" module="DNS"/>
+	<!-- Execute Web Server & Set its Parameters -->
+	<function name="startWebServer" module="HTTP"> 
+		<parameter>80</parameter>
+		<testpath/>
+ 		<parameter>30000</parameter>
+ 	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept-Encoding</parameter>
+		<parameter>0</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>*/*</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>User-Agent</parameter>
+		<parameter>XTT/0.1</parameter>
+	</function>
+	
+	<!-- Log in Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<!-- Prepare the Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>REQMOD_PreventingURLClassificationBeingMissedTC003.xml</parameter>
+		<xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+	<table name="SetMobileAccelerationDefaults">
+		<selector urlPattern="http://*.bad.com/*">
+			<denyAccess reason="'Site blocked because the URL is not proper!'"/>
+		</selector>
+	</table>
+</requestModifications>
+		</xml>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>REQMOD_PreventingURLClassificationBeingMissedTC003.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<!-- Wait for the XMP's DNS Lookups -->
+	<function name="sleep" module="basic">
+		<parameter>12000</parameter>
+	</function>
+	
+	<!-- HTTP GET Requests -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.bad.com/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>null</parameter>
+		<parameter>HTTP/1.1 403 Site blocked because the URL is not proper!</parameter>
+	</function>
+	
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>
+               <parameter>http://</parameter>
+               <configuration>SYSTEM/IP</configuration>
+               <parameter>/test.html</parameter>
+            </parameter>
+        </function>
+	<!--function name="sendGetRequest" module="HTTP">
+		<parameter>http://172.20.14.12/test.html</parameter>
+	</function-->
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>null</parameter>
+		<parameter>HTTP/1.1 403 Site blocked because the URL is not proper!</parameter>
+	</function>
+	
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>
+               <parameter>http://</parameter>
+               <configuration>SYSTEM/IP</configuration>
+               <parameter>/test.html</parameter>
+            </parameter>
+        </function>
+	<!--function name="sendGetRequest" module="HTTP">
+		<parameter>http://172.20.14.12/test.html</parameter>
+	</function-->
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>null</parameter>
+		<parameter>HTTP/1.1 403 Site blocked because the URL is not proper!</parameter>
+	</function>
+	
+	<!-- Purge the Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>REQMOD_EmptyRules.xml</parameter>
+		<parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>REQMOD_EmptyRules.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<!-- Log off Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>	
+
+	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>	
+
+<function name="stopDNSServer" module="DNS"/>
+</test>

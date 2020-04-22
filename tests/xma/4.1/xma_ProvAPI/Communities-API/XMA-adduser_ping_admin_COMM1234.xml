@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:addUsers>
+      <arg0>
+        <attributes>
+          <name>FirstName</name>
+          <value>ping</value>
+        </attributes>
+        <attributes>
+          <name>LastName</name>
+          <value>pong</value>
+        </attributes>
+        <userId>100003</userId>
+      </arg0>
+      <arg1>1</arg1>
+    </tns:addUsers>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:removeUserGroupsByName>
+      <arg0>my*</arg0>
+      <arg1>1</arg1>
+    </tns:removeUserGroupsByName>
+  </soap:Body>
+</soap:Envelope>

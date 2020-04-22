@@ -1,0 +1,208 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>MMSAutoResp.TC.023</parameter>
+	</function>
+
+	<description> 
+	----------------
+Validate MMS Auto Responder Use Case [AutoReply Content is in Russian] 
+Via non-secure HTTP-IN Application receives MM1 Message and Auto response set as "application/vnd.wap.multipart.related" Content-Type (200 Kbytes) (mms.smil + text/plain + images + sounds + videos in multiple slides) 
+Application should send an Auto response to sender
+	----------------
+	</description>
+	<!-- While saving the test case file save it bt selecting UTF-8  because you used russian characters-->
+
+		<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- NEED TO CALL here WORKFLOW CONSTATNT FILE WITH UCS-2   RUSS_ AutoResponse_dynamic_config.xml -->
+
+	   <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceAutoResponder subscriberId=55101  serviceEnabled=true serviceConditional=false defaultEnabled=true alreadySent=
+        </parameter>
+    </function>
+
+    <function name="checkReturnCode" module="Remote">
+		<parameter>0</parameter>
+	</function>
+
+	<!-- Delete Message Store -->
+	<!-- <subtest>../deleteMessageStoreAll.xml</subtest> -->
+
+
+	<!-- Query the name of the active Message Store process -->
+<!-- 	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function> -->
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/AUTOREPLY/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/AUTOREPLY/SENDER/MSISDN4</configuration>
+	</function>
+
+	<!-- Set Subject  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>Its Party TimeBe There at 8 pm</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "Send body" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+	
+    <function name="waitForRequests" module="MMSC">
+        <parameter>2</parameter>
+    </function>
+
+	<function name="setVariable" module="Basic">
+			<parameter>test0</parameter>
+            <variable>MMSCSERVER/6789/0/MM7/BODY/PLAIN</variable>
+        </function>
+	
+	<function name="queryText" module="Basic">
+		<variable>test0</variable>
+		<parameter>mytest</parameter>
+		<parameter>
+		<parameter>&lt;To&gt;(.*)&lt;/To&gt;</parameter>
+		</parameter>
+	</function>
+
+		<function name="queryText" module="Basic">
+		<variable>mytest</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>0591155004</parameter>
+		</parameter>
+	</function>
+
+<!-- While saving the test case file save it bt selecting UTF-8  because you used russian characters-->
+
+	<function name="queryText" module="Basic">
+		<variable>test0</variable>
+		<parameter>dev/null</parameter>
+		<parameter>щщщ</parameter>
+	</function>
+
+<function name="setVariable" module="Basic">
+			<parameter>test1</parameter>
+            <variable>MMSCSERVER/6789/1/MM7/BODY/PLAIN</variable>
+        </function>
+
+	<function name="queryText" module="Basic">
+		<variable>test1</variable>
+		<parameter>mytest1</parameter>
+		<parameter>
+		<parameter>&lt;To&gt;(.*)&lt;/To&gt;</parameter>
+		</parameter>
+	</function>
+
+		<function name="queryText" module="Basic">
+		<variable>mytest1</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>0591155101</parameter>
+		</parameter>
+	</function>
+
+	<!-- NEED TO CALL WORKFLOW CONSTATNT FILE WITH "test"   TEXT_AutoResponse_dynamic_config.xml -->
+
+<!--     <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.Mmsx.removeAutoresponseMessage subscriberId=55101 msisdn=0591155001
+        </parameter>
+    </function>  --> 
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

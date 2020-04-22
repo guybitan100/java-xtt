@@ -1,0 +1,37 @@
+<test>
+    <description>Tool to create subscriber lists</description>
+    <function name="writeFile" module="Basic">
+        <parameter>subscribers1000.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    &lt;dbupdates&gt;
+        &lt;subscribers&gt;</parameter>
+        <parameter>false</parameter>
+    </function>
+    <loop name="toaddress" start="41751110000" stop="41751111000" step="1">
+    <function name="writeFile" module="Basic">
+        <parameter>subscribers1000.xml</parameter>
+        <parameter>
+        <parameter>
+            &lt;remove subscriber="</parameter><variable>toaddress</variable><parameter>"/&gt;
+            &lt;add subscriber="</parameter><variable>toaddress</variable><parameter>"&gt;
+                &lt;attribute name="Msisdn"      value="</parameter><variable>toaddress</variable><parameter>"/&gt;
+                &lt;attribute name="Email"       value="</parameter><variable>toaddress</variable><parameter>@xma.724.com"/&gt;
+                &lt;attribute name="Prepaid"     value="false"/&gt;
+                &lt;attribute name="UseEmail"    value="false"/&gt;
+                &lt;attribute name="MmsDisabled" value="false"/&gt;
+                &lt;attribute name="Credit"      value="0"/&gt;
+                &lt;attribute name="ExternalContentConversionDisabled" value="true"/&gt;
+            &lt;/add&gt;
+</parameter></parameter>
+        <parameter>true</parameter>
+    </function>
+    </loop>
+    <function name="writeFile" module="Basic">
+        <parameter>subscribers1000.xml</parameter>
+        <parameter>        &lt;/subscribers&gt;
+    &lt;/dbupdates&gt;</parameter>
+        <parameter>true</parameter>
+    </function>
+    
+
+</test>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:updateUserGroupsByName>
+      <arg0>myGrp_123</arg0>
+      <arg1>
+        <userGroupName>myGrp_123</userGroupName>
+      </arg1>
+      <arg2>1</arg2>
+    </tns:updateUserGroupsByName>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,833 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>NewTest - log_2012-04-16_16-12-05.html</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+<!--
+.normal{color:black;}
+.external{color:#CC0099;}
+.external:visited {color:#CC0099;}
+.external:link {color:#CC0099;}
+.external:active {color:#CC0099;}
+.external:hover{color:#CC0099;}
+.external{text-decoration:none;}
+.fail{color:red;}
+.fail:visited {color:red;}
+.fail:link {color:red;}
+.fail:active {color:red;}
+.fail:hover{color:red;}
+.fail{text-decoration:none;}
+.warn{color:#FFCC00;}
+.warn:visited {color:#FFCC00;}
+.warn:link {color:#FFCC00;}
+.warn:active {color:#FFCC00;}
+.warn:hover{color:#FFCC00;}
+.warn{text-decoration:none;}
+.info{color:green;}
+.info:visited {color:green;}
+.info:link {color:green;}
+.info:active {color:green;}
+.info:hover{color:green;}
+.info{text-decoration:none;}
+.verbose{color:#B0C4DE;}
+.debug{color:black;}
+body{background-color:white;color:black;
+-->
+</style>
+</head><body><pre><code><b>log_2012-04-16_16-12-05.html 2012-04-16 16:12:05</b><br><span class="normal">
+jump to first:  <a class="fail" href="#f0">Fail</a>, <a class="info" href="#i0">Info</a>, <a class="warn" href="#w0">Warn</a>, <a class="external" href="#e0">External</a>
+
+</span><span class="debug">D: NewTest: 16:11:54.581: Parser: Constructing Parser() of XTT Version: 2.0.0597
+</span><span class="info"><a class="info" name="i0" href="#i1">I: NewTest: 16:11:54.581: XMP Information</a>
+
+XMP version: XFW_006_M00_B270
+Interceptor version: 5.1.1-25.5
+Titanium version: 6.4.18.15
+Base plugin: mx_plugins-2.0.b8-65.r66432
+Video plugin: mx_voplugin-2.0.b8-65.r66432
+Ad plugin: 
+OS: Red Hat Enterprise Linux Server release 5.6 (Tikanga)
+Kernel version: 2.6.18-238.el5
+Hostname: pbl10
+
+</span><span class="debug">D: NewTest: 16:11:54.581: Parser: Build Date:  - Wed, 4 Apr 2012 13:44:19 IDT Tools Versions:
+  Parser       : 1.69
+  HTTPHelper   : 1.47
+  ConvertLib   : 1.62
+  XTTXML       : 1.27
+  XTTProperties: 1.115
+</span><span class="debug">D: NewTest: 16:11:54.586: com.mobixell.xtt.FunctionModule_Basic: 1.52
+</span><span class="debug">D: NewTest: 16:11:54.586: Parser(): Loaded Module: Basic 1.52
+</span><span class="debug">D: NewTest: 16:11:54.586: com.mobixell.xtt.FunctionModule_Basic.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.587: com.mobixell.xtt.FunctionModule_Content: 1.14
+</span><span class="debug">D: NewTest: 16:11:54.587: Parser(): Loaded Module: Content 1.14
+</span><span class="debug">D: NewTest: 16:11:54.587: com.mobixell.xtt.FunctionModule_DNS: 1.20
+</span><span class="debug">D: NewTest: 16:11:54.587: Parser(): Loaded Module: DNS 1.20
+</span><span class="debug">D: NewTest: 16:11:54.588: DNSServer: Excluding from Debug: yahoo.com
+</span><span class="debug">D: NewTest: 16:11:54.588: DNSServer: Excluding from Debug: ftp.google.ch
+</span><span class="debug">D: NewTest: 16:11:54.588: DNSServer: Excluding from Debug: pop3.def.com
+</span><span class="debug">D: NewTest: 16:11:54.588: DNSServer: Excluding from Debug: smtp.google.ch
+</span><span class="debug">D: NewTest: 16:11:54.588: DNSServer: Excluding from Debug: pop3.google.ch
+</span><span class="debug">D: NewTest: 16:11:54.588: com.mobixell.xtt.FunctionModule_DNS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.588: com.mobixell.xtt.FunctionModule_Diameter: 1.17
+</span><span class="debug">D: NewTest: 16:11:54.588: com.mobixell.xtt.FunctionModule_Diameter: DiameterServer: 1.6
+</span><span class="debug">D: NewTest: 16:11:54.588: com.mobixell.xtt.FunctionModule_Diameter: DiameterWorker: 1.21
+</span><span class="debug">D: NewTest: 16:11:54.588: Parser(): Loaded Module: Diameter 1.17
+</span><span class="debug">D: NewTest: 16:11:54.589: com.mobixell.xtt.FunctionModule_Diameter.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_EWS: 1.7
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_EWS: WebWorkerExtensionEWS : 1.2
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_EWS: HTTPHelper            : 1.47
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_EWS: WebServer             : 1.14
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_EWS: WebWorker             : 1.69
+</span><span class="debug">D: NewTest: 16:11:54.590: Parser(): Loaded Module: EWS 1.7
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_EWS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_HTTP: 1.65
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_HTTP: HTTPHelper: 1.47
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_HTTP: WebServer : 1.14
+</span><span class="debug">D: NewTest: 16:11:54.590: com.mobixell.xtt.FunctionModule_HTTP: WebWorker : 1.69
+</span><span class="debug">D: NewTest: 16:11:54.590: Parser(): Loaded Module: HTTP 1.65
+</span><span class="debug">D: NewTest: 16:11:54.591: Property 'HTTP/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.591: com.mobixell.xtt.HTTPConnection: HTTP:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:11:54.591: Property 'HTTP/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.591: Property 'HTTP/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.592: Property 'HTTP/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.592: Property 'HTTP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.592: Property 'HTTP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.592: com.mobixell.xtt.HTTPConnection: HTTP:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.593: com.mobixell.xtt.FunctionModule_HTTP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.593: com.mobixell.xtt.FunctionModule_ICAP: 1.8
+</span><span class="debug">D: NewTest: 16:11:54.593: com.mobixell.xtt.FunctionModule_ICAP: ICAPServer: 1.4
+</span><span class="debug">D: NewTest: 16:11:54.593: com.mobixell.xtt.FunctionModule_ICAP: ICAPWorker: 1.12
+</span><span class="debug">D: NewTest: 16:11:54.593: Parser(): Loaded Module: ICAP 1.8
+</span><span class="debug">D: NewTest: 16:11:54.594: Property 'ICAPSERVER/OPTIONS/DISABLEFULLSTREAMING' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.594: Property 'ICAPSERVER/OPTIONS/ENABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.594: com.mobixell.xtt.FunctionModule_ICAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.594: com.mobixell.xtt.FunctionModule_IMAP: 1.15
+</span><span class="debug">D: NewTest: 16:11:54.594: com.mobixell.xtt.FunctionModule_IMAP: IMAPServer: 1.2
+</span><span class="debug">D: NewTest: 16:11:54.594: com.mobixell.xtt.FunctionModule_IMAP: IMAPWorker: 1.1
+</span><span class="debug">D: NewTest: 16:11:54.594: Parser(): Loaded Module: IMAP 1.15
+</span><span class="debug">D: NewTest: 16:11:54.594: com.mobixell.xtt.FunctionModule_IMAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.594: com.mobixell.xtt.AbstractFunctionModule_Jacorb: 1.5
+</span><span class="debug">D: NewTest: 16:11:54.595: org.jacorb.naming.NameServer: 1.4
+</span><span class="debug">D: NewTest: 16:11:54.595: com.mobixell.xtt.FunctionModule_JacorbTest: 1.6
+</span><span class="debug">D: NewTest: 16:11:54.595: Parser(): Loaded Module: JacorbTest 1.6
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_JacorbTest.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_LDAP: 1.9
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_LDAP: LDAPServer: 1.9
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_LDAP: LDAPWorker: 1.10
+</span><span class="debug">D: NewTest: 16:11:54.597: Parser(): Loaded Module: LDAP 1.9
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_LDAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_MMSC: 1.21
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_MMSC: MMSCServer: 1.8
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_MMSC: MMSCWorker: 1.32
+</span><span class="debug">D: NewTest: 16:11:54.597: Parser(): Loaded Module: MMSC 1.21
+</span><span class="debug">D: NewTest: 16:11:54.597: com.mobixell.xtt.FunctionModule_MMSC.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.598: com.mobixell.xtt.FunctionModule_MSRP: 1.15
+</span><span class="debug">D: NewTest: 16:11:54.598: Parser(): Loaded Module: MSRP 1.15
+</span><span class="debug">D: NewTest: 16:11:54.598: Property 'MSRP/ENABLECERTCHECK' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.599: Property 'MSRP/DISABLEAUTOMATICTRANSACTIONID' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.599: com.mobixell.xtt.MSRPConnection: MSRP:null: Disabling automatic TransactionId generation
+</span><span class="debug">D: NewTest: 16:11:54.599: Property 'MSRP/ENABLECHUNKING' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.599: Property 'MSRP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.599: Property 'MSRP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.599: com.mobixell.xtt.MSRPConnection: MSRP:null: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.600: com.mobixell.xtt.FunctionModule_MSRP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.600: com.mobixell.xtt.FunctionModule_Multipart: 1.2
+</span><span class="debug">D: NewTest: 16:11:54.600: Parser(): Loaded Module: Multipart 1.2
+</span><span class="debug">D: NewTest: 16:11:54.600: com.mobixell.xtt.FunctionModule_Multipart.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.600: com.mobixell.xtt.FunctionModule_Proxy: 1.14
+</span><span class="debug">D: NewTest: 16:11:54.600: com.mobixell.xtt.FunctionModule_Proxy: ProxyServer: 1.3
+</span><span class="debug">D: NewTest: 16:11:54.600: com.mobixell.xtt.FunctionModule_Proxy: ProxyWorker: 1.12
+</span><span class="debug">D: NewTest: 16:11:54.600: Parser(): Loaded Module: Proxy 1.14
+</span><span class="debug">D: NewTest: 16:11:54.600: com.mobixell.xtt.FunctionModule_Push: 1.19
+</span><span class="debug">D: NewTest: 16:11:54.600: Parser(): Loaded Module: Push 1.19
+</span><span class="debug">D: NewTest: 16:11:54.600: Property 'PUSH/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.600: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="verbose">V: NewTest: 16:11:54.600: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: Enabling URL contraction
+</span><span class="debug">D: NewTest: 16:11:54.601: Property 'PUSH/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.601: Property 'PUSH/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.601: Property 'PUSH/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.601: Property 'PUSH/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.601: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.602: com.mobixell.xtt.FunctionModule_Push.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.602: com.mobixell.xtt.FunctionModule_RTSP: 1.7
+</span><span class="debug">D: NewTest: 16:11:54.602: com.mobixell.xtt.FunctionModule_RTSP: RTSPServer: 1.6
+</span><span class="debug">D: NewTest: 16:11:54.602: com.mobixell.xtt.FunctionModule_RTSP: RTSPWorker: 1.7
+</span><span class="debug">D: NewTest: 16:11:54.602: Parser(): Loaded Module: RTSP 1.7
+</span><span class="debug">D: NewTest: 16:11:54.603: Property 'RTSP/DISABLEAUTOMATICCSEQ' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.603: Property 'RTSP/DISABLEDATE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.604: Property 'RTSPSERVER/DISABLERESPONSE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.604: Property 'RTSPSERVER/DISABLEAUTOSESSIONID' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.604: com.mobixell.xtt.FunctionModule_RTSP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.604: com.mobixell.xtt.FunctionModule_Radius: 1.15
+</span><span class="debug">D: NewTest: 16:11:54.605: com.mobixell.xtt.FunctionModule_Radius: RadiusServer: 1.6
+</span><span class="debug">D: NewTest: 16:11:54.605: com.mobixell.xtt.FunctionModule_Radius: RadiusWorker: 1.5
+</span><span class="debug">D: NewTest: 16:11:54.605: Parser(): Loaded Module: Radius 1.15
+</span><span class="verbose">V: NewTest: 16:11:54.606: com.mobixell.xtt.FunctionModule_Radius: setting radius host: 192.168.1.216:1813
+</span><span class="verbose">V: NewTest: 16:11:54.609: com.mobixell.xtt.FunctionModule_Radius: radius initialized
+</span><span class="debug">D: NewTest: 16:11:54.609: com.mobixell.xtt.FunctionModule_Radius.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.609: com.mobixell.xtt.FunctionModule_Remote: 1.59
+</span><span class="debug">D: NewTest: 16:11:54.611: com.mobixell.xtt.FunctionModule_Remote.initialize(): Using generic configuration
+</span><span class="debug">D: NewTest: 16:11:54.611: Property 'remote/xmsSuffix' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.612: Property 'remote/xmsPrefix' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.612: Property 'remote/shell' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.612: Parser(): Loaded Module: Remote 1.59
+</span><span class="debug">D: NewTest: 16:11:54.614: com.mobixell.xtt.FunctionModule_Remote.initialize(): Using generic configuration
+</span><span class="debug">D: NewTest: 16:11:54.615: Property 'remote/xmsSuffix' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.615: Property 'remote/xmsPrefix' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.616: Property 'remote/shell' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.616: com.mobixell.xtt.FunctionModule_SIP: 1.15
+</span><span class="debug">D: NewTest: 16:11:54.616: com.mobixell.xtt.FunctionModule_SIP: SIPServer: 1.14
+</span><span class="debug">D: NewTest: 16:11:54.616: com.mobixell.xtt.FunctionModule_SIP: SIPWorker: 1.25
+</span><span class="debug">D: NewTest: 16:11:54.616: Parser(): Loaded Module: SIP 1.15
+</span><span class="debug">D: NewTest: 16:11:54.617: Property 'SIPSERVER/DISABLERESPONSE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.618: Property 'SIPSERVER/DISABLEAUTONOTIFY' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.618: com.mobixell.xtt.FunctionModule_SIP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.618: com.mobixell.xtt.AbstractFunctionModule_Jacorb: 1.5
+</span><span class="debug">D: NewTest: 16:11:54.618: org.jacorb.naming.NameServer: 1.4
+</span><span class="debug">D: NewTest: 16:11:54.618: com.mobixell.xtt.FunctionModule_SIS: 1.9
+</span><span class="debug">D: NewTest: 16:11:54.618: Parser(): Loaded Module: SIS 1.9
+</span><span class="debug">D: NewTest: 16:11:54.620: com.mobixell.xtt.FunctionModule_SIS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.620: com.mobixell.xtt.FunctionModule_SMPP: 1.12
+</span><span class="debug">D: NewTest: 16:11:54.620: Parser(): Loaded Module: SMPP 1.12
+</span><span class="debug">D: NewTest: 16:11:54.620: com.mobixell.xtt.FunctionModule_SMPP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.621: Property 'SMSCSERVER/SMPPREADTIMEOUT' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.621: com.mobixell.xtt.FunctionModule_SMS: 1.64
+</span><span class="debug">D: NewTest: 16:11:54.621: com.mobixell.xtt.FunctionModule_SMS: SMSCServer: 1.15
+</span><span class="debug">D: NewTest: 16:11:54.621: com.mobixell.xtt.FunctionModule_SMS: SMPPWorker: 1.28
+</span><span class="debug">D: NewTest: 16:11:54.621: com.mobixell.xtt.FunctionModule_SMS: UCPWorker : 1.35
+</span><span class="debug">D: NewTest: 16:11:54.621: com.mobixell.xtt.FunctionModule_SMS: CIMDWorker: 1.6
+</span><span class="debug">D: NewTest: 16:11:54.621: Parser(): Loaded Module: SMS 1.64
+</span><span class="debug">D: NewTest: 16:11:54.621: com.mobixell.xtt.FunctionModule_SMS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.621: Property 'SMSCSERVER/STARTONLOAD' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.622: com.mobixell.xtt.FunctionModule_SMTP: 1.21
+</span><span class="debug">D: NewTest: 16:11:54.622: com.mobixell.xtt.FunctionModule_SMTP: SMTPServer: 1.7
+</span><span class="debug">D: NewTest: 16:11:54.622: com.mobixell.xtt.FunctionModule_SMTP: SMTPWorker: 1.20
+</span><span class="debug">D: NewTest: 16:11:54.622: Parser(): Loaded Module: SMTP 1.21
+</span><span class="debug">D: NewTest: 16:11:54.622: com.mobixell.xtt.FunctionModule_SMTP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.622: com.mobixell.xtt.FunctionModule_SNMP: 1.14
+</span><span class="debug">D: NewTest: 16:11:54.623: Property 'snmp/showalltraps' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.623: Parser(): Loaded Module: SNMP 1.14
+</span><span class="debug">D: NewTest: 16:11:54.623: com.mobixell.xtt.FunctionModule_SOAP_API: 1.14
+</span><span class="debug">D: NewTest: 16:11:54.623: Parser(): Loaded Module: SOAP_API 1.14
+</span><span class="debug">D: NewTest: 16:11:54.624: Property 'SOAP_API/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.624: com.mobixell.xtt.HTTPConnection: SOAP_API:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:11:54.624: Property 'SOAP_API/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.624: Property 'SOAP_API/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.625: Property 'SOAP_API/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.625: Property 'SOAP_API/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.626: Property 'SOAP_API/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.626: com.mobixell.xtt.HTTPConnection: SOAP_API:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.626: com.mobixell.xtt.FunctionModule_SOAP_API.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_SQL: 1.5
+</span><span class="debug">D: NewTest: 16:11:54.627: Parser(): Loaded Module: SQL 1.5
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_SQL.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_STI: 1.14
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_STI: STIServer: 1.9
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_STI: STIWorker: 1.22
+</span><span class="debug">D: NewTest: 16:11:54.627: Parser(): Loaded Module: STI 1.14
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_STI.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_Semaphore: 1.3
+</span><span class="debug">D: NewTest: 16:11:54.627: Parser(): Loaded Module: Semaphore 1.3
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_Semaphore.initialize(): initialized.
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_TCP: 1.20
+</span><span class="debug">D: NewTest: 16:11:54.627: Parser(): Loaded Module: TCP 1.20
+</span><span class="debug">D: NewTest: 16:11:54.627: com.mobixell.xtt.FunctionModule_TCP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.628: com.mobixell.xtt.FunctionModule_Throttle: 1.3
+</span><span class="debug">D: NewTest: 16:11:54.628: Parser(): Loaded Module: Throttle 1.3
+</span><span class="debug">D: NewTest: 16:11:54.628: com.mobixell.xtt.FunctionModule_Throttle.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.628: com.mobixell.xtt.FunctionModule_UCP: 1.14
+</span><span class="debug">D: NewTest: 16:11:54.628: Parser(): Loaded Module: UCP 1.14
+</span><span class="debug">D: NewTest: 16:11:54.628: com.mobixell.xtt.FunctionModule_UCP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.629: com.mobixell.xtt.FunctionModule_UDP: 1.13
+</span><span class="debug">D: NewTest: 16:11:54.629: Parser(): Loaded Module: UDP 1.13
+</span><span class="debug">D: NewTest: 16:11:54.629: com.mobixell.xtt.FunctionModule_UDP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.629: com.mobixell.xtt.FunctionModule_VASP: 1.27
+</span><span class="debug">D: NewTest: 16:11:54.629: Parser(): Loaded Module: VASP 1.27
+</span><span class="debug">D: NewTest: 16:11:54.629: com.mobixell.xtt.FunctionModule_VASP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.629: Property 'VASP/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.629: com.mobixell.xtt.HTTPConnection: VASP:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:11:54.630: Property 'VASP/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.630: Property 'VASP/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.630: Property 'VASP/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.631: Property 'VASP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.631: Property 'VASP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.631: com.mobixell.xtt.HTTPConnection: VASP:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.632: com.mobixell.xtt.FunctionModule_WAP: 1.11
+</span><span class="debug">D: NewTest: 16:11:54.632: Parser(): Loaded Module: WAP 1.11
+</span><span class="debug">D: NewTest: 16:11:54.632: com.mobixell.xtt.FunctionModule_WAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.632: com.mobixell.xtt.FunctionModule_XML: 1.24
+</span><span class="debug">D: NewTest: 16:11:54.632: Parser(): Loaded Module: XML 1.24
+</span><span class="debug">D: NewTest: 16:11:54.632: com.mobixell.xtt.FunctionModule_XML.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.633: Property 'XML/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.633: com.mobixell.xtt.HTTPConnection: XML:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:11:54.633: Property 'XML/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.633: Property 'XML/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.633: Property 'XML/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.633: Property 'XML/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.634: Property 'XML/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.634: com.mobixell.xtt.HTTPConnection: XML:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.634: com.mobixell.xtt.FunctionModule_XTT: 1.22
+</span><span class="debug">D: NewTest: 16:11:54.634: Parser(): Loaded Module: XTT 1.22
+</span><span class="debug">D: NewTest: 16:11:54.634: com.mobixell.xtt.FunctionModule_XTT.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.634: Starting Test: C:\automation\xtt\tests\XMP\NewTest.xml
+</span><span class="debug">D: NewTest: 16:11:54.634: com.mobixell.xtt.Parser.runTest(): [Document:  No DOCTYPE declaration, Root is [Element: &lt;test/&gt;]]
+</span><span class="debug">D: NewTest: 16:11:54.634: com.mobixell.xtt.FunctionModule_Basic.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.635: DNSServer: Excluding from Debug: yahoo.com
+</span><span class="debug">D: NewTest: 16:11:54.635: DNSServer: Excluding from Debug: ftp.google.ch
+</span><span class="debug">D: NewTest: 16:11:54.635: DNSServer: Excluding from Debug: pop3.def.com
+</span><span class="debug">D: NewTest: 16:11:54.635: DNSServer: Excluding from Debug: smtp.google.ch
+</span><span class="debug">D: NewTest: 16:11:54.635: DNSServer: Excluding from Debug: pop3.google.ch
+</span><span class="debug">D: NewTest: 16:11:54.635: com.mobixell.xtt.FunctionModule_DNS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.635: com.mobixell.xtt.FunctionModule_Diameter.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.635: com.mobixell.xtt.FunctionModule_EWS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.635: Property 'HTTP/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.635: com.mobixell.xtt.HTTPConnection: HTTP:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:11:54.635: Property 'HTTP/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.636: Property 'HTTP/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.636: Property 'HTTP/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.636: Property 'HTTP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.636: Property 'HTTP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.636: com.mobixell.xtt.HTTPConnection: HTTP:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.637: com.mobixell.xtt.FunctionModule_HTTP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.637: Property 'ICAPSERVER/OPTIONS/DISABLEFULLSTREAMING' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.638: Property 'ICAPSERVER/OPTIONS/ENABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.638: com.mobixell.xtt.FunctionModule_ICAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.638: com.mobixell.xtt.FunctionModule_IMAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.641: com.mobixell.xtt.FunctionModule_JacorbTest.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.641: com.mobixell.xtt.FunctionModule_LDAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.642: com.mobixell.xtt.FunctionModule_MMSC.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.643: Property 'MSRP/ENABLECERTCHECK' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.643: Property 'MSRP/DISABLEAUTOMATICTRANSACTIONID' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.643: com.mobixell.xtt.MSRPConnection: MSRP:null: Disabling automatic TransactionId generation
+</span><span class="debug">D: NewTest: 16:11:54.644: Property 'MSRP/ENABLECHUNKING' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.644: Property 'MSRP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.644: Property 'MSRP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.645: com.mobixell.xtt.MSRPConnection: MSRP:null: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.645: com.mobixell.xtt.FunctionModule_MSRP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.645: com.mobixell.xtt.FunctionModule_Multipart.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.645: Property 'PUSH/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.645: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="verbose">V: NewTest: 16:11:54.646: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: Enabling URL contraction
+</span><span class="debug">D: NewTest: 16:11:54.646: Property 'PUSH/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.646: Property 'PUSH/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.647: Property 'PUSH/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.648: Property 'PUSH/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.648: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.648: com.mobixell.xtt.FunctionModule_Push.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.650: Property 'RTSP/DISABLEAUTOMATICCSEQ' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.650: Property 'RTSP/DISABLEDATE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.650: Property 'RTSPSERVER/DISABLERESPONSE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.650: Property 'RTSPSERVER/DISABLEAUTOSESSIONID' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.650: com.mobixell.xtt.FunctionModule_RTSP.initialize(): clearing variables
+</span><span class="verbose">V: NewTest: 16:11:54.651: com.mobixell.xtt.FunctionModule_Radius: setting radius host: 192.168.1.216:1813
+</span><span class="verbose">V: NewTest: 16:11:54.653: com.mobixell.xtt.FunctionModule_Radius: radius initialized
+</span><span class="debug">D: NewTest: 16:11:54.653: com.mobixell.xtt.FunctionModule_Radius.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.654: com.mobixell.xtt.FunctionModule_Remote.initialize(): Using generic configuration
+</span><span class="debug">D: NewTest: 16:11:54.654: Property 'remote/xmsSuffix' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.655: Property 'remote/xmsPrefix' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.655: Property 'remote/shell' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.656: Property 'SIPSERVER/DISABLERESPONSE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.656: Property 'SIPSERVER/DISABLEAUTONOTIFY' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.656: com.mobixell.xtt.FunctionModule_SIP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.658: com.mobixell.xtt.FunctionModule_SIS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.658: com.mobixell.xtt.FunctionModule_SMPP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.658: Property 'SMSCSERVER/SMPPREADTIMEOUT' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.658: com.mobixell.xtt.FunctionModule_SMS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.659: Property 'SMSCSERVER/STARTONLOAD' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.659: com.mobixell.xtt.FunctionModule_SMTP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.659: Property 'SOAP_API/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.659: com.mobixell.xtt.HTTPConnection: SOAP_API:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:11:54.659: Property 'SOAP_API/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.660: Property 'SOAP_API/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.660: Property 'SOAP_API/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.660: Property 'SOAP_API/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.660: Property 'SOAP_API/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.660: com.mobixell.xtt.HTTPConnection: SOAP_API:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.660: com.mobixell.xtt.FunctionModule_SOAP_API.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.661: com.mobixell.xtt.FunctionModule_SQL.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.661: com.mobixell.xtt.FunctionModule_STI.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.661: com.mobixell.xtt.FunctionModule_Semaphore.initialize(): initialized.
+</span><span class="debug">D: NewTest: 16:11:54.661: com.mobixell.xtt.FunctionModule_TCP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.661: com.mobixell.xtt.FunctionModule_Throttle.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.661: com.mobixell.xtt.FunctionModule_UCP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.661: com.mobixell.xtt.FunctionModule_UDP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.661: com.mobixell.xtt.FunctionModule_VASP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.662: Property 'VASP/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.662: com.mobixell.xtt.HTTPConnection: VASP:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:11:54.662: Property 'VASP/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.663: Property 'VASP/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.663: Property 'VASP/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.665: Property 'VASP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.666: Property 'VASP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.666: com.mobixell.xtt.HTTPConnection: VASP:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.667: com.mobixell.xtt.FunctionModule_WAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.667: com.mobixell.xtt.FunctionModule_XML.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:11:54.668: Property 'XML/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.668: com.mobixell.xtt.HTTPConnection: XML:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:11:54.668: Property 'XML/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.668: Property 'XML/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.668: Property 'XML/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.669: Property 'XML/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:11:54.669: Property 'XML/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:11:54.669: com.mobixell.xtt.HTTPConnection: XML:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:11:54.669: com.mobixell.xtt.FunctionModule_XTT.initialize(): clearing variables
+</span><span class="verbose">V: NewTest: 16:11:54.690: Parser: setting Name to: NewTest
+</span><span class="debug">D: NewTest: 16:11:54.690: Can't set Test Name; Name already set
+</span><span class="external"><a class="external" name="e0" href="#e1">E: NewTest: 16:11:54.690: Description:</a>
+
+???
+
+</span><span class="external"><a class="external" name="e1" href="#e2">E: NewTest: 16:11:54.994: Parser.runTest: [Step (1) HTTP/startWebServer] FunctionModule 'HTTP' found: startWebServer: [Start]</a>
+</span><span class="verbose">V: NewTest: 16:11:54.994: startWebServer: Starting non-secure Web Server
+</span><span class="debug">D: NewTest: 16:11:54.994: Property 'WEBSERVER/IP' wasn't found
+</span><span class="info"><a class="info" name="i1" href="#i2">I: NewTest: 16:11:54.996: WebServer: listening on ip: 10.0.1.185 port: 80 dir:webroot timout:30000 secure:false</a>
+</span><span class="debug">D: NewTest: 16:11:54.996: startWebServer: Started non-secure Web Server
+</span><span class="external"><a class="external" name="e2" href="#e3">E: NewTest: 16:11:54.996: Parser.runTest: [Step (1) HTTP/startWebServer] FunctionModule 'HTTP' found: startWebServer: [Stop]</a>
+</span><span class="external"><a class="external" name="e3" href="#e4">E: NewTest: 16:11:55.307: Parser.runTest: [Step (2) HTTP/sendGetRequestLimited] FunctionModule 'HTTP' found: sendGetRequestLimited: [Start]</a>
+</span><span class="debug">D: NewTest: 16:11:55.307: sendGetRequestLimited(HTTP): The url 127.0.0.1 didnt exist in the local dns entry
+</span><span class="info"><a class="info" name="i2" href="#i3">I: NewTest: 16:11:55.307: sendGetRequestLimited(HTTP): proxy=false download: http://127.0.0.1/videos/Titanium.flv</a>
+</span><span class="debug">D: NewTest: 16:11:55.308: WebServer: connection request received
+</span><span class="debug">D: NewTest: 16:11:55.308: sendGetRequestLimited(HTTP): written Headers:
+GET http://127.0.0.1/videos/Titanium.flv HTTP/1.1
+host: 127.0.0.1
+date: Mon, 16 Apr 2012 13:11:55 GMT
+connection: keep-alive
+accept: text/html, image/gif, image/jpeg, image/png, *; q=.2, */*; q=.2
+user-agent: XTT/2.0.0597 (testing; Java/20.4-b02; Windows 7 amd64 6.1; guyb; HTTP; $Revision: 1.20 $)
+
+
+</span><span class="debug">D: NewTest: 16:11:55.308: sendGetRequestLimited(HTTP): reading Headers
+</span><span class="debug">D: NewTest: 16:11:55.308: WebServer(80): starting new WebWorker: id 0
+</span><span class="debug">D: NewTest: 16:11:55.308: WebWorker(80/0): New Client handled by 0 instance 1
+</span><span class="debug">D: NewTest: 16:11:55.309: com.mobixell.xtt.WebWorker(0): Client connected - receiving from /127.0.0.1:49278
+</span><span class="debug">D: NewTest: 16:11:55.309: WebWorker(80/0): reading Headers
+</span><span class="debug">D: NewTest: 16:11:55.309: WebWorker(80/0): Received Header START:
+GET http://127.0.0.1/videos/Titanium.flv HTTP/1.1
+host: 127.0.0.1
+date: Mon, 16 Apr 2012 13:11:55 GMT
+connection: keep-alive
+accept: text/html, image/gif, image/jpeg, image/png, *; q=.2, */*; q=.2
+user-agent: XTT/2.0.0597 (testing; Java/20.4-b02; Windows 7 amd64 6.1; guyb; HTTP; $Revision: 1.20 $)
+
+</span><span class="debug">D: NewTest: 16:11:55.309: WebWorker(80/0): Decoding:
+  host -&gt; [127.0.0.1]
+  date -&gt; [Mon, 16 Apr 2012 13:11:55 GMT]
+  connection -&gt; [keep-alive]
+  accept -&gt; [text/html, image/gif, image/jpeg, image/png, *; q=.2, */*; q=.2]
+  user-agent -&gt; [XTT/2.0.0597 (testing; Java/20.4-b02; Windows 7 amd64 6.1; guyb; HTTP; $Revision: 1.20 $)]
+   -&gt; [] (end of headers pattern='^$')
+T: NewTest: 16:11:55.309: WEBSERVER/HTTP/GET,http://127.0.0.1/videos/Titanium.flv
+</span><span class="debug">D: NewTest: 16:11:55.309: WebWorker(80/0): Method is GET
+</span><span class="debug">D: NewTest: 16:11:55.309: WebWorker(80/0): fileName=http://127.0.0.1/videos/Titanium.flv
+</span><span class="debug">D: NewTest: 16:11:55.309: WebWorker(80/0): protocol=HTTP/1.1 - Keep-Alive set to true
+</span><span class="debug">D: NewTest: 16:11:55.310: WebWorker(80/0): sendFile source: DISK
+</span><span class="debug">D: NewTest: 16:11:55.329: sendGetRequestLimited(HTTP): Received Header START:
+HTTP/1.1 200 OK
+server: XTT JAVA WebServer $Revision: 1.69 $
+date: Mon, 16 Apr 2012 13:11:55 GMT
+content-length: 17375679
+content-type: unknown/unknown
+
+</span><span class="debug">D: NewTest: 16:11:55.329: sendGetRequestLimited(HTTP): Decoding:
+  server -&gt; [XTT JAVA WebServer $Revision: 1.69 $]
+  date -&gt; [Mon, 16 Apr 2012 13:11:55 GMT]
+  content-length -&gt; [17375679]
+  content-type -&gt; [unknown/unknown]
+   -&gt; [] (end of headers pattern='^$')
+</span><span class="debug">D: NewTest: 16:11:55.329: sendGetRequestLimited(HTTP): headers stored:
+  HTTP/HEADER/
+  HTTP/DEFAULT/HEADER/
+</span><span class="verbose">V: NewTest: 16:11:55.329: sendGetRequestLimited(HTTP): clength:17375679 length:17375679
+</span><span class="verbose">V: NewTest: 16:11:55.331: sendGetRequestLimited(HTTP): downloading BODY: 17375679 Bytes
+</span><span class="debug">D: NewTest: 16:12:05.149: com.mobixell.xtt.FunctionModule_Basic.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.149: DNSServer: Excluding from Debug: yahoo.com
+</span><span class="debug">D: NewTest: 16:12:05.149: DNSServer: Excluding from Debug: ftp.google.ch
+</span><span class="debug">D: NewTest: 16:12:05.149: DNSServer: Excluding from Debug: pop3.def.com
+</span><span class="debug">D: NewTest: 16:12:05.149: DNSServer: Excluding from Debug: smtp.google.ch
+</span><span class="debug">D: NewTest: 16:12:05.149: DNSServer: Excluding from Debug: pop3.google.ch
+</span><span class="debug">D: NewTest: 16:12:05.150: com.mobixell.xtt.FunctionModule_DNS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.150: com.mobixell.xtt.FunctionModule_Diameter.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.150: com.mobixell.xtt.FunctionModule_EWS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.150: Property 'HTTP/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.150: com.mobixell.xtt.HTTPConnection: HTTP:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:12:05.150: Property 'HTTP/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.151: Property 'HTTP/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.151: Property 'HTTP/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.151: Property 'HTTP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.151: Property 'HTTP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.151: com.mobixell.xtt.HTTPConnection: HTTP:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:12:05.152: com.mobixell.xtt.FunctionModule_HTTP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.152: Property 'ICAPSERVER/OPTIONS/DISABLEFULLSTREAMING' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.152: Property 'ICAPSERVER/OPTIONS/ENABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.152: com.mobixell.xtt.FunctionModule_ICAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.153: com.mobixell.xtt.FunctionModule_IMAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.154: com.mobixell.xtt.FunctionModule_JacorbTest.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.154: com.mobixell.xtt.FunctionModule_LDAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.155: com.mobixell.xtt.FunctionModule_MMSC.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.155: Property 'MSRP/ENABLECERTCHECK' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.155: Property 'MSRP/DISABLEAUTOMATICTRANSACTIONID' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.155: com.mobixell.xtt.MSRPConnection: MSRP:null: Disabling automatic TransactionId generation
+</span><span class="debug">D: NewTest: 16:12:05.156: Property 'MSRP/ENABLECHUNKING' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.156: Property 'MSRP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.156: Property 'MSRP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.156: com.mobixell.xtt.MSRPConnection: MSRP:null: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:12:05.156: com.mobixell.xtt.FunctionModule_MSRP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.156: com.mobixell.xtt.FunctionModule_Multipart.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.156: Property 'PUSH/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.156: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="verbose">V: NewTest: 16:12:05.156: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: Enabling URL contraction
+</span><span class="debug">D: NewTest: 16:12:05.157: Property 'PUSH/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.157: Property 'PUSH/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.157: Property 'PUSH/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.157: Property 'PUSH/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.157: com.mobixell.xtt.HTTPConnection: PUSH:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:12:05.158: com.mobixell.xtt.FunctionModule_Push.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.158: Property 'RTSP/DISABLEAUTOMATICCSEQ' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.158: Property 'RTSP/DISABLEDATE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.159: Property 'RTSPSERVER/DISABLERESPONSE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.159: Property 'RTSPSERVER/DISABLEAUTOSESSIONID' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.159: com.mobixell.xtt.FunctionModule_RTSP.initialize(): clearing variables
+</span><span class="verbose">V: NewTest: 16:12:05.160: com.mobixell.xtt.FunctionModule_Radius: setting radius host: 192.168.1.216:1813
+</span><span class="verbose">V: NewTest: 16:12:05.165: com.mobixell.xtt.FunctionModule_Radius: radius initialized
+</span><span class="debug">D: NewTest: 16:12:05.165: com.mobixell.xtt.FunctionModule_Radius.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.167: com.mobixell.xtt.FunctionModule_Remote.initialize(): Using generic configuration
+</span><span class="debug">D: NewTest: 16:12:05.168: Property 'remote/xmsSuffix' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.169: Property 'remote/xmsPrefix' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.169: Property 'remote/shell' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.171: Property 'SIPSERVER/DISABLERESPONSE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.171: Property 'SIPSERVER/DISABLEAUTONOTIFY' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.171: com.mobixell.xtt.FunctionModule_SIP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.174: com.mobixell.xtt.FunctionModule_SIS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.174: com.mobixell.xtt.FunctionModule_SMPP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.175: Property 'SMSCSERVER/SMPPREADTIMEOUT' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.175: com.mobixell.xtt.FunctionModule_SMS.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.176: Property 'SMSCSERVER/STARTONLOAD' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.176: com.mobixell.xtt.FunctionModule_SMTP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.176: Property 'SOAP_API/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.176: com.mobixell.xtt.HTTPConnection: SOAP_API:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:12:05.176: Property 'SOAP_API/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.177: Property 'SOAP_API/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.177: Property 'SOAP_API/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.177: Property 'SOAP_API/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.178: Property 'SOAP_API/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.178: com.mobixell.xtt.HTTPConnection: SOAP_API:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:12:05.178: com.mobixell.xtt.FunctionModule_SOAP_API.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.178: com.mobixell.xtt.FunctionModule_SQL.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.178: com.mobixell.xtt.FunctionModule_STI.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.178: com.mobixell.xtt.FunctionModule_Semaphore.initialize(): initialized.
+</span><span class="debug">D: NewTest: 16:12:05.178: com.mobixell.xtt.FunctionModule_TCP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.179: com.mobixell.xtt.FunctionModule_Throttle.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.179: com.mobixell.xtt.FunctionModule_UCP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.179: com.mobixell.xtt.FunctionModule_UDP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.179: com.mobixell.xtt.FunctionModule_VASP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.179: Property 'VASP/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.179: com.mobixell.xtt.HTTPConnection: VASP:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:12:05.179: Property 'VASP/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.180: Property 'VASP/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.180: Property 'VASP/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.180: Property 'VASP/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.180: Property 'VASP/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.180: com.mobixell.xtt.HTTPConnection: VASP:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:12:05.182: com.mobixell.xtt.FunctionModule_WAP.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.182: com.mobixell.xtt.FunctionModule_XML.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.182: Property 'XML/ENABLECERTCHECK' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.182: com.mobixell.xtt.HTTPConnection: XML:DEFAULT: Disabling Java default Certificate Trust Manager
+</span><span class="debug">D: NewTest: 16:12:05.182: Property 'XML/ENABLEURLCONTRACTION' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.183: Property 'XML/DISABLEKEEPALIVE' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.183: Property 'XML/DISABLEFOLLOWREDIRECTS' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.183: Property 'XML/PROXYIP' wasn't found
+</span><span class="debug">D: NewTest: 16:12:05.183: Property 'XML/PROXYPORT' wasn't found
+</span><span class="verbose">V: NewTest: 16:12:05.183: com.mobixell.xtt.HTTPConnection: XML:DEFAULT: no proxy set, direct mode
+</span><span class="debug">D: NewTest: 16:12:05.184: com.mobixell.xtt.FunctionModule_XTT.initialize(): clearing variables
+</span><span class="debug">D: NewTest: 16:12:05.526: WebWorker(80/0): Body written to stream 17375679 bytes
+</span><span class="verbose">V: NewTest: 16:12:05.526: WebWorker(80/0): sent response START:
+HTTP/1.1 200 OK
+server: XTT JAVA WebServer $Revision: 1.69 $
+date: Mon, 16 Apr 2012 13:11:55 GMT
+content-length: 17375679
+content-type: unknown/unknown
+
+Input    | Numerical ASCII Values          | HEX ASCII Values
+FLV..... | 070 076 086 001 005 000 000 000 | 46 4C 56 01 05 00 00 00 
+........ | 009 000 000 000 000 018 000 003 | 09 00 00 00 00 12 00 03 
+K....... | 075 000 000 000 000 000 000 000 | 4B 00 00 00 00 00 00 00 
+...onMet | 002 000 010 111 110 077 101 116 | 02 00 0A 6F 6E 4D 65 74 
+aData... | 097 068 097 116 097 008 000 000 | 61 44 61 74 61 08 00 00 
+....dura | 000 015 000 008 100 117 114 097 | 00 0F 00 08 64 75 72 61 
+tion.@n. | 116 105 111 110 000 064 110 166 | 74 69 6F 6E 00 40 6E A6 
+fffff..s | 102 102 102 102 102 000 009 115 | 66 66 66 66 66 00 09 73 
+tarttime | 116 097 114 116 116 105 109 101 | 74 61 72 74 74 69 6D 65 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+...total | 000 000 013 116 111 116 097 108 | 00 00 0D 74 6F 74 61 6C 
+duration | 100 117 114 097 116 105 111 110 | 64 75 72 61 74 69 6F 6E 
+.@n.ffff | 000 064 110 166 102 102 102 102 | 00 40 6E A6 66 66 66 66 
+f..width | 102 000 005 119 105 100 116 104 | 66 00 05 77 69 64 74 68 
+.@...... | 000 064 132 000 000 000 000 000 | 00 40 84 00 00 00 00 00 
+...heigh | 000 000 006 104 101 105 103 104 | 00 00 06 68 65 69 67 68 
+t.@v.... | 116 000 064 118 128 000 000 000 | 74 00 40 76 80 00 00 00 
+....vide | 000 000 000 013 118 105 100 101 | 00 00 00 0D 76 69 64 65 
+odatarat | 111 100 097 116 097 114 097 116 | 6F 64 61 74 61 72 61 74 
+e.@z...x | 101 000 064 122 226 151 199 120 | 65 00 40 7A E2 97 C7 78 
+....audi | 159 247 000 013 097 117 100 105 | 9F F7 00 0D 61 75 64 69 
+odatarat | 111 100 097 116 097 114 097 116 | 6F 64 61 74 61 72 61 74 
+e.@`.2.E | 101 000 064 096 016 050 162 069 | 65 00 40 60 10 32 A2 45 
+.:..tota | 176 058 000 013 116 111 116 097 | B0 3A 00 0D 74 6F 74 61 
+ldatarat | 108 100 097 116 097 114 097 116 | 6C 64 61 74 61 72 61 74 
+e.@..... | 101 000 064 129 181 196 238 198 | 65 00 40 81 B5 C4 EE C6 
+-F..fram | 045 070 000 009 102 114 097 109 | 2D 46 00 09 66 72 61 6D 
+erate.@9 | 101 114 097 116 101 000 064 057 | 65 72 61 74 65 00 40 39 
+........ | 000 000 000 000 000 000 000 010 | 00 00 00 00 00 00 00 0A 
+byteleng | 098 121 116 101 108 101 110 103 | 62 79 74 65 6C 65 6E 67 
+th.Ap... | 116 104 000 065 112 146 027 240 | 74 68 00 41 70 92 1B F0 
+.....can | 000 000 000 000 013 099 097 110 | 00 00 00 00 0D 63 61 6E 
+seekonti | 115 101 101 107 111 110 116 105 | 73 65 65 6B 6F 6E 74 69 
+me....so | 109 101 001 001 000 010 115 111 | 6D 65 01 01 00 0A 73 6F 
+urcedata | 117 114 099 101 100 097 116 097 | 75 72 63 65 64 61 74 61 
+.. BD4B3 | 002 000 032 066 068 052 066 051 | 02 00 20 42 44 34 42 33 
+B448HH13 | 066 052 052 056 072 072 049 051 | 42 34 34 38 48 48 31 33 
+24455773 | 050 052 052 053 053 055 055 051 | 32 34 34 35 35 37 37 33 
+601051.. | 054 048 049 048 053 049 000 000 | 36 30 31 30 35 31 00 00 
+.....pur | 000 000 000 000 004 112 117 114 | 00 00 00 00 04 70 75 72 
+l....... | 108 002 000 128 000 000 000 000 | 6C 02 00 80 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+......pm | 000 000 000 000 000 004 112 109 | 00 00 00 00 00 04 70 6D 
+sg...... | 115 103 002 000 128 000 000 000 | 73 67 02 00 80 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+.......h | 000 000 000 000 000 000 014 104 | 00 00 00 00 00 00 0E 68 
+ttphosth | 116 116 112 104 111 115 116 104 | 74 74 70 68 6F 73 74 68 
+eader... | 101 097 100 101 114 002 001 000 | 65 61 64 65 72 02 01 00 
+v5.lscac | 118 053 046 108 115 099 097 099 | 76 35 2E 6C 73 63 61 63 
+he4.c.yo | 104 101 052 046 099 046 121 111 | 68 65 34 2E 63 2E 79 6F 
+utube.co | 117 116 117 098 101 046 099 111 | 75 74 75 62 65 2E 63 6F 
+m....... | 109 000 000 000 000 000 000 000 | 6D 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+......V. | 000 000 009 000 000 003 086 009 | 00 00 09 00 00 03 56 09 
+..-..... | 000 000 045 000 000 000 000 000 | 00 00 2D 00 00 00 00 00 
+........ | 000 000 023 000 000 000 000 001 | 00 00 17 00 00 00 00 01 
+M@.....g | 077 064 030 255 225 000 025 103 | 4D 40 1E FF E1 00 19 67 
+M@..B.@_ | 077 064 030 146 066 001 064 095 | 4D 40 1E 92 42 01 40 5F 
+........ | 242 194 000 000 003 000 002 000 | F2 C2 00 00 03 00 02 00 
+...d.,\. | 000 003 000 100 030 044 092 144 | 00 03 00 64 1E 2C 5C 90 
+...h.&lt;.. | 001 000 004 104 238 060 128 000 | 01 00 04 68 EE 3C 80 00 
+..8..... | 000 000 056 008 000 000 004 000 | 00 00 38 08 00 00 04 00 
+........ | 000 000 000 000 000 000 175 000 | 00 00 00 00 00 00 AF 00 
+........ | 018 016 000 000 000 015 009 000 | 12 10 00 00 00 0F 09 00 
+.c...... | 000 099 000 000 000 000 000 000 | 00 63 00 00 00 00 00 00 
+........ | 000 023 001 000 000 000 000 000 | 00 17 01 00 00 00 00 00 
+.Ze..... | 000 090 101 136 128 128 031 218 | 00 5A 65 88 80 80 1F DA 
+..p..... | 141 233 112 006 144 255 005 212 | 8D E9 70 06 90 FF 05 D4 
+........ | 158 190 233 143 010 202 004 010 | 9E BE E9 8F 0A CA 04 0A 
+..!.J.(. | 222 226 033 238 074 248 040 000 | DE E2 21 EE 4A F8 28 00 
+........ | 000 003 000 000 003 000 000 003 | 00 03 00 00 03 00 00 03 
+....lb.. | 000 025 164 165 108 098 221 226 | 00 19 A4 A5 6C 62 DD E2 
+".....C. | 034 158 000 000 003 000 067 128 | 22 9E 00 00 03 00 43 80 
+ - 17374655 bytes skipped from end
+
+</span><span class="verbose">V: NewTest: 16:12:05.530: WebWorker(80/0): sent response END
+</span><span class="debug">D: NewTest: 16:12:05.530: com.mobixell.xtt.WebWorker(0): Client connected - receiving from /127.0.0.1:49278
+</span><span class="debug">D: NewTest: 16:12:05.530: WebWorker(80/0): reading Headers
+</span><span class="debug">D: NewTest: 16:12:05.542: sendGetRequestLimited(HTTP): Response Body (17375679 Bytes) START:
+Input    | Numerical ASCII Values          | HEX ASCII Values
+FLV..... | 070 076 086 001 005 000 000 000 | 46 4C 56 01 05 00 00 00 
+........ | 009 000 000 000 000 018 000 003 | 09 00 00 00 00 12 00 03 
+K....... | 075 000 000 000 000 000 000 000 | 4B 00 00 00 00 00 00 00 
+...onMet | 002 000 010 111 110 077 101 116 | 02 00 0A 6F 6E 4D 65 74 
+aData... | 097 068 097 116 097 008 000 000 | 61 44 61 74 61 08 00 00 
+....dura | 000 015 000 008 100 117 114 097 | 00 0F 00 08 64 75 72 61 
+tion.@n. | 116 105 111 110 000 064 110 166 | 74 69 6F 6E 00 40 6E A6 
+fffff..s | 102 102 102 102 102 000 009 115 | 66 66 66 66 66 00 09 73 
+tarttime | 116 097 114 116 116 105 109 101 | 74 61 72 74 74 69 6D 65 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+...total | 000 000 013 116 111 116 097 108 | 00 00 0D 74 6F 74 61 6C 
+duration | 100 117 114 097 116 105 111 110 | 64 75 72 61 74 69 6F 6E 
+.@n.ffff | 000 064 110 166 102 102 102 102 | 00 40 6E A6 66 66 66 66 
+f..width | 102 000 005 119 105 100 116 104 | 66 00 05 77 69 64 74 68 
+.@...... | 000 064 132 000 000 000 000 000 | 00 40 84 00 00 00 00 00 
+...heigh | 000 000 006 104 101 105 103 104 | 00 00 06 68 65 69 67 68 
+t.@v.... | 116 000 064 118 128 000 000 000 | 74 00 40 76 80 00 00 00 
+....vide | 000 000 000 013 118 105 100 101 | 00 00 00 0D 76 69 64 65 
+odatarat | 111 100 097 116 097 114 097 116 | 6F 64 61 74 61 72 61 74 
+e.@z...x | 101 000 064 122 226 151 199 120 | 65 00 40 7A E2 97 C7 78 
+....audi | 159 247 000 013 097 117 100 105 | 9F F7 00 0D 61 75 64 69 
+odatarat | 111 100 097 116 097 114 097 116 | 6F 64 61 74 61 72 61 74 
+e.@`.2.E | 101 000 064 096 016 050 162 069 | 65 00 40 60 10 32 A2 45 
+.:..tota | 176 058 000 013 116 111 116 097 | B0 3A 00 0D 74 6F 74 61 
+ldatarat | 108 100 097 116 097 114 097 116 | 6C 64 61 74 61 72 61 74 
+e.@..... | 101 000 064 129 181 196 238 198 | 65 00 40 81 B5 C4 EE C6 
+-F..fram | 045 070 000 009 102 114 097 109 | 2D 46 00 09 66 72 61 6D 
+erate.@9 | 101 114 097 116 101 000 064 057 | 65 72 61 74 65 00 40 39 
+........ | 000 000 000 000 000 000 000 010 | 00 00 00 00 00 00 00 0A 
+byteleng | 098 121 116 101 108 101 110 103 | 62 79 74 65 6C 65 6E 67 
+th.Ap... | 116 104 000 065 112 146 027 240 | 74 68 00 41 70 92 1B F0 
+.....can | 000 000 000 000 013 099 097 110 | 00 00 00 00 0D 63 61 6E 
+seekonti | 115 101 101 107 111 110 116 105 | 73 65 65 6B 6F 6E 74 69 
+me....so | 109 101 001 001 000 010 115 111 | 6D 65 01 01 00 0A 73 6F 
+urcedata | 117 114 099 101 100 097 116 097 | 75 72 63 65 64 61 74 61 
+.. BD4B3 | 002 000 032 066 068 052 066 051 | 02 00 20 42 44 34 42 33 
+B448HH13 | 066 052 052 056 072 072 049 051 | 42 34 34 38 48 48 31 33 
+24455773 | 050 052 052 053 053 055 055 051 | 32 34 34 35 35 37 37 33 
+601051.. | 054 048 049 048 053 049 000 000 | 36 30 31 30 35 31 00 00 
+.....pur | 000 000 000 000 004 112 117 114 | 00 00 00 00 04 70 75 72 
+l....... | 108 002 000 128 000 000 000 000 | 6C 02 00 80 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+......pm | 000 000 000 000 000 004 112 109 | 00 00 00 00 00 04 70 6D 
+sg...... | 115 103 002 000 128 000 000 000 | 73 67 02 00 80 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+.......h | 000 000 000 000 000 000 014 104 | 00 00 00 00 00 00 0E 68 
+ttphosth | 116 116 112 104 111 115 116 104 | 74 74 70 68 6F 73 74 68 
+eader... | 101 097 100 101 114 002 001 000 | 65 61 64 65 72 02 01 00 
+v5.lscac | 118 053 046 108 115 099 097 099 | 76 35 2E 6C 73 63 61 63 
+he4.c.yo | 104 101 052 046 099 046 121 111 | 68 65 34 2E 63 2E 79 6F 
+utube.co | 117 116 117 098 101 046 099 111 | 75 74 75 62 65 2E 63 6F 
+m....... | 109 000 000 000 000 000 000 000 | 6D 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+........ | 000 000 000 000 000 000 000 000 | 00 00 00 00 00 00 00 00 
+......V. | 000 000 009 000 000 003 086 009 | 00 00 09 00 00 03 56 09 
+..-..... | 000 000 045 000 000 000 000 000 | 00 00 2D 00 00 00 00 00 
+........ | 000 000 023 000 000 000 000 001 | 00 00 17 00 00 00 00 01 
+M@.....g | 077 064 030 255 225 000 025 103 | 4D 40 1E FF E1 00 19 67 
+M@..B.@_ | 077 064 030 146 066 001 064 095 | 4D 40 1E 92 42 01 40 5F 
+........ | 242 194 000 000 003 000 002 000 | F2 C2 00 00 03 00 02 00 
+...d.,\. | 000 003 000 100 030 044 092 144 | 00 03 00 64 1E 2C 5C 90 
+...h.&lt;.. | 001 000 004 104 238 060 128 000 | 01 00 04 68 EE 3C 80 00 
+..8..... | 000 000 056 008 000 000 004 000 | 00 00 38 08 00 00 04 00 
+........ | 000 000 000 000 000 000 175 000 | 00 00 00 00 00 00 AF 00 
+........ | 018 016 000 000 000 015 009 000 | 12 10 00 00 00 0F 09 00 
+.c...... | 000 099 000 000 000 000 000 000 | 00 63 00 00 00 00 00 00 
+........ | 000 023 001 000 000 000 000 000 | 00 17 01 00 00 00 00 00 
+.Ze..... | 000 090 101 136 128 128 031 218 | 00 5A 65 88 80 80 1F DA 
+..p..... | 141 233 112 006 144 255 005 212 | 8D E9 70 06 90 FF 05 D4 
+........ | 158 190 233 143 010 202 004 010 | 9E BE E9 8F 0A CA 04 0A 
+..!.J.(. | 222 226 033 238 074 248 040 000 | DE E2 21 EE 4A F8 28 00 
+........ | 000 003 000 000 003 000 000 003 | 00 03 00 00 03 00 00 03 
+....lb.. | 000 025 164 165 108 098 221 226 | 00 19 A4 A5 6C 62 DD E2 
+".....C. | 034 158 000 000 003 000 067 128 | 22 9E 00 00 03 00 43 80 
+ - 17374655 bytes skipped from end
+
+sendGetRequestLimited(HTTP): body not stored because of massive size!
+sendGetRequestLimited(HTTP): Response Body END:
+</span><span class="external"><a class="external" name="e4" href="#e5">E: NewTest: 16:12:05.542: Parser.runTest: [Step (2) HTTP/sendGetRequestLimited] FunctionModule 'HTTP' found: sendGetRequestLimited: [Stop]</a>
+</span><span class="debug">D: NewTest: 16:12:05.547: WebWorker(80/0): End of stream detected
+</span><span class="debug">D: NewTest: 16:12:05.548: WebWorker(80/0): Decoding: nothing to decode
+</span><span class="debug">D: NewTest: 16:12:05.548: WebWorker(80/0): Connection closed
+</span><span class="external"><a class="external" name="e5" href="#e6">E: NewTest: 16:12:05.845: Parser.runTest: [Step (3) HTTP/checkResponseCode] FunctionModule 'HTTP' found: checkResponseCode: [Start]</a>
+</span><span class="info"><a class="info" name="i3" href="#i4">I: NewTest: 16:12:05.845: checkResponseCode: found 200 OK</a>
+</span><span class="external"><a class="external" name="e6" href="#e7">E: NewTest: 16:12:05.845: Parser.runTest: [Step (3) HTTP/checkResponseCode] FunctionModule 'HTTP' found: checkResponseCode: [Stop]</a>
+</span><span class="debug">D: NewTest: 16:12:05.854: Parser.waitOnThreads(): start
+</span><span class="debug">D: NewTest: 16:12:05.854: Parser.waitOnThreads(): active threads:0
+</span><span class="debug">D: NewTest: 16:12:05.854: Parser.waitOnThreads(): stop
+</span><span class="debug">D: NewTest: 16:12:05.854: Finished Running Test: C:\automation\xtt\tests\XMP\NewTest.xml
+</span><span class="normal">######################### ELAPSED TIME: 000:00:11.221 #########################
+
+</span></code></pre>
+<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88" border="0"></a></p>
+</body></html>

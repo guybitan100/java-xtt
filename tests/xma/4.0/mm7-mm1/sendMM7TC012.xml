@@ -1,0 +1,106 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.012</parameter>
+    </function>
+    <description>Submit 1000 MMs and ensure that unique message Ids are given</description>
+    
+    <function name="startSMSCServer" module="SMS"/>
+
+
+    <subtest name="deleteMessagestoreAll" file="../deleteMessagestoreAll.xml"/>
+    <function name="waitForBind" module="SMS"/>
+        <function name="addContent" module="VASP">
+            <file>sendMM7data2.txt</file>
+        </function>
+        <loop name="toaddress" start="41751110000" stop="41751111000" step="1">
+            <function name="setMessageBoundary" module="VASP">
+                <parameter>000001message</parameter>
+            </function>
+            <function name="createMM7Soap" module="VASP">
+                <parameter>SubmitReq</parameter>
+                <parameter>VASPID001</parameter>
+                <parameter>VASID002</parameter>
+            </function>
+             <function name="setSoapData" module="VASP">
+                <parameter>//*[local-name()='SubmitReq']</parameter>
+                <parameter>Recipients</parameter>
+            </function>
+                <function name="setSoapData" module="VASP">
+                    <parameter>//*[local-name()='Recipients']</parameter>
+                    <parameter>To</parameter>
+                </function>
+                <function name="setSoapData" module="VASP">
+                    <parameter>//*[local-name()='To'][last()]</parameter>
+                    <parameter>Number</parameter>
+                    <variable>toaddress</variable>
+                </function>
+            <function name="setSoapData" module="VASP">
+                <parameter>//*[local-name()='SubmitReq']</parameter>
+                <parameter>Content</parameter>
+            </function>
+            <function name="setSoapAttribute" module="VASP">
+                <parameter>//*[local-name()='Content']</parameter>
+                <parameter>href</parameter>
+                <parameter>cid:xtt-test002</parameter>
+            </function>
+            <!--function name="previewRequest" module="VASP" /-->
+            <function name="sendPostRequest" module="VASP"/>
+            <function name="checkResponseCode" module="VASP">
+                <parameter>200</parameter>
+            </function>
+            <function name="queryBody" module="VASP">
+                <parameter>dev/null</parameter>
+                <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+            </function>
+            <function name="queryBody" module="VASP">
+                <parameter>MessageID</parameter>
+                <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+            </function>
+            <function name="uniqueCheck" module="BASIC">
+                <variable>MessageID</variable>
+            </function>
+            <function name="setVariable" module="BASIC">
+                <parameter>
+                    <parameter>MessageID-</parameter>
+                    <variable>toaddress</variable>
+                </parameter>
+                <variable>MessageID</variable>
+            </function>
+         </loop>
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1000</parameter>
+    </function>
+    <loop name="toaddress" start="41751110000" stop="41751111000" step="1">
+        <function name="info" module="Basic">
+            <variable>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>toaddress</variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </variable>
+        </function>
+        <function name="queryVariable" module="Basic">
+            <parameter>
+                <parameter>SMSC/</parameter>
+                <configuration>SMSCSERVER/PROTOCOL</configuration>
+                <parameter>/</parameter>
+                <variable>toaddress</variable>
+                <parameter>/MMS/x_mms_content_location</parameter>
+            </parameter>
+            <parameter>dev/null</parameter>
+            <variable>
+                <parameter>MessageID-</parameter>
+                <variable>toaddress</variable>
+            </variable>
+        </function>
+     </loop>
+    <function name="waitForTimeoutWSPMessages" module="SMS">
+        <parameter>10000</parameter>
+        <parameter>1000</parameter>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

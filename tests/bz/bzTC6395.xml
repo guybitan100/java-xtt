@@ -1,0 +1,144 @@
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>../reqmod/reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.6395</parameter>
+    </function>
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <!-- extract current configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms extract data requestmodifications </parameter>
+        <parameter>bzTC6395.test.xml</parameter>
+    </function>
+
+    <!-- check if extraction worked -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Extracted.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <!-- upload new reqmod configuration-->
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC6395-reqmod.xml </parameter>
+        <file>bzTC6395-reqmod.xml</file>
+    </function>
+
+    <!-- load new reqmod configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms load data bzTC6395-reqmod.xml</parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://22test.xtt724.com/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>TESTRULE</parameter>
+        <parameter>TEST</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Host</parameter>
+        <parameter>test5.xtt724.com</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://3someurl.xtt724.com/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>TESTONE</parameter>
+        <parameter>ONE</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Host</parameter>
+        <parameter>test1.xtt724.com</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>TESTTWO</parameter>
+        <parameter>THREE</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>Host</parameter>
+        <parameter>test3.xtt724.com</parameter>
+    </function>
+
+
+
+    <!-- load the old reqmod configuration -->
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMG/PATH</configuration>
+        <parameter>bin/xms load data bzTC6395.test.xml</parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <!-- remove file -->
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>rm -f bzTC6395-reqmod.xml</parameter>
+    </function>
+    <!-- remove file -->
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>rm -f bzTC6395.test.xml</parameter>
+    </function>
+
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+</test>

@@ -1,0 +1,36 @@
+<test>
+    
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.9283</parameter>
+    </function>
+   
+    <function name="connectGateway" module="WAP"/>
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    <function name="setHeader" module="WAP">
+        <parameter>accept</parameter>
+        <parameter>image/gif, image/jpeg, image/vnd.wap.wbmp, application/vnd.wap.wmlc, application/vnd.wap.wbxml, application/vnd.wap.wmlscriptc, application/xhtml+xml, application/vnd.wap.xhtml+xml, text/html, application/vnd.wap.mms-message, application/java-archive, application/java, application/vnd.oma.dd+xml, text/css, */*</parameter>
+    </function>    
+
+    <function name="sendGetRequest" module="WAP">
+    	<parameter>http://wap.yahoo.com/</parameter>
+    </function>
+    
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+    
+    <function name="checkHeader" module="WAP">
+        <parameter>content-type</parameter>
+        <parameter>application/vnd.wap.wmlc; Charset=UTF-8</parameter>
+    </function>
+    
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    <function name="disconnectGateway" module="WAP"/>
+    
+</test>

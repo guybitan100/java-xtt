@@ -1,0 +1,137 @@
+<!-- $Id: reqmodTC003b.xml,v 1.2 2006/07/21 17:04:54 cvsbuild Exp $ -->
+<!--# Test Case 1103a aka REQMOD.TC.003a
+    # test url substitution stuff    -->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.003b</parameter>
+    </function>
+    <description>Test url replacement rules with diffrent ports</description>
+
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+<!--
+     Check if gets to diffrent ports get directed
+     to the single port on new machine
+-->
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+
+    <loop name="port" start="8000" stop="8020" step="1">
+        <!-- download the webpage -->
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>
+                <parameter>http://www.abc.com:</parameter>
+                <variable>port</variable>
+                <parameter>/</parameter>
+            </parameter>
+        </function>
+        <!-- check if the download was successfull -->
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="checkServerURL" module="HTTP">
+            <parameter>/</parameter>
+        </function>
+        <function name="checkServerHeader" module="HTTP">
+            <parameter>host</parameter>
+            <parameter>test5.xtt724.com</parameter>
+        </function>
+
+    </loop>
+    <loop name="port" start="8000" stop="8020" step="1">
+        <!-- download the webpage -->
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>
+                <parameter>http://www</parameter>
+                <variable>port</variable>
+                <parameter>.def.com:</parameter>
+                <variable>port</variable>
+                <parameter>/me/index.html</parameter>
+            </parameter>
+        </function>
+        <!-- check if the download was successfull -->
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="checkServerURL" module="HTTP">
+            <parameter>/acme/index.html</parameter>
+        </function>
+        <function name="checkServerHeader" module="HTTP">
+            <parameter>host</parameter>
+            <parameter>test5.xtt724.com</parameter>
+        </function>
+
+    </loop>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+
+
+
+<!--
+     Check if gets to diffrent ports get directed
+     to the same ports on new machine
+-->
+<!--
+    <loop name="port" start="8000" stop="8020" step="1">
+-->        <!-- start the internal webserver -->
+<!--        <function name="startWebServer" module="HTTP">
+            <variable>port</variable>
+            <configuration>WEBSERVER/ROOT</configuration>
+                <configuration>WEBSERVER/TIMEOUT</configuration>
+        </function>
+-->
+        <!-- download the webpage -->
+<!--        <function name="sendGetRequest" module="HTTP">
+            <parameter>
+                <parameter>http://www.abc.com:</parameter>
+                <variable>port</variable>
+                <parameter>/</parameter>
+            </parameter>
+        </function>
+-->        <!-- check if the download was successfull -->
+<!--        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="checkServerURL" module="HTTP">
+            <parameter>/</parameter>
+        </function>
+        <function name="checkServerHeader" module="HTTP">
+            <parameter>host</parameter>
+            <parameter>test5.xtt724.com:</parameter>
+            <variable>port</variable>
+        </function>
+-->
+        <!-- stop webserver -->
+<!--        <function name="stopWebServer" module="HTTP"/>
+    </loop>
+-->
+
+
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+</test>

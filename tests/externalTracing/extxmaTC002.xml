@@ -1,0 +1,193 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>EXT.XMA.TC.002</parameter>
+    </function>
+    <description>XMA external tracing in path MM4/MM1</description>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>IN.MM4</parameter>
+        <parameter>inmm4</parameter>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+        <variable>inmm4</variable>
+    </function>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>OUT.MM1</parameter>
+        <parameter>outmm1</parameter>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+        <variable>outmm1</variable>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMA/PATH</configuration>
+        <configuration>XMA/XMS</configuration>
+        <parameter> enable tracing -external E://</parameter>
+    </function>
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/command</configuration>
+        <parameter>amocli -k dm TI:F.CEE.MSP.1:AMO</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>amocli: \d++ items deleted</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="waitForBind" module="SMS"/>
+        <function name="sleep" module="basic">
+            <parameter>500</parameter>
+        </function>
+
+        <function name="createDateString" module="Basic">
+            <parameter>dd' 'MMM' 'yy kk':'mm':'ss z</parameter>
+            <parameter>date</parameter>
+        </function>
+
+        <function name="setVariableLines" module="Basic">
+            <parameter>2</parameter>
+            <parameter>headers</parameter>
+            <parameter>To: </parameter>                     <parameter>1234456</parameter>
+            <parameter>From: </parameter>                   <parameter>xtt@defaultpartner.724.com</parameter>
+            <parameter>Date: </parameter>                   <variable>date</variable>
+            <parameter>X-Mms-Message-Type: </parameter>     <parameter>MM4_forward.REQ</parameter>
+            <parameter>X-MMS-3GPP-MMS-version: </parameter> <parameter>4.2.0</parameter>
+            <parameter>X-MMS-Transaction-ID: </parameter>   <parameter>ABCDEFGHIJ0123456789</parameter>
+            <parameter>X-MMS-Message-ID: </parameter>       <parameter>originator-username/123456789</parameter>
+            <parameter>Content-Type: </parameter>           <parameter>text/plain</parameter>
+        </function>
+
+        <function name="setDATA" module="SMTP">
+            <variable>headers</variable>
+            <parameter>This is a single line message.</parameter>
+        </function>
+
+
+        <function name="connectMailServer" module="SMTP">
+            <configuration>XMA/MM4Ip</configuration>
+            <configuration>XMA/MM4Port</configuration>
+        </function>
+        <function name="sendHELO" module="SMTP">
+            <parameter>xtttestmachine</parameter>
+        </function>
+        <function name="sendMAILFROM" module="SMTP">
+            <parameter>xtt@defaultpartner.724.com</parameter>
+        </function>
+        <function name="sendRCPTTO" module="SMTP">
+            <parameter>1234456</parameter>
+        </function>
+
+        <function name="sendDATA" module="SMTP"/>
+
+        <function name="disconnectMailServer" module="SMTP"/>
+
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>1234456</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/1234456/MMS/x_mms_content_location</parameter>
+        </parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/1234456/MMS/x_mms_transaction_id</parameter>
+        </parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <parameter>1234456</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+        <parameter>204</parameter>
+    </function>
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>/bin/grep E:// </parameter>
+        <configuration>XMA/PROCPATH</configuration>
+        <parameter>/</parameter>
+        <variable>inmm4</variable>
+        <parameter>/</parameter>
+        <variable>inmm4</variable>
+        <parameter>.out</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://MM4/RECEIVED/SUBMISSION-REQUEST</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://ROUTING/SELECTED/INITIAL-DELIVERY-CHANNEL</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://STORE/INSERTED/MM</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://STORE/INSERTED/DELIVERY-ITEM</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>/bin/grep E:// </parameter>
+        <configuration>XMA/PROCPATH</configuration>
+        <parameter>/</parameter>
+        <variable>outmm1</variable>
+        <parameter>/</parameter>
+        <variable>outmm1</variable>
+        <parameter>.out</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://MM1/SENT/NOTIFICATION</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://STORE/UPDATED/DELIVERY-ITEM</parameter>
+        <parameter>response</parameter>
+    </function>
+
+</test>

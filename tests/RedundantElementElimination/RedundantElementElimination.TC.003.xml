@@ -1,0 +1,39 @@
+<test>
+	<name>RedundantElementElimination.TC.003</name>
+	<description>Validate Unused Javascripts (optionally VBScripts) are properly removed from the Source HTML Pages</description>
+<!-- POSTPONED
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<function name="startWebServer" module="HTTP">
+		<parameter>80</parameter>
+        	<testpath/>
+		<parameter>60000</parameter>
+	</function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/RedundantElementEliminationTC003.html</parameter>
+		</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="queryBody" module="HTTP">
+		<parameter>dev/null</parameter>
+		<file>RedundantElementElimination_Tidy.html</file>
+	</function>
+	
+	<function name="stopWebServer" module="HTTP"/>
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+-->
+</test>

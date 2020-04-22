@@ -1,0 +1,260 @@
+<test>
+    <name>CompatibilityOfP1UseCases.TC.010a</name>
+    <description>Validate "White/Black Lists" Feature in combination with "Secret MMS" Feature
+Test Category: SHOULD
+Test Steps:
+---------------------------------------------------------------
+Scenario1:
+1. Sender enabled "Secret MMS"  feature  through Web Portal.
+2. Recipients have a White List and Sender is in the White List .
+3. Sender send MM1 request to  MMS Proxy.
+4. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request 
+5. MMS Extra after validating the  sender (in White List) sends a positive response and asks for "send data" to MMS Proxy server.
+6. MMS Proxy then sends body with HTTP post request.
+7. Sender credit balace has been checked, if the sender has balance then the request get stored.
+8. Application send a SMS notifying the recipient that a secret MMS is available and recipient reply to the message sent with correct password .
+9. Application sends MM via MM7-OUT .
+10. Application get a 200 ok response from  the recipient.
+11. Billing for sender happens.
+
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  3. SMSC
+	  4. Diameter
+	  5. Remote
+	  6. Basic
+	  7. MMSC
+   	  TODO:-->	
+</description>
+	
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest> 
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Start MMSC Server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>988655</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/COMP/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set subject with Secret message symbol # -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>#This is Secret with White list</parameter>
+	</function>
+
+	<!-- Send Metadeta Request -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response back X-Proxy-Subscriber-MSISDN application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+<!-- Will get response as New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "discard" --> 
+		<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<!-- Will get response as New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Application-Context-Id as X-Application-Context-Id -->
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-Application-Context-Id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>ContentType</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application-->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+<!-- Check for response X-Proxy-Subscriber-MSISDN Diameter server -->
+
+	<!-- wait for 1 WSP sms message -->
+	<function name="waitForWSPMessages" module="SMS">
+		<parameter>1</parameter>
+	</function> 
+
+<!-- Saving Server connection for future SMS communication -->
+<function name="getServerConnection" module="SMPP">
+         <parameter>MMSX</parameter>
+		<parameter>0</parameter>
+    </function> 
+
+<!-- Building MO for sending Secret Password to MMSX X-Proxy-Subscriber-MSISDN recipient -->
+	<function name="sendSMPPPacket" module="SMPP">
+		<parameter>MMSX</parameter>
+		<parameter>DELIVER_SM</parameter>
+		<parameter>internal</parameter>
+		<parameter>1</parameter>
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+		<configuration>MMSX/COMP/RECIPIENT/MSISDN1</configuration>
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+		<configuration>MMSX/SHORTCODE/MSISDN1</configuration>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter></parameter>
+		<parameter></parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>qwerty</parameter>
+	</function>
+
+<!-- Waiting for the SMS response X-Proxy-Subscriber-MSISDN MSMX -->
+	<function name="waitForRequests" module="MMSC">
+		<parameter>1</parameter>
+	</function>
+
+<!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standards -->
+	<function name="validateXML" module="XML">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter></parameter>
+		<configuration>MMSCSERVER/XMLNSENV</configuration>
+		<configuration>MMSCSERVER/SOAPXSD</configuration>
+		<configuration>MMSCSERVER/XMLNSMM7</configuration>
+		<configuration>MMSCSERVER/MM7XSD</configuration>
+	</function>
+
+	<!-- check MM7 version set correctly in response -->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>&lt;MM7Version&gt;5.6.0&lt;/MM7Version&gt;</parameter>
+		</parameter>
+	</function>
+
+	<!-- check that the Sender Subject as a nick name set correctly in SOAP response-->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+		<parameter>&lt;Subject&gt;\{MMX:F</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+		<parameter>,Nnickname1\}Fwd: This is Secret with White list&lt;/Subject&gt;</parameter>
+		</parameter>
+	</function>
+
+
+<!-- check that the Recipient MSISDN set correctly in SOAP response-->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>mytest</parameter>
+		<parameter>
+		<parameter>&lt;Recipients&gt;(.*)&lt;/Recipients&gt;</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryText" module="Basic">
+		<variable>mytest</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+		<configuration>MMSX/COMP/RECIPIENT/MSISDN1</configuration>
+		</parameter>
+	</function>
+
+
+	<!-- Check for MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 1 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Stop SMSC/MMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

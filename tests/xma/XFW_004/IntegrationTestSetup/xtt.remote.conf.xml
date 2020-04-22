@@ -1,0 +1,16 @@
+<remoteconfiguration>
+    <!-- all machines thar are allowed to connect to RemoteXTT 
+         either ip addresses or subnets -->
+    <whitelist>
+        <ip>127.0.0.1</ip>
+        <ip>172.20.</ip>
+    </whitelist>
+    <system>
+        <hive>
+            <!-- To identify which product and build integration tests are currently running -->"
+            <comment>UPDATE_XFW_PRODUCT_NAME:UPDATE_XFW_BUILD_NUMBER</comment>
+        </hive>
+        <!-- ip address of the system -->
+        <ip>UPDATE_XFW_HOST_IP</ip>
+    </system>
+</remoteconfiguration>

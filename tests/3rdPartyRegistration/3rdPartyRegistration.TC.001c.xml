@@ -1,0 +1,51 @@
+<test>
+	<name>3rdPartyRegistration.TC.001c</name>
+	<description>S-CSCF sends 3rd Party REGISTER request to SLM [UDP] - 200 OK - Broken To Header</description>
+	<configuration>config.xml</configuration>
+	
+	<!-- Start SIP Server -->
+	<function name="startSIPServer" module="SIP"/>
+	<function name="disableResponse" module="SIP"/>
+
+
+
+
+
+	<!-- Create the 200 OK Response Headers against SUBSCRIBE Request-->
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>subscribe200OK_headers</parameter>
+		 <parameter>SIP/2.0 200 OK</parameter><parameter></parameter>
+		 <parameter>Contact: </parameter>  <parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;</parameter></parameter>
+		 <parameter>Expires: </parameter><parameter>0</parameter>
+		 <parameter>CSeq: </parameter><parameter>1 SUBSCRIBE</parameter>
+		 <parameter>Via: </parameter><parameter>SIP/2.0/UDP 172.20.9.67:5060;branch=z9hG4bK866657894;received_port_ext=5071;received=172.20.9.67</parameter>
+		 <parameter>Content-Length: </parameter><parameter>0</parameter>
+		 <parameter>Call-ID: </parameter><parameter>2-9Y28E908XI2OHRA0HR7@724.com</parameter>
+		 <parameter>From: </parameter><parameter>&lt;sip:724.com&gt;;tag=85185327</parameter>
+		 <parameter>To: </parameter><parameter>&lt;sip:172.20.14.5:5071;gt;;tag=1202813442437</parameter>
+        <parameter></parameter><parameter></parameter>
+    </function>        
+        
+    <!-- Send 200 OK Response against SUBSCRIBE Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>subscribe200OK_headers</variable>
+    </function>
+    
+
+	<function name="sleep" module="Basic">
+		<parameter>3000</parameter>
+	</function>
+
+    
+    
+    <!-- Stop SIP Server -->
+   <function name="closeConnection" module="SIP"/>
+	<function name="stopSIPServer" module="SIP"/>
+</test>
+
+
+

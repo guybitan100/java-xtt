@@ -1,0 +1,149 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM7.MM7.TC.006</name>
+    <description>Maximum number of M-Notification.ind Retries (is delivered) [DeliveryReport=No, ReadReply=No] 
+    [Sndr + Rcpt Both VASPS]</description>
+
+	<!-- Start Web Server in order to receive & response MM7 Read Reply Reports -->
+    <function name="startMMSCServer" module="MMSC">
+        <configuration>VASP/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+    <function name="setServerSoapReturnCode" module="MMSC">
+        <parameter>4006</parameter>
+    </function>
+
+    
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <subtest>../loadRetryPolicy.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadMultiVASP.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN</parameter>
+        <configuration>VASP/NUMBER2</configuration>
+    </function>
+   
+    <function name="setVariable" module="Basic">
+        <parameter>SENDERMSISDN</parameter>
+        <configuration>VASP/NUMBER</configuration>
+    </function>
+   
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=No, ReadReply=No -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <configuration>VASP/VASPID</configuration>
+        <configuration>VASP/VASID</configuration>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>MSISDN</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>False</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>True</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+    <function name="previewRequest" module="VASP" />
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+    </function>
+        
+
+    
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>run command amocli search TI:F.CEE.</parameter>
+            <variable>msp</variable>
+            <parameter>:AMO</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>RETRY_ControlRetry=Failed m-send-req 2</parameter>
+        <parameter>status</parameter>
+    </function>
+
+    <function name="sleep" module="basic">
+        <parameter>40000</parameter>
+    </function>
+    
+    <function name="setServerSoapReturnCode" module="MMSC">
+        <parameter>0</parameter>
+    </function>   
+
+	<!--XMA sends M-Notification.ind to the Target MMS Client -->   
+    <function name="waitForRequests" module="MMSC">
+        <parameter>2</parameter>
+    </function>
+    
+    <!--function name="stop" module="XTT"/-->
+        
+    <function name="validateXML" module="XML">
+	    <variable>MMSCSERVER/MM7/SOAP</variable>
+ 	    <parameter></parameter>
+        <configuration>MMSCSERVER/XMLNSENV</configuration>
+        <configuration>MMSCSERVER/SOAPXSD</configuration>
+        <configuration>MMSCSERVER/XMLNSMM7</configuration>
+        <configuration>MMSCSERVER/MM7XSD</configuration>
+    </function>
+	<function name="queryText" module="Basic">
+	    <variable>MMSCSERVER/MM7/SOAP</variable>
+	    <parameter>dev/null</parameter>
+	    <parameter>
+            <parameter>&lt;SenderAddress&gt;\s*?&lt;Number&gt;</parameter><variable>SENDERMSISDN</variable><parameter>&lt;/Number&gt;\s*?&lt;/SenderAddress&gt;\s*?&lt;/SenderIdentification&gt;\s*?</parameter>
+            <parameter>&lt;Recipients&gt;\s*?&lt;To&gt;\s*?&lt;Number&gt;</parameter><variable>MSISDN</variable><parameter>&lt;/Number&gt;\s*?&lt;/To&gt;\s*?&lt;/Recipients&gt;\s*?</parameter>    	    
+        </parameter>
+    </function>
+       
+    <subtest>../restoreRetryPolicy.xml</subtest>
+	
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+	<!-- Stop SMSC Server -->
+    <function name="stopMMSCServer" module="MMSC"/>   
+</test>

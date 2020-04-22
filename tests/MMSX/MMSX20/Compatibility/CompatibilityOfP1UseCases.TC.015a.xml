@@ -1,0 +1,63 @@
+<test>
+<name>CompatibilityOfP1UseCases.TC.015a</name>
+    <description>Validate that the subscriber can enable/disable the master switch feature by sending a SMS to MMSX
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+Scenario 1:
+1. Login to the subscriber's portal.
+2. Send a SMS to the shortcode configured in MMSX to subcribe for the enabling the master swtich feature on.
+3. Validate the relevant response received from MMSX.
+---------------------------------------------------------------
+<!--  Modules Used:
+	 1. SMSC -->
+	</description>
+ 	
+<!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Saving Server connection for future SMS communication -->
+	<function name="getServerConnection" module="SMPP">
+         <parameter>MMSX</parameter>
+		<parameter>0</parameter>
+    </function>
+
+	<function name="sendSMPPPacket" module="SMPP">
+		<parameter>MMSX</parameter>
+		<parameter>DELIVER_SM</parameter>
+		<parameter>internal</parameter>
+		<parameter>1</parameter>
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+		<parameter>33333</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter></parameter>
+		<parameter></parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>on</parameter>
+	</function>
+
+	<function name="sleep" module="basic">
+		<parameter>6000</parameter>
+	</function>
+	<!-- wait for 1 WSP sms message -->
+	<function name="waitForWSPMessages" module="SMS">
+		<parameter>1</parameter>
+	</function>
+		
+<!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/> 
+</test>

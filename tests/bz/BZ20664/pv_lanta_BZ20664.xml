@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GatewayView xmlns="http://www.mobilgw.com/xsd/gatewayview_v1_0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mobilgw.com/xsd/gatewayview_v1_0 gatewayview_v1_0.xsd"
+    configurationName="xmp40_lanta" systemName="lanta"
+    description="xmp40_lanta" operatingSystem="Linux"
+    productVersion="1.1" saveDate="2008-12-15"
+    releaseVersion="724Solutions Configurator XMP_40_M1_B060 20081211.141221"
+    gatewayViewVersion="17-Dec-2002" productName="XMP Configurator"
+    fileName="COSTARICA:C:\TESTING\XMP\XMP_401-branch\pv_lanta_pos_xtt.xml" creator="">
+    <LowLevelPatch>
+        <Patch
+            Description="trace-essentials.xml: Essential stuff to test "
+            Normalized="&amp;lt;?xml version=&amp;quot;1.0&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;xupdate:modifications xmlns:xupdate=&amp;quot;http://www.xmldb.org/xupdate&amp;quot; version=&amp;quot;1.0&amp;quot;&amp;gt;&amp;#13;&amp;#10;&amp;#13;&amp;#10;    &amp;lt;!-- trace-essentials.xml: Essential stuff to test&amp;#13;&amp;#10;    --&amp;gt;&amp;#13;&amp;#10;&amp;#13;&amp;#10;    &amp;lt;xupdate:insert-before select=&amp;quot;//processgroup/arguments&amp;quot;&amp;gt;&amp;#13;&amp;#10;        &amp;lt;xupdate:element name=&amp;quot;env-variable&amp;quot;&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:attribute name=&amp;quot;extensible&amp;quot;&amp;gt;false&amp;lt;/xupdate:attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:attribute name=&amp;quot;name&amp;quot;&amp;gt;CEECFG_TraceFormat&amp;lt;/xupdate:attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:value&amp;gt;&amp;lt;value&amp;gt;#t:#i:#c:#s:#f:#m&amp;lt;/value&amp;gt;&amp;lt;/xupdate:value&amp;gt;&amp;#13;&amp;#10;        &amp;lt;/xupdate:element&amp;gt;&amp;#13;&amp;#10;    &amp;lt;/xupdate:insert-before&amp;gt;&amp;#13;&amp;#10;&amp;#13;&amp;#10;    &amp;lt;xupdate:insert-before select=&amp;quot;//processgroup/env-variable[@name='CEECFG_TraceFormat']&amp;quot;&amp;gt;&amp;#13;&amp;#10;        &amp;lt;xupdate:element name=&amp;quot;env-variable&amp;quot;&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:attribute name=&amp;quot;extensible&amp;quot;&amp;gt;false&amp;lt;/xupdate:attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:attribute name=&amp;quot;name&amp;quot;&amp;gt;CEECFG_TraceFail&amp;lt;/xupdate:attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:value&amp;gt;&amp;lt;value&amp;gt;.&amp;lt;/value&amp;gt;&amp;lt;/xupdate:value&amp;gt;&amp;#13;&amp;#10;        &amp;lt;/xupdate:element&amp;gt;&amp;#13;&amp;#10;        &amp;lt;xupdate:element name=&amp;quot;env-variable&amp;quot;&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:attribute name=&amp;quot;extensible&amp;quot;&amp;gt;false&amp;lt;/xupdate:attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:attribute name=&amp;quot;name&amp;quot;&amp;gt;CEECFG_TraceWarn&amp;lt;/xupdate:attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;xupdate:value&amp;gt;&amp;lt;value&amp;gt;CEE&amp;lt;/value&amp;gt;&amp;lt;/xupdate:value&amp;gt;&amp;#13;&amp;#10;        &amp;lt;/xupdate:element&amp;gt;&amp;#13;&amp;#10;    &amp;lt;/xupdate:insert-before&amp;gt;&amp;#13;&amp;#10;&amp;lt;/xupdate:modifications&amp;gt;&amp;#13;&amp;#10;" ImportSource="trace-essentials.xml: Essential stuff to test "/>
+        <Patch Description="trun on Memory Debug "
+            Normalized="&amp;lt;?xml version=&amp;quot;1.0&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;!-- trun on Memory Debug --&amp;gt;&amp;#13;&amp;#10;&amp;lt;modifications xmlns=&amp;quot;http://www.xmldb.org/xupdate&amp;quot; version=&amp;quot;1.0&amp;quot;&amp;gt;&amp;#13;&amp;#10;    &amp;lt;append select=&amp;quot;/component-view/processgroup&amp;quot;&amp;gt;&amp;#13;&amp;#10;        &amp;lt;element name=&amp;quot;env-variable&amp;quot;&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;extensible&amp;quot;&amp;gt;false&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;name&amp;quot;&amp;gt;CEECFG_MemoryDebug&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;value&amp;quot;&amp;gt;true&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;        &amp;lt;/element&amp;gt;&amp;#13;&amp;#10;    &amp;lt;/append&amp;gt;&amp;#13;&amp;#10;    &amp;lt;append select=&amp;quot;/component-view/processgroup&amp;quot;&amp;gt;&amp;#13;&amp;#10;        &amp;lt;element name=&amp;quot;env-variable&amp;quot;&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;extensible&amp;quot;&amp;gt;false&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;name&amp;quot;&amp;gt;CEECFG_MemoryOptimizerSecs&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;value&amp;quot;&amp;gt;1&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;        &amp;lt;/element&amp;gt;&amp;#13;&amp;#10;    &amp;lt;/append&amp;gt;&amp;#13;&amp;#10;    &amp;lt;!--Imported from: trun on Memory Debug --&amp;gt;&amp;#13;&amp;#10;&amp;lt;/modifications&amp;gt;&amp;#13;&amp;#10;" ImportSource="trun on Memory Debug "/>
+        <Patch
+            Description="Increase MaxTiSignalTags for STATS-COLELCTOR from 1024 to 10240 "
+            Normalized="&amp;lt;?xml version=&amp;quot;1.0&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;modifications xmlns=&amp;quot;http://www.xmldb.org/xupdate&amp;quot; version=&amp;quot;1.0&amp;quot;&amp;gt;&amp;#13;&amp;#10;  &amp;lt;!-- Increase MaxTiSignalTags for STATS-COLELCTOR from 1024 to 10240 --&amp;gt;&amp;#13;&amp;#10;  &amp;lt;append&amp;#13;&amp;#10;select=&amp;quot;/component-view/processgroup[starts-with(@name,'STATS-COLLECTOR')]//CEECFG&amp;quot;&amp;gt;&amp;#13;&amp;#10;        &amp;lt;element name=&amp;quot;MaxTiSignalTags&amp;quot;&amp;gt;10240&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;  &amp;lt;/append&amp;gt;&amp;#13;&amp;#10;    &amp;lt;!--Imported from: Increase MaxTiSignalTags for STATS-COLELCTOR from 1024 to 10240 --&amp;gt;&amp;#13;&amp;#10;&amp;lt;/modifications&amp;gt;&amp;#13;&amp;#10;" ImportSource="Increase MaxTiSignalTags for STATS-COLELCTOR from 1024 to 10240 "/>
+        <Patch
+            Description="License file created by lfcu program. Do not edit "
+            Normalized="&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&amp;#13;&amp;#10;&amp;lt;!-- License file created by lfcu program. Do not edit --&amp;gt;&amp;#13;&amp;#10;&amp;lt;modifications xmlns=&amp;quot;http://www.xmldb.org/xupdate&amp;quot; version=&amp;quot;1.0&amp;quot;&amp;gt;&amp;#13;&amp;#10;    &amp;lt;append select=&amp;quot;//component[@name='CEE']/CEECFG&amp;quot;&amp;gt;&amp;#13;&amp;#10;        &amp;lt;element name=&amp;quot;License&amp;quot;&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;number&amp;quot;&amp;gt;724-internal-1229325417&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;type&amp;quot;&amp;gt;B&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;issuer&amp;quot;&amp;gt;Daniel Kaufmann, 724 Solutions Inc.&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;issuedOn&amp;quot;&amp;gt;2008-12-15T07:16:57Z&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;licensee&amp;quot;&amp;gt;724 Solutions, internal use only&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;product&amp;quot;&amp;gt;XMP&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;platform&amp;quot;&amp;gt;linux&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;version&amp;quot;&amp;gt;724Solutions CEE XMP&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;validFrom&amp;quot;&amp;gt;2008-12-15&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;validUntil&amp;quot;&amp;gt;2009-06-13&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;signature&amp;quot;&amp;gt;10960D29AE73049299B962AE742AB2305A7A78BA5A47B66AC3AC159D62D7EFA4&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;machines&amp;quot;&amp;gt;&amp;#13;&amp;#10;                &amp;lt;element name=&amp;quot;string&amp;quot;&amp;gt;lanta&amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;/element&amp;gt;&amp;#13;&amp;#10;            &amp;lt;element name=&amp;quot;features&amp;quot;&amp;gt;&amp;#13;&amp;#10;            &amp;lt;/element&amp;gt;&amp;#13;&amp;#10;        &amp;lt;/element&amp;gt;&amp;#13;&amp;#10;    &amp;lt;/append&amp;gt;&amp;#13;&amp;#10;    &amp;lt;append select=&amp;quot;//component-view&amp;quot;&amp;gt;&amp;#13;&amp;#10;        &amp;lt;element name=&amp;quot;license&amp;quot;&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;number&amp;quot;&amp;gt;724-internal-1229325417&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;type&amp;quot;&amp;gt;B&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;issuer&amp;quot;&amp;gt;Daniel Kaufmann, 724 Solutions Inc.&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;issuedOn&amp;quot;&amp;gt;2008-12-15T07:16:57Z&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;licensee&amp;quot;&amp;gt;724 Solutions, internal use only&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;product&amp;quot;&amp;gt;XMP&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;platform&amp;quot;&amp;gt;linux&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;version&amp;quot;&amp;gt;724Solutions CEE XMP&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;validFrom&amp;quot;&amp;gt;2008-12-15&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;validUntil&amp;quot;&amp;gt;2009-06-13&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;            &amp;lt;attribute name=&amp;quot;signature&amp;quot;&amp;gt;10960D29AE73049299B962AE742AB2305A7A78BA5A47B66AC3AC159D62D7EFA4&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;                &amp;lt;element name=&amp;quot;machine&amp;quot;&amp;gt;&amp;#13;&amp;#10;                &amp;lt;attribute name=&amp;quot;name&amp;quot;&amp;gt;lanta&amp;lt;/attribute&amp;gt;&amp;#13;&amp;#10;                &amp;lt;/element&amp;gt;&amp;#13;&amp;#10;        &amp;lt;/element&amp;gt;&amp;#13;&amp;#10;    &amp;lt;/append&amp;gt;&amp;#13;&amp;#10;    &amp;lt;!--Imported from: License file created by lfcu program. Do not edit --&amp;gt;&amp;#13;&amp;#10;&amp;lt;/modifications&amp;gt;&amp;#13;&amp;#10;" ImportSource="License file created by lfcu program. Do not edit "/>
+    </LowLevelPatch>
+    <Protocols wap20andHTTP="true">
+        <WAP1x enabled="true" maxPduSize="65536" maxSegmentSize="1405"
+            useWAPOverUDP="true" useWAPOverSMS="false"/>
+    </Protocols>
+    <CookieSupport enabled="true" storeSessionCookies="true"
+        storePersistentCookies="true" maxStoreTime="P90D" deletePermanentCookiesAtSessionStart="false"/>
+    <IcapSupport enabled="false"/>
+    <ContentConversion convertHDMLToWML1="true" convertHDMLToWML2="true"
+        convertWML1xToWML2="true" convertHTMLToXHTMLBasic="true"
+        convertXHTMLBasicToWML1="true" useIccProcess="false"
+        useIccComponent="true" numberOfIccProcessInstancesPerMachine="2" allowNonWapWmlDtds="true">
+        <ImageConversions convertAnimatedGIFToMNG="true"
+            conversionSizeMax="-1" limitConversionSize="false"
+            enableImageSizeReduction="true"
+            enableImageColorDepthReduction="true"
+            enableJPEGQualityFactorReduction="true" enableRemovalOfInterlacing="true">
+            <ConvertGIF toPNG="true" toJPEG="true" toBMP="true" toWBMP="true"/>
+            <ConvertPNG toGIF="true" toJPEG="true" toBMP="true" toWBMP="true"/>
+            <ConvertJPEG toGIF="true" toPNG="true" toBMP="true" toWBMP="true"/>
+            <ConvertBMP toGIF="true" toPNG="true" toJPEG="true" toWBMP="true"/>
+            <ConvertWBMP toGIF="true" toPNG="true" toJPEG="true" toBMP="true"/>
+        </ImageConversions>
+    </ContentConversion>
+    <LiveFeed useLiveFeed="RadiusAccounting"
+        numPsePartitionsPerMachine="0" maxPseWaitTime="30">
+        <RadiusAccounting enableRadiusAccounting="true">
+            <ReceiveAccountingPackets listenOnUDPPort="1813">
+                <NASAndSharedSecret ipAddress="172.20.4.120"
+                    sharedSecret="tttester" radiusProfileRef="Default" serverUdpPort=""/>
+                <NASAndSharedSecret ipAddress="172.20.2.89"
+                    sharedSecret="tttester" radiusProfileRef="Default" serverUdpPort=""/>
+                <NASAndSharedSecret ipAddress="172.20.16.129"
+                    sharedSecret="724key" radiusProfileRef="Default" serverUdpPort=""/>
+            </ReceiveAccountingPackets>
+            <ForwardAccountingPackets enabled="false"/>
+            <RadiusProfile name="Default" obey3GPPStopRules="false"
+                supportIUpackets="true" injectUserId="true" userIdPrefix="999_">
+                <FixedRadiusUserIdAttribute attrName="User ID"
+                    attrNum="31" vendorId="0" vendorAttrNum="0" dataConvType="OctSeqToString"/>
+                <FixedRadiusIpAddressAttribute attrName="IP address"
+                    attrNum="8" vendorId="0" vendorAttrNum="0" dataConvType="Ip4AddrToString"/>
+                <RadiusAttribute attrName="Called_Station_Id"
+                    attrNum="30" vendorId="0" vendorAttrNum="0" dataConvType="OctSeqToString"/>
+                <RadiusAttribute attrName="NAS_Ip" attrNum="4"
+                    vendorId="0" vendorAttrNum="0" dataConvType="Ip4AddrToString"/>
+                <RadiusAttribute attrName="NAS_Id" attrNum="32"
+                    vendorId="0" vendorAttrNum="0" dataConvType="OctSeqToString"/>
+            </RadiusProfile>
+        </RadiusAccounting>
+    </LiveFeed>
+    <Logging maximumSizeOfASingleLogFile="100" maximumNumberOfLogs="26"
+        logDirectory="/home/danielk/XMP/XMP_401-branch/log" logPeriod="Midnight">
+        <CustomLogging startPastHour="PT60M" interval="PT15M"/>
+    </Logging>
+    <NotificationEvents logAlertsInSysLog="true">
+        <SendSNMPTraps enabled="true" sendOnUDPPort="1620">
+            <SendSNMPTo communityName="public" hostName="172.20.4.120"/>
+        </SendSNMPTraps>
+        <AcceptSNMPRequests enabled="true" accessControl="InetAccessControl">
+            <InetAccessControlList>
+                <InetAccessControl communityName="public"
+                    hostName="255!255!255!255" access="read-write"/>
+            </InetAccessControlList>
+        </AcceptSNMPRequests>
+    </NotificationEvents>
+    <Monitoring>
+        <HealthCheck>
+            <DbHelper pollIntervalSecs="60" maxLatencySecs="30" okLatencySecs="10"/>
+            <DnsHelper pollIntervalSecs="60" defaultTarget="yahoo.com"/>
+            <WwwHelper pollIntervalSecs="60">
+                <UrlDef>http://www.google.com</UrlDef>
+                <UrlDef>http://www.yahoo.com</UrlDef>
+                <UrlDef>http://www.amazon.com</UrlDef>
+            </WwwHelper>
+        </HealthCheck>
+    </Monitoring>
+    <DataBase selected="PostgresDataBase" rmiRegistryPort="11099"
+        subscriberIdSupport="false" storeCookiesInDatabase="true">
+        <OracleDataBase database="pangan" username="XMP401_DK" password="xmp"/>
+        <PostgresDataBase>
+            <PostgresServer hostName="lanta"/>
+            <PostgresServer hostName="lanta"/>
+        </PostgresDataBase>
+    </DataBase>
+    <ProxyServers enabled="true">
+        <ProxyServerSet name="TEST_SET_1" enabled="true"
+            isDefault="false" loadBalUser="false" loadBalUrl="true">
+            <ProxyServer host="172.20.4.120" port="8111"/>
+        </ProxyServerSet>
+        <ProxyServerSet name="TEST_SET_2" enabled="true"
+            isDefault="false" loadBalUser="false" loadBalUrl="true">
+            <ProxyServer host="172.20.4.120" port="8222"/>
+        </ProxyServerSet>
+        <ProxyServerSet name="TEST_SET_3" enabled="true"
+            isDefault="false" loadBalUser="false" loadBalUrl="true">
+            <ProxyServer host="172.20.4.120" port="8333"/>
+            <ProxyServer host="172.20.4.120" port="8334"/>
+            <ProxyServer host="172.20.4.120" port="8335"/>
+        </ProxyServerSet>
+    </ProxyServers>
+    <DNSServers enableReversNameLookup="true" updateIntervalSeconds="10">
+        <DNSServer>172.20.4.120</DNSServer>
+        <GlobalReplacement>www</GlobalReplacement>
+        <GlobalReplacement>ftp</GlobalReplacement>
+        <GlobalReplacement>smtp</GlobalReplacement>
+        <GlobalReplacement>pop3</GlobalReplacement>
+    </DNSServers>
+    <MobileAcceleration>
+        <ContentCache enabled="true" maxSizeMBytes="1"
+            maxItemSizeKBytes="1" maxItemStoreMinutes="1"/>
+        <IntelligentCaching freshnessPercentage="20"
+            freshnessMaxTimeMin="4320" freshnessMinTimeMin="0"/>
+        <HierarchicalCaching enableMachineCaching="false" maxSizeMachineMBytes="300"/>
+        <EmbeddedObjects prefetchEnabled="true"
+            multipartCompositionEnabled="true"
+            maxMultipartCompositionSizeKBytes="64" maxNumberObjects="16"/>
+        <PersistentConnections enabled="true" maxContentServers="1" maxConnections="1"/>
+        <Compression enableGzipCompression="true" enableDeflateCompression="true"/>
+    </MobileAcceleration>
+    <Customization enabled="true">
+        <CustomConfiguration/>
+    </Customization>
+    <Parametrization enabled="false" selected="JavaScript" javaScript="" fileName=""/>
+    <Metering enabled="true"/>
+    <ContentFiltering enabled="false"/>
+    <SystemScaling>
+        <ProcessScaling scalingType="DEFAULT" concurrentRequests="100" blockSizeKBytes="32"/>
+    </SystemScaling>
+    <Distribution defaultInstallationDir="/opt/xmp4.0.1"
+        defaultJdk="/usr/java"
+        defaultProcessLogsDir="/home/danielk/XMP/XMP_401-branch/process"
+        defaultDatabaseClientLibs="/opt/oracle/OraHome92"
+        startGatewayAsRoot="false" defaultGatewayUserId="danielk" enableTcpInterception="true">
+        <Machine name="lanta" ipAddressForNetwork1="172.20.2.89" isManagementServer="true">
+            <SmsConnectProcess processNameSuffix="suffix1" channel="SmsChannel"/>
+            <ManagementServer>
+                <RadiusListenerAddress host="0.0.0.0" port="1813"/>
+                <SnmpAgentAddress host="0.0.0.0" port="1610"/>
+                <DashboardListenAddress host="172.20.2.89" port="1453"/>
+                <DashboardListenAddressSecure host="172.20.2.89" port="1454"/>
+            </ManagementServer>
+            <HttpRouterProcess processNameSuffix="suffix1">
+                <HttpListenAddress host="172.20.2.89" port="4000"/>
+            </HttpRouterProcess>
+            <HttpRouterProcess processNameSuffix="suffix2">
+                <HttpListenAddress host="172.20.2.89" port="4001"/>
+            </HttpRouterProcess>
+            <Wap1ProxyProcess processNameSuffix="suffix1">
+                <UdpListenAddress host="172.20.2.89"
+                    connectionLessPort="9200"
+                    connectionOrientedPort="9201"
+                    connectionLessPortSecure="9202" connectionOrientedPortSecure="9203"/>
+            </Wap1ProxyProcess>
+            <TcpRouterProcess processNameSuffix="suffix1">
+                <ListenAddress host="172.20.2.89" port="4010"/>
+            </TcpRouterProcess>
+            <PushPapInProcess processNameSuffix="suffix1">
+                <ListenAddress host="172.20.2.89" port="11002"/>
+                <ListenAddressSecure host="172.20.2.89" port="11003"/>
+            </PushPapInProcess>
+            <PushPapnOutProcess partitionNumber="1" processNameSuffix="suffix1"/>
+            <PushSmsOutProcess partitionNumber="1" processNameSuffix="suffix1"/>
+            <PushStoreProcess partitionNumber="1" maxMemorySizeMB="300"/>
+            <PushUdpClOutProcess partitionNumber="1" processNameSuffix="suffix1"/>
+            <WebAppProcess processNameSuffix="suffix1"
+                enableWebServices="true" enableCustomProvApi="true">
+                <ListenAddress host="172.20.2.89" port="6543"/>
+                <ListenAddressSecure host="172.20.2.89" port="6544"/>
+            </WebAppProcess>
+        </Machine>
+    </Distribution>
+</GatewayView>

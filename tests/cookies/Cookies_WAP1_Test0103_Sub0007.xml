@@ -1,0 +1,245 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0103.Sub0007  -  Verify Persistent-Cookie (20 cookies)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- start test -->
+<test>
+    <configuration>Cookies_Test0000_Sub0000.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>COOKIES.WAP1.T0103.Sub0007</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="connectGateway" module="WAP"> </function>
+
+<!-- // Set 3 Persistent-Cookies -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>
+            <parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; Expires=Tue, 19-Oct-2014 11:11:01 GMT; Path=/,</parameter>
+            <parameter>P2-Pers-Cookie-20-Min=Cookie-Value-P2; Expires=Tue, 19-Oct-2014 12:12:02 GMT; Path=/,</parameter>
+            <parameter>P3-Pers-Cookie-30-Min=Cookie-Value-P3; Expires=Tue, 19-Oct-2014 13:13:03 GMT; Path=/,</parameter>
+            <parameter>P4-Pers-Cookie-40-Min=Cookie-Value-P4; Expires=Tue, 19-Oct-2014 14:14:04 GMT; Path=/,</parameter>
+            <parameter>P5-Pers-Cookie-50-Min=Cookie-Value-P5; Expires=Tue, 19-Oct-2014 15:15:05 GMT; Path=/;</parameter>
+        </parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="WAP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+<!-- // Check if Persistent-Cookie is injected/delete one cookie -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>P3-Pers-Cookie-30-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/;</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL2</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>\$Version=0;</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P2-Pers-Cookie-20-Min=Cookie-Value-P2; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P3-Pers-Cookie-30-Min=Cookie-Value-P3; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P4-Pers-Cookie-40-Min=Cookie-Value-P4; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P5-Pers-Cookie-50-Min=Cookie-Value-P5; \$Path="/";</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+<!-- // Check if one Persistent-Cookie is deleted -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>P3-Pers-Cookie-30-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/;</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL2</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>\$Version=0;</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P1-Pers-Cookie-10-Min=Cookie-Value-P1; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P2-Pers-Cookie-20-Min=Cookie-Value-P2; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeaderNegative" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>P3-Pers-Cookie-30-Min</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P4-Pers-Cookie-40-Min=Cookie-Value-P4; \$Path="/";</parameter>
+    </function>
+    <function name="queryServerHeader" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>cookie</parameter>
+        <parameter>P5-Pers-Cookie-50-Min=Cookie-Value-P5; \$Path="/";</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>$Version=1;</parameter>
+    </function>
+
+
+<!-- // Remove Persistent-Cookie -->
+    <function name="setServerHeader" module="HTTP">
+        <parameter>set-cookie</parameter>
+        <parameter>
+            <parameter>P1-Pers-Cookie-10-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P2-Pers-Cookie-20-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P4-Pers-Cookie-40-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/,</parameter>
+            <parameter>P5-Pers-Cookie-50-Min=null; Expires=Tue, 01-Jan-1970 00:00:10 GMT; Path=/;</parameter>
+        </parameter>
+    </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL3</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkHeader" module="WAP">
+        <parameter>set-cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+
+  <!-- // Check if Persistent-Cookie is NOT injected -->
+    <function name="clearHeader" module="WAP"> </function>
+    <function name="clearServerHeader" module="HTTP"> </function>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL4</configuration>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>cookie2</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="disconnectGateway" module="WAP" />
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+  <function name="stopWebServer" module="HTTP"/>
+
+</test>
+

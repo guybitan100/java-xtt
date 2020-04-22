@@ -1,0 +1,79 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>KasperskyIntegration.TC.027</parameter>
+    </function>
+    <description>MM7 -> MM1 / Virus Check is enabled / Submitted MMS contains virus / XMA denies the submitted MMS</description>
+    
+    <subtest name="deleteMessagestoreAll" file="../deleteMessagestoreAll.xml"/>
+   
+	<function name="startSMSCServer" module="SMS"/>
+
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="sleep" module="basic">
+        <parameter>2000</parameter>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>MSISDN/0</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>virusMM7data.txt</file>
+    </function>
+    <!--function name="previewRequest" module="VASP" /-->
+    <function name="sendPostRequest" module="VASP"/>
+
+    <function name="checkResponseCode" module="VASP">
+        <parameter>500</parameter>
+    </function>
+    
+	<function name="queryBody" module="VASP">
+            <parameter>StatusCode</parameter>
+            <parameter>&lt;StatusCode&gt;2004&lt;/StatusCode&gt;</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>StatusText</parameter>
+            <parameter>&lt;StatusText&gt;Multimedia content refused&lt;/StatusText&gt;</parameter>
+        </function>
+
+		<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<parameter>run command amocli count TI:F.CEE.</parameter>
+		<variable>MSP</variable>
+		<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+ <function name="stopSMSCServer" module="SMS"/>
+
+</test>

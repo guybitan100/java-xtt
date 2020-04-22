@@ -1,0 +1,229 @@
+<test>
+<name>ImageReduction - 0012_atom.gif</name>
+<qcid>1289</qcid>
+<description>
+The purpose is to check if the image manage to reduce.
+</description>
+<steps>
+Clean the logs
+Modify the reqmode to the profile you need 
+Load the default reqmod
+Verify the default reqmod was loaded
+Send a request for GIF image
+Verify the HTTP response code
+Sleeping for3 seconds
+Verify the latest transaction log
+Export the latest transaction into tmp file
+Search 'HTG_ContentType' in tmp file
+Verify 'HTG_ContentType' value
+Search 'ICC_Rsp_ICX_CONVERSION_TypeIn' in tmp file
+Verify 'ICC_Rsp_ICX_CONVERSION_TypeIn' value
+Search 'ICC_Rsp_ICX_CONVERSION_BytesIn' in tmp file
+Verify 'ICC_Rsp_ICX_CONVERSION_BytesIn' value
+Search for BytesOut size in tmp file
+Check the output bytes deviation
+Search 'ICC_Rsp_ICX_CONVERSION_TypeOut' into tmp file
+Verify 'ICC_Rsp_ICX_CONVERSION_TypeOut' value
+Search 'IM_ContentType' into tmp file
+Verify  'IM_ContentType' value
+Search 'Skip_ICC' into tmp file
+Verify 'Skip_ICC' value
+Create an empty reqmod
+Load the empty reqmod
+Verify the reqmod was loaded
+Remote/executeRemoteCommand
+</steps>
+<designer>Admin </designer>
+<creationdate>2012-04-01 10:37:11 </creationdate>
+<testlevel>Regression</testlevel>
+<xfwVersion>XMP_XFW006</xfwVersion>
+<mandatory>false</mandatory>
+<stepname>Clean the logs</stepname>
+<stepid>1</stepid>
+<function name="restartProcess" module="Remote">
+<parameter>LOG.*</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Modify the reqmode to the profile you need </stepname>
+<stepid>2</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>sed -i "s/&lt;\/requestModifications&gt;/ &lt;table name=\"ImageReductions_coper\" phase=\"httpRequest\"&gt;\n   &lt;selector  urlPattern=\"http:\/\/\*\/\*\"&gt;\n     &lt;modifyContext name=\"FTR_MaxImageColors\" value=\"'16'\"\/&gt;\n     &lt;modifyContext name=\"FTR_JpegQfactor_Percent\" value=\"'30'\"\/&gt;\n     &lt;modifyContext name=\"FTR_JpegQfactor_Max\" value=\"'75'\"\/&gt;\n     &lt;modifyContext name=\"FTR_RemoveInterlacing\" value=\"'true'\"\/&gt;\n  &lt;\/selector&gt;\n &lt;\/table&gt;\n&lt;\/requestModifications&gt;/" /home/xmp/config/dynamic/Reqmod.xml</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Load the default reqmod</stepname>
+<stepid>3</stepid>
+<function name="executeRemoteXMSCommand" module="Remote">
+<parameter>load data /home/xmp/config/dynamic/Reqmod.xml</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify the default reqmod was loaded</stepname>
+<stepid>4</stepid>
+<function name="queryResponse" module="Remote">
+<parameter>^Loaded requestmodifications.*</parameter>
+<parameter>dev/null</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Send a request for GIF image</stepname>
+<stepid>5</stepid>
+<function name="sendGetRequest" module="HTTP">
+<parameter>
+<parameter>http://</parameter>
+<configuration>system/ip</configuration>
+<parameter>/images/GIF/0012_atom.gif</parameter>
+</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify the HTTP response code</stepname>
+<stepid>6</stepid>
+<function name="checkResponseCode" module="HTTP">
+<parameter>200</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Sleeping for3 seconds</stepname>
+<stepid>7</stepid>
+<function name="sleep" module="Basic">
+<parameter>3000</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify the latest transaction log</stepname>
+<stepid>8</stepid>
+<function name="getNewestRemoteFileName" module="Remote">
+<parameter>newestTransactionLog</parameter>
+<configuration>remote/logpath</configuration>
+<parameter>XMP</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Export the latest transaction into tmp file</stepname>
+<stepid>9</stepid>
+<function name="executeRemoteXMSCommand" module="Remote">
+<parameter>
+<configuration>remote/command</configuration>
+<parameter> logscan -in </parameter>
+<variable>newestTransactionLog</variable>
+<parameter> -out tmp.log</parameter>
+</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Search 'HTG_ContentType' in tmp file</stepname>
+<stepid>10</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>echo -n "`grep 'HTG_ContentType: image\/gif' tmp.log`"</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify 'HTG_ContentType' value</stepname>
+<stepid>11</stepid>
+<function name="queryResponse" module="Remote">
+<parameter>HTG_ContentType: image/gif</parameter>
+<parameter>data</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Search 'ICC_Rsp_ICX_CONVERSION_TypeIn' in tmp file</stepname>
+<stepid>12</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>echo -n "`grep ICC_Rsp_ICX_CONVERSION_TypeIn tmp.log`"</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify 'ICC_Rsp_ICX_CONVERSION_TypeIn' value</stepname>
+<stepid>13</stepid>
+<function name="queryResponse" module="Remote">
+<parameter>ICC_Rsp_ICX_CONVERSION_TypeIn: image/gif</parameter>
+<parameter>data</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Search 'ICC_Rsp_ICX_CONVERSION_BytesIn' in tmp file</stepname>
+<stepid>14</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>echo -n "`grep 'ICC_Rsp_ICX_CONVERSION_BytesIn: 17589' tmp.log`"</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify 'ICC_Rsp_ICX_CONVERSION_BytesIn' value</stepname>
+<stepid>15</stepid>
+<function name="queryResponse" module="Remote">
+<parameter>ICC_Rsp_ICX_CONVERSION_BytesIn: 17589</parameter>
+<parameter>data</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Search for BytesOut size in tmp file</stepname>
+<stepid>16</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>echo -n "`grep 'ICC_Rsp_ICX_CONVERSION_BytesOut:' tmp.log | tail -1 | awk -F' ' '{ print $2 }'`"</parameter>
+<parameter>10000</parameter>
+<parameter>fileSize</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Check the output bytes deviation</stepname>
+<stepid>17</stepid>
+<function name="equalWithDeviationPercentage" module="Basic">
+<parameter>15230</parameter>
+<variable>fileSize</variable>
+<parameter>5</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Search 'ICC_Rsp_ICX_CONVERSION_TypeOut' into tmp file</stepname>
+<stepid>18</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>echo -n "`grep 'ICC_Rsp_ICX_CONVERSION_TypeOut: image\/gif' tmp.log`"</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify 'ICC_Rsp_ICX_CONVERSION_TypeOut' value</stepname>
+<stepid>19</stepid>
+<function name="queryResponse" module="Remote">
+<parameter>ICC_Rsp_ICX_CONVERSION_TypeOut: image/gif</parameter>
+<parameter>data</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Search 'IM_ContentType' into tmp file</stepname>
+<stepid>20</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>echo -n "`grep 'IM_ContentType: image\/gif' tmp.log`"</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify  'IM_ContentType' value</stepname>
+<stepid>21</stepid>
+<function name="queryResponse" module="Remote">
+<parameter>IM_ContentType: image/gif</parameter>
+<parameter>data</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Search 'Skip_ICC' into tmp file</stepname>
+<stepid>22</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>echo -n "`grep 'Skip_ICC: false' tmp.log`"</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify 'Skip_ICC' value</stepname>
+<stepid>23</stepid>
+<function name="queryResponse" module="Remote">
+<parameter>Skip_ICC: false</parameter>
+<parameter>Skip_ICC: false</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Create an empty reqmod</stepname>
+<stepid>24</stepid>
+<function name="writeRemoteFile" module="Remote">
+<parameter>REQMOD_EmptyRules.xml</parameter>
+<parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Load the empty reqmod</stepname>
+<stepid>25</stepid>
+<function name="executeRemoteXMSCommand" module="Remote">
+<parameter>
+<parameter>load data </parameter>
+<parameter>REQMOD_EmptyRules.xml</parameter>
+</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Verify the reqmod was loaded</stepname>
+<stepid>26</stepid>
+<function name="queryResponse" module="Remote">
+<parameter>^Loaded requestmodifications.*</parameter>
+<parameter>dev/null</parameter>
+</function>
+<mandatory>false</mandatory>
+<stepname>Remote/executeRemoteCommand</stepname>
+<stepid>27</stepid>
+<function name="executeRemoteCommand" module="Remote">
+<parameter>rm -rf tmp.log</parameter>
+</function>
+</test>

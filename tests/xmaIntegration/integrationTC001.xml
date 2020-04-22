@@ -1,0 +1,20 @@
+<!-- just check of there are any corefiles -->
+<test>
+    <function name="testName" module="Basic">
+        <parameter>INTEGRATXMA.TC.001</parameter>
+    </function>
+
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>
+            <parameter>find </parameter>
+            <configuration>REMOTE/PROCPATH</configuration>
+            <parameter> -name *.core</parameter>
+        </parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter></parameter>
+        <parameter>result</parameter>
+    </function>
+
+</test>

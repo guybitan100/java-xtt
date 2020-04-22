@@ -1,0 +1,102 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>THROTTLE.TC.001</parameter>
+    </function>
+    
+    <subtest>../sendMM7/deleteMessagestoreAll.xml</subtest>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>throttling-config.xml</parameter>
+        <file>mm7IN-throttling-config.xml</file>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data throttling-config.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <parameter>000061201</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>../sendMM7/sendMM7data2.txt</file>
+    </function>
+    
+    <!--function name="initializeThrottle" module="Throttle">
+        <parameter>4</parameter>
+        <parameter>tc001</parameter>
+    </function-->
+    
+
+    
+    <loop name="threadLoop" start="0" stop="100" step="1">
+            <!--function name="throttle" module="Throttle">
+                <parameter>tc001</parameter>
+            </function-->        
+            <!--function name="previewRequest" module="VASP" /-->
+            <function name="sendPostRequest" module="VASP"/>
+            <function name="checkResponseCode" module="VASP">
+                <parameter>200</parameter>
+            </function>
+            <function name="queryBody" module="VASP">
+                <parameter>temp</parameter>
+                <parameter>&lt;StatusCode&gt;(1000|2001|4006)&lt;/StatusCode&gt;</parameter>
+            </function>
+
+            <conditional variable="temp" targetValue="2001">
+                <function name="setVariable" module="Basic">
+                    <parameter>ThrottleTC001-passed</parameter>
+                    <parameter>true</parameter>
+                </function>                
+            </conditional>   
+            <conditional variable="temp" targetValue="4006">
+                <function name="setVariable" module="Basic">
+                    <parameter>ThrottleTC001-passed</parameter>
+                    <parameter>true</parameter>
+                </function>                
+            </conditional>             
+    </loop>
+    
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>mm7IN-throttling-config.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;xmaThrottling xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+            &lt;/xmaThrottling&gt;</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data mm7IN-throttling-config.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>    
+
+    <function name="compareString" module="Basic">
+        <variable>ThrottleTC001-passed</variable>
+        <parameter>true</parameter>
+    </function> 
+</test>

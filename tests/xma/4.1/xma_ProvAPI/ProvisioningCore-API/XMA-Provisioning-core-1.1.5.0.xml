@@ -1,0 +1,77 @@
+<test>
+
+	<description> SOAP-API-provisioning-core{addDevice( )}: Try to add the device using addDevice()  with the value of userAgent already existing. </description>
+
+	<function name="testName" module="Basic">
+		<parameter>XMA-Provisioning-core-1.1.5.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>addDeviceuserexist.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="createDocument" module="XML">
+		<parameter>devicesoap</parameter>
+		<variable>SOAP_API/DEFAULT/BODY/PLAIN</variable>
+	</function>
+
+	<function name="getNodeFromDocument" module="XML" >
+		<parameter>devicesoap</parameter>
+		<parameter>//return</parameter>
+		<parameter>GANV</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<variable>GANV</variable>
+	</function>
+
+	<function name="createDocument" module="XML">
+		<parameter>removesoap</parameter>
+			<parameter>
+				<parameter>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+				&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/"&gt;
+				&lt;soap:Body&gt;
+				&lt;tns:removeDevice&gt;
+				&lt;arg0&gt;</parameter><variable>GANV</variable><parameter>&lt;/arg0&gt;
+				&lt;/tns:removeDevice&gt;
+				&lt;/soap:Body&gt;
+				&lt;/soap:Envelope&gt;
+			</parameter>
+		</parameter>
+	</function>
+
+	<function name="setHeader" module="XML">
+		<parameter>removesoap</parameter>
+		<parameter>content-type</parameter>
+		<parameter>text/xml</parameter>
+	</function>
+
+	<function name="sendPostRequest" module="XML">
+		<parameter>removesoap</parameter>
+		<parameter>removesoapResp</parameter>
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+</test>

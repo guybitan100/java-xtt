@@ -1,0 +1,20 @@
+<test>    
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile mm5-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>mm5-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+</test>

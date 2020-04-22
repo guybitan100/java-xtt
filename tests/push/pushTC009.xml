@@ -1,0 +1,69 @@
+<test>
+    <configuration>push.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>PUSH.TC.009</parameter>
+    </function>
+
+    <function name="setPostData" module="Push">
+        <file>push-DeliverBefore.txt</file>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+    
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>    
+
+    <function name="createDateString" module="Basic">
+        <parameter>yyyy-MM-dd'T'HH:mm:ss'Z'</parameter>
+        <parameter>previousDate</parameter>
+        <parameter>10</parameter>
+        <parameter>UTC</parameter>
+    </function>    
+        
+    <function name="replaceAttribute" module="Push">
+        <parameter>deliver-before-timestamp</parameter>
+        <variable>previousDate</variable>
+    </function>        
+   
+    <function name="sendPushRequest" module="Push"/>
+    
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+
+	<function name="sleep" module="Basic">
+		<parameter>10000</parameter>
+	</function>
+	
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>   
+    
+    <function name="waitForTimeoutWSPMessages" module="SMS">
+        <parameter>30000</parameter>
+    </function>
+    
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

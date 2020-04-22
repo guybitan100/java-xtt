@@ -1,0 +1,202 @@
+
+<Diameter>
+	<response>
+		<ACCOUNTING_REQUEST proxiable="true" error="false"
+			tretr="false" matchAVP="USER_NAME" matchREGEX="user2">
+			<SESSION_ID request="SESSION_ID" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<USER_NAME request="USER_NAME" mandatory="true" protected="false"
+				vendorspecific="false" vendorid="" />
+			<RESULT_CODE value="DIAMETER_SUCCESS" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<CC_MONEY mandatory="true" protected="false" vendorspecific="false"
+				vendorid="">
+				<CC_REQUEST_TYPE value="EVENT_REQUEST" mandatory="true"
+					protected="false" vendorspecific="false" vendorid="" />
+				<CC_TIME value="100" mandatory="false" protected="false"
+					vendorspecific="true" vendorid="1000" />
+			</CC_MONEY>
+		</ACCOUNTING_REQUEST>
+		<ACCOUNTING_REQUEST proxiable="true" error="true"
+			tretr="false">
+			<SESSION_ID request="SESSION_ID" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<USER_NAME request="USER_NAME" mandatory="true" protected="false"
+				vendorspecific="false" vendorid="" />
+			<TERMINATION_CAUSE value="DIAMETER_USER_MOVED"
+				mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+			<RESULT_CODE value="DIAMETER_AUTHORIZATION_REJECTED"
+				mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+			<ERROR_MESSAGE value="He's not here, Doh!" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<CC_MONEY mandatory="true" protected="false" vendorspecific="false"
+				vendorid="">
+				<CC_REQUEST_TYPE value="EVENT_REQUEST" mandatory="true"
+					protected="false" vendorspecific="false" vendorid="" />
+				<CC_TIME value="200" mandatory="false" protected="false"
+					vendorspecific="true" vendorid="1000" />
+			</CC_MONEY>
+		</ACCOUNTING_REQUEST>
+		<RE_AUTH_REQUEST version="1" applicationID="16777238"
+			hopbyhopID="456" endtoendID="789" proxiable="true" error="false" 
+			tretr="false" overrideCommandCode="258" matchAVP="RE_AUTH_REQUEST_TYPE" matchREGEX="AUTHORIZE_AUTHENTICATE">
+			<SESSION_ID request="SESSION_ID" />
+			<AUTH_APPLICATION_ID value="16777238" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<ORIGIN_HOST value="diameter.xtt724.com" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<ORIGIN_REALM value="ORIGIN_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<DESTINATION_REALM value="ORIGIN_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<DESTINATION_HOST value="diameter.xtt724.com"
+				mandatory="true" protected="false" vendorspecific="false" vendorID="" />
+			<PRODUCT_NAME value="XMP" mandatory="true" protected="false"
+				vendorspecific="false" vendorID="" />
+			<RE_AUTH_REQUEST_TYPE value="AUTHORIZE_AUTHENTICATE"
+				mandatory="true" protected="false" vendorspecific="false" vendorID="" />
+			<CHARGING_RULE_REMOVE mandatory="true" protected="false" vendorspecific="true" vendorid="10415">
+				<CHARGING_RULE_NAME value="AAA" mandatory="true" protected="false" vendorspecific="true" vendorid="10415" />
+			</CHARGING_RULE_REMOVE>
+			<CHARGING_RULE_INSTALL mandatory="true" protected="false" vendorspecific="true" vendorid="10415">
+				<CHARGING_RULE_NAME value="AAA" mandatory="true" protected="false" vendorspecific="true" vendorid="10415" />
+			</CHARGING_RULE_INSTALL>
+			<RE_AUTH_REQUEST_TYPE value="AUTHORIZE_ONLY"
+				mandatory="true" protected="false" vendorspecific="false" vendorID="" />
+		</RE_AUTH_REQUEST>
+		<RE_AUTH_REQUEST version="1" applicationID="16777238"
+			hopbyhopID="456" endtoendID="789" proxiable="true" error="false"
+			tretr="false" overrideCommandCode="258">
+			<SESSION_ID request="SESSION_ID" />
+			<AUTH_APPLICATION_ID value="16777238" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<ORIGIN_HOST value="diameter.xtt724.com" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<ORIGIN_REALM value="ORIGIN_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<DESTINATION_REALM value="ORIGIN_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<DESTINATION_HOST value="diameter.xtt724.com"
+				mandatory="true" protected="false" vendorspecific="false" vendorID="" />
+			<PRODUCT_NAME value="XMP" mandatory="true" protected="false"
+				vendorspecific="false" vendorID="" />
+			<CHARGING_RULE_REMOVE mandatory="true"
+				protected="false" vendorspecific="true" vendorid="10415">
+				<CHARGING_RULE_NAME value="AAA" mandatory="true"
+					protected="false" vendorspecific="true" vendorid="10415" />
+			</CHARGING_RULE_REMOVE>
+			<SESSION_RELEASE_CAUSE value="UNSPECIFIED_REASONS_RAR_T"
+				mandatory="true" protected="false" vendorspecific="true" vendorid="10415" />
+			<RE_AUTH_REQUEST_TYPE value="AUTHORIZE_ONLY"
+				mandatory="true" protected="false" vendorspecific="false" vendorID="" />
+		</RE_AUTH_REQUEST>
+		<DEVICE_WATCHDOG_REQUEST proxiable="true"
+			error="false" tretr="false">
+			<RESULT_CODE value="DIAMETER_SUCCESS" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_HOST value="diameter.xtt724.com" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_REALM value="ORIGIN_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+		</DEVICE_WATCHDOG_REQUEST>
+		<CAPABILITIES_EXCHANGE_REQUEST
+			proxiable="true" error="false" tretr="false">
+			<RESULT_CODE value="DIAMETER_SUCCESS" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_HOST value="diameter.xtt724.com" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_REALM value="ORIGIN_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<VENDOR_ID request="VENDOR_ID" />
+			<PRODUCT_NAME request="PRODUCT_NAME" />
+			<SUPPORTED_VENDOR_ID request="SUPPORTED_VENDOR_ID" />
+			<AUTH_APPLICATION_ID request="AUTH_APPLICATION_ID" />
+		</CAPABILITIES_EXCHANGE_REQUEST>
+		<DISCONNECT_PEER_REQUEST proxiable="true"
+			error="false" tretr="false">
+			<RESULT_CODE value="DIAMETER_SUCCESS" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<ORIGIN_HOST value="diameter.xtt724.com" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+			<ORIGIN_REALM value="ORIGIN_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorID="" />
+		</DISCONNECT_PEER_REQUEST>
+		<CREDIT_CONTROL_REQUEST proxiable="true" error="false"
+			tretr="false" matchAVP="CC_REQUEST_TYPE" matchREGEX="INITIAL_REQUEST">
+			<SESSION_ID request="SESSION_ID" />
+			<RESULT_CODE value="DIAMETER_SUCCESS" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_HOST value="diameter.xtt724.com" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_REALM request="DESTINATION_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<AUTH_APPLICATION_ID value="4" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<CC_REQUEST_TYPE request="CC_REQUEST_TYPE" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<CC_REQUEST_NUMBER request="CC_REQUEST_NUMBER"
+				mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+			<SUBSCRIPTION_ID mandatory="true" protected="false"
+				vendorspecific="false" vendorid="">
+				<SUBSCRIPTION_ID_DATA value="417894569"
+					mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+				<SUBSCRIPTION_ID_TYPE value="END_USER_E164"
+					mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+			</SUBSCRIPTION_ID>
+			<CHARGING_RULE_INSTALL mandatory="true" protected="false" vendorspecific="true" vendorid="10415">
+			       <CHARGING_RULE_DEFINITION mandatory="true" protected="false" vendorspecific="true"  vendorid="10415">
+				   <CHARGING_RULE_NAME  value="61637469766174655f7265646972656374696f6e" mandatory="true" protected="false" vendorspecific="true"  vendorid="10415"/>
+							<!--REDIRECT_SERVER mandatory="true" protected="false" vendorspecific="true"  vendorid="0">
+								<REDIRECT_ADDRESS_TYPE value="URL" mandatory="true" protected="false" vendorspecific="true"  vendorid="0"/>
+                				<REDIRECT_SERVER_ADDRESS value="www.google.com" mandatory="true" protected="false" vendorspecific="true"  vendorid="0"/>
+                			</REDIRECT_SERVER-->
+                			<!--REDIRECT_MODE value="0" mandatory="true" protected="false" vendorspecific="true"  vendorid="10415"/-->
+                </CHARGING_RULE_DEFINITION>
+			</CHARGING_RULE_INSTALL>
+		</CREDIT_CONTROL_REQUEST>
+		<CREDIT_CONTROL_REQUEST proxiable="true" error="false"
+			tretr="false" matchAVP="CC_REQUEST_TYPE" matchREGEX="UPDATE_REQUEST">
+			<SESSION_ID request="SESSION_ID" />
+			<RESULT_CODE value="DIAMETER_SUCCESS" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_HOST value="diameter.xtt724.com" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_REALM request="DESTINATION_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<AUTH_APPLICATION_ID value="4" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<CC_REQUEST_TYPE request="CC_REQUEST_TYPE" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<CC_REQUEST_NUMBER request="CC_REQUEST_NUMBER"
+				mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+			<SUBSCRIPTION_ID mandatory="true" protected="false"
+				vendorspecific="false" vendorid="">
+				<SUBSCRIPTION_ID_DATA value="417894569"
+					mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+				<SUBSCRIPTION_ID_TYPE value="END_USER_E164"
+					mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+			</SUBSCRIPTION_ID>
+			<CHARGING_RULE_INSTALL mandatory="true" protected="false" vendorspecific="true" vendorid="10415">
+			       <CHARGING_RULE_DEFINITION mandatory="true" protected="false" vendorspecific="true"  vendorid="10415">
+				   <CHARGING_RULE_NAME  value="61637469766174655f7265646972656374696f6e" mandatory="true" protected="false" vendorspecific="true"  vendorid="10415"/>
+                </CHARGING_RULE_DEFINITION>
+			</CHARGING_RULE_INSTALL>
+		</CREDIT_CONTROL_REQUEST>
+		<CREDIT_CONTROL_REQUEST proxiable="true" error="false"
+			tretr="false" matchAVP="CC_REQUEST_TYPE" matchREGEX="TERMINATION_REQUEST">
+			<SESSION_ID request="SESSION_ID" />
+			<RESULT_CODE value="DIAMETER_SUCCESS" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_HOST value="diameter.xtt724.com" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<ORIGIN_REALM request="DESTINATION_REALM" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<AUTH_APPLICATION_ID value="4" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<CC_REQUEST_TYPE request="CC_REQUEST_TYPE" mandatory="true"
+				protected="false" vendorspecific="false" vendorid="" />
+			<CC_REQUEST_NUMBER request="CC_REQUEST_NUMBER"
+				mandatory="true" protected="false" vendorspecific="false" vendorid="" />
+		</CREDIT_CONTROL_REQUEST>
+	</response>
+</Diameter>

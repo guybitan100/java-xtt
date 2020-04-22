@@ -1,0 +1,49 @@
+#Make a new java KEYSTORE
+keytool -genkey -keyalg "RSA" -validity 365 -keystore <<KEYSTORENAME>>
+
+#Export the request
+keytool -certreq -keystore <<KEYSTORENAME>>
+
+#Make a new CA Cert with OPENSSL
+CA -newca
+
+#Make a new certificate with OPENSSL for the chain
+CA -newreq
+
+#You need to add the following section, which allows the certificate to be used for certificate signing, to your configuration file:
+[ my_v3_ext ]
+basicConstraints = CA:true
+
+#Rename the request
+mv newreq.pem userRequest1.pem
+
+#Sign the middle cert with the CA CERT
+openssl ca -policy policy_anything -extensions my_v3_ext -out userCert1.pem -infiles userRequest1.pem
+
+#Sign the JAVA certificate with the middle cert newreq.pem is the JAVA CERT
+openssl ca -policy policy_anything -keyfile userRequest1.pem -cert userCert1.pem -out xttCert.pem -infiles newreq.pem
+
+#import the files back into the java store
+keytool -import -alias cacert -file cacert.pem -keystore <<KEYSTORENAME>>
+keytool -import -alias userCert1 -file userCert1.pem -keystore <<KEYSTORENAME>>
+
+#import the signed request back in now that we have the chain.
+keytool -import -trustcacerts -file xttCert.pem -keystore <<KEYSTORENAME>>
+
+#You can convert the public keys from PEM to DER in openssl with this 
+openssl x509 -in xttCert.pem -inform PEM -out xttCert.der  -outform DER
+openssl x509 -in userCert1.pem -inform PEM -out userCert1.der  -outform DER
+
+#To make a CRL (Certificate Revocation List) do the following
+openssl ca -revoke userCert1.pem
+openssl ca -gencrl
+
+#Paste the result to a file, convert the file to DER using:
+openssl crl -in userCert2.crl -inform PEM -out userCert2.crl  -outform DER
+
+#To unrevoke the certificate, so you can revoke a different one, edit the index.txt and change
+R       080509075330Z   070510081416Z   02      unknown /C=CH/ST=Aarau/L=Lenzburg/O=724 Solutions/OU=QA/CN=XTT Certificate
+#to
+V       080509075330Z   02      unknown /C=CH/ST=Aarau/L=Lenzburg/O=724 Solutions/OU=QA/CN=XTT Certificate
+
+#Then you can make a CRL for a different certificate.

@@ -1,0 +1,24 @@
+<test>
+       
+      <description> SOAP-API-Operator {(create( )}: Checking with only the value of the Operator Name. </description>
+      
+	 <function name="testName" module="Basic">
+		<parameter>XMA-Operator-2.1.2.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			 <configuration>XMA/PROVAPI/IP</configuration>
+			 <parameter>:</parameter>
+			 <configuration>XMA/PROVAPI/PORT</configuration>
+			 <parameter>/jaxws-policy-operators/operators</parameter>
+		</parameter>
+		<file>create-null-role.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+	<function name="checkResponseCode" module="SOAP_API">
+		 <parameter>500</parameter>
+	</function>
+        
+ </test>

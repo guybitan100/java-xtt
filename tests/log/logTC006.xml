@@ -1,0 +1,76 @@
+<test>
+    <configuration>log.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>LOG.TC.006</parameter>
+    </function>
+
+    <function name="stopProcess" module="Remote">
+        <parameter>http-router</parameter>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+        <parameter>logger</parameter>
+    </function>
+
+    <function name="startProcess" module="Remote">
+        <parameter>http-router</parameter>
+    </function>
+
+    <function name="sleep" module="Basic">
+        <parameter>2000</parameter>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="connectGateway" module="WAP"/>
+
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="sleep" module="Basic">
+        <parameter>20000</parameter>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>wap_pull_logscan_script.txt </parameter>
+        <file>wap_pull_logscan_script.txt</file>
+    </function>
+
+    <function name="getNewestRemoteFileName" module="Remote">
+        <parameter>logTC006/newest</parameter>
+	<configuration>xmg/logpath</configuration>
+        <parameter>XMP</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>
+           <configuration>remote/command</configuration>
+    	   <parameter>logscan -in </parameter>
+    	   <variable>logTC006/newest</variable>
+    	</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>(.*\Z)</parameter>
+        <parameter>logTC006/pullResult</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+
+    <function name="disconnectGateway" module="WAP"/>
+</test>

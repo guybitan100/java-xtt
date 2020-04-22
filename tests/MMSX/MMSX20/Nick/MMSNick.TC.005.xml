@@ -1,0 +1,44 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>MMSNick.TC.005</parameter>
+	</function>
+
+	<description>Validate the loading operation of Banned Nicknames Dynamic Configuration File into Application by using "xms load data" command</description>
+
+	<!--  Back up of default Appconfig file -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract data </parameter>
+			<parameter>appconfig default_appconfig.xml</parameter>
+		</parameter>
+	</function>
+
+	<!-- Write a remote file with the chaged values in the variable -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>NickBannedAppconfig.xml</parameter>
+		<file>NickBannedAppconfig.xml</file>
+	</function>
+
+	<!-- Load the updated appconfig file specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data NickBannedAppconfig.xml</parameter>
+	</function>
+
+	<!-- Check for the success of the loading  -->
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded appconfig</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Load the default appconfig to undo the appconfig changes done specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data default_appconfig.xml</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded appconfig</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+</test>

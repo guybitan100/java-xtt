@@ -1,0 +1,55 @@
+<test>
+    <function name="setVariable" module="Basic">
+        <parameter>
+            <localvariable>loadVariables/0</localvariable>
+            <parameter>/FROM</parameter>
+        </parameter>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN0</configuration>
+    </function>
+    <conditional localvariable="loadVariables/1" targetValue="null">
+        <function name="setVariable" module="Basic">
+            <parameter>CONFIGNAME</parameter>
+            <parameter>XMA/POSTPAY/USEEMAIL/MSISDN</parameter>
+        </function>
+    </conditional>
+    
+    <conditional localvariable="loadVariables/1" targetValue="null" inverted="true">
+        <function name="setVariable" module="Basic">
+            <parameter>CONFIGNAME</parameter>
+            <localvariable>loadVariables/1</localvariable>
+        </function>
+    </conditional>
+
+    <conditional variable="MSISDNNAME" targetValue="null">
+        <loop name="num" start="0" stop="10" step="1">
+            <function name="setVariable" module="Basic">
+                <parameter>
+                    <localvariable>loadVariables/0</localvariable>
+                    <parameter>/</parameter>
+                    <localvariable>num</localvariable>
+                </parameter>
+                <configuration>
+                    <variable>CONFIGNAME</variable>
+                    <localvariable>num</localvariable>
+                </configuration>
+            </function>
+        </loop>
+    </conditional>
+    <conditional variable="MSISDNNAME" targetValue="null" inverted="true">
+        <loop name="num" start="0" stop="10" step="1">
+            <function name="setVariable" module="Basic">
+                <parameter>
+                    <localvariable>loadVariables/0</localvariable>
+                    <parameter>/</parameter>
+                    <localvariable>num</localvariable>
+                </parameter>
+                <localvariable>
+                    <variable>MSISDNNAME</variable>
+                    <parameter>/</parameter>
+                    <localvariable>num</localvariable>
+                </localvariable>
+            </function>
+        </loop>
+    </conditional> 
+
+</test>

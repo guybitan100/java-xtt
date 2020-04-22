@@ -1,0 +1,351 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM4.TC.010</parameter>
+    </function>
+   <function name="startSMTPServer" module="SMTP"/>
+
+   <function name="setVariable" module="Basic">
+       <parameter>plmn</parameter>
+       <parameter></parameter>
+       <!--<parameter>/TYPE=PLMN</parameter>-->
+   </function>
+
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC010-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;&lt;self systemDomain="xma.724.com"&gt;&lt;/self&gt;&lt;/mnos&gt;</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC010-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>Attribute 'systemEmailAddress' must appear on element 'self'</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC010-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;&lt;self systemEmailAddress="systememailaddress@xma.724.com"&gt;&lt;/self&gt;&lt;/mnos&gt;</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC010-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>Attribute 'systemDomain' must appear on element 'self'</parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC010-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+&lt;self systemEmailAddress="systememailaddress@xma.724.com" systemDomain="xma.724.com"&gt;
+    &lt;domains&gt;
+        &lt;domain&gt;xma.724.com&lt;/domain&gt;
+    &lt;/domains&gt;
+&lt;/self&gt;
+&lt;partners&gt;
+    &lt;partner name="*" description="Default Partner"&gt;
+    &lt;domains&gt;
+        &lt;domain&gt;defaultpartner.724.com&lt;/domain&gt;
+    &lt;/domains&gt;
+    &lt;out&gt;
+        &lt;mm4 smtpFromAddress="smtpfromaddress@xma.724.com" domainToAppend="defaultpartner.724.com" askPartnerForResponses="false"
+        transactionIdSuffix="/xtttx" messageIdSuffix="/xttmsg" sendDeliveryReportsOnForwarding="false"/&gt;
+    &lt;/out&gt;
+    &lt;/partner&gt;
+&lt;/partners&gt;
+&lt;/mnos&gt;</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC010-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+            <parameter>mm7@mm7.xtt724.com</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>333333@defaultpartner.724.com</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM4data.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>
+    <function name="checkServerHeaderPart" module="SMTP">
+            <parameter>333333@defaultpartner.724.com</parameter>
+        <parameter>mail from</parameter>
+        <parameter>mm7@mm7.xtt724.com</parameter>
+    </function>
+
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+            <parameter>00779988776655</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>444444@defaultpartner.724.com</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM4data.txt</file>
+        </function>
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>2</parameter>
+    </function>
+    <function name="checkServerHeaderPart" module="SMTP">
+            <parameter>444444@defaultpartner.724.com</parameter>
+        <parameter>mail from</parameter>
+        <parameter>00779988776655</parameter>
+        <variable>plmn</variable>
+        <parameter>@xma.724.com</parameter>
+    </function>
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>555555@defaultpartner.724.com</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM4data.txt</file>
+        </function>
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>3</parameter>
+    </function>
+    <function name="checkServerHeaderPart" module="SMTP">
+            <parameter>555555@defaultpartner.724.com</parameter>
+        <parameter>mail from</parameter>
+        <parameter>smtpfromaddress@xma.724.com</parameter>
+    </function>
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC010-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+&lt;self systemEmailAddress="systememailaddress@xma.724.com" systemDomain="xma.724.com"&gt;
+    &lt;domains&gt;
+        &lt;domain&gt;xma.724.com&lt;/domain&gt;
+    &lt;/domains&gt;
+&lt;/self&gt;
+&lt;partners&gt;
+    &lt;partner name="*" description="Default Partner"&gt;
+    &lt;domains&gt;
+        &lt;domain&gt;defaultpartner.724.com&lt;/domain&gt;
+    &lt;/domains&gt;
+    &lt;out&gt;
+        &lt;mm4 domainToAppend="defaultpartner.724.com" askPartnerForResponses="false"
+        transactionIdSuffix="/xtttx" messageIdSuffix="/xttmsg" sendDeliveryReportsOnForwarding="false"/&gt;
+    &lt;/out&gt;
+    &lt;/partner&gt;
+&lt;/partners&gt;
+&lt;/mnos&gt;</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC010-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>666666@defaultpartner.724.com</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM4data.txt</file>
+        </function>
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>4</parameter>
+    </function>
+    <function name="checkServerHeaderPart" module="SMTP">
+            <parameter>666666@defaultpartner.724.com</parameter>
+        <parameter>mail from</parameter>
+        <parameter>systememailaddress@xma.724.com</parameter>
+    </function>
+
+
+    <function name="stopSMTPServer" module="SMTP"/>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC010-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC010-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+</test>

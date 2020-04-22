@@ -1,0 +1,201 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM1.MM7.TC.003</name>
+    <description>MM Message is delivered to VAS Application [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=No] 
+        [Sender's DB_Prepaid=false]</description>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <function name="startSMSCServer" module="SMS"/>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<!-- Load MSISDN -->
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+	<!-- Start MMSC Server in order to receive & response MM7 Delivery Reports -->
+    <function name="startMMSCServer" module="MMSC">
+        <configuration>VASP/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <!-- send it to the VASP address we configured in the CONFIG file. -->
+        <configuration>VASP/NUMBER</configuration>
+        <!-- Don't need to send the sender, XMA should be able to get that from the HTTP header in the POST to IN.MM1. -->
+		<parameter></parameter>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+	<function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>True</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>False</parameter>
+    </function>
+    <!--function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_TIME</parameter>
+        <parameter>false</parameter>
+        <parameter>0</parameter>
+    </function-->
+    <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World</base64encode>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+
+    <function name="setHeader" module="HTTP">
+        <configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+		<variable>MSISDN/1</variable>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SMSCSERVER/MM1Ip</configuration>
+            <parameter>:</parameter>
+            <configuration>SMSCSERVER/MM1Port</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Response</parameter>
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>originalMessageId</parameter>
+        <variable>PACKET1Response/MMS/message_id</variable>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>log/messageid</parameter>
+        <variable>originalMessageId</variable>
+    </function>
+
+
+    <!-- check that the response was not "ERROR" but "Ok" -->
+    <function name="queryVariable" module="BASIC">
+        <parameter>PACKET1Response/MMS/x_mms_response_status</parameter>
+        <parameter>dev/null</parameter>
+        <parameter>Ok</parameter>
+    </function>
+
+    <!-- Wait for a MM7 request on the MMSC Server -->
+    <function name="waitForRequests" module="MMSC">
+        <parameter>1</parameter>
+    </function>
+    <!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standard -->
+    <function name="validateXML" module="XML">
+	    <variable>MMSCSERVER/MM7/SOAP</variable>
+ 	    <parameter></parameter>
+        <configuration>MMSCSERVER/XMLNSENV</configuration>
+        <configuration>MMSCSERVER/SOAPXSD</configuration>
+        <configuration>MMSCSERVER/XMLNSMM7</configuration>
+        <configuration>MMSCSERVER/MM7XSD</configuration>
+    </function>
+
+    <!-- check that at least Sender and Recipients where set correctly -->
+	<function name="queryText" module="Basic">
+	    <variable>MMSCSERVER/MM7/SOAP</variable>
+	    <parameter>dev/null</parameter>
+	    <parameter>
+    	    <parameter>&lt;Sender&gt;\s*?&lt;Number&gt;</parameter><variable>MSISDN/1</variable><parameter>&lt;/Number&gt;\s*?&lt;/Sender&gt;\s*?</parameter>
+            <parameter>&lt;Recipients&gt;\s*?&lt;To&gt;\s*?&lt;Number&gt;</parameter><configuration>VASP/NUMBER</configuration><parameter>&lt;/Number&gt;\s*?&lt;/To&gt;\s*?&lt;/Recipients&gt;</parameter>
+        </parameter>
+    </function>
+
+    <!-- Wait for Delivery Reports -->
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="compareString" module="BASIC">
+        <variable>originalMessageId</variable>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/1</variable>
+            <parameter>/MMS/message_id</parameter>
+        </variable>
+    </function>
+
+    <function name="compareString" module="BASIC">
+        <parameter>Forwarded</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/1</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+	<!-- Stop MMSC Server -->
+    <function name="stopMMSCServer" module="MMSC"/>
+
+	<!-- Stop SMSC Server -->
+    <function name="stopSMSCServer" module="SMS"/>
+
+</test>

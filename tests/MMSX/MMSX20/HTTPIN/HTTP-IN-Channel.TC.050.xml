@@ -1,0 +1,72 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>HTTP-IN-Channel.TC.050</parameter>
+	</function>
+
+	<description>Validate Intercepted MMS Request from Proxy Server through MM7/ X-Proxy-MMS-Message-Type header content(i.e. MM1_remove.REQ) not present in Proxy App Interface doc list(3.3.1.1 New-Message-Intercepted-Request)/ Application should reject such type of content</description>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>MM1_remove.REQ</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/NOTINDB/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/NICKNAME/SENDER/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>X-Proxy-MMS-Message-Type is invalid</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to invalid URL -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/Ip</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/Port</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Checking pass response from application -->
+	<!-- <function name="checkHeader" module="HTTP">
+		<parameter>x-mmsx-error-text</parameter>
+		<parameter>unsupported message type: MM1_remove.RE</parameter>
+	</function>-->
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-proxy-handle</parameter>
+		<parameter>error</parameter>
+	</function>
+
+</test>

@@ -1,0 +1,49 @@
+<test>
+
+	<description> SOAP-API-provisioning-core{setDeviceByUserId( )}: Test for Null or empty value for the device values ( profile, profileURL, UserAgent) for an existing value of userId ( to this user no device is associted with ). </description>
+
+	<function name="testName" module="Basic">
+		<parameter>XMA-Provisioning-core-1.5.2.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>AddUser.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>UserNull.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>RemoveUser.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+</test>

@@ -1,0 +1,76 @@
+<!-- $Id: BZ20685.xml,v 1.1 2009/01/23 14:07:37 dkaufmann Exp $ -->
+<!--# Test Case BZ20685 HTA_ResponseProtocolVersion
+    # Check that rules can insert fixed values for HTA_ResponseProtocolVersion.-->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>../../reqmod/reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>BZ20685</parameter>
+    </function>
+    <description>Insert fixed values as headers</description>
+
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    
+    <!-- set HTA_ResponseProtocolVersion to 1.0 -->
+    <function name="setHeader" module="HTTP">
+        <parameter>HTA_ResponseProtocolVersion</parameter>
+        <parameter>HTTP/1.0</parameter>
+    </function>
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <configuration>REQMOD/WWWTEST1</configuration>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did receive the header -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>HTA_ResponseProtocolVersion</parameter>
+        <parameter>HTTP/1.0</parameter>
+    </function>
+    
+    <!-- set HTA_ResponseProtocolVersion to 1.1 -->
+    <function name="setHeader" module="HTTP">
+        <parameter>HTA_ResponseProtocolVersion</parameter>
+        <parameter>HTTP/1.1</parameter>
+    </function>
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <configuration>REQMOD/WWWTEST1</configuration>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did receive the header -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>HTA_ResponseProtocolVersion</parameter>
+        <parameter>HTTP/1.1</parameter>
+    </function>
+    
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+</test>

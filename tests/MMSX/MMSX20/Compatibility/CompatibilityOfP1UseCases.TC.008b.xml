@@ -1,0 +1,95 @@
+<test>
+<name>CompatibilityOfP1UseCases.TC.008b</name>
+    <description>Validate "Group" Feature in combination with "White/Black Lists", "Unconditional Forwarding" Features
+Test Category: SHOULD
+Test Steps:
+---------------------------------------------------------------
+Scenario2:
+
+1. Sender has "Groups" feature enabled through Web Portal.
+2. Recipient has a Black List and Sender is in the Black List and Recipient enabled "Unconditional Forwarding" Feature.
+3. Sender send MM1 request to a group via MMS Proxy.
+4. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request 
+5. MMS Extra after validating the sender (in Black List) blocks MM for the recipients
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. MMSC
+	  2. Diameter
+	  3. Remote
+	  4. Basic -->
+  </description>
+ 
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/SHORTCODE/MSISDN4</configuration>
+	</function>
+
+	<!-- Set Subject as Grope symbol -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>group1100 This is test message</parameter>
+	</function>
+
+	<!-- Set From as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+	</function>
+	
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+	
+</test>

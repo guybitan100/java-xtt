@@ -1,0 +1,73 @@
+<test>
+    <configuration>push.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>PUSH.TC.005</parameter>
+    </function>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="setVariable" module="Basic">
+        <parameter>pushTC005/pushinits</parameter>
+        <file>pushinitiators.xml</file>
+    </function>
+
+    <function name="replace" module="Basic">
+        <parameter>pushTC005/pushinits</parameter>
+        <parameter>172.20.14.36</parameter>
+        <configuration>system/ip</configuration>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>pushinitiators.xml </parameter>
+        <variable>pushTC005/pushinits</variable>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>blankpushinitiators.xml </parameter>
+        <file>blankpushinitiators.xml</file>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data pushinitiators.xml</parameter>
+    </function>
+
+    <function name="setPostData" module="Push">
+        <file>push-OnlyMandatory.txt</file>
+    </function>
+
+    <function name="setHeader" module="Push">
+        <parameter>Authorization</parameter>
+        <parameter>
+            <parameter>Basic </parameter>
+            <parameter>Z2F2aW46c2VjcmV0</parameter>
+        </parameter>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>address-value</parameter>
+        <configuration>pushTestSpecific/msisdn</configuration>
+    </function>
+
+    <function name="replaceAttribute" module="Push">
+        <parameter>href</parameter>
+        <configuration>pushTestSpecific/href</configuration>
+    </function>
+
+    <function name="sendPushRequest" module="Push"/>
+
+    <function name="checkResponseCode" module="Push">
+        <parameter>202</parameter>
+    </function>
+
+    <function name="checkPAPCode" module="Push">
+        <parameter>1001</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data blankpushinitiators.xml</parameter>
+    </function>
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

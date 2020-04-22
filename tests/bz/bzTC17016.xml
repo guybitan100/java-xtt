@@ -1,0 +1,320 @@
+<test>
+    <name>BZ.TC.17016</name>
+    
+<!--<?xml version="1.0"?>-->
+<!-- Add RBN Rule To Modify IP Address Based On Header -->
+<!--<xupdate:modifications xmlns:xupdate="http://www.xmldb.org/xupdate">
+    <xupdate:insert-before select="/component-view/processgroup[starts-with(@name,'SERVICE')]/component[@name='RBN']/RBN_CFG/Rules/Rule[1]">
+        <xupdate:element name="Rule">
+            <rule_name>Change_IP</rule_name>
+            <rule_expression>
+                <string>And [Ctx HTA_ReqHdr_x-xtt-ip]</string>
+                <string>CtxSet TCP_RemoteIpAddress [Ctx HTA_ReqHdr_x-xtt-ip]</string>
+            </rule_expression>            
+        </xupdate:element>
+    </xupdate:insert-before>
+</xupdate:modifications>-->
+    <description>Test MSISDN mixup 
+    (needs multiple IP per user turned on)</description>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmod-insert-msisdn.xml</parameter>
+        <parameter>
+            <xml>
+<requestModifications>
+    <table name="set external NAI">
+    	<selector>
+    		<modifyHeader name="x-xmg-msisdn" value="Internal_NAI"/>
+    	</selector>
+    </table>
+</requestModifications>
+	        </xml>
+	    </parameter>
+    </function>
+
+    <function name="executeRemoteXmsCommand" module="Remote">
+        <parameter>load data reqmod-insert-msisdn.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <!--function name="setDefaultWebWorkerExtension" module="HTTP">
+        <parameter>com.mobilgw.xtt.WebWorkerExtensionEcho</parameter>
+    </function-->
+
+    <thread>
+        <function name="stop" module="XTT"/>
+        <function name="setVariable" module="Basic">
+            <parameter>shouldstop</parameter>
+            <parameter>true</parameter>
+        </function>
+    </thread>
+
+    <function name="setVariable" module="Basic">
+        <parameter>IP_1</parameter>
+        <parameter>155</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>IP_2</parameter>
+        <parameter>1</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>IP_3</parameter>
+        <parameter>0</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>IP_4</parameter>
+        <parameter>0</parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>counter</parameter>
+        <parameter>0</parameter>
+    </function>
+
+    <function name="getLocalSystemTime" module="Basic">
+        <parameter>starttime</parameter>
+    </function>
+
+    <while variable="shouldstop" targetvalue="true" inverted="true">
+         <div comment="First IP from MSISDN">
+            <function name="getLocalSystemTime" module="Basic">
+                <parameter>currenttime</parameter>
+            </function>
+
+            <function name="calculate" module="Basic">
+                <parameter>difftime</parameter>
+                <parameter>
+                    <variable>currenttime</variable>
+                    <parameter>-</parameter>
+                    <variable>starttime</variable>
+                </parameter>
+            </function>
+
+            <function name="greaterThan" module="Basic">
+                <variable>difftime</variable>
+                <parameter>30</parameter>
+                <parameter>isGreaterThan</parameter>
+            </function>
+
+            <!-- Change 70 lower to skip more logoffs -->
+            <function name="greaterThan" module="Basic">
+                <randomint>100</randomint>
+                <parameter>70</parameter>
+                <parameter>skipRadiusLogoff</parameter>
+            </function>
+
+            <conditional variable="isGreaterThan" targetValue="false">
+                <conditional variable="IP_4" targetValue="255">
+                    <function name="setVariable" module="Basic">
+                        <parameter>IP_4</parameter>
+                        <parameter>0</parameter>
+                    </function>
+                    <function name="addVariable" module="Basic">
+                        <parameter>IP_3</parameter>
+                        <variable>IP_3</variable>
+                        <parameter>1</parameter>
+                    </function>
+                </conditional>
+
+                <conditional variable="IP_4" targetValue="255" inverted="true">
+                    <function name="addVariable" module="Basic">
+                        <parameter>IP_4</parameter>
+                        <variable>IP_4</variable>
+                        <parameter>1</parameter>
+                    </function>
+                </conditional>
+            </conditional>
+
+            <conditional variable="isGreaterThan" targetValue="true">
+                <function name="getLocalSystemTime" module="Basic">
+                    <parameter>starttime</parameter>
+                </function>
+                <function name="setVariable" module="Basic">
+                    <parameter>IP_4</parameter>
+                    <parameter>1</parameter>
+                </function>
+                <function name="setVariable" module="Basic">
+                    <parameter>IP_3</parameter>
+                    <parameter>0</parameter>
+                </function>
+            </conditional>
+
+            <function name="addVariable" module="Basic">
+                <parameter>counter</parameter>
+                <variable>counter</variable>
+                <parameter>1</parameter>
+            </function>
+
+            <function name="addPrefix" module="Basic">
+                <parameter>msisdnsuffix</parameter>
+                <variable>counter</variable>
+                <parameter>7</parameter>
+                <parameter>0</parameter>
+            </function>
+
+
+            <function name="setVariable" module="Basic">
+                <parameter>msisdn</parameter>
+                <parameter>
+                    <parameter>4179</parameter>
+                    <variable>msisdnsuffix</variable>
+                </parameter>
+            </function>
+
+            <function name="info" module="Basic">
+                <parameter>User: </parameter>
+                <variable>msisdn</variable>
+                <parameter>IP: </parameter>
+                <variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3</variable><parameter>.</parameter><variable>IP_4</variable>
+            </function>
+
+            <function name="setHeader" module="HTTP">
+                <parameter>x-xtt-msisdn</parameter>
+                <variable>msisdn</variable>
+            </function>
+            <function name="setHeader" module="HTTP">
+                <parameter>x-xtt-ip</parameter>
+                <parameter><variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3</variable><parameter>.</parameter><variable>IP_4</variable></parameter>
+            </function>
+
+        	<function name="radiusLogon" module="Radius">
+        		<variable>msisdn</variable>
+        	    <variable>msisdn</variable>
+        	    <parameter><variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3</variable><parameter>.</parameter><variable>IP_4</variable></parameter>
+            </function>
+
+        	<function name="sendGetRequest" module="HTTP">
+                <parameter>
+                	<parameter>http://</parameter>
+                	<configuration>system/ip</configuration>
+                	<parameter>/</parameter>
+                </parameter>
+        	</function>
+
+        	<function name="checkResponseCode" module="HTTP">
+        		<parameter>200</parameter>
+        	</function>
+
+            <function name="queryServerHeader" module="HTTP">
+                <parameter>msisdnFromXTT</parameter>
+                <parameter>x-xtt-msisdn</parameter>
+                <parameter>.*</parameter>
+            </function>
+            <function name="queryServerHeader" module="HTTP">
+                <parameter>msisdnFromXTT</parameter>
+                <parameter>x-xmg-msisdn</parameter>
+                <variable>msisdnFromXTT</variable>
+            </function>
+        </div>
+        <div comment="Second IP from MSISDN">
+            <function name="setVariable" module="Basic">
+                <parameter>IP_4_1</parameter>
+                <variable>IP_4</variable>
+            </function>
+            <function name="setVariable" module="Basic">
+                <parameter>IP_3_1</parameter>
+                <variable>IP_3</variable>
+            </function>
+
+            <conditional variable="IP_4" targetValue="255">
+                <function name="setVariable" module="Basic">
+                    <parameter>IP_4</parameter>
+                    <parameter>0</parameter>
+                </function>
+                <function name="addVariable" module="Basic">
+                    <parameter>IP_3</parameter>
+                    <variable>IP_3</variable>
+                    <parameter>1</parameter>
+                </function>
+            </conditional>
+            <conditional variable="IP_4" targetValue="255" inverted="true">
+                <function name="addVariable" module="Basic">
+                    <parameter>IP_4</parameter>
+                    <variable>IP_4</variable>
+                    <parameter>1</parameter>
+                </function>
+            </conditional>
+
+            <function name="info" module="Basic">
+                <parameter>User: </parameter>
+                <variable>msisdn</variable>
+                <parameter>IP: </parameter>
+                <variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3</variable><parameter>.</parameter><variable>IP_4</variable>
+            </function>
+
+            <function name="setHeader" module="HTTP">
+                <parameter>x-xtt-msisdn</parameter>
+                <variable>msisdn</variable>
+            </function>
+            <function name="setHeader" module="HTTP">
+                <parameter>x-xtt-ip</parameter>
+                <parameter><variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3</variable><parameter>.</parameter><variable>IP_4</variable></parameter>
+            </function>
+
+        	<function name="radiusLogon" module="Radius">
+        		<variable>msisdn</variable>
+        	    <variable>msisdn</variable>
+        	    <parameter><variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3</variable><parameter>.</parameter><variable>IP_4</variable></parameter>
+            </function>
+
+        	<function name="sendGetRequest" module="HTTP">
+                <parameter>
+                	<parameter>http://</parameter>
+                	<configuration>system/ip</configuration>
+                	<parameter>/</parameter>
+                </parameter>
+        	</function>
+
+        	<function name="checkResponseCode" module="HTTP">
+        		<parameter>200</parameter>
+        	</function>
+
+            <function name="queryServerHeader" module="HTTP">
+                <parameter>msisdnFromXTT</parameter>
+                <parameter>x-xtt-msisdn</parameter>
+                <parameter>.*</parameter>
+            </function>
+            <function name="queryServerHeader" module="HTTP">
+                <parameter>msisdnFromXTT</parameter>
+                <parameter>x-xmg-msisdn</parameter>
+                <variable>msisdnFromXTT</variable>
+            </function>
+        </div>
+
+        <conditional variable="skipRadiusLogoff" targetValue="false">
+        	<function name="radiusLogoff" module="Radius">
+        		<variable>msisdn</variable>
+        	    <variable>msisdn</variable>
+        	    <parameter><variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3</variable><parameter>.</parameter><variable>IP_4</variable></parameter>
+            </function>
+        	<function name="radiusLogoff" module="Radius">
+        		<variable>msisdn</variable>
+        	    <variable>msisdn</variable>
+        	    <parameter><variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3_1</variable><parameter>.</parameter><variable>IP_4_1</variable></parameter>
+            </function>
+        </conditional>
+        <conditional variable="skipRadiusLogoff" targetValue="true">
+        	<function name="info" module="Basic">
+        	    <parameter>Skipping radius logoff </parameter>
+                <parameter>User: </parameter>
+                <variable>msisdn</variable>
+                <parameter> IP: </parameter>
+                <variable>IP_1</variable><parameter>.</parameter><variable>IP_2</variable><parameter>.</parameter><variable>IP_3</variable><parameter>.</parameter><variable>IP_4</variable>
+            </function>
+        </conditional>
+
+        <!--function name="sleep" module="Basic">
+            <parameter>35000</parameter>
+        </function-->
+    </while>
+
+    <function name="waitOnThreads" module="Basic"/>
+
+    <function name="stopWebServer" module="HTTP"/>
+</test>

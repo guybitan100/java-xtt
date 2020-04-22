@@ -1,0 +1,430 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SIS.SEND.TC.001</parameter>
+    </function>
+    <description>Single message with SIS lookup and MM1 retrieval</description>
+
+    <subtest>sisSTART.xml</subtest>
+    <subtest>loadVASP.xml</subtest>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile deviceInfoListNokia.xml </parameter>
+        <file>deviceInfoListNokia.xml</file>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/device</configuration>
+        <parameter>deviceInfoListNokia.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <thread>
+        <function name="setHeader" module="VASP">
+            <parameter>Accept</parameter>
+            <parameter>application/soap+xml, application/dime, multipart/related, text/*</parameter>
+        </function>
+        <function name="setHeader" module="VASP">
+            <parameter>Cache-Control</parameter>
+            <parameter>no-cache</parameter>
+        </function>
+        <function name="setHeader" module="VASP">
+            <parameter>Pragma</parameter>
+            <parameter>no-cache</parameter>
+        </function>
+
+        <function name="createTPISoap" module="VASP">
+            <parameter>MMSSUBMIT.REQ</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000000000000000000000001-message</parameter>
+            <parameter>&lt;soap-id&gt;</parameter>
+            <parameter>related</parameter>
+        </function>
+
+        <!--function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Body'][last()]</parameter>
+            <parameter>test</parameter>
+            <parameter>xsd:asda232</parameter>
+            <parameter>xsi</parameter>
+        </function-->
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>message-type</parameter>
+            <parameter>MMSSubmitRequest</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='message-type'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>transaction-id</parameter>
+            <parameter>AZ1111485265401206</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='transaction-id'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>from</parameter>
+            <configuration>VASP/NUMBER</configuration>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='from'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>username</parameter>
+            <parameter>XTTUser</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='username'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>password</parameter>
+            <parameter>XTTUserPassword</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='password'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>short-id</parameter>
+            <configuration>VASP/VASID</configuration>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='short-id'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:int</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>service-name</parameter>
+            <parameter>XTTService001</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='service-name'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>originator-url</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='originator-url'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>recipient</parameter>
+            <parameter>+44790000002</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='recipient'][last()]</parameter>
+            <parameter>field</parameter>
+            <parameter>to</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='recipient'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>amount</parameter>
+            <parameter>NaN</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='amount'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:double</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>charge</parameter>
+            <parameter>0</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='charge'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:int</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>bill-text</parameter>
+            <parameter>XTT test charge</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='bill-text'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>delivery-report</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='delivery-report'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:boolean</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>read-report</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='read-report'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:boolean</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>priority</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='priority'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>tpi-version</parameter>
+            <parameter>1.9.2</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='tpi-version'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>service-class</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='service-class'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>subject</parameter>
+            <parameter>utf8 smil</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='subject'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>distribution-indicator</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='distribution-indicator'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:boolean</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>allow-adaption</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='allow-adaption'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:boolean</parameter>
+            <parameter>xsi</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>linked-id</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='linked-id'][last()]</parameter>
+            <parameter>type</parameter>
+            <parameter>xsd:string</parameter>
+            <parameter>xsi</parameter>
+        </function>
+
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>filename</parameter>
+            <parameter>mms.smil</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>href</parameter>
+            <parameter>mms.smil</parameter>
+        </function>
+
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>filename</parameter>
+            <parameter>text2.txt</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>href</parameter>
+            <parameter>test2.txt</parameter>
+        </function>
+
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>filename</parameter>
+            <parameter>text1.txt</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>href</parameter>
+            <parameter>test1.txt</parameter>
+        </function>
+
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>filename</parameter>
+            <parameter>yellowfl.gif</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>href</parameter>
+            <parameter>yellowfl.gif</parameter>
+        </function>
+
+        <function name="addSoapData" module="VASP">
+            <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+            <parameter>content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>filename</parameter>
+            <parameter>x11.gif</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='content'][last()]</parameter>
+            <parameter>href</parameter>
+            <parameter>x11.gif</parameter>
+        </function>
+
+        <function name="addContent" module="VASP">
+            <file>sendTPIdata.txt</file>
+        </function>
+
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;state xsi:type=&quot;xsd:int&quot;&gt;1000&lt;/state&gt;</parameter>
+        </function>
+    </thread>
+
+    <function name="waitForSISCalls" module="SIS">
+        <parameter>1</parameter>
+    </function>
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+    <subtest>sisSTOP.xml</subtest>
+    <subtest>restoreVASP.xml</subtest>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile deviceListEmpty.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;deviceinfolist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="S:\source\xsd\deviceinfolist.xsd"&gt;
+            &lt;/deviceinfolist&gt;
+        </parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>deviceListEmpty.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>downloadNumber</parameter>
+        <parameter>44790000002</parameter>
+    </function>
+    <subtest>downloadMMS.xml</subtest>
+
+</test>

@@ -1,0 +1,351 @@
+<?xml version="1.0"?>
+<configuration>
+	<productlicense>UPDATE_MMSX_LICENSE_DIR/UPDATE_MMSX_LICENSE_FILE</productlicense>
+	<name>Default Config</name>
+
+	<!-- maximum number of bytes to print on screen in debug level
+		 after receiving data on a GET to a webserver -->
+	<Bufferoutputsize>1024</Bufferoutputsize>
+	<!-- time to wait on a variable with the waitOnVariable function in basic -->
+	<VariableWaitTimeout>20000</VariableWaitTimeout>
+	<!-- basic tracing configuration -->
+		<!--the output level of tracing
+			valid values are: fail, warn, info, verbose, debug
+			or just: f,w,i,v,d -->
+	<Tracing>
+		<level>d</level>
+		<!-- change the tracing format to a new format string
+			format = item; item = [character]%logitem[character|item]
+			Logitem = 
+				%t time stamps
+				%f function(line #)
+				%m message
+				%l Trace level (f,w,d,...)
+				%n Test name
+				%a time in milliseconds 
+				 %i the name of the thread
+				 %j the id of the thread
+		-->
+		<format>%l: %n: %t: %m</format>
+		<!-- show the transaction output for later calculation of performance -->
+		<showtransactions/>
+		<!-- disable tracing output on level external, currently only used by description tag -->
+		<!--<disableexternal>-->
+	</Tracing>
+	<!-- basic logging configuration -->
+	<log>
+		<!--the path where you want to store the logfiles
+			the default ist ./logs -->
+		<directory>logs</directory>
+		<!-- enable this to disable loging completely -->
+		<!--<disable/>-->
+		<!-- enable this to change logfile format to HTML -->
+		<asHTML>
+				<color>
+					<fail>red</fail>
+					<warn>#FFCC00</warn>
+					<info>green</info>
+					<external>#CC0099</external>
+					<verbose>#B0C4DE</verbose>
+					<debug>black</debug>
+					<normal>black</normal>
+					<background>white</background>
+				</color>
+		</asHTML>
+	<!-- logfiles normally are written to memory and only at the end of
+			a test run to disk, disable that and write directly to disk -->
+		<!--<disableMemoryLogMode>-->
+	</log>
+	<!-- local system configuration, xtt is executed here-->
+	<system>
+		<!-- the ip address of the machine XTT is running on -->
+		<Ip>UPDATE_XTT_HOST_IP</Ip>
+		<!-- the ip address of the machine RemoteXTT is running on -->
+		<!-- if not set default is xmg/ip -->
+		<remoteip>UPDATE_XTT_HOST_IP</remoteip>
+		<!-- the port on which RemoteXTT is listening on -->
+		<!-- if not set default is 8999 -->
+		<remoteport>8999</remoteport>
+		<!-- if you have a very slow network use this to prevent
+			 modules from reading from the network to fast -->
+		<networklagdelay>100</networklagdelay>
+		<hive>
+		  <comment>MMSX Regression XTT</comment>
+		  <!--assimilate/-->
+		  <!--enabletracing/-->
+		  <!--disable/-->
+		</hive>
+	</system>
+
+	<MMS_Extra>
+		<IP>UPDATE_XTT_HOST_IP</IP>
+		<PORT>8082</PORT>
+		<secureport>8482</secureport>
+	</MMS_Extra>
+
+	<!-- remote system configuration, this is where RemoteXTT is running on and normally the product to test -->
+	<remote>
+		<!-- a specifiv shell to run all commands on, for example mks on windows -->
+		<!--<shell>"c:/mks/bin/sh.exe" -c</shell>-->
+		<!-- the path of the installed product on the remote machine -->
+		<path>UPDATE_MMSX_INSTALL_DIR/</path>
+		<!-- the xms command to run commands via xms -->
+		<command>run command </command>
+		<!-- the location of the installed products activity logs -->
+		<logpath>UPDATE_MMSX_LOG</logpath>
+		<!-- the location of the installed products process logs -->
+		<procpath>UPDATE_MMSX_PROC</procpath>
+		<loaddata>load data</loaddata>
+		<!-- the tool to use, for futute and past compatability, default is bin/xms -->
+		<xms>bin/xms -UPDATE_MMSX_PRODUCT_NAME </xms>
+		<!-- The prefix and suffix are attached around xms command automatically, this would normally be used with a shell to put double quotes around a command -->
+		<!--<xmsPrefix>"</xmsPrefix>-->
+		<!--<xmsSuffix>"</xmsSuffix>-->
+	</remote>
+
+	<gui>
+		<disabletestrunlock/>
+		<!-- position on screen, if outside the screen it will be repositioned inside -->
+		<position>
+			<x>35</x>
+			<y>35</y>
+		</position>
+		<!-- size of the gui when starting up -->
+		<size>
+			<width>580</width>
+			<heigth>550</heigth>
+		</size>
+	</gui>
+
+	<!-- function module Diameter -->
+	<DiameterServer>
+	<!-- the udp/tcp listening port of the internal DiameterServer -->
+	<Port>3868</Port>
+	<!-- the listening port of the internal secure-DiameterServer -->
+	<SecurePort>1345</SecurePort>
+	<!-- The automatic response of the DiameterServer, use a filename or inline the document ass seen here -->
+	<ResponseDocument>
+		<Diameter>
+			<response>
+			<DEVICE_WATCHDOG_REQUEST proxiable="true" error="false" tretr="false">
+				<RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+			</DEVICE_WATCHDOG_REQUEST>
+			<!--CAPABILITIES_EXCHANGE_REQUEST proxiable="true" error="true" tretr="false" matchAVP="VENDOR_ID" matchREGEX="">
+				<RESULT_CODE            value="DIAMETER_INVALID_AVP_VALUE"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ERROR_MESSAGE          value="DIAMETER_INVALID_AVP_VALUE" mandatory="true"  protected="false" vendorspecific="false" vendorID=""/>
+				<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<VENDOR_ID              request="VENDOR_ID" />
+				<PRODUCT_NAME           request="PRODUCT_NAME" />
+				<SUPPORTED_VENDOR_ID    request="SUPPORTED_VENDOR_ID" />
+				<AUTH_APPLICATION_ID    request="AUTH_APPLICATION_ID" />
+			</CAPABILITIES_EXCHANGE_REQUEST--> 
+			<CAPABILITIES_EXCHANGE_REQUEST proxiable="true" error="false" tretr="false">
+				<RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<VENDOR_ID              request="VENDOR_ID" />
+				<PRODUCT_NAME           request="PRODUCT_NAME" />
+				<SUPPORTED_VENDOR_ID    request="SUPPORTED_VENDOR_ID" />
+				<AUTH_APPLICATION_ID    request="AUTH_APPLICATION_ID" />
+			</CAPABILITIES_EXCHANGE_REQUEST>   			
+			<CREDIT_CONTROL_REQUEST proxiable="true" error="false" tretr="false">
+				<SESSION_ID             request="SESSION_ID"/>
+				<RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_REALM           request="DESTINATION_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<AUTH_APPLICATION_ID    value="16777238"                   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<CC_REQUEST_TYPE        request="CC_REQUEST_TYPE"   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<GRANTED_SERVICE_UNIT                                 mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+				<CC_MONEY                                         mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+					<UNIT_VALUE                                   mandatory="true" protected="false" vendorspecific="false"  vendorID="">
+					<VALUE_DIGITS    value="1000"           mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<EXPONENT        value="-3"             mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<CURRENCY_CODE   value="756"            mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					</UNIT_VALUE>
+				</CC_MONEY>
+				<CC_SERVICE_SPECIFIC_UNITS value="1"            mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				</GRANTED_SERVICE_UNIT>
+			</CREDIT_CONTROL_REQUEST>
+			<DISCONNECT_PEER_REQUEST proxiable="true" error="false" tretr="false">
+				<RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+				<ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+			</DISCONNECT_PEER_REQUEST>
+			</response>
+		</Diameter>
+	</ResponseDocument>
+	<!-- timeout on client connections to the DiameterServer -->
+	<Timeout>30000</Timeout>
+	<!-- time to wait on a "wait" function before continuing -->
+	<waitTimeout>30000</waitTimeout>
+	<!-- in case the default debug output is nit enough enbale this
+	<enableExtendedOutput/>
+	-->
+	</DiameterServer>
+
+	<!-- function module HTTP -->
+	<Webserver>
+		<!-- the listening port of the internal webserver -->
+		<Port>80</Port>
+		<!-- the listening port of the internal secure-webserver -->
+		<SecurePort>443</SecurePort>
+		<!-- the directory where the files are stored for downloading -->
+		<!--<Root>webroot</Root>-->
+		<Root>webroot</Root>
+		<!-- timeout on client connections to the webserver -->
+		<Timeout>30000</Timeout>
+		<!-- time to wait on a "wait" function before continuing -->
+		<waitTimeout>30000</waitTimeout>
+		<!--
+		<enableCertCheck/>
+		-->
+	</Webserver>
+
+	<STIServer>
+	<!-- the listening port of the internal stiserver -->
+	<Port>8989</Port>
+	<!-- the listening port of the internal secure-stiserver -->
+	<SecurePort>8443</SecurePort>
+	<!-- the directory where the files are stored for downloading -->
+	<Root>webroot</Root>
+	<!-- timeout on client connections to the stiserver -->
+	<Timeout>30000</Timeout>
+	</STIServer>
+
+	<!-- function module SMTP -->
+	<smtpserver>
+		<!-- the listening port of the internal smtpserver -->
+		<Port>25</Port>
+		<!-- hostname of the smtp server -->
+		<hostname>smtp.xtt724.com</hostname>
+		<!-- timeout on client connections to the smtpserver -->
+		<Timeout>30000</Timeout>
+		<!-- time to wait on a "wait" function before continuing -->
+		<waitTimeout>30000</waitTimeout>
+	</smtpserver>
+
+	<!-- function modules SMS, UCP -->
+	<SMSCServer>
+		<!-- passowrd for SMS connections to server, 
+			 do not use this tag when no checking should happen -->
+		<Password>xfw</Password>
+		<!-- the listening port of the smscserver -->
+		<Port>3775</Port>
+		<!-- protocol of the smsc server -->
+		<!--protocol>SMPP</protocol-->
+		<protocol>SMPP</protocol>
+		<!-- time to wait on a "wait" function before continuing -->
+		<waitTimeout>60000</waitTimeout>
+		<!-- time to wait on read function before throwing exception 0=infinite -->
+		<UCPReadTimeout>60000</UCPReadTimeout>
+		<!-- MM1 ip and port for downloading MMS in module SMS -->
+		<!--<MM1Ip>UPDATE_XTT_HOST_IP</MM1Ip>
+		<MM1Port>1111</MM1Port> -->
+		<!-- MM1 timeout -->
+		<!-- <MM1Timeout>30000</MM1Timeout> -->
+	</SMSCServer>
+
+	<!-- Channel for USSD connections -->
+	<SMSCServer1>
+			<!-- passowrd for SMS connections to server,do not use this tag when no checking should happen -->
+			<Password>xfw</Password>
+			<!-- the listening port of the smscserver -->
+		 <port>3770</port> 
+	<!-- protocol of the smsc server -->
+			<protocol>SMPP</protocol>
+			<!-- time to wait on a "wait" function before continuing -->
+			<waitTimeout>60000</waitTimeout>
+			<!-- time to wait on read function before throwing exception 0=infinite -->
+			<UCPReadTimeout>60000</UCPReadTimeout>
+	</SMSCServer1>
+
+	<!-- function module DNS -->
+	<dnsserver>
+		<!-- <startonload/> -->
+		<entry>
+			<name>724xtt.com</name>
+			<ip>UPDATE_XTT_HOST_IP</ip>
+		</entry>
+		<entry>
+			<name>xtt724.com</name>
+			<ip>UPDATE_XTT_HOST_IP</ip>
+		</entry>
+		<entry>
+			<name>ftp.bad.com</name>
+			<ip>UPDATE_XTT_HOST_IP</ip>
+		</entry> 
+		<entry>
+			<name>www.bad.com</name>
+			<ip>UPDATE_XTT_HOST_IP</ip>
+		</entry> 
+
+		<!-- exclude lookups of those doXMP_401-branchs in the debug output
+			 makes sure output does not get swamped with to many lookups -->
+		<nodebugdoXMP_401-branchs>
+			<name>yahoo.com</name>
+			<name>ftp.google.ch</name>
+			<name>pop3.def.com</name>
+			<name>smtp.google.ch</name>
+			<name>pop3.google.ch</name>
+			
+		</nodebugdoXMP_401-branchs>
+		<!-- time to live, default 0, no caching of dns entries -->
+		<ttl>0</ttl>
+	</dnsserver>
+
+	<MMSCServer>
+		<!-- the listening port of the internal webserver -->
+		<Port>6789</Port>
+		<!-- the listening port of the internal secure-webserver -->
+		<SecurePort>8443</SecurePort>
+		<!-- the directory where the files are stored for downloading -->
+		<Root>webroot</Root>
+		<!-- timeout on client connections to the webserver -->
+		<Timeout>30000</Timeout>
+		<xmlnsenv>http://schemas.xmlsoap.org/soap/envelope/</xmlnsenv>
+		<xmlnsmm7>http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-4</xmlnsmm7>
+		<MM7Version>5.3.0</MM7Version>
+		<MM7XSD>REL-5-MM7-1-2.xsd</MM7XSD>
+		<SOAPXSD>soapEnvelope.xsd</SOAPXSD>
+	</MMSCServer>
+
+	<!-- function module SNMP -->
+	<SNMP>
+	<StartOnLoad>true</StartOnLoad>
+	<!-- default ListenerPort is 1620 -->
+	<!--ListenerPort>1620</ListenerPort-->
+	<!-- When the SNMP Listener receives a trap with the OID a message is printed on fail level
+			 The test is also set to failed -->
+	<!--fail>
+			<trap>
+			<message>Process Running</message>
+			<OID>1.3.6.1.4.1.12702.6.10000.8</OID>
+			</trap>
+			<trap>
+			<message>Example</message>
+			<OID>1.3.6.1.4.1.12702.6.10000.6</OID>
+			</trap>
+		</fail-->
+	<!-- Same as fail, but the test isn't failed, and a warn message is printed -->
+	<!--warn>
+
+		</warn-->
+	<!-- Same as warn, with an info message instead -->
+	<!--info>
+
+		</info-->
+	<!-- Same as info, with an verbose message instead -->
+	<!--verbose>
+
+		</verbose-->
+	<!-- Same as verbose, with an debug message instead -->
+	<!--debug>
+
+		</debug-->
+	</SNMP>
+
+</configuration>

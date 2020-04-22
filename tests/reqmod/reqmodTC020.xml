@@ -1,0 +1,80 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.020</parameter>
+    </function>
+    <description>Insert a dummy MSISDN, where the MSISDN was generated on logon due to the fact that the user failed to insert a username</description>
+    
+    <!-- extract current configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>extract data requestmodifications reqmodTC020.test.xml</parameter>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmodTC020.rule.xml</parameter>
+        <file>reqmodTC020.rule.xml</file>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data reqmodTC020.rule.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>447714671999</parameter>
+        <parameter>1234699999</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/images/</parameter>
+        </parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>447714671999</parameter>
+        <parameter>1234699999</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>x-userid</parameter>
+        <parameter>447714671999</parameter>
+    </function>
+    <function name="radiusLogon" module="Radius">
+        <parameter></parameter>
+        <parameter>1234699999</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/images/</parameter>
+        </parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter></parameter>
+        <parameter>1234699999</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>x-userid</parameter>
+        <parameter>+44123000000</parameter>
+    </function>
+
+
+    <!-- load the old reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data reqmodTC020.test.xml</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+</test>

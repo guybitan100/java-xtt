@@ -1,0 +1,206 @@
+<test>
+
+	<name>MM1_Msg-EAIF_Msg.TC.023</name>
+	<description>EAIF VAS Application replies with an undefined Error Code [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes]</description>
+
+	<configuration>../xmaConfig.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Load VASP File -->
+	<subtest>../loadVASP.xml</subtest>
+
+	<function name="setVariable" module="Basic">
+		<parameter>ADDR_TO</parameter>
+		<configuration>EAIF/NUMBER</configuration>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>ADDR_FROM</parameter>
+		<configuration>XMA/PREPAY/ENABLED/MSISDN1</configuration>
+	</function>
+
+	<!-- Start Web Server -->
+	<function name="startWebServer" module="HTTP"> 
+		<configuration>EAIF/PORT</configuration>
+	</function>
+
+	<!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<function name="createMM1Packet" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>M_SEND_REQ</parameter>
+		<parameter>XTTTRANSACTIONID0001</parameter>
+		<parameter>0x17</parameter>
+		<variable>ADDR_TO</variable>
+		<variable>ADDR_FROM</variable>
+		<parameter>text/plain</parameter>
+		<parameter>utf-8</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_DELIVERY_REPORT</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_READ_REPORT</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>SUBJECT</parameter>
+		<parameter>No, they're all going to laugh at you!</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_MESSAGE_CLASS</parameter>
+		<parameter>128</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_PRIORITY</parameter>
+		<parameter>130</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_SENDER_VISIBILITY</parameter>
+		<parameter>129</parameter>
+	</function>
+
+	<function name="createMM1PacketContent" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<base64encode>Hello World!</base64encode>
+	</function>
+
+	<function name="storeMM1Packet" module="SMS">
+		<parameter>sendPacket1Base64</parameter>
+		<parameter>sendPacket1</parameter>
+	</function>
+
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>PACKET1Request</parameter>
+		<variable>sendPacket1Base64</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+		<variable>ADDR_FROM</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<!-- Set Undefined Return Code/Message for Web Server -->
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>9999</parameter>
+	</function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+		<parameter> Undefined Error Code</parameter>
+	</function>
+
+	<!-- Set Return Headers for Web Server -->
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-From</parameter>
+		<variable>ADDR_FROM</variable>
+	</function>
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-To</parameter>
+		<variable>ADDR_TO</variable>
+	</function>
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-Version</parameter>
+		<parameter>1.7</parameter>
+	</function>
+
+	<function name="setBase64PostData" module="HTTP">
+		<variable>sendPacket1Base64</variable>
+	</function>
+
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>SMSCSERVER/MM1Ip</configuration>
+			<parameter>:</parameter>
+			<configuration>SMSCSERVER/MM1Port</configuration>
+			<parameter>/</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>PACKET1Response</parameter>
+		<variable>HTTP/BODY/BASE64</variable>
+	</function>
+
+	<function name="queryVariable" module="BASIC">
+		<parameter>PACKET1Response/MMS/x_mms_response_status</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>Ok</parameter>
+	</function>
+
+	<!-- Wait for a EAIF request on the Web Server -->
+	<function name="waitForPOSTs" module="HTTP">
+		<parameter>1</parameter>
+	</function>
+
+	<!-- Check the headers of incoming message -->
+	<function name="checkServerHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>application/vnd.wap.mms-message</parameter>
+	</function>	
+
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>Via</parameter>
+		<parameter>HTTP/1.0.*XMS 724Solutions</parameter>
+	</function>
+
+	<!-- Validate Request and Respone -->
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>WEBSERVER_POST</parameter>
+		<variable>WEBSERVER/POST/APPLICATION/VND.WAP.MMS-MESSAGE/BASE64</variable>
+	</function>
+	
+	<!--Compare content in response -->
+	<function name="compareString" module="Basic">
+		<variable>WEBSERVER_POST/MMS/body</variable>
+		<base64Encode>Hello World!</base64Encode>
+	</function>
+
+	<function name="waitForTimeoutWSPMessages" module="SMS">
+		<parameter>60000</parameter>
+	</function>
+
+	<!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+	<!-- Stop WebServer -->
+	<function name="stopWebServer" module="HTTP"/>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+</test>

@@ -1,0 +1,13 @@
+Content-Type: multipart/related;boundary="----=_Part_1_31161848.1109320473531";start="<mms.smil>";type="application/smil"
+Content-ID: <xtt-test001>
+
+------=_Part_1_31161848.1109320473531
+Content-Type: text/plain; name=test2.txt; charset=us-ascii
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=test2.txt
+Content-ID: <test2.txt>
+
+ This is a simple Text file 
+ Which has only 4 lines     
+
+------=_Part_1_31161848.1109320473531--

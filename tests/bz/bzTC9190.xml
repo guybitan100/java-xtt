@@ -1,0 +1,135 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.9190</parameter>
+    </function>
+    
+    <description>Specific crash test: check if msisdn isn't found in VASP TPA doesn't crash.</description>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile vasp.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rainer Aschwanden (724 Solutions Inc.) --&gt;
+&lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="S:\source\xsd\vasps.xsd"&gt;
+	&lt;tpi&gt;
+		&lt;vasp id="</parameter>
+  <configuration>VASP/VASID</configuration>
+  <parameter>"&gt;
+			&lt;services&gt;
+				&lt;service id="XTTService001" disabled="false" sisEnabled="false" /&gt;
+			&lt;/services&gt;
+		&lt;/vasp&gt;
+	&lt;/tpi&gt;
+&lt;/vasps&gt;
+</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/vasp</configuration>
+        <parameter>vasp.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN</parameter>
+        <parameter>41628881845</parameter>
+    </function>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+    
+
+    <function name="createTPISoap" module="VASP"/>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>username</parameter>
+        <parameter>XTTUser</parameter>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>password</parameter>
+        <parameter>XTTUserPassword</parameter>
+    </function>
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>short-id</parameter>
+        <!--Make sure the sender isn't in the vasp -->
+        <parameter>
+            <parameter>987</parameter>
+            <configuration>VASP/VASID</configuration>
+            <parameter>123</parameter>
+        </parameter>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>service-name</parameter>
+        <parameter>XTTService001</parameter>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>subject</parameter>
+        <parameter>XTT Test Message 001</parameter>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>from</parameter>
+        <configuration>VASP/NUMBER</configuration>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>to-recipient</parameter>
+        <variable>MSISDN</variable>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>bill-text</parameter>
+        <parameter>XTT Billing Text</parameter>
+    </function>    
+   
+    <function name="addSOAPContentID" module="VASP">
+        <file>bzTC9179-data.txt</file>
+    </function>    
+
+    <function name="addContent" module="VASP">
+        <file>bzTC9179-data.txt</file>
+    </function>
+
+    <function name="sendPostRequest" module="VASP"/>
+    
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;state xsi:type=&quot;xsd:string&quot;&gt;3&lt;/state&gt;</parameter>
+    </function>      
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile vasp.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+        &lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="S:\source\xsd\vasps.xsd"&gt;&lt;/vasps&gt;</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/vasp</configuration>
+        <parameter>vasp.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+</test>

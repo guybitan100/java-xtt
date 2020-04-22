@@ -1,0 +1,202 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.7079</parameter>
+    </function>
+   <function name="startSMTPServer" module="SMTP"/>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC004-mno.xml </parameter>
+        <file>sendMM4TC004-mno.xml</file>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC004-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <thread>
+        <function name="sleep" module="basic">
+            <parameter>500</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>333333@defaultpartner.724.com</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ServiceCode</parameter>
+            <parameter>ServiceCode</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>LinkedId</parameter>
+            <parameter>Personal</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>MessageClass</parameter>
+            <parameter>Informational</parameter>
+        </function>
+        <function name="createDateString" module="VASP">
+            <parameter>TimeStamp</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>TimeStamp</parameter>
+            <variable>TimeStamp</variable>
+        </function>
+        <function name="createDateString" module="VASP">
+            <parameter>ExpiryDate</parameter>
+            <parameter>86400</parameter>
+            <parameter></parameter>
+            <parameter>epochExpiry</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ExpiryDate</parameter>
+            <variable>ExpiryDate</variable>
+        </function>
+        <function name="createDateString" module="VASP">
+            <parameter>EarliestDeliveryTime</parameter>
+            <parameter>-3600</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>EarliestDeliveryTime</parameter>
+            <variable>EarliestDeliveryTime</variable>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>False</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>False</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReplyCharging</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='ReplyCharging']</parameter>
+            <parameter>replyChargingSize</parameter>
+            <parameter>2</parameter>
+        </function>
+        <function name="createDateString" module="VASP">
+            <parameter>replyDeadline</parameter>
+            <parameter>3600</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='ReplyCharging']</parameter>
+            <parameter>replyDeadline</parameter>
+            <variable>replyDeadline</variable>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Priority</parameter>
+            <parameter>Low</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Subject</parameter>
+            <parameter>Attachments you wanted...</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ChargedParty</parameter>
+            <parameter>Sender</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DistributionProtection</parameter>
+            <parameter>True</parameter>
+        </function>
+
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM4data.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="createEpochDateString" module="Basic">
+        <variable>epochExpiry</variable>
+        <parameter>EEE', 'dd' 'MMM' 'yyyy kk':'mm':'ss Z</parameter>
+        <parameter>expiryDate</parameter>
+        <parameter>0</parameter>
+        <parameter>GMT</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="SMTP">
+        <parameter>333333@defaultpartner.724.com</parameter>
+        <parameter>x-mms-expiry</parameter>
+        <variable>expiryDate</variable>>
+    </function>
+
+
+    <function name="stopSMTPServer" module="SMTP"/>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC004-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC004-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+</test>

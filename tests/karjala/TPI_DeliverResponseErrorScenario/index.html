@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<soapenv:Header>
+		<version soapenv:actor="iserver2" soapenv:mustUnderstand="0" xmlns="">2.1.0</version>
+		<request-type soapenv:actor="iserver2" soapenv:mustUnderstand="0" xmlns="">SMSDELIVER.RESP</request-type>
+	</soapenv:Header>
+	<soapenv:Body>
+		<SMSDeliverResponse xmlns:iserver2="soap.iserv2.sicap.ch">
+			<message-type xsi:type="xsd:string">SMSDeliverResponse</message-type>
+			<transaction-id xsi:type="xsd:string">123456789ABCDEF</transaction-id>
+			<state xsi:type="xsd:int">4000</state>
+			<state-text xsi:type="xsd:string">General service error</state-text>
+			<message-id xsi:type="xsd:string">111222333444555</message-id>
+		</SMSDeliverResponse>
+	</soapenv:Body>
+</soapenv:Envelope>

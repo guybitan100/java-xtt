@@ -1,0 +1,46 @@
+$ORIGIN .
+; $Id: xtt724.com.zone,v 1.2 2006/07/21 17:04:57 cvsbuild Exp $
+$TTL 86400      ; 1 day
+xtt724.com               IN SOA samui.len.tantau.com. root.samui.len.tantau.com. (
+                                27 ; serial (increment this by one)
+                                10800      ; refresh (3 hours)
+                                3600       ; retry (1 hour)
+                                604800     ; expire (1 week)
+                                86400      ; minimum (1 day)
+                                )
+                        NS      samui.len.tantau.com.
+                        A       172.20.14.1
+$ORIGIN xtt724.com. 
+www                     A       172.20.14.1 
+www2                    CNAME   www.xtt724.com. 
+www1                    CNAME   www.xtt724.com.
+test1                   CNAME   www.xtt724.com.
+test2                   CNAME   www.xtt724.com.
+test3                   CNAME   www.xtt724.com.
+test4                   CNAME   www.xtt724.com.
+test5                   CNAME   www.xtt724.com.
+test6                   CNAME   www.xtt724.com.
+group1                  CNAME   www.xtt724.com.
+group2                  CNAME   www.xtt724.com.
+group3                  CNAME   www.xtt724.com.
+group4                  CNAME   www.xtt724.com.
+group5                  CNAME   www.xtt724.com.
+proxy1                  CNAME   www.xtt724.com.
+proxy2                  CNAME   www.xtt724.com.
+proxy3                  CNAME   www.xtt724.com.
+proxy4                  CNAME   www.xtt724.com.
+proxy5                  CNAME   www.xtt724.com.
+cookie1                 CNAME   www.xtt724.com.
+cookie2                 CNAME   www.xtt724.com.
+cookie3                 CNAME   www.xtt724.com.
+cookie4                 CNAME   www.xtt724.com.
+cookie5                 CNAME   www.xtt724.com.
+www.test1               CNAME   www.xtt724.com.
+vvv.test1		CNAME   www.xtt724.com.
+www.test2		CNAME   www.xtt724.com.
+aaa.test2               CNAME   www.xtt724.com.
+bbb.test2               CNAME   www.xtt724.com.
+www.test3               CNAME   www.xtt724.com.
+xxx.test3               CNAME   www.xtt724.com.
+yyy.test3               CNAME   www.xtt724.com.
+test.www.test3		CNAME   www.xtt724.com.

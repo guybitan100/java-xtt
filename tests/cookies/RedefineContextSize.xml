@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!-- redefine value of 'ContextSizeMax' -->
+<modifications xmlns="http://www.xmldb.org/xupdate" version="1.0">
+  <update select="/component-view/processgroup[starts-with(@name,'SERVICE.')]/component/*/ContextSizeMax">12288</update>
+</modifications>
+

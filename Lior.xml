@@ -1,0 +1,311 @@
+<test>
+
+	<name>Default Use case of Login and Advertising activation Followed by disabling the feature</name>
+
+	<description>defaultAuthenticationType=radius; starting a web session, enabling Advertising, disabling advetising and ending the session</description>
+
+
+<!-- Prepare the Request Modification File 
+        <function name="writeRemoteFile" module="Remote">
+             <parameter>request_modifications.xml</parameter>
+                <xml>
+                    <requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+                                <table name="DisableThings" phase="httpRequest">
+                                       <selector>
+                                              <modifyContext name="Skip_CACHE" value="'true'"/>
+                                              <modifyContext name="Skip_VIRUSSCANNER" value="'true'"/>
+                                              <modifyContext name="FTR_HtmlTidyDisable" value="'true'"/>
+                                              <modifyContext name="Skip_COOKIE" value="'true'"/>
+                                              <modifyContext name="Skip_ICC" value="'true'"/>
+                                              <modifyContext name="FTR_MultipartCompose_Disable" value="'true'"/>
+                                              <modifyContext name="FTR_Prefetch_Disable" value="'true'"/>
+                                              <modifyContext name="FTR_Deflate_Disable" value="'true'"/>
+                                              <modifyContext name="FTR_Gzip_Disable" value="'true'"/>
+                                         </selector>
+                                </table>
+								<table name="authentication" phase="authentication">
+										<selector urlPattern="*://*/*" >
+											<modifyContext name="FTR_AuthenticationType" value="'pcrf'" />
+											<modifyContext name="FTR_SubscriberId" value="TCP_RemoteIpAddress" />
+										</selector>
+								</table>
+
+                                <table name="WriteContextNames" phase="httpRequest">
+                                         <selector context="PCC_Rules contains activate_advertising">
+                                               <modifyContext name="HTA_ReqHdr_Advertising" value="'true'"/>
+                                         </selector>
+                                </table>
+
+				<table name="WriteHTTPHeaders" phase="httpRequest">
+                                         <selector urlPattern="http://192.168.1.220/copernicus/Copernicus.htm">
+                                               <modifyHeader name="pcc_rule" value="'activate_Ad'"/>
+                                         </selector>
+                                </table>
+                       </requestModifications>
+                 </xml>
+         </function>
+
+         <function name="executeRemoteXMSCommand" module="Remote">
+                 <parameter>
+                        <parameter>load data </parameter>
+                        <parameter>request_modifications.xml</parameter>
+                 </parameter>
+         </function>
+-->
+ 	
+	<!-- Create Diameter Responses to be sent From the XTT to the PCEF -->
+	 <function name="startDiameterServer" module="Diameter">
+		    <configuration>DiameterServer/PORT</configuration>
+			<xml>
+            <Diameter>
+                <response>
+                    <ACCOUNTING_REQUEST proxiable="true" error="false" tretr="false" matchAVP="USER_NAME" matchREGEX="user2">
+                        <SESSION_ID         request="SESSION_ID"        mandatory="true"  protected="false" vendorspecific="false" vendorid=""/>
+                        <USER_NAME          request="USER_NAME"         mandatory="true"  protected="false" vendorspecific="false" vendorid=""/>
+                        <RESULT_CODE        value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <CC_MONEY                                       mandatory="true"  protected="false" vendorspecific="false" vendorid="">
+                            <CC_REQUEST_TYPE    value="EVENT_REQUEST"   mandatory="true"  protected="false" vendorspecific="false" vendorid=""/>
+                            <CC_TIME            value="100"             mandatory="false" protected="false" vendorspecific="true"  vendorid="1000"/>
+                        </CC_MONEY>
+                    </ACCOUNTING_REQUEST>
+                    <ACCOUNTING_REQUEST proxiable="true" error="true" tretr="false">
+                        <SESSION_ID         request="SESSION_ID"        mandatory="true"  protected="false" vendorspecific="false" vendorid=""/>
+                        <USER_NAME          request="USER_NAME"         mandatory="true"  protected="false" vendorspecific="false" vendorid=""/>
+                        <TERMINATION_CAUSE  value="DIAMETER_USER_MOVED" mandatory="true"  protected="false" vendorspecific="false" vendorid=""/>
+                        <RESULT_CODE        value="DIAMETER_AUTHORIZATION_REJECTED"    mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ERROR_MESSAGE      value="He's not here, Doh!" mandatory="true"  protected="false" vendorspecific="false" vendorid=""/>
+                        <CC_MONEY                                       mandatory="true"  protected="false" vendorspecific="false" vendorid="">
+                            <CC_REQUEST_TYPE    value="EVENT_REQUEST"   mandatory="true"  protected="false" vendorspecific="false" vendorid=""/>
+                            <CC_TIME            value="200"             mandatory="false" protected="false" vendorspecific="true"  vendorid="1000"/>
+                        </CC_MONEY>
+                    </ACCOUNTING_REQUEST>
+					<RE_AUTH_REQUEST version="1" applicationID="4" hopbyhopID="456" endtoendID="789" proxiable="true" error="false" tretr="false" overrideCommandCode="258">
+						<SESSION_ID             value="SESSION_ID"/>
+						<AUTH_APPLICATION_ID    value="16777238"                   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<DESTINATION_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<DESTINATION_HOST           value="diameter.xtt724.com"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<PRODUCT_NAME           value="XMP"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<RE_AUTH_REQUEST_TYPE           value="AUTHORIZE_ONLY"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<CHARGING_RULE_REMOVE mandatory="true" protected="false" vendorspecific="true"  vendorid="10415">
+							<CHARGING_RULE_NAME  value="61637469766174655f6164766572746973696e67" mandatory="true" protected="false" vendorspecific="true"  vendorid="10415"/>
+						</CHARGING_RULE_REMOVE>
+						<SESSION_RELEASE_CAUSE  value="UNSPECIFIED_REASONS"/> 
+						<RE_AUTH_REQUEST_TYPE           value="AUTHORIZE_ONLY"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>		
+					</RE_AUTH_REQUEST>
+                    <DEVICE_WATCHDOG_REQUEST proxiable="true" error="false" tretr="false">
+                        <RESULT_CODE        value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                    </DEVICE_WATCHDOG_REQUEST>
+                    <CAPABILITIES_EXCHANGE_REQUEST proxiable="true" error="false" tretr="false">
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <VENDOR_ID              request="VENDOR_ID" />
+                        <PRODUCT_NAME           request="PRODUCT_NAME" />
+                        <SUPPORTED_VENDOR_ID    request="SUPPORTED_VENDOR_ID" />
+                        <AUTH_APPLICATION_ID    request="AUTH_APPLICATION_ID" />
+                    </CAPABILITIES_EXCHANGE_REQUEST>
+					<DISCONNECT_PEER_REQUEST proxiable="true" error="false" tretr="false">
+						<RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+						<ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					</DISCONNECT_PEER_REQUEST>		
+                    <CREDIT_CONTROL_REQUEST proxiable="true" error="false" tretr="false" matchAVP="CC_REQUEST_TYPE" matchREGEX="INITIAL_REQUEST">
+                        <SESSION_ID             request="SESSION_ID"/>
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_REALM           request="DESTINATION_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <AUTH_APPLICATION_ID    value="4"                   mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <CC_REQUEST_TYPE        request="CC_REQUEST_TYPE"   mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+						<CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+						<SUBSCRIPTION_ID         mandatory="true" protected="false" vendorspecific="false"  vendorid="">
+							<SUBSCRIPTION_ID_DATA value="417894569" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>  
+							<SUBSCRIPTION_ID_TYPE value="END_USER_E164" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>  
+						</SUBSCRIPTION_ID>                        
+                        <CHARGING_RULE_INSTALL mandatory="true" protected="false" vendorspecific="true"  vendorid="10415">
+							<CHARGING_RULE_NAME  value="61637469766174655f6164766572746973696e67" mandatory="true" protected="false" vendorspecific="true"  vendorid="10415"/>
+						</CHARGING_RULE_INSTALL>
+                    </CREDIT_CONTROL_REQUEST>					
+					<CREDIT_CONTROL_REQUEST proxiable="true" error="false" tretr="false" matchAVP="CC_REQUEST_TYPE" matchREGEX="UPDATE_REQUEST">
+                        <SESSION_ID             request="SESSION_ID"/>
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_REALM           request="DESTINATION_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <AUTH_APPLICATION_ID    value="4"                   mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <CC_REQUEST_TYPE        request="CC_REQUEST_TYPE"   mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+						<CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>			
+                    </CREDIT_CONTROL_REQUEST>
+                    <CREDIT_CONTROL_REQUEST proxiable="true" error="false" tretr="false" matchAVP="CC_REQUEST_TYPE" matchREGEX="TERMINATION_REQUEST">
+                        <SESSION_ID             request="SESSION_ID"/>
+                        <RESULT_CODE            value="DIAMETER_SUCCESS"    mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <ORIGIN_REALM           request="DESTINATION_REALM" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <AUTH_APPLICATION_ID    value="4"                   mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <CC_REQUEST_TYPE        request="CC_REQUEST_TYPE"   mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>
+                        <CC_REQUEST_NUMBER      request="CC_REQUEST_NUMBER" mandatory="true" protected="false" vendorspecific="false"  vendorid=""/>                        
+                    </CREDIT_CONTROL_REQUEST>
+                </response>
+            </Diameter>
+        </xml>
+        <!--
+        <configuration>DIAMETERSERVER/Timeout</configuration>
+        -->
+        <parameter>120000</parameter>
+    </function>
+
+	<!-- we restart the DIAMETER processes to create a clean machine -->
+	
+		<function name="executeRemoteXMSCommand" module="Remote">
+                 <parameter>
+                        <parameter>res proc </parameter>
+                        <parameter>DIA.* </parameter>
+                 </parameter>
+         </function>
+	
+	<!-- sleep for 10 seconds to enable the system time to send the DWR -->
+
+        <function name="sleep" module="Basic">
+                <parameter>10000</parameter>
+        </function>   
+
+		<!-- validate the DWR returned from the PCEF -->
+   
+		<function name="compareString" module="Basic">
+                <variable>DIAMETER/AVP/ORIGIN_REALM</variable>
+                <parameter>originalRealm</parameter>
+        </function>
+    
+
+<!--
+        
+        <function name="compareString" module="Basic">
+                <variable>DIAMETER/AVP/RESULT_CODE</variable >
+                <parameter>2001</parameter>
+        </function>
+-->
+        <function name="sleep" module="Basic">
+                <parameter>1000</parameter>
+        </function>
+
+
+        <function name="compareString" module="Basic">
+                <variable>DIAMETER/AVP/ORIGIN_HOST</variable>               
+                <parameter>pbl01.originalRealm</parameter>                
+        </function>
+
+	<!-- Send the Get request to the site -->
+	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <!--<parameter>http://www.amazon.com</parameter>-->
+			<parameter>http://10.1.1.37/copernicus/Copernicus.htm</parameter>
+        </parameter>
+    </function> 
+
+	<!-- validate HTTP 200 Ok Response -->
+	
+	<function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+	
+
+	<!-- validate new entry in the presence store -->
+	
+		<function name="executeRemoteXMSCommand" module="Remote">
+                <parameter>
+                        <configuration>remote/command</configuration>
+                        <parameter>pse3cli -a 172.28.1.1 rbng</parameter>
+                </parameter>
+        </function>
+
+        <function name="queryResponse" module="Remote">
+                <parameter>&lt;addressType&gt;GxSessionId-Pcef&lt;/addressType&gt;</parameter>
+                <parameter>response</parameter>
+        </function>
+		
+		<!-- Sleep for 3 seconds before Sending the RAR message to remove the Rule -->
+		
+		 <function name="sleep" module="Basic">
+                <parameter>3000</parameter>
+        </function>
+		
+		<function name="waitForSpecificRequests" module="Diameter">
+            <configuration>DIAMETERSERVER/PORT</configuration>
+            <parameter>CREDIT_CONTROL_REQUEST</parameter>
+            <parameter>1</parameter>
+        </function>
+
+		<function name="setVariable" module="BASIC">
+			<parameter>STORED_SESSION_ID</parameter>
+            <variable>DIAMETER/AVP/SESSION_ID</variable>
+		</function>
+
+		<function name="info" module="BASIC">
+			<variable>STORED_SESSION_ID</variable>
+		</function>
+
+		<!-- create the connection to the PCEF to send the RAR -->
+		<function name="createConnection" module="Diameter">
+        <parameter>one</parameter>
+        <parameter>172.28.1.1</parameter>
+        <parameter>3868</parameter>
+    </function>
+
+	
+		<!-- Sleep for 3 seconds before Sending the RAR message to remove the Rule -->
+		
+		 <function name="sleep" module="Basic">
+                <parameter>3000</parameter>
+        </function>	
+	
+		<!-- send the RAR message to Remove the Rule -->
+		<function name="sendDiameterRequest" module="Diameter">
+			<parameter>one</parameter>
+			<xml>
+				<RE_AUTH_REQUEST version="1" applicationID="16777238" hopbyhopID="456" endtoendID="789" proxiable="true" error="false" tretr="false" overrideCommandCode="258">
+					<SESSION_ID             variable="STORED_SESSION_ID"/>
+					<AUTH_APPLICATION_ID    value="16777238"                   mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<ORIGIN_HOST            value="diameter.xtt724.com" mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<ORIGIN_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<DESTINATION_REALM           value="ORIGIN_REALM"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<DESTINATION_HOST           value="diameter.xtt724.com"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<PRODUCT_NAME           value="XMP"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<RE_AUTH_REQUEST_TYPE           value="AUTHORIZE_ONLY"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>
+					<CHARGING_RULE_REMOVE mandatory="true" protected="false" vendorspecific="true"  vendorid="10415">
+						<CHARGING_RULE_NAME  value="61637469766174655f6164766572746973696e67" mandatory="true" protected="false" vendorspecific="true"  vendorid="10415"/>
+					</CHARGING_RULE_REMOVE>
+					<SESSION_RELEASE_CAUSE  value="UNSPECIFIED_REASONS" mandatory="true" protected="false" vendorspecific="true" vendorid="10415" />
+					<RE_AUTH_REQUEST_TYPE           value="AUTHORIZE_ONLY"        mandatory="true" protected="false" vendorspecific="false"  vendorID=""/>		
+                </RE_AUTH_REQUEST>
+			</xml>
+			<parameter>STORERESULT</parameter>
+		</function>
+
+
+		<!-- we will see here that the XMP it self removes the entry from the presence store after the CCR-T is sent to the PCRF 
+		Sleep for 3 seconds before removing the entry from the presence store 
+		
+		 <function name="sleep" module="Basic">
+                <parameter>3000</parameter>
+        </function>
+		 delete the Entry from the presence Store 
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+                <parameter>
+                        <configuration>remote/command</configuration>
+                        <parameter>pse3cli da!</parameter>
+                </parameter>
+        </function>	-->
+		
+		 <function name="sleep" module="Basic">
+                <parameter>6000</parameter>
+        </function>
+
+<function name="stopDiameterServer" module="Diameter">
+		    <configuration>DiameterServer/PORT</configuration>
+	</function>
+	
+</test>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+  <table name="bzTC6269">
+        <selector urlPattern="http://*.google.com/*">
+            <modifyUrl newUrl="http://test5.xtt724.com/yahoo/" method="redirect"/>
+        </selector>
+  </table>
+</requestModifications>

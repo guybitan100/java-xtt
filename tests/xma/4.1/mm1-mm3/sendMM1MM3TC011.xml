@@ -1,0 +1,196 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM1.MM3.TC.011</name>
+    <description>Recipient is not allowed to receive MM [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes] 
+    [Sn's DB_Prepaid=true] 
+    [Rc's DB_MmsDisabled=true] 
+    [Rc's DB_ExternalContentConversionDisabled=true] 
+    [Rc's DB_UseEmail=false] 
+    [Rc's DB_Email=user@domain]</description>
+
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+   <function name="setVariable" module="Basic">
+        <parameter>RECIPIENTNOMMS</parameter>
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN1</configuration>
+    </function>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <function name="startSMSCServer" module="SMS"/>
+    <function name="startSMTPServer" module="SMTP"/>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>default-mno.xml</parameter>
+        <file>../default-mno.xml</file>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data default-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+    
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>RECIPIENTNOMMS</variable>
+        <parameter></parameter>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+    <!--function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_TIME</parameter>
+        <parameter>false</parameter>
+        <parameter>0</parameter>
+    </function-->
+    <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World!</base64encode>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+        
+    <function name="setHeader" module="HTTP">
+        <configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+        <variable>MSISDN/FROM</variable>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+    
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SMSCSERVER/MM1Ip</configuration>
+            <parameter>:</parameter>
+            <configuration>SMSCSERVER/MM1Port</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Response</parameter>
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>PACKET1Response/MMS/x_mms_response_status</parameter>
+        <parameter>dev/null</parameter>
+        <parameter>Ok</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>originalMessageId</parameter>
+        <variable>PACKET1Response/MMS/message_id</variable>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>log/messageid</parameter>
+        <variable>originalMessageId</variable>
+    </function>
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+
+
+    <function name="compareString" module="BASIC">
+        <variable>originalMessageId</variable>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/message_id</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>m_delivery_ind</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_message_type</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Rejected</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <variable>RECIPIENTNOMMS</variable>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+    <function name="stopSMTPServer" module="SMTP"/>
+    
+</test>

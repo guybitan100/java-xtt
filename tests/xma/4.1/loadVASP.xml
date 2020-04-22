@@ -1,0 +1,49 @@
+<test>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>vasp.xml</parameter>
+        <parameter>
+            <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vasps.xsd"&gt;
+&lt;mm7&gt;
+    &lt;vasp id="</parameter>
+            <configuration>VASP/VASPID</configuration>
+            <parameter>" address="</parameter>
+            <configuration>VASP/NUMBER</configuration>
+            <parameter>" reportUrl="http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>VASP/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>VASP/DIRECTORY</configuration>
+            <parameter>"&gt;&lt;attributes&gt;&lt;attribute name="MyCustomAttr" value="ABC"/&gt;&lt;/attributes&gt;</parameter>
+            <parameter>&lt;/vasp&gt;
+&lt;/mm7&gt;  
+&lt;eaif&gt;
+    &lt;vasp id="</parameter>
+            <configuration>EAIF/EAIFID</configuration>
+            <parameter>" address="</parameter>
+            <configuration>EAIF/NUMBER</configuration>
+            <parameter>" eaifUrl="http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>EAIF/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>VASP/DIRECTORY</configuration>
+            <parameter>"&gt;&lt;attributes&gt;&lt;attribute name="MyCustomAttr" value="ABC"/&gt;&lt;/attributes&gt;</parameter>
+            <parameter>&lt;/vasp&gt;
+&lt;/eaif&gt; 
+&lt;/vasps&gt;</parameter>
+        </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data vasp.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+</test>

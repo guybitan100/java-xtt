@@ -1,0 +1,31 @@
+<html>
+<SCRIPT LANGUAGE="JavaScript">
+function validateForms()
+{	if (!document.getElementsByTagName) return false;
+		elementsForms = document.getElementsByTagName("form");
+	for (var intCounter = 0; intCounter < elementsForms.length; intCounter++)
+	{	validateForm(elementsForms[intCounter])
+	}
+}
+</SCRIPT>
+<SCRIPT LANGUAGE=VBScript>
+	Sub button1_OnClick()
+		Dim Stooges()
+		Dim i
+		Dim OutStr
+		Redim Preserve Stooges(2)
+		Stooges(0) = "Moe"
+		Stooges(1) = "Larry"
+		Stooges(2) = "Curly"
+		Redim Preserve Stooges(3)
+		Stooges(3) = "Shemp"
+		For i = 0 to UBound(Stooges)
+			OutStr = OutStr + ": " + Stooges(i)
+			text1.value = OutStr
+		next
+	End Sub
+</SCRIPT>
+<body>Hello World<br>
+<b>Test Case for Redundant Elemenet Elimation</b>
+</body>
+</html>

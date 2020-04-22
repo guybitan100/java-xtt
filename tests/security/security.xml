@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<security>
+    
+    <!-- Test security between XMG and content providers -->
+    <!--contentProviders>
+        <https allowWeakEncryption="true" >
+            <clientCertificate privateKeyFile="demo_inet_client_private_key.der" privateKeyPassword="demo1234" >
+                <certificateChain>
+                    <certificate>demo_inet_client_certificate.der</certificate>
+                    <certificate>demo_inet_client_ca_certificate.der</certificate>
+                </certificateChain>
+            </clientCertificate>
+        </https>
+    </contentProviders-->
+
+    <!-- Test security settings -->
+    <!--devices>
+        <wtls allowWeakEncryption="false" >
+            <diffieHellman allowWeakParameters="true" />
+            <rsa allowRsaAnonymousKeyExchange="false" >
+                <serverCertificate certificate="wap1_server_certificate.wtls" privateKeyFile="wap1_server_private_key.der" privateKeyPassword="secret" />
+            </rsa>
+        </wtls>
+    </devices-->
+
+    <!-- Test PI security -->
+    <!--pushInitiators>
+        <https allowWeakEncryption="true" >
+            <serverCertificate privateKeyFile="inet_server_private_key.der" privateKeyPassword="secret" >
+                <certificateChain>
+                    <certificate>inet_server_certificate.der</certificate>
+                    <certificate>signing_ca_certificate.der</certificate>
+                </certificateChain>
+                
+                
+                
+            </serverCertificate>
+        </https>
+    </pushInitiators-->
+
+    <!-- Test Certificates (with and without Crl Checking) -->
+    <trustedAuthorities enableCrlChecking="true" >
+        <certificate>cacert.der</certificate>
+        <certificate>userCert1.der</certificate>
+    </trustedAuthorities>
+</security>

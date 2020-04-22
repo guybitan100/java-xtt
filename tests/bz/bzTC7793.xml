@@ -1,0 +1,28 @@
+<test>
+    <function name="testName" module="Basic">
+		<parameter>BZ.TC.7793</parameter>
+	</function>
+
+    <description>Make sure log files aren't world writable</description>
+
+       <function name="getNewestRemoteFileName" module="Remote">
+           <parameter>varName</parameter>
+           <parameter>/nishome/etc/etc/</parameter>
+           <parameter>filterText</parameter>
+       </function>
+
+    <function name="queryResponse" module="Remote">
+    	<parameter>Newest file was: (.*)</parameter>
+    	<parameter>newest</parameter>
+    </function>
+
+	<function name="sendRemoteCommand" module="Remote">
+        <parameter>ls -la </parameter>
+	   	<variable>newest</variable>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+    	<parameter>-rw-r--r--</parameter>
+    	<parameter>dev/null</parameter>
+    </function>
+</test>

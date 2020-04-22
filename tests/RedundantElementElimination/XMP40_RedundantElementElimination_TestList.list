@@ -1,0 +1,5 @@
+tests\connect\connectTC001.xml
+tests\RedundantElementElimination\RedundantElementElimination.TC.001.xml
+tests\RedundantElementElimination\RedundantElementElimination.TC.002.xml
+tests\RedundantElementElimination\RedundantElementElimination.TC.003.xml
+tests\RedundantElementElimination\RedundantElementElimination.TC.004.xml

@@ -1,0 +1,10 @@
+<!-- just check if all the processes are running -->
+<test>
+    <function name="testName" module="Basic">
+        <parameter>INTEGRATION.TC.002</parameter>
+    </function>
+
+    <function name="checkAllProcessesStatus" module="Remote">
+        <parameter>Running</parameter>
+    </function>
+</test>

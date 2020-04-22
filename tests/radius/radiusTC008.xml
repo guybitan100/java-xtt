@@ -1,0 +1,41 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>RADIUS.TC.008</parameter>
+    </function>
+    <function name="startWebServer" module="HTTP"/>
+    
+    <function name="addAdditionalAttributes" module="Radius">
+        <parameter>26</parameter>
+        <parameter>0x00 0x00 0x15 0xBA 0x01 0x2D 0x3C 0x36 0x34 0x30 0x30 0x30 0x3B 0x52 0x4F 0x41 0x4D 0x49 0x4E 0x47 0x3D 0x48 0x4F 0x4D 0x45 0x20 0x52 0x4F 0x41 0x4D 0x3B 0x53 0x47 0x53 0x4E 0x50 0x3D 0x31 0x32 0x31 0x2E 0x31 0x32 0x2E 0x31 0x32 0x32 0x2E 0x31</parameter>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>    
+        </parameter>
+    </function>
+    
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>x-bearer_id</parameter>
+        <parameter>?</parameter>
+    </function>    
+    
+    <function name="sleep" module="basic">
+        <parameter>2000</parameter>
+    </function>    
+    
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+
+</test>

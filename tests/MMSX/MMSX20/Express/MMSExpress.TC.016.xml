@@ -1,0 +1,143 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>MMSExpress.TC.016</parameter>
+	</function>
+
+	<description> 
+Validate MMS Express Use Case does NOT function when message distributed to multiple recipients
+	</description>
+
+		<!-- Start SMSC server -->
+	<function name="startSMSCServer" module="SMS"/>
+	
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Call Subtest to Greate workflowconstants Change smsOutCharacterSet=text -->
+	<!-- <subtest>PrepareWorkflowConstants.xml</subtest> -->
+
+		<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active Message Store process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+<!-- 	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/SENDER/MSISDN1</configuration>
+	</function> -->
+
+<!-- Setting loop for TO recipients -->
+	<function name="setVariable" module="BASIC">
+		<parameter>to_list</parameter>
+		<parameter></parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>coma</parameter>
+		<parameter></parameter>
+	</function> 
+
+	<loop name="loop" start="6" stop="10" step="1">
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<parameter>
+		<configuration><parameter>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN</parameter>
+		<variable>loop</variable></configuration>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>to_list</parameter>
+		<parameter>
+		<variable>to_list</variable>
+		<variable>coma</variable>		<parameter><configuration><parameter>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN</parameter><variable>loop</variable></configuration></parameter>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>coma</parameter>
+		<parameter>,</parameter>
+	</function>
+	</loop>
+
+ 	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<variable>to_list</variable>
+	</function> 
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/WHITEBLACKLIST/RECIPIENT/MSISDN5</configuration>
+	</function>
+
+	<!-- Set Subject  -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>! This is test Express message</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Validate "Send body" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- Validate "response-status" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-code</parameter>
+		<parameter>Error-service-denied</parameter>
+	</function>
+
+	<!-- Validate "Send body" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-text</parameter>
+		<parameter>MMSX: Express message rejected because you can only send a express message to a single target recipient.</parameter>
+	</function>
+
+	<!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+</test>

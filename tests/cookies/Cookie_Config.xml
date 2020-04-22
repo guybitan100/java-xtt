@@ -1,0 +1,9 @@
+<!-- 	XMG: System under test:	172.20.9.66 	8888
+	Test-Client system:	172.20.2.3
+-->
+
+<Configuration>
+
+<!-- this was all un-needed, remove till we remove from tests -->
+    
+</Configuration>

@@ -1,0 +1,286 @@
+<test>
+
+	<name>Ext-DR.TC.005</name>
+
+	<description>MM7 -> MM1 / Send HTTP header with x-ignore-report-allowed =true / Report-Allowed flag used by recipient to suppress DR ignored</description>
+
+	<!-- Load config file -->
+	<configuration>../xmaConfig.xml</configuration>
+
+	<!-- Start web server on VASP port -->
+	<function name="startWebServer" module="HTTP">
+		<configuration>VASP/PORT</configuration>
+		<configuration>WEBSERVER/ROOT</configuration>
+		<configuration>WEBSERVER/TIMEOUT</configuration>
+	</function>
+
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+		<parameter> OK</parameter>
+	</function>
+
+	<!-- Delete existing messages from message store -->
+	<subtest name="deleteMessagestoreAll" file="../deleteMessagestoreAll.xml"/>
+
+	<!-- Start SMSC -->
+	<function name="startSMSCServer" module="SMS"/>
+
+	<subtest name="loadVariables" file="loadVariables.xml">
+		<parameter>MSISDN</parameter>
+	</subtest>
+
+	<function name="setVariable" module="Basic">
+		<parameter>MSISDN</parameter>
+		<variable>MSISDN/0</variable>
+	</function>
+
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Create MM7 Submit Req -->
+	<function name="createMM7Soap" module="VASP">
+		<parameter>SubmitReq</parameter>
+		<configuration>VASP/VASPID</configuration>
+		<configuration>VASP/VASID</configuration>
+	</function>
+
+	<function name="setMessageBoundary" module="VASP">
+		<parameter>000001message</parameter>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SenderIdentification']</parameter>
+		<parameter>SenderAddress</parameter>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SenderAddress']</parameter>
+		<parameter>Number</parameter>
+		<configuration>VASP/NUMBER</configuration>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SubmitReq']</parameter>
+		<parameter>Recipients</parameter>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='Recipients']</parameter>
+		<parameter>To</parameter>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='To'][last()]</parameter>
+		<parameter>Number</parameter>
+		<variable>MSISDN</variable>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SubmitReq']</parameter>
+		<parameter>Content</parameter>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SubmitReq']</parameter>
+		<parameter>DeliveryReport</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="setHeader" module="VASP">
+		<parameter>x-ignore-report-allowed</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<!-- Set x-vasp-url for DR -->
+	<function name="setHeader" module="VASP">
+		<parameter>x-vasp-url</parameter>
+		<parameter>
+		<parameter>http://</parameter>
+		<configuration>system/ip</configuration>
+		<parameter>:</parameter>
+		<configuration>vasp/port</configuration>
+		<parameter>/</parameter>
+		<configuration>vasp/Directory</configuration>
+		</parameter>
+	</function>
+
+	<function name="setSoapAttribute" module="VASP">
+		<parameter>//*[local-name()='Content']</parameter>
+		<parameter>href</parameter>
+		<parameter>cid:xtt-test001</parameter>
+	</function>
+
+	<function name="addContent" module="VASP">
+		<file>sendMM7data.txt</file>
+	</function>
+
+	<!--Send post request to VASP IN-->
+	<function name="sendPostRequest" module="VASP"/>
+
+	<!-- Check response of XMA-->
+	<function name="checkResponseCode" module="VASP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="queryBody" module="VASP">
+		<parameter>temp</parameter>
+		<parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+	</function>
+
+	<function name="queryBody" module="VASP">
+		<parameter>MessageID</parameter>
+		<parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+	</function>
+
+	<!-- Wait for 1 WSP message -->
+	<function name="waitForWSPMessages" module="SMS">
+		<parameter>1</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>x_mms_content_location</parameter>
+		<parameter>
+			<parameter>SMSC/</parameter>
+			<configuration>SMSCSERVER/PROTOCOL</configuration>
+			<parameter>/</parameter>
+			<variable>MSISDN</variable>
+			<parameter>/MMS/x_mms_content_location</parameter>
+		</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>x_mms_transaction_id</parameter>
+		<parameter>
+			<parameter>SMSC/</parameter>
+			<configuration>SMSCSERVER/PROTOCOL</configuration>
+			<parameter>/</parameter>
+			<variable>MSISDN</variable>
+			<parameter>/MMS/x_mms_transaction_id</parameter>
+		</parameter>
+	</function>
+
+	<!-- Send mm1 notify response -->
+	<function name="sendMM1NotifyResponse" module="SMS">
+		<parameter>retrieved</parameter>
+		<variablepointer>x_mms_transaction_id</variablepointer>
+		<variable>MSISDN/0</variable>
+	</function>
+
+	<function name="checkResponseCode" module="SMS">
+		<parameter>200</parameter>
+		<parameter>204</parameter>
+	</function>
+
+	<function name="sleep" module="Basic">
+		<parameter>2000</parameter>
+	</function>
+
+	<!-- Stop SMSC server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>User-Agent</parameter>
+		<parameter>UserAgent-1</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>accept-charset</parameter>
+		<parameter>utf-8</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+		<variable>MSISDN</variable>
+	</function>
+
+	<!-- Send GET request -->
+	<function name="sendGetRequest" module="HTTP">
+		<variable>
+			<parameter>SMSC/</parameter>
+			<configuration>SMSCSERVER/PROTOCOL</configuration>
+			<parameter>/</parameter>
+			<variable>MSISDN</variable>
+			<parameter>/MMS/x_mms_content_location</parameter>
+		</variable>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>PACKET1Response</parameter>
+		<variable>HTTP/BODY/BASE64</variable>
+	</function>
+
+	<function name="sendMM1AcknowledgeIndicator" module="SMS">
+		<parameter>no</parameter>
+		<variablepointer>x_mms_transaction_id</variablepointer>
+		<variable>MSISDN</variable>
+	</function>
+
+	<function name="checkResponseCode" module="SMS">
+		<parameter>200</parameter>
+	</function> 
+
+	<!-- Wait for Delivery Reports -->
+	<function name="waitForPOSTs" module="HTTP">
+		<parameter>1</parameter>
+	</function>
+
+	<function name="queryVariable" module="Basic">
+		<parameter>WEBSERVER/POST/TEXT/XML</parameter>
+		<parameter>MessageID2</parameter>
+		<parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+	</function>
+
+	<function name="compareString" module="Basic">
+		<variable>MessageID2</variable>
+		<variable>MessageID</variable>
+	</function>
+
+	<function name="queryVariable" module="BASIC">
+		<parameter>
+			<parameter>WEBSERVER/POST/MM7/DELIVERYREPORTRSP/</parameter>
+			<variable>MSISDN</variable>
+		</parameter>
+		<parameter>MessageID2</parameter>
+		<parameter>&lt;MMStatus&gt;Retrieved&lt;/MMStatus&gt;</parameter>
+	</function>
+
+	<function name="sleep" module="BASIC">
+		<parameter>5000</parameter>
+	</function>
+
+	<!-- Validate message store -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k -e (MMS_Req_Message-ID=='</parameter>
+			<variable>MessageID</variable>
+			<parameter>') search TI:F.CEE.</parameter>
+			<variable>msp</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>MMS_Req_X-Mms-Message-Type=m-delivery-ind</parameter>
+		<parameter>status</parameter> 
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>MMS_Req_X-Mms-Status=Retrieved</parameter>
+		<parameter>status</parameter>
+	</function>
+
+	<!-- Stop web server -->
+	<function name="stopWebServer" module="HTTP"/>
+
+</test>

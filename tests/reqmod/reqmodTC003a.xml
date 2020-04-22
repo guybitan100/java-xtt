@@ -1,0 +1,211 @@
+<!-- $Id: reqmodTC003a.xml,v 1.3 2007/06/20 09:49:39 rsoder Exp $ -->
+<!--# Test Case 1103a aka REQMOD.TC.003a
+    # test url substitution stuff    -->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.003a</parameter>
+    </function>
+    <description>Test various url replacement, access deny rules, redirect rules</description>
+
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+    <!-- do a radius logon -->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.denyaccess.com/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>403</parameter>
+    </function>
+        <function name="queryResponseMessage" module="HTTP">
+            <parameter>dev/null</parameter>
+            <parameter>Site blocked by reqmod.</parameter>
+        </function>
+
+    <!-- download the webpage -->
+    <function name="disableFollowRedirects" module="HTTP"/>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.google.ch/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>302</parameter>
+    </function>
+    <function name="checkHeader" module="HTTP">
+        <parameter>location</parameter>
+        <parameter>http://test5.xtt724.com:80/yahoo/</parameter>
+    </function>
+    <function name="enableFollowRedirects" module="HTTP"/>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.acme.com/acme/index.html</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/acme/index.html</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test5.xtt724.com</parameter>
+    </function>
+
+    <loop name="wwwnumbers" start="0" stop="10" step="1">
+        <!-- download the webpage -->
+        <function name="sendGetRequest" module="HTTP">
+            <parameter>
+                <parameter>http://www</parameter>
+                <variable>wwwnumbers</variable>
+                <parameter>.acme.com/</parameter>
+            </parameter>
+        </function>
+        <!-- check if the download was successfull -->
+        <function name="checkResponseCode" module="HTTP">
+            <parameter>200</parameter>
+        </function>
+        <function name="checkServerURL" module="HTTP">
+            <parameter>/</parameter>
+        </function>
+        <function name="checkServerHeader" module="HTTP">
+            <parameter>host</parameter>
+            <parameter>test5.xtt724.com</parameter>
+        </function>
+    </loop>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test.acme.com/me/index.html</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/acme/index.html</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test5.xtt724.com</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://xxx.acme.com/acme/index.html</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test5.xtt724.com</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.yahoo.co.uk/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/ukde/</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test5.xtt724.com</parameter>
+    </function>
+
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.yahoo.de/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/ukde/</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test5.xtt724.com</parameter>
+    </function>
+
+
+
+<!-- check that url http://a.b.c/d does not match the rule http://a.b.c/d/* -->
+
+    <function name="disableFollowRedirects" module="HTTP"/>
+    <!-- download the webpage, not matching -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www2.xtt724.com/ukde</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>301</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/ukde</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>www2.xtt724.com</parameter>
+    </function>
+    <!-- download the webpage, matching-->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www2.xtt724.com/ukde/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/acme/</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test5.xtt724.com</parameter>
+    </function>
+    <function name="enableFollowRedirects" module="HTTP"/>
+
+
+    <!-- logoff  -->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- stop webserver -->
+    <function name="stopWebServer" module="HTTP"/>
+</test>

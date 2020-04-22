@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">                      
+    <table name="TestJpegQFactor">
+        <selector>
+            <reduceJpegQFactor percentReduction="50"/>
+        </selector>
+    </table>
+</requestModifications>

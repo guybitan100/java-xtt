@@ -1,0 +1,34 @@
+// Check Cookies-Test Environment
+tests\cookies\Cookies_WAP1_Test0101_Sub0001.xml
+// Session Cookie Tests
+tests\cookies\Cookies_WAP1_Test0102_Sub0001.xml
+tests\cookies\Cookies_WAP1_Test0102_Sub0002.xml
+tests\cookies\Cookies_WAP1_Test0102_Sub0003.xml
+tests\cookies\Cookies_WAP1_Test0102_Sub0004.xml
+tests\cookies\Cookies_WAP1_Test0102_Sub0005.xml
+tests\cookies\Cookies_WAP1_Test0102_Sub0006.xml
+tests\cookies\Cookies_WAP1_Test0102_Sub0007.xml
+// Persistent Cookie Tests
+tests\cookies\Cookies_WAP1_Test0103_Sub0001.xml
+tests\cookies\Cookies_WAP1_Test0103_Sub0002.xml
+tests\cookies\Cookies_WAP1_Test0103_Sub0003.xml
+tests\cookies\Cookies_WAP1_Test0103_Sub0004.xml
+tests\cookies\Cookies_WAP1_Test0103_Sub0005.xml
+tests\cookies\Cookies_WAP1_Test0103_Sub0006.xml
+tests\cookies\Cookies_WAP1_Test0103_Sub0007.xml
+// Mixed Cookie Tests
+tests\cookies\Cookies_WAP1_Test0104_Sub0001.xml
+tests\cookies\Cookies_WAP1_Test0104_Sub0002.xml
+tests\cookies\Cookies_WAP1_Test0104_Sub0003.xml
+tests\cookies\Cookies_WAP1_Test0104_Sub0004.xml
+tests\cookies\Cookies_WAP1_Test0104_Sub0005.xml
+tests\cookies\Cookies_WAP1_Test0104_Sub0006.xml
+// Multi-User cookie tests
+tests\cookies\Cookies_WAP1_Test0105_Sub0001.xml
+// Cookie live-time tests
+tests\cookies\Cookies_WAP1_Test0107_Sub0001.xml
+tests\cookies\Cookies_WAP1_Test0107_Sub0006.xml
+// Cookie limitation tests
+tests\cookies\Cookies_WAP1_Test0108_Sub0001.xml
+tests\cookies\Cookies_WAP1_Test0108_Sub0003.xml
+tests\cookies\Cookies_WAP1_Test0108_Sub0006.xml

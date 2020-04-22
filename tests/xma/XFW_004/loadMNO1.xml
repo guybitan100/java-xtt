@@ -1,0 +1,17 @@
+<test>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>default-mno1.xml</parameter>
+		<file>default-mno1.xml</file>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data default-mno1.xml</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded </parameter>
+		<parameter>response</parameter>
+	</function>
+
+</test>

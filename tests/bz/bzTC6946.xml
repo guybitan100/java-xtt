@@ -1,0 +1,31 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.6946</parameter>
+    </function>
+    <description>Obsolete as per bz 7932 </description>
+
+
+    <conditional configuration="DNSSERVER/STARTONLOAD" targetValue="">
+        <function name="stopDNSServer" module="DNS"/>
+    </conditional>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://dnstimeout.xtt724.com/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>504</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <conditional configuration="DNSSERVER/STARTONLOAD" targetValue="">
+        <function name="startDNSServer" module="DNS"/>
+    </conditional>
+
+</test>

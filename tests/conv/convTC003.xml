@@ -1,0 +1,50 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>CONV.TC.003</parameter>
+	</function>
+	<description>Content-Encoding compress</description>
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept-Encoding</parameter>
+		<parameter>compress</parameter>
+	</function>
+	<function name="setHeader" module="HTTP">
+		<parameter>User-Agent</parameter>
+		<parameter>XTT/compress</parameter>
+	</function>
+
+    <function name="startDNSServer" module="DNS"/>
+    <function name="startWebServer" module="HTTP"/>
+    <function name="setCacheFile" module="HTTP">
+		<parameter>test.html</parameter>
+<xml><html>
+<body>
+<pre>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</pre>
+</body>
+</html>
+</xml>
+    </function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://xtt724.com/test.html</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+    <function name="stopDNSServer" module="DNS"/>
+</test>

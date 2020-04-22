@@ -1,0 +1,51 @@
+<test>
+    <description>Check GIF image reduction</description>
+
+    <function name="startWebServer" module="HTTP" />
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>123789</parameter>
+        <parameter>123789</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>user-agent</parameter>
+        <parameter>Nokia 40</parameter>
+    </function>
+    
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/images/gif.gif</parameter>
+         </parameter>
+    </function>
+    
+    <function name="isGif" module="Content">
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>
+    
+    <function name="imageDimensionsToVariable" module="Content">
+        <variable>HTTP/BODY/BASE64</variable>
+        <parameter>imageDimensions</parameter>
+    </function>
+    
+    <!-- Nokia 40 dimensions are 128x96 max -->
+    <function name="lessThan" module="Basic">
+        <variable>imageDimensions/x</variable>
+        <parameter>129</parameter>
+    </function>
+
+    <function name="lessThan" module="Basic">
+        <variable>imageDimensions/y</variable>
+        <parameter>97</parameter>
+    </function>
+    
+    <!-- Use this function below to write the file to visually check the conversion -->
+    <!--function name="base64DecodeToFile" module="XTT">
+        <parameter>test.gif</parameter>
+        <variable>HTTP/BODY/BASE64</variable>
+    </function-->
+    
+    <function name="stopWebServer" module="HTTP" />
+</test>

@@ -1,0 +1,69 @@
+<test>	    
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.9296</parameter>
+	</function>
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+
+	<function name="startWebServer" module="HTTP"/>
+<!--    <function name="setCacheFile" module="HTTP">
+        <parameter>/empty.html</parameter>
+        <parameter></parameter>
+    </function>
+-->
+	<function name="setServerHeader" module="HTTP">
+		<parameter>transfer-encoding</parameter>
+		<parameter>chunked</parameter>
+	</function> 
+	
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>204</parameter>
+	</function> 	
+
+	<!-- GET JPEG - NO CONVERSION -->
+	<function name="setHeader" module="WAP">
+		<parameter>Accept</parameter>
+		<parameter>multipart/mixed, application/vnd.wap.multipart.mixed, application/vnd.wap.xhtml+xml, application/xhtml+xml, text/vnd.wap.wml, */*</parameter>
+	</function> 	
+	<function name="setHeader" module="WAP">
+		<parameter>accept-charset</parameter>
+		<parameter>utf-8, utf-16, iso-8859-1, iso-10646-ucs-2, Shift_JIS</parameter>
+	</function> 	
+	<function name="setHeader" module="WAP">
+		<parameter>accept-encoding</parameter>
+		<parameter>deflate, gzip, compress;q=0.1, identity</parameter>
+	</function> 	
+	
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/</parameter>
+        </parameter>
+	</function>
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>204</parameter>
+	</function>	
+    <function name="checkHeader" module="HTTP">
+    	<parameter>content-length</parameter>
+    	<parameter>0</parameter>
+    </function>
+
+    <function name="checkHeader" module="HTTP">
+    	<parameter>transfer-encoding</parameter>
+    	<parameter>null</parameter>
+    </function>
+	
+     <!--function name="compareString" module="BASIC">
+         <variable>HTTP/BODY/PLAIN</variable>
+         <parameter></parameter>
+     </function-->
+
+	<function name="stopWebServer" module="HTTP"/>
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function> 
+</test>

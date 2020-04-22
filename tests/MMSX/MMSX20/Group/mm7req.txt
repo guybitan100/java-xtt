@@ -1,0 +1,68 @@
+--NextPart_000_0028_01C19839.84698430
+Content-Type:text/xml; charset="utf-8"
+Content-ID: </tnn-200102/mm7-submit>
+
+<?xml version="1.0" ?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"> 
+      <env:Header>
+        <mm7:TransactionID xmlns:mm7="http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-3" env:mustUnderstand="1">
+            vas00001-sub
+        </mm7:TransactionID>
+    </env:Header>   
+    <env:Body>
+        <SubmitReq xmlns="http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-3">
+            <MM7Version>5.6.0</MM7Version>
+            <SenderIdentification>
+                <VASPID>TNN</VASPID>
+                <VASID>News</VASID>
+            </SenderIdentification>
+            <Recipients>
+                <To>
+                    <Number>7255441234</Number>
+                    <RFC2822Address displayOnly="true">7255442222@OMMS.com</RFC2822Address>
+                </To>
+                <Cc>
+                    <Number>7255443333</Number>
+                </Cc>
+                <Bcc>
+                    <RFC2822Address>7255444444@OMMS.com</RFC2822Address>
+                </Bcc>
+            </Recipients>
+            <ServiceCode>gold-sp33-im42</ServiceCode>
+            <LinkedID>mms00016666</LinkedID>
+            <MessageClass>Informational</MessageClass>
+            <TimeStamp>2002-01-02T09:30:47-05:00</TimeStamp>
+            <EarliestDeliveryTime>2002-01-02T09:30:47-05:00</EarliestDeliveryTime>
+            <ExpiryDate>P90D</ExpiryDate>
+            <DeliveryReport>true</DeliveryReport>
+            <Priority>Normal</Priority>
+            <Subject>News for today</Subject>
+            <ContentClass>video-rich</ContentClass>
+            <DRMContent>true</DRMContent>
+            <ChargedParty>Sender</ChargedParty>
+            <DistributionIndicator>true</DistributionIndicator>
+            <Content href="cid:SaturnPics-01020930@news.tnn.com" allowAdaptations="true"/>
+        </SubmitReq>
+    </env:Body>
+</env:Envelope>
+
+--NextPart_000_0028_01C19839.84698430
+Content-Type: multipart/mixed; boundary="StoryParts 74526 8432 2002-77645"
+Content-ID:<SaturnPics-01020930@news.tnn.com>
+
+--StoryParts 74526 8432 2002-77645 
+Content-Type: text/plain; charset="us-ascii"
+
+Science news, new Saturn pictures...
+
+--StoryParts 74526 8432 2002-77645 
+Content-Type: image/gif; 
+Content-ID:<saturn.gif>
+Content-Transfer-Encoding: base64
+Transfer-Encoding: chunked
+
+R0lGODdhZAAwAOMAAAAAAIGJjGltcDE0OOfWo6Ochbi1n1pmcbGojpKbnP/lpW54fBMTE1RYXEFO
+blah blah
+
+--StoryParts 74526 8432 2002-77645--
+--NextPart_000_0028_01C19839.84698430--

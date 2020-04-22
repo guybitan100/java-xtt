@@ -1,0 +1,84 @@
+<test>
+	<name>3rdPartyRegistration.TC.001d</name>
+	<description>S-CSCF sends 3rd Party REGISTER request to SLM [UDP] - NOTIFY</description>
+	<configuration>config.xml</configuration>
+	
+	<!-- Start SIP Server -->
+	<function name="startSIPServer" module="SIP"/>
+	<function name="disableResponse" module="SIP"/>
+
+
+
+
+
+    
+    <!-- Create the NOTIFY Request Body -->
+	<function name="timeToVariable" module="Basic">
+		<parameter>random</parameter>
+    </function>
+    
+    <function name="setVariableLines" module="Basic">
+       <parameter>2</parameter>
+       <parameter>notify_body</parameter>
+       <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</parameter><parameter></parameter>
+		<parameter>&lt;reginfo xmlns="urn:ietf:params:xml:ns:reginfo" state="full" version="0"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;registration aor="</parameter><configuration>IMS/PUBLIC_URI1_1</configuration><parameter>" id="</parameter><variable>random</variable><parameter>" state="active"&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;contact event="registered" id="21" state="active"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;uri&gt;sip:</parameter><configuration>IMS/IP</configuration><parameter>:5060&lt;/uri&gt;</parameter></parameter><parameter></parameter>
+		<parameter><parameter>&lt;display-name&gt;</parameter><configuration>IMS/NAME_URI1</configuration><parameter>&lt;/display-name&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;/contact&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/registration&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;registration aor="</parameter><configuration>IMS/PUBLIC_URI1_2</configuration><parameter>;user=phone" id="</parameter><variable>random</variable><parameter>" state="active"&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;contact event="created" id="22" state="active"&gt;</parameter><parameter></parameter>
+		<parameter><parameter>&lt;uri&gt;sip:</parameter><configuration>IMS/IP</configuration><parameter>:5060&lt;/uri&gt;</parameter></parameter><parameter></parameter>
+		<parameter><parameter>&lt;display-name&gt;</parameter><configuration>IMS/NAME_URI1</configuration><parameter>&lt;/display-name&gt;</parameter></parameter><parameter></parameter>
+		<parameter>&lt;/contact&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/registration&gt;</parameter><parameter></parameter>
+		<parameter>&lt;/reginfo&gt;</parameter><parameter></parameter>
+		<parameter></parameter><parameter></parameter>
+	</function>
+	
+    <!-- Create the NOTIFY Request Headers -->
+    <function name="setVariableLines" module="Basic">
+        <parameter>2</parameter>
+        <parameter>notify_headers</parameter>
+        <parameter>NOTIFY sip:724.com SIP/2.0</parameter><parameter></parameter>
+		 <parameter>Max-Forwards: </parameter><parameter>70</parameter>
+		 <parameter>Subscription-State: </parameter><parameter>terminated</parameter>
+		 <parameter>Event: </parameter><parameter>reg</parameter>
+		 <parameter>CSeq: </parameter><parameter>1 NOTIFY</parameter>
+		 <parameter>Content-Length: </parameter><parameter><bytelength><variable>notify_body</variable></bytelength></parameter>
+		 <parameter>Contact: </parameter><parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>&gt;</parameter></parameter>
+		 <parameter>To: </parameter><parameter>&lt;sip:724.com&gt;;tag=209043676</parameter>
+		 <parameter>From: </parameter><parameter><parameter>&lt;sip:172.20.14.5:5071&gt;</parameter><parameter>;tag=</parameter><variable>random</variable></parameter>
+		 <parameter>Call-ID: </parameter><parameter><parameter>2-9Y2EDE1G3FFKHRA0HR7</parameter><variable>random</variable><parameter>@724.com</parameter></parameter>
+		 <parameter>Content-Type: </parameter><parameter>application/reginfo+xml</parameter>
+		 <parameter>Via: </parameter><parameter><parameter>SIP/2.0/udp </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=</parameter><variable>random</variable></parameter>
+		 <parameter></parameter><parameter></parameter>
+		 <variable>notify_body</variable>
+    </function>
+    
+	<!-- Send NOTIFY Request -->
+    <function name="sendFreeRequest" module="SIP">
+        <configuration>system/remoteip</configuration>
+        <parameter>5060</parameter>
+        <parameter>UDP</parameter>
+        <variable>notify_headers</variable>
+    </function>
+    
+	<function name="sleep" module="Basic">
+		<parameter>3000</parameter>
+	</function>
+
+
+
+
+    
+    
+    <!-- Stop SIP Server -->
+   <function name="closeConnection" module="SIP"/>
+	<function name="stopSIPServer" module="SIP"/>
+</test>
+
+
+

@@ -1,0 +1,197 @@
+<test>
+	<name>SM	S-IN_SMS-OUT.TC.001b</name>
+	<description>SMS-IN -> SMS-OUT Scenario Triggered by Policy based Routing Rules Stored Locally in the Solution - 5 Messages</description>
+	
+	<!-- Start SMSC Server & Wait for SLM to Bind SMSC -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+	
+	<!-- 1st Message -->
+	<!-- Send SMS-IN Message -->
+	<function name="openConnection" module="UCP">
+		<parameter>connection1</parameter>
+		<configuration>system/Ip</configuration>
+		<configuration>SMSCServer/Port</configuration>
+	</function>
+	
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<parameter>0041793660011</parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter>0041793660007</parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>This is a single line message1.</byteStringEncode>
+		<parameter>/////////////</parameter>
+		</parameter>            
+	</function>    
+	
+	<function name="queryTextResponse" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>\d\d/\d\d\d\d\d/R/51/A//[^/]++/\w\w</parameter>
+	</function>    
+	
+	<function name="closeConnection" module="UCP">
+		<parameter>connection1</parameter>
+	</function>
+	
+	
+	<!-- 2nd Message -->
+	<!-- Send SMS-IN Message -->
+	<function name="openConnection" module="UCP">
+		<parameter>connection1</parameter>
+		<configuration>system/Ip</configuration>
+		<configuration>SMSCServer/Port</configuration>
+	</function>
+	
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<parameter>0041793660012</parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter>0041793660007</parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>This is a single line message2.</byteStringEncode>
+		<parameter>/////////////</parameter>
+		</parameter>            
+	</function>    
+	
+	<function name="queryTextResponse" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>\d\d/\d\d\d\d\d/R/51/A//[^/]++/\w\w</parameter>
+	</function>    
+	
+	<function name="closeConnection" module="UCP">
+		<parameter>connection1</parameter>
+	</function>
+	
+	
+	<!-- 3rd Message -->
+	<!-- Send SMS-IN Message -->
+	<function name="openConnection" module="UCP">
+		<parameter>connection1</parameter>
+		<configuration>system/Ip</configuration>
+		<configuration>SMSCServer/Port</configuration>
+	</function>
+	
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<parameter>0041793660013</parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter>0041793660007</parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>This is a single line message3.</byteStringEncode>
+		<parameter>/////////////</parameter>
+		</parameter>            
+	</function>    
+	
+	<function name="queryTextResponse" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>\d\d/\d\d\d\d\d/R/51/A//[^/]++/\w\w</parameter>
+	</function>    
+	
+	<function name="closeConnection" module="UCP">
+		<parameter>connection1</parameter>
+	</function>
+	
+	
+	<!-- 4th Message -->
+	<!-- Send SMS-IN Message -->
+	<function name="openConnection" module="UCP">
+		<parameter>connection1</parameter>
+		<configuration>system/Ip</configuration>
+		<configuration>SMSCServer/Port</configuration>
+	</function>
+	
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<parameter>0041793660014</parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter>0041793660007</parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>This is a single line message4.</byteStringEncode>
+		<parameter>/////////////</parameter>
+		</parameter>            
+	</function>    
+	
+	<function name="queryTextResponse" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>\d\d/\d\d\d\d\d/R/51/A//[^/]++/\w\w</parameter>
+	</function>    
+	
+	<function name="closeConnection" module="UCP">
+		<parameter>connection1</parameter>
+	</function>
+	
+	
+	<!-- 5th Message -->
+	<!-- Send SMS-IN Message -->
+	<function name="openConnection" module="UCP">
+		<parameter>connection1</parameter>
+		<configuration>system/Ip</configuration>
+		<configuration>SMSCServer/Port</configuration>
+	</function>
+	
+	<function name="sendSMSCUCPPacket" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>0</parameter>
+		<parameter>internal</parameter>
+		<parameter>O</parameter>
+		<parameter>51</parameter>
+		<parameter>
+		<parameter>/</parameter>
+		<parameter>0041793660015</parameter> <!-- Recipient -->
+		<parameter>/</parameter>
+		<parameter>0041793660007</parameter> <!-- Sender -->
+		<parameter>////////////0066/////3//</parameter>
+		<byteStringEncode>This is a single line message5.</byteStringEncode>
+		<parameter>/////////////</parameter>
+		</parameter>            
+	</function>    
+	
+	<function name="queryTextResponse" module="UCP">
+		<parameter>connection1</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>\d\d/\d\d\d\d\d/R/51/A//[^/]++/\w\w</parameter>
+	</function>    
+	
+	<function name="closeConnection" module="UCP">
+		<parameter>connection1</parameter>
+	</function>
+
+	
+	
+	<!-- Wait for the SMS-OUT Message -->
+	<function name="waitForMessages" module="SMS">
+		<parameter>5</parameter>
+	</function>
+
+	<!-- Shut Down SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+</test>

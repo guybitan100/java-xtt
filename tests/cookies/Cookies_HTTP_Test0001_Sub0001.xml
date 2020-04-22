@@ -1,0 +1,60 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.HTTP.T0001.Sub0001  -  HTTP: Test the XTT-Cookie Test Environment FOR HTTP
+
+Test Description:
+ 1. Radius Logon
+ 2. Check if we can reach the xttWebServer via HTTP
+ 3. Radius Logoff
+
+Expected Result:
+ -  Send and receive HTTP-Requests via xmg-gwy to/from xttWebServer.
+
+XTT Commands:
+      startWebServer
+ 1. - Radius log-ON
+ 2.   - sendGetRequest 	    "HTTP" http://xttWebServer:8989/tests/cookies/CookieTest_1.html
+      - checkResponseCode   "200"
+ 3. - Radius log-OFF
+      stopWebServer
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<!-- start test -->
+<test>
+    <configuration>Cookies_Test0000_Sub0000.xml</configuration>
+
+    <function name="testName" module="Basic">
+        <parameter>COOKIES.HTTP.T0001.Sub0001</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+
+<!-- // Check if we can reach the xttWebServer via HTTP -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SYSTEM/IP</configuration>
+            <parameter>:</parameter>
+            <configuration>WEBSERVER/PORT</configuration>
+            <parameter>/</parameter>
+            <configuration>COOKIES/TestURL1</configuration>
+        </parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+</test>

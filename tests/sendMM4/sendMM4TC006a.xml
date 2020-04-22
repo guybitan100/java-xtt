@@ -1,0 +1,137 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM4.TC.006a</parameter>
+    </function>
+    <function name="startSMTPServer" module="SMTP"/>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+    <function name="setVariable" module="BASIC">
+        <parameter>email</parameter>
+        <parameter>@defaultpartner.724.com</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC006-mno.xml </parameter>
+        <file>sendMM4TC006-mno.xml</file>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC006-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <thread>
+        <function name="sleep" module="basic">
+            <parameter>500</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <loop name="toaddress" start="17900000000" stop="17900000020" step="2">
+            <function name="addSoapData" module="VASP">
+                <parameter>//*[local-name()='Recipients']</parameter>
+                <parameter>To</parameter>
+            </function>
+            <function name="setSoapData" module="VASP">
+                <parameter>//*[local-name()='To'][last()]</parameter>
+                <parameter>Number</parameter>
+                <variable>toaddress</variable>
+            </function>
+        </loop>
+        <loop name="toaddress" start="17900000001" stop="17900000020" step="2">
+            <function name="addSoapData" module="VASP">
+                <parameter>//*[local-name()='Recipients']</parameter>
+                <parameter>To</parameter>
+            </function>
+            <function name="setSoapData" module="VASP">
+                <parameter>//*[local-name()='To'][last()]</parameter>
+                <parameter>Number</parameter>
+                <parameter>
+                    <variable>toaddress</variable>
+                    <variable>email</variable>
+                </parameter>
+            </function>
+        </loop>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM4data.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>10</parameter>
+    </function>
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>10</parameter>
+    </function>
+
+    <function name="stopSMTPServer" module="SMTP"/>
+    <function name="stopSMSCServer" module="SMS"/>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC006-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC006-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+        <loop name="toaddress" start="17900000000" stop="17900000020" step="2">
+            <function name="setVariable" module="BASIC">
+                <parameter>x_mms_message_type</parameter>
+                <parameter>
+                    <parameter>SMSC/</parameter>
+                    <configuration>SMSCSERVER/PROTOCOL</configuration>
+                    <parameter>/</parameter>
+                    <variable>toaddress</variable>
+                    <parameter>/MMS/x_mms_message_type</parameter>
+                </parameter>
+            </function>
+            <function name="compareString" module="basic">
+                <parameter>m-notification-ind</parameter>
+                <variablepointer>x_mms_message_type</variablepointer>
+            </function>
+        </loop>
+
+
+</test>

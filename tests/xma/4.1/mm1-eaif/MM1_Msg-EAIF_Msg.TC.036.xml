@@ -1,0 +1,191 @@
+<test>
+
+	<name>MM1_Msg-EAIF_Msg.TC.036</name>
+	<description>From field of the incoming MM Message is present but its value is empty [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes]</description>
+
+	<configuration>../xmaConfig.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Load VASP File -->
+	<subtest>../loadVASP.xml</subtest>
+
+	<function name="setVariable" module="Basic">
+		<parameter>ADDR_TO</parameter>
+		<configuration>EAIF/NUMBER</configuration>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>ADDR_FROM</parameter>
+		<!-- From Address is empty -->
+		<parameter> </parameter>
+	</function>
+
+	<function name="startWebServer" module="HTTP"> 
+		<configuration>EAIF/PORT</configuration>
+	</function>
+
+	<function name="createMM1Packet" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>M_SEND_REQ</parameter>
+		<parameter>XTTTRANSACTIONID0001</parameter>
+		<parameter>0x17</parameter>
+		<variable>ADDR_TO</variable>
+		<parameter></parameter>
+		<parameter>text/plain</parameter>
+		<parameter>utf-8</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_DELIVERY_REPORT</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_READ_REPORT</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>SUBJECT</parameter>
+		<parameter>No, they're all going to laugh at you!</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_MESSAGE_CLASS</parameter>
+		<parameter>128</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_PRIORITY</parameter>
+		<parameter>130</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_SENDER_VISIBILITY</parameter>
+		<parameter>129</parameter>
+	</function>
+
+	<function name="createMM1PacketContent" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<base64encode>Hello World!</base64encode>
+	</function>
+
+	<function name="storeMM1Packet" module="SMS">
+		<parameter>sendPacket1Base64</parameter>
+		<parameter>sendPacket1</parameter>
+	</function>
+
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>PACKET1Request</parameter>
+		<variable>sendPacket1Base64</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+		<variable>ADDR_FROM</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<!-- Set Return Code/Message of Web Server -->
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>204</parameter>
+	</function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+		<parameter> No Content</parameter>
+	</function>
+
+	<!-- Set Return Headers of Web Server -->
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-To</parameter>
+		<variable>ADDR_TO</variable>
+	</function>
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-Message-Type</parameter>
+		<parameter>MultiMediaMessage</parameter>
+	</function>
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-Version</parameter>
+		<parameter>1.7</parameter>
+	</function>
+
+	<function name="setBase64PostData" module="HTTP">
+		<variable>sendPacket1Base64</variable>
+	</function>
+
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+		<parameter>http://</parameter>
+		<configuration>SMSCSERVER/MM1Ip</configuration>
+		<parameter>:</parameter>
+		<configuration>SMSCSERVER/MM1Port</configuration>
+		<parameter>/</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>PACKET1Response</parameter>
+		<variable>HTTP/BODY/BASE64</variable>
+	</function>
+
+	<function name="queryVariable" module="BASIC">
+		<parameter>PACKET1Response/MMS/x_mms_response_status</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>Error-permanent-failure</parameter>
+	</function>
+
+	<!-- No Message, XMA should Block the message due to TO field not in message.-->
+	<function name="waitForTimeoutPOSTs" module="HTTP"> 
+		<parameter>30000</parameter>
+	</function>
+
+	<!-- Validate the MESSAGE-STORE is empty.-->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MSP</parameter>
+		<parameter>MSP</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	<parameter>
+		<parameter>run command amocli count TI:F.CEE.</parameter>
+		<variable>MSP</variable>
+		<parameter>:AMO</parameter>
+	</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+	<!-- Stop WebServer -->
+	<function name="stopWebServer" module="HTTP"/>
+
+</test>

@@ -1,0 +1,88 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.9216</parameter>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN</parameter>
+        <parameter>41628881845</parameter>
+    </function>
+
+    <function name="createTPISoap" module="VASP"/>
+    
+    <!--function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Body'][last()]</parameter>   
+        <parameter>test</parameter>
+        <parameter>xsd:asda232</parameter>
+        <parameter>xsi</parameter>
+    </function-->
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>username</parameter>
+        <parameter>XTTUser</parameter>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>password</parameter>
+        <parameter>XTTUserPassword</parameter>
+    </function>
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>short-id</parameter>
+        <configuration>VASP/VASID</configuration>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>service-name</parameter>
+        <parameter>XTTService001</parameter>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>subject</parameter>
+        <parameter>XTT Test Message 001</parameter>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>from</parameter>
+        <configuration>VASP/NUMBER</configuration>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>to-recipient</parameter>
+        <variable>MSISDN</variable>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+        <parameter>bill-text</parameter>
+        <parameter>XTT Billing Text</parameter>
+    </function>    
+    
+    <function name="addSOAPContentID" module="VASP">
+        <file>bzTC9216-data.txt</file>
+    </function>    
+
+    <function name="addContent" module="VASP">
+        <file>bzTC9216-data.txt</file>
+    </function>
+
+    
+    <function name="sendPostRequest" module="VASP"/>
+    
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;state xsi:type=&quot;xsd:string&quot;&gt;2&lt;/state&gt;</parameter>
+    </function>            
+
+</test>

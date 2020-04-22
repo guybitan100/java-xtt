@@ -1,0 +1,122 @@
+<test>
+
+	<name>UnconditionalForwarding.TC.013</name>
+    <description>Validate the subscriber is able to configure a list of phone numbers that only messages from them should be forwarded / Validate Forwarding doesn't work if sender number is not in this list
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+1. Define forward address through Web Portal.
+2. Subscriber configure a list of phone numbers so that only messages from those numbers should be forwarded.
+3. The sender is not present in the list configured. Send MM7 Message to MMS Proxy
+4. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request.
+5. MMS Extra after validating the user and recipient sends a positive response and asks for "send data" to MMS Proxy server.
+6. MMS Proxy then sends HTTP post with having body of 200 Kbyte data
+7. Sender credit balance has been checked, if the sender has balance to send request.
+8. Application gets forward address for that subscriber through its database.
+9. Advanced proxy does not changes the recipient headers
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  2. Remote
+	  3. Basic -->
+</description> 
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceForward subscriberId=5001  serviceEnabled=true serviceConditional=true forwardingMsisdn="0891115101" forwardingAll=false subjectPrefix="Fwd"
+		</parameter>
+	</function>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/FORWARD/RECIPIENT/MSISDN1</configuration>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/FORWARD/SENDER/MSISDN15</configuration>
+		<!-- <configuration>MMSX/NOTINDB/SENDER/MSISDN1</configuration> -->
+	</function>
+
+	<!-- Set Subject for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>Fwd This is test unconditional message</parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<!-- Will get response as New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "pass"  -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>pass</parameter>
+	</function>
+
+	<!-- Check for No MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Reset values in DB -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+			<parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.updateServiceForward subscriberId=5001  serviceEnabled=true serviceConditional=true forwardingMsisdn="0891115101" forwardingAll=true subjectPrefix="Fwd"
+	</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+
+</test>

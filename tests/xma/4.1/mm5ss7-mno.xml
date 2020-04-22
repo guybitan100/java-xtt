@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd">
+<self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com">
+    <domains>
+        <domain>xma.724.com</domain>
+    </domains>
+    <msisdnPrefixes>
+        <msisdnPrefix>4179</msisdnPrefix>
+    </msisdnPrefixes>
+    <imsiPrefixes>
+        <imsiPrefix>23433</imsiPrefix>
+    </imsiPrefixes>
+</self>
+<partners>
+    <partner name="XTT" description="XTT">
+        <domains>
+            <domain>defaultpartner.724.com</domain>
+        </domains>
+        <!-- msisdn 447879* -->
+        <imsiPrefixes>
+            <imsiPrefix>23415</imsiPrefix>
+        </imsiPrefixes>
+        <out>
+            <mm4 smtpFromAddress="xma@xma.724.com" domainToAppend="defaultpartner.724.com" askPartnerForResponses="true"
+            transactionIdSuffix="/xtttx" messageIdSuffix="/xttmsg" sendDeliveryReportsOnForwarding="false"/>
+        </out>
+    </partner>
+    <!-- with mm5 enabled this should never be triggered -->
+    <partner name="*" description="Invalid Partner">
+        <out>
+            <mm4 smtpFromAddress="invalid@xma.724.com" domainToAppend="invalid.724.com" askPartnerForResponses="true"
+            transactionIdSuffix="/xtttx" messageIdSuffix="/xttmsg" sendDeliveryReportsOnForwarding="false"/>
+        </out>
+    </partner>
+</partners>
+</mnos>

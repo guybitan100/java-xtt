@@ -1,0 +1,19 @@
+#
+# $Id: mimfile,v 1.2 2006/07/21 17:04:23 cvsbuild Exp $
+#
+# MIMFILE to allow push test framework to be built with ANT by MIM
+#
+
+set MD_ProjectName xtt
+
+MD_Import jwap radiusclient jdom jacorb sis_libs
+
+NT {
+    + makefile.mak
+}
+
++ {xtt.jar      {Type lib} {Actions+ Export}  {TransferAlways true}}
++ {xtt-doc.zip  {Type lib} {Actions+ Export}  {TransferAlways true}}
+
+
+

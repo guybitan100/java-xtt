@@ -1,0 +1,114 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>HRC.TC.001</parameter>
+	</function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>extract data requestmodifications hrc-previous-reqmod.xml</parameter>
+    </function>
+    
+ 	<function name="writeRemoteFile" module="Remote">
+		<parameter>hrc-reqmod.xml</parameter>
+		<file>hrc-reqmod.xml</file>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data hrc-reqmod.xml</parameter>
+    </function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded </parameter>
+		<parameter>dev/null</parameter>
+    </function>   
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>resourceconstraints.xml</parameter>
+		<file>resourceconstraints.xml</file>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data resourceconstraints.xml</parameter>
+    </function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded </parameter>
+		<parameter>dev/null</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+
+    <loop name="threadLoop" start="0" stop="32" step="1">
+    	<thread>
+			<function name="sendGetRequest" module="HTTP">
+                <parameter>
+        			<parameter>http://</parameter>
+        			<configuration>system/ip</configuration>
+        			<parameter>/</parameter>
+    				<parameter>?delay=15;</parameter>
+                </parameter>
+			</function>
+		</thread>
+
+	</loop>
+
+	<function name="sleep" module="Basic">
+		<parameter>10000</parameter>
+	</function>
+
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>
+    		<parameter>http://</parameter>
+        	<configuration>system/ip</configuration>
+    		<parameter>/</parameter>
+    		<parameter></parameter>
+        </parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>503</parameter>
+	</function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://www.google.ch</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="waitOnThreads" module="Basic"/>
+
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data hrc-previous-reqmod.xml</parameter>
+    </function>
+    
+ 	<function name="writeRemoteFile" module="Remote">
+		<parameter>hrc-blank.xml</parameter>
+		<xml>
+		<resourceConstraints xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="resourceconstraints.xsd">
+        </resourceConstraints>
+        </xml>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data hrc-blank.xml</parameter>
+    </function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded </parameter>
+		<parameter>dev/null</parameter>
+    </function>       
+</test>

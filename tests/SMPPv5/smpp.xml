@@ -1,0 +1,10 @@
+<configuration>
+    <SMSCServer>
+        <port2>2776</port2>
+        <Protocol>SMPP</Protocol>
+    </SMSCServer>
+    <pushTestSpecific>
+        <msisdn>000111222</msisdn>
+        <href>wab.sbc.ch</href>
+    </pushTestSpecific>
+</configuration>

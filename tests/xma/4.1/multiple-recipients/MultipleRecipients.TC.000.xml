@@ -1,0 +1,32 @@
+<test>
+
+	<name>LOAD.SUBSCRIBERS</name>
+	<description>Load the SUBSCRIBERS files for XMA with Database for the integration tests</description>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>subscribers.xml</parameter>
+		<file>../subscribers.xml</file>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load db subscribers.xml</parameter>
+	</function>
+	<function name="queryResponse" module="Remote">
+		<parameter>SUCCESS: XML upload completed</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>subscribers_1000.xml</parameter>
+		<file>subscribers_1000.xml</file>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load db subscribers_1000.xml</parameter>
+	</function>
+	<function name="queryResponse" module="Remote">
+		<parameter>SUCCESS: XML upload completed</parameter>
+		<parameter>response</parameter>
+	</function>
+
+</test>

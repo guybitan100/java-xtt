@@ -1,0 +1,52 @@
+<test>	    
+	<name>bz21644</name>
+    <description>Facebook with OGO</description>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<function name="startWebServer" module="HTTP"/>
+		
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>	
+
+    <function name="setCacheFile" module="HTTP">
+		<parameter>test.html</parameter>
+<xml><html>
+<body>
+This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX
+</body>
+</html>
+</xml>
+    </function>
+
+	<function name="sendTextPacket" module="TCP">
+				<configuration>HttpProxy/Ip</configuration>
+				<configuration>HttpProxy/Port</configuration>
+				<parameter><parameter>GET http://</parameter><configuration>System/Ip</configuration><parameter>/test.html HTTP/1.1
+host: </parameter><configuration>System/Ip</configuration><parameter>
+accept: text/html, image/gif, image/jpeg, image/png, *; q=.2, */*; q=.2
+user-agent: XTT/2.0.0153 (testing; Java/1.6.0-b105; Windows XP x86 5.1; ESutculer; HTTP; $Revision: 1.1 $)
+proxy-connection: keep-alive
+Content-Length: 20
+
+01234567890123456789
+
+	</parameter></parameter>
+	</function>
+
+	<function name="queryTextResponse" module="TCP">
+		<parameter>dev/null</parameter>
+		<parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+	</function>
+		
+	
+	<function name="stopWebServer" module="HTTP"/>
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function> 
+</test>

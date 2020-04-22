@@ -1,0 +1,271 @@
+<test>      
+	<name>ECC.CONV.TC.007</name>
+    <description>ECC and CACHE, Last-Modified/If-Modified-Since check</description>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>SERVICE</parameter>
+        <parameter>service</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>remote/command</configuration>
+            <parameter>
+                <parameter>amocli dm </parameter>
+                <variable>service</variable>
+            </parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>amocli: \d++ items deleted</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="startSTIServer" module="STI"/>
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>eccREQMOD.xml</parameter>
+        <xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+    <table name="DisableMultipart">
+        <selector>
+            <disableMimeMultipart value="true"/>
+            <bypassContentCache value="false"/>
+        </selector>
+    </table>
+    <table name="ecc">
+        <selector urlPattern="*://ecc1.xtt724.com/*">
+            <useExternalContentConvertor value="true" />
+        </selector>
+        <selector urlPattern="*://ecc2.xtt724.com/*">
+            <useExternalContentConvertor value="false" />
+        </selector>
+    </table>
+</requestModifications></xml>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <configuration>remote/loaddata</configuration>
+            <parameter>eccREQMOD.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+<!--
+    <function name="createDateString" module="Basic">
+        <parameter>EEE', 'dd' 'MMM' 'yyyy kk':'mm':'ss z</parameter>
+        <parameter>olddate</parameter>
+        <parameter>-100</parameter>
+        <parameter>GMT</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Last-Modified</parameter>
+        <variable>olddate</variable>
+    </function> 
+
+    <function name="setCacheFile" module="HTTP">
+        <parameter>eccConvTC007.html</parameter>
+<xml><html>
+<body>
+This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX
+</body>
+</html>
+</xml>
+    </function>
+
+    <thread>
+        <function name="waitForRequests" module="STI">
+            <parameter>1</parameter>
+        </function>
+        <function name="waitForTimeoutRequests" module="STI">
+            <parameter>30000</parameter>
+        </function>
+    </thread>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC007.html</parameter> 
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function> 
+        <function name="waitForRequests" module="STI">
+            <parameter>1</parameter>
+        </function>
+
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+
+    <function name="sleep" module="Basic">
+        <parameter>25000</parameter>
+    </function>
+
+    <function name="createDateString" module="Basic">
+        <parameter>EEE', 'dd' 'MMM' 'yyyy kk':'mm':'ss z</parameter>
+        <parameter>newdate</parameter>
+        <parameter>-3</parameter>
+        <parameter>GMT</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Last-Modified</parameter>
+        <variable>newdate</variable>
+    </function> 
+    <function name="setCacheFile" module="HTTP">
+        <parameter>eccConvTC007.html</parameter>
+<xml><html>
+<body>
+This is the file that should now be retrieved AGAINDOTHEFILLXXXX
+</body>
+</html>
+</xml>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC007.html</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function> 
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>If-Modified-Since</parameter>
+        <variable>olddate</variable>
+    </function> 
+
+    <function name="queryBodyNegative" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the file that should now be retrieved AGAINDOTHEFILLXXXX</parameter>
+    </function>
+
+-->
+
+
+
+    <function name="createDateString" module="Basic">
+        <parameter>EEE', 'dd' 'MMM' 'yyyy kk':'mm':'ss z</parameter>
+        <parameter>olddate2</parameter>
+        <parameter>-100</parameter>
+        <parameter>GMT</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Last-Modified</parameter>
+        <variable>olddate2</variable>
+    </function> 
+
+    <function name="setCacheFile" module="HTTP">
+        <parameter>eccConvTC007-2.html</parameter>
+<xml><html>
+<body>
+This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX
+</body>
+</html>
+</xml>
+    </function>
+
+    <thread>
+        <function name="waitForRequests" module="STI">
+            <parameter>1</parameter>
+        </function>
+        <function name="waitForTimeoutRequests" module="STI">
+            <parameter>30000</parameter>
+        </function>
+    </thread>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC007-2.html</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function> 
+
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+
+    <function name="sleep" module="Basic">
+        <parameter>25000</parameter>
+    </function>
+
+    <function name="createDateString" module="Basic">
+        <parameter>EEE', 'dd' 'MMM' 'yyyy kk':'mm':'ss z</parameter>
+        <parameter>newdate2</parameter>
+        <parameter>-3</parameter>
+        <parameter>GMT</parameter>
+    </function>
+
+    <function name="setServerReturnCode" module="HTTP">
+        <parameter>304</parameter>
+    </function> 
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Last-Modified</parameter>
+        <variable>newdate2</variable>
+    </function> 
+    <function name="setCacheFile" module="HTTP">
+        <parameter>eccConvTC007-2.html</parameter>
+<xml><html>
+<body>
+This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+</body>
+</html>
+</xml>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://ecc1.xtt724.com/eccConvTC007-2.html</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function> 
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>If-Modified-Since</parameter>
+        <variable>olddate2</variable>
+    </function> 
+
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the initial file FILLTO64CHARACTERSXXXXXXXXXXXXXXXXXXXXX</parameter>
+    </function>
+    <function name="queryBodyNegative" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is the file that should not be retrieved AGAINDOTHEFILLXXXX</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function> 
+
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>reqmodTCemptyrules.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load data </parameter>
+            <parameter>reqmodTCemptyrules.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+    
+    <function name="waitOnThreads" module="Basic"/>
+    <function name="stopSTIServer" module="STI"/>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

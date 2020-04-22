@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<retryPolicies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="retrypolicies.xsd">
+    <!--<mm1HlrLookupRetry>-->
+    <!--<mm1ImsiLookupRetry>-->
+    <mm1NotificationResend      maximumNumber="2" intervalMinutes="2" />
+    <mm1NotificationRetry       maximumNumber="2" intervalMinutes="1" />
+    <!--<mm3ForwardSubmissionRetry>-->
+    <mm4ForwardSubmissionRetry  maximumNumber="2" intervalMinutes="1" />
+    <mm4AcknowledgementRetry    maximumNumber="2" intervalMinutes="1" />
+    <mm4DeliveryReportRetry     maximumNumber="2" intervalMinutes="1" />
+    <!--<mm4ImsiLookupRetry>-->
+    <mm4ReadReportRetry         maximumNumber="2" intervalMinutes="1" />
+    <mm7DeliveryReportRetry     maximumNumber="2" intervalMinutes="1" />
+    <mm7ReadReportRetry         maximumNumber="2" intervalMinutes="1" />
+</retryPolicies>

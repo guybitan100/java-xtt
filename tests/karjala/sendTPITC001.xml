@@ -1,0 +1,119 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.TPI.TC.001</parameter>
+    </function>
+
+    <description>Send simple TPI, SMS.</description>
+
+    <function name="createTPISoap" module="VASP">
+        <parameter>SMSSUBMIT.REQ</parameter>
+    </function>
+    
+    <!--function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Body'][last()]</parameter>   
+        <parameter>test</parameter>
+        <parameter>xsd:asda232</parameter>
+        <parameter>xsi</parameter>
+    </function-->
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>short-id</parameter>
+        <configuration>VASP/VASID</configuration>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>service-name</parameter>
+        <parameter>XTTService001</parameter>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>username</parameter>
+        <parameter>XTTUser</parameter>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>password</parameter>
+        <parameter>XTTUserPassword</parameter>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>recipient</parameter>
+        <parameter>0123455666</parameter>
+    </function>      
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>subject</parameter>
+        <parameter>XTT Test Message 001</parameter>
+    </function>    
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>from</parameter>
+        <parameter>123123123</parameter>
+    </function>  
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>bill-text</parameter>
+        <parameter>XTT Billing Text</parameter>
+    </function>    
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>transaction-id</parameter>
+        <parameter>ID001</parameter>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>message-type</parameter>
+        <parameter>CUCSubmitRequest</parameter>
+    </function>
+
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>tpi-version</parameter>
+        <parameter>1.0.0</parameter>
+    </function>
+    
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']</parameter>
+        <parameter>content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']/*[local-name()='content']</parameter>
+        <parameter>filename</parameter>       
+        <parameter>String</parameter>
+    </function>            
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='SMSSubmitRequest']/*[local-name()='content']</parameter>
+        <parameter>href</parameter>       
+        <parameter>FF94A432514D0296405779358AA5DE5A</parameter>
+    </function>
+
+    <function name="addContent" module="VASP">
+        <file>sendTPIdata.txt</file>
+    </function>
+
+    <function name="previewRequest" module="VASP"/>
+    
+    <!--function name="sendPostRequest" module="VASP"/>
+    
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;state xsi:type=&quot;xsd:string&quot;&gt;0&lt;/state&gt;</parameter>
+    </function-->        
+   
+
+    
+</test>

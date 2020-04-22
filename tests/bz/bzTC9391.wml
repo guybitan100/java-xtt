@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.2//EN"
+"http://www.wapforum.org/DTD/wml _1.2.xml">
+
+<wml>
+<head>
+ <meta name="keyword" content="WAP"/>
+ <meta http-equiv="cache-control" content="no-cache"/>
+</head>
+<card>
+Test
+</card>
+</wml>

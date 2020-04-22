@@ -1,0 +1,214 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>SEND.MM7.TC.001</parameter>
+	</function>
+	<description>MMSSubmit Request and DeliveryReport Request</description>
+
+   	<subtest>sisSTART.xml</subtest>
+
+	<function name="startMMSCServer" module="MMSC">
+		<parameter>5432</parameter>
+		<testpath/>
+		<parameter>30000</parameter>
+	</function>
+	<function name="createTPISoap" module="VASP"/>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>short-id</parameter>
+		<parameter>102</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>service-name</parameter>
+		<parameter>MMS_102</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>username</parameter>
+		<parameter>mes</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>password</parameter>
+		<parameter>12345678</parameter>
+		<!--parameter>g4kd5$FGT</parameter-->
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>recipient</parameter>
+		<parameter>41792279254</parameter>
+	</function>
+	<function name="setSoapAttribute" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']/*[local-name()='recipient']</parameter>
+		<parameter>field</parameter>
+		<parameter>to</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>subject</parameter>
+		<parameter>XTT Test Message 001</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>from</parameter>
+		<parameter>41792279212</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>bill-text</parameter>
+		<parameter>XTT Billing Text</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>transaction-id</parameter>
+		<parameter>XTTID001</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>message-type</parameter>
+		<parameter>MMSSubmitRequest</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>tpi-version</parameter>
+		<parameter>0.0.2</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>content</parameter>
+	</function>
+	<function name="setSoapAttribute" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']/*[local-name()='content']</parameter>
+		<parameter>filename</parameter>
+		<parameter>String</parameter>
+	</function>
+	<function name="setSoapAttribute" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']/*[local-name()='content']</parameter>
+		<parameter>href</parameter>
+		<parameter>FF94A432514D0296405779358AA5DE5A</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>delivery-report</parameter>
+		<parameter>true</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='MMSSubmitRequest']</parameter>
+		<parameter>report-address</parameter>
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>System/Ip</configuration>
+			<parameter>:6667</parameter>
+		</parameter>
+	</function>
+
+	<function name="addContent" module="VASP">
+		<file>sendTPIdataOrdered.txt</file>
+	</function>
+	<function name="previewRequest" module="VASP"/>
+	<function name="sendPostRequest" module="VASP">
+		<parameter>MMSConnection</parameter>
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>System/RemoteIp</configuration>
+			<parameter>:4510/tpi</parameter>
+		</parameter>
+	</function>
+	<function name="sleep" module="basic">
+		<parameter>3000</parameter>
+	</function>
+	<function name="checkResponseCode" module="VASP">
+		<parameter>200</parameter>
+	</function>
+	<function name="queryBody" module="VASP">
+		<parameter>temp</parameter>
+		<parameter>&lt;state xsi:type="xsd:int"&gt;1000&lt;/state&gt;</parameter>
+	</function>
+
+        <function name="waitForRequests" module="MMSC">
+            <parameter>1</parameter>
+        </function>
+
+	<function name="stopMMSCServer" module="MMSC"/>
+<!--
+        SEND MM7 DELIVERY REPORT
+    -->
+
+	<function name="startWebServer" module="HTTP">
+		<parameter>6667</parameter>
+		<testpath>TPI_DeliveryReportResponse</testpath>
+		<parameter>30000</parameter>
+	</function>
+
+        <function name="clearContent" module="VASP"/>
+	<function name="sleep" module="basic">
+		<parameter>2000</parameter>
+	</function>
+
+
+	<function name="createMM7Soap" module="VASP">
+		<parameter>DeliveryReportReq</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']</parameter>
+		<parameter>MM7Version</parameter>
+		<configuration>VASP/MM7Version</configuration>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']</parameter>
+		<parameter>MMSRelayServerID</parameter>
+		<parameter>xma.724.com</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']</parameter>
+		<parameter>MessageID</parameter>
+		<parameter>
+			<parameter>XTT</parameter>
+			<variable>MMSCSERVER/MM7/MESSAGEID</variable>
+		</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']</parameter>
+		<parameter>Recipient</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']/*[local-name()='Recipient']</parameter>
+		<parameter>Number</parameter>
+		<parameter>41792279254</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']</parameter>
+		<parameter>Sender</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']/*[local-name()='Sender']</parameter>
+		<parameter>Number</parameter>
+		<parameter>41792279212</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']</parameter>
+		<parameter>Date</parameter>
+		<parameter>2007-01-12T13:18:40Z</parameter>
+	</function>
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='DeliveryReportReq']</parameter>
+		<parameter>MMStatus</parameter>
+		<parameter>Retrieved</parameter>
+	</function>
+	<function name="setHeader" module="VASP">
+		<parameter>content-type</parameter>
+		<parameter>text/xml</parameter>
+	</function>
+	<function name="previewRequest" module="VASP"/>
+	<function name="sendPostRequest" module="VASP"/>
+	<function name="checkResponseCode" module="VASP">
+		<parameter>200</parameter>
+	</function>
+	<function name="queryBody" module="VASP">
+		<parameter>temp</parameter>
+		<parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+	</function>
+
+	<subtest>sisSTOP.xml</subtest>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

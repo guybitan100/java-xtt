@@ -1,0 +1,321 @@
+<test>
+
+	<name>Archive.TC.004</name>
+
+	<description>Validate max size threshold is reached / Message archiving should fail and the message should not be stored in the archive</description> 
+
+	<!--  Backup of default mmsx_Appconfig file -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract data </parameter>
+			<parameter>appconfig default_mmsx_Appconfig.xml</parameter>
+		</parameter>
+	</function>
+
+	<!--  Read the mmsx_Appconfig  in a variable from the BackUp mmsx_Appconfig file -->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_mmsx_Appconfig.xml</parameter>
+		<parameter>test_mmsx_Appconfig</parameter>
+	</function>
+
+	<!--  Replace the Value of the constant "archiveFreeSpaceThresholdKb" in the variable specific to the test -->
+	<function name="replace" module="Basic">
+		<parameter>test_mmsx_Appconfig</parameter>
+		<parameter>&lt;mmsx_Appconfig name="archiveFreeSpaceThresholdKb"&gt;(\d++)&lt;/mmsx_Appconfig&gt;</parameter>
+		<parameter>&lt;mmsx_Appconfig name="archiveFreeSpaceThresholdKb"&gt;4&lt;/mmsx_Appconfig&gt;</parameter>
+	</function>
+
+	<!--  Replace the Value of the constant "archiveMaxDiskSpaceKb" in the variable specific to the test -->
+	<function name="replace" module="Basic">
+		<parameter>test_mmsx_Appconfig</parameter>
+		<parameter>&lt;mmsx_Appconfig name="archiveMaxDiskSpaceKb"&gt;(\d++)&lt;/mmsx_Appconfig&gt;</parameter>
+		<parameter>&lt;mmsx_Appconfig name="archiveMaxDiskSpaceKb"&gt;5&lt;/mmsx_Appconfig&gt;</parameter>
+	</function>
+
+	<!-- Write a remote file with the chaged values in the variable -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>loadmmsx_Appconfig</parameter>
+		<variable>test_mmsx_Appconfig</variable>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data loadmmsx_Appconfig</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded appconfig</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Delete Archive messages -->
+	<subtest>../deleteArchiveOld.xml</subtest>
+
+	<!-- Query the name of the active ARCHIVE-OUT process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>ARCHIVE-OUT</parameter>
+		<parameter>ARCHIVE-OUT_Name</parameter>
+	</function>
+
+	<!-- Restart process to get latest process log -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>restart process </parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+		</parameter>
+	</function>
+
+	<!-- Enable trace for validating Archive message -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>enable trac -v DELIVERY ARCHIVE-OUT.*.*</parameter>
+	</function>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<!-- Set recipient address -->
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/ARCHIVE/RECIPIENT/MSISDN2</configuration>
+	</function>
+
+	<!-- Set Sender Address -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/ARCHIVE/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set Subject for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This is a test message </parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/x-application-context-id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<!-- Set FileName for the 1st Part of Create-MultiPart-Related-File -->
+
+	 <function name="setVariable" module="Basic">
+		<parameter>file1</parameter>
+		<parameter>mm7req200kb.txt</parameter>
+	</function>
+
+	<!-- Set FileType for the 1st Part of Create-MultiPart-Related-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>type1</parameter>
+		<parameter>plain/text</parameter>
+	</function>
+
+	<!-- Set FileName for the 2nd Part of Create-MultiPart-Related-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>file2</parameter>
+		<parameter>image001.jpg</parameter>
+	</function>
+
+	<!-- Set FileType for the 2nd Part of Create-MultiPart-Related-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>type2</parameter>
+		<parameter>image/jpeg</parameter>
+	</function>
+
+	<!-- Set charset for the Create-base64-File -->
+	<function name="setVariable" module="Basic">
+		<parameter>char</parameter>
+		<parameter>us-ascii</parameter>
+	</function>
+
+	<!-- Set Headers for MM4 forward request -->
+	<function name="setVariableLines" module="Basic">
+		<parameter>2</parameter>
+		<parameter>headers</parameter>
+		<parameter>To: </parameter>                     <configuration>MMSX/ARCHIVE/RECIPIENT/MSISDN2</configuration>
+		<parameter>From: </parameter>                   <configuration>MMSX/ARCHIVE/SENDER/MSISDN1</configuration>
+		<parameter>X-Mms-Message-Type: </parameter>     <parameter>m-send-req</parameter>
+		<parameter>X-Application-Context-Id: </parameter>   <variable>X-Application-Context-Id</variable>
+	</function>
+
+	<!-- Call Subtest to Greate Multipart File -->
+	<subtest>Create-MultiPart-File-Related1.xml</subtest>
+
+	<function name="setPostData" module="HTTP">
+		<file>send-multipart-related.bin</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<!-- Wait for a MM7 request on the MMSC Server -->
+	<function name="waitForRequests" module="MMSC">
+		<parameter>1</parameter>
+	</function>
+
+	<!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standards -->
+	<function name="validateXML" module="XML">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter></parameter>
+		<configuration>MMSCSERVER/XMLNSENV</configuration>
+		<configuration>MMSCSERVER/SOAPXSD</configuration>
+		<configuration>MMSCSERVER/XMLNSMM7</configuration>
+		<configuration>MMSCSERVER/MM7XSD</configuration>
+	</function>
+
+	<!-- check MM7 version set correctly in response -->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>&lt;MM7Version&gt;5.6.0&lt;/MM7Version&gt;</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check Subject Decoration -->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>&lt;Subject&gt;\{MMSX:F</parameter>
+			<configuration>MMSX/ARCHIVE/SENDER/MSISDN1</configuration>
+			<parameter>\}This is a test message&lt;/Subject&gt;</parameter>
+		</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+
+	<!-- Sleep to get full logs -->
+	<function name="sleep" module="Basic">
+		<parameter>18000</parameter>
+	</function>
+
+	<!-- Validation of Archive message -->
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>
+			<parameter>/bin/grep STOREMESSAGE_FolderName </parameter>
+			<configuration>remote/procpath</configuration>
+			<parameter>/</parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+			<parameter>/</parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+			<parameter>.out</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validation of Sender, Message should stored in Outbox -->
+	<function name="queryResponse" module="Remote">
+		<parameter>STOREMESSAGE_FolderName             : outbox</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<function name="executeRemoteCommand" module="Remote">
+		<parameter>
+			<parameter>/bin/grep STOREMESSAGE_From </parameter>
+			<configuration>remote/procpath</configuration>
+			<parameter>/</parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+			<parameter>/</parameter>
+			<variable>ARCHIVE-OUT_Name/0</variable>
+			<parameter>.out</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validation of Sender whose message stored in outbox -->
+	<function name="queryResponse" module="Remote">
+		<parameter>
+		<parameter>STOREMESSAGE_From                   : </parameter>
+		<configuration>MMSX/ARCHIVE/SENDER/MSISDN1</configuration>
+		</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Disable traces -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>disable trac -v </parameter>
+	</function>
+
+	<!-- Load the default appconfig to undo the appconfig constants changes done specific to the test -->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>load data default_mmsx_Appconfig.xml</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded appconfig</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+</test>

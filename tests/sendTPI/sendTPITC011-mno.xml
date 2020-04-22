@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="mnos.xsd">
+<self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com">
+    <domains>
+        <domain>xma.724.com</domain>
+    </domains>
+    <msisdnPrefixes>
+        <msisdnPrefix>0</msisdnPrefix>
+        <msisdnPrefix>1</msisdnPrefix>
+        <msisdnPrefix>2</msisdnPrefix>
+        <msisdnPrefix>447879</msisdnPrefix>
+    </msisdnPrefixes>
+    <imsiPrefixes>
+        <imsiPrefix>23415</imsiPrefix>
+    </imsiPrefixes>
+</self>
+<partners>
+    <partner name="*" description="Default Partner">
+    <domains>
+        <domain>defaultpartner.724.com</domain>
+    </domains>
+    <out>
+        <mm3 smtpFromAddress="xma@xma.724.com" domainToAppend="defaultpartner.724.com"/>
+    </out>
+    </partner>
+</partners>
+</mnos>

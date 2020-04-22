@@ -1,0 +1,204 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>DERE.MM7.TC.001</parameter>
+    </function>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="startWebServer" module="HTTP">
+        <configuration>VASP/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+    <subtest>loadVASP.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+    <thread>
+        <function name="sleep" module="basic">
+            <parameter>500</parameter>
+        </function>
+        <function name="createMM7Soap" module="VASP">
+            <parameter>SubmitReq</parameter>
+            <configuration>VASP/VASPID</configuration>
+            <configuration>VASP/VASID</configuration>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SenderIdentification']</parameter>
+            <parameter>SenderAddress</parameter>
+            <configuration>VASP/NUMBER</configuration>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>number</parameter>
+            <parameter>000061201</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>True</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>False</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>ExpiryDate</parameter>
+            <parameter>20</parameter>
+        </function>
+         <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>MMdata.txt</file>
+        </function>
+        <!--function name="previewRequest" module="VASP" /-->
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+
+   <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+<!--
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>000061201</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_content_location</parameter>
+        <parameter>SMSC/</parameter>
+        <configuration>SMSCSERVER/PROTOCOL</configuration>
+        <parameter>/000061201/MMS/x_mms_content_location</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>x_mms_content_location</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>x_mms_transaction_id</parameter>
+        <parameter>SMSC/</parameter>
+        <configuration>SMSCSERVER/PROTOCOL</configuration>
+        <parameter>/000061201/MMS/x_mms_transaction_id</parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>retrieved</parameter>
+        <variablepointer>x_mms_transaction_id</variablepointer>
+        <parameter>000061201</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+    </function>
+-->
+
+    <function name="setVariable" module="BASIC">
+        <parameter>transactionid</parameter>
+        <parameter>SMSC/</parameter>
+        <configuration>SMSCSERVER/PROTOCOL</configuration>
+        <parameter>/000061201/MMS/x_mms_transaction_id</parameter>
+    </function>
+    <function name="sendMM1NotifyResponse" module="SMS">
+        <parameter>deferred</parameter>
+        <variablepointer>transactionid</variablepointer>
+        <parameter>000061201</parameter>
+    </function>
+        <function name="checkResponseCode" module="SMS">
+            <parameter>200</parameter>
+        </function>
+<!--
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>UserAgent-1</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>accept-charset</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>x-msisdn</parameter>
+        <parameter>000061201</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>url</parameter>
+        <parameter>SMSC/</parameter>
+        <configuration>SMSCSERVER/PROTOCOL</configuration>
+        <parameter>/000061201/MMS/x_mms_content_location</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <variablepointer>url</variablepointer>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>transactionid</parameter>
+        <parameter>SMSC/</parameter>
+        <configuration>SMSCSERVER/PROTOCOL</configuration>
+        <parameter>/000061201/MMS/x_mms_transaction_id</parameter>
+    </function>
+    <function name="sendMM1AcknowledgeIndicator" module="SMS">
+        <parameter>unused</parameter>
+        <variablepointer>transactionid</variablepointer>
+        <parameter>000061201</parameter>
+    </function>
+    <function name="checkResponseCode" module="SMS">
+        <parameter>200</parameter>
+    </function>
+-->
+
+        <function name="sleep" module="basic">
+            <parameter>60000</parameter>
+        </function>
+
+    <subtest>restoreVASP.xml</subtest>
+    <function name="stopWebServer" module="HTTP"/>
+
+</test>

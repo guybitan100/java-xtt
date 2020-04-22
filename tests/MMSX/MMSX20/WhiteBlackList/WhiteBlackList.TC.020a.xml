@@ -1,0 +1,85 @@
+<test>
+    <name>WhiteBlackList.TC.020a</name>
+    <description> Validate  "globalBlacklist"  feature /When Recipient msisdn is in  "globalBlacklist" /Verify that subscribers can not send a secret message to any number on the global blacklist </description>
+	
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest> 
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+		<!-- Start MMSC Server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>988655</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/GLOBALBLACKLIST/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/SECRET/SENDER/MSISDN1</configuration>
+	</function>
+
+	<!-- Set subject with Secret message symbol # -->
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>#This is first end to end Secret TC.022</parameter>
+	</function>
+
+	<!-- Send Metadeta Request -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response back X-Proxy-Subscriber-MSISDN application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+		<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-code</parameter>
+		<parameter>Error-service-denied</parameter>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mms-response-status-text</parameter>
+		<parameter>MMSX: Secret message rejected because the recipient is on our global backlist.</parameter>
+	</function>
+
+	
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

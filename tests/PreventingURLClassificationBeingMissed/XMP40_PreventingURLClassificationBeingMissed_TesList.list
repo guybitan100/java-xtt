@@ -1,0 +1,4 @@
+tests\connect\connectTC001.xml
+tests\PreventingURLClassificationBeingMissed\PreventingURLClassificationBeingMissed.TC.001.xml
+tests\PreventingURLClassificationBeingMissed\PreventingURLClassificationBeingMissed.TC.002.xml
+tests\PreventingURLClassificationBeingMissed\PreventingURLClassificationBeingMissed.TC.003.xml

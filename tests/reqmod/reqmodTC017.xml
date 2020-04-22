@@ -1,0 +1,183 @@
+<!-- $Id: reqmodTC017.xml,v 1.3 2006/08/31 14:36:20 rsoder Exp $ -->
+<!-- # Test Case 1117 aka REQMOD.TC.017
+     # Check that Rule can be defined that adds client ID as
+     # an URL parameter and not a new header.-->
+<test>
+    <configuration>reqmodTC000.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.017</parameter>
+    </function>
+    <description>Add client ID as an URL parameter and not a new header</description>
+
+    <function name="startWebServer" module="HTTP"/>
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+    <!-- Check if the url parameters are added to a url with no parameters (no ?) -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>
+            <parameter>/?user=</parameter>
+            <configuration>REQMOD/EXTERNALNAI</configuration>
+            <parameter>&amp;foo=bar</parameter>
+        </parameter>
+    </function>
+
+    <!-- Check if the url parameters are added to a url which already has parameters -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com/index.html?muu=boo</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>
+            <parameter>/index.html?muu=boo&amp;user=</parameter>
+            <configuration>REQMOD/EXTERNALNAI</configuration>
+            <parameter>&amp;foo=bar</parameter>
+        </parameter>
+    </function>
+
+    <!-- Check if the url parameters replace parameters -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com/index.html?muu=boo&amp;user=hoschipeter</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>
+            <parameter>/index.html?muu=boo&amp;user=</parameter>
+            <configuration>REQMOD/EXTERNALNAI</configuration>
+            <parameter>&amp;foo=bar</parameter>
+        </parameter>
+    </function>
+
+    <!-- Check if the url parameters remove parameters -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com/index.html?muu=boo&amp;removeme=removethisparameter</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>
+            <parameter>/index.html?muu=boo&amp;user=</parameter>
+            <configuration>REQMOD/EXTERNALNAI</configuration>
+            <parameter>&amp;foo=bar</parameter>
+        </parameter>
+    </function>
+
+
+    <!-- Check if the url parameters replace parameters only with matching case -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com/index.html?muu=boo&amp;USER=hoschipeter</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>
+            <parameter>/index.html?muu=boo&amp;USER=hoschipeter&amp;user=</parameter>
+            <configuration>REQMOD/EXTERNALNAI</configuration>
+            <parameter>&amp;foo=bar</parameter>
+        </parameter>
+    </function>
+
+    <!-- Check if the url parameters replace parameters ignoring case -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com/acme/index.html?muu=boo&amp;USER=hoschipeter</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>
+            <parameter>/acme/index.html?muu=boo&amp;USER=</parameter>
+            <configuration>REQMOD/EXTERNALNAI</configuration>
+            <parameter>&amp;foo=bar</parameter>
+        </parameter>
+    </function>
+
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

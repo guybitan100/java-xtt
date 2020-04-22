@@ -1,0 +1,49 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.T0000.Sub0000  -  XTT Configuration-File for cookie tests.
+
+Test Description:
+ 1. This is the xtt configuration file for all the cookie tests
+    This file is included by all cookie test cases (xml) file
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+NOTES:
+
+- User "xttuser" and "xttuser2" must be provisioned in the xmg/oam database
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
+
+<Configuration>
+
+    <Webserver>
+        <Root>tests/cookies</Root>
+        <port>8989</port>
+    </Webserver>
+
+    <Radius>
+        <user>xttuser</user>
+        <phone>0791234567</phone>
+        <user2>xttuser2</user2>
+        <phone2>0797654321</phone2>
+    </Radius>
+
+    <cookies>
+        <TestURL1>CookieTest_1.html</TestURL1>
+        <TestURL2>CookieTest_2.html</TestURL2>
+        <TestURL3>CookieTest_3.html</TestURL3>
+        <TestURL4>CookieTest_4.html</TestURL4>
+
+<!-- Cookie:   S1-Session-Cookie-1=Cookie-Value-S1; Path=/   -->
+        <setcookieS1>S1-Session-Cookie-1=Cookie-Value-S1; Path=/</setcookieS1>
+        <cookieS1>$Version=0; S1-Session-Cookie-1=Cookie-Value-S1; $Path="/";</cookieS1>
+        <cookie2S1>$Version=1;</cookie2S1>
+
+<!-- Cookie:   P1-Session-Cookie-1=Cookie-Value-P1; Path=/   -->
+
+    </cookies>
+
+</Configuration>
+

@@ -1,0 +1,122 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>CONNECT.TC.001</parameter>
+	</function>
+	
+    <description>HTTP TRACE Method
+                 For TransparentTraffic set the correct routing
+                 ex: route add 172.20.14.66 mask 255.255.255.255 172.20.9.130
+                 
+                 </description>	
+	
+
+	<!-- Prepare the Request Modification File -->
+<function name="writeRemoteFile" module="Remote">
+	<parameter>REQMOD_REQMODEnhancements.TC.001a.xml</parameter>
+	<xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+<table name="Skip CF">
+        <selector >
+    <modifyContext name="TCP_OrigIpPort" value="'80'" />
+    <modifyContext name="HTA_Port" value="'80'"/>
+    <modifyContext name="TCP_HideSourceAddress" value="'true'"/>
+<modifyContext name="Skip_FILTERCONTENT" value="'true'"/>
+
+            <modifyContext name="Skip_FILTERCONTENT" value="'true'"/>
+        </selector>
+    </table>
+</requestModifications>
+
+	</xml>
+</function>
+
+<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>REQMOD_REQMODEnhancements.TC.001a.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+
+	
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+   
+    
+	<function name="startWebServer" module="HTTP"/>
+
+	
+	    <function name="setCacheFile" module="HTTP">
+			<parameter>index.html</parameter>
+	        <parameter>
+	<parameter>&lt;html&gt;
+	&lt;body&gt;
+	This is BZ22236 test page
+	&lt;/body&gt;
+	&lt;/html&gt;
+	</parameter>
+	        </parameter>
+    </function>
+    
+
+
+
+       <function name="sendTextPacket" module="TCP">
+					<parameter>172.20.14.66</parameter>
+					<parameter>80</parameter>
+					<parameter><parameter>TRACE </parameter>
+					<parameter>/ HTTP/1.0 
+Host: 172.20.14.66
+Max-forwards: 0
+
+ </parameter>
+		</parameter>
+			</function>
+        
+        	<function name="queryTextResponse" module="TCP">
+			<parameter>test</parameter>
+			<parameter>HTTP/1.0 200</parameter>
+
+	</function>
+
+
+        
+        
+        <function name="stopWebServer" module="HTTP"/>	
+
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    	<!-- LoadEmptyRule -->
+    <function name="writeRemoteFile" module="Remote">
+    	<parameter>REQMOD_REQMODEnhancements.TC.001a.xml</parameter>
+    	<xml>
+    <requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+    </requestModifications>
+    
+    	</xml>
+    </function>
+    
+    <function name="executeRemoteXMSCommand" module="Remote">
+    		<parameter>
+    			<parameter>load data </parameter>
+    			<parameter>REQMOD_REQMODEnhancements.TC.001a.xml</parameter>
+    		</parameter>
+    	</function>
+    
+    	<function name="queryResponse" module="Remote">
+    		<parameter>^Loaded requestmodifications.*</parameter>
+    		<parameter>dev/null</parameter>
+	</function>
+    
+</test>

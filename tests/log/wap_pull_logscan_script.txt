@@ -1,0 +1,243 @@
+/*
+ * $Source: /cvs/CorePlatform/Repository/xtt/tests/log/wap_pull_logscan_script.txt,v $
+ * $Revision: 1.2 $
+ * $Date: 2006/07/21 17:04:49 $
+ * 
+ * JavaScript to reconcile XMA logs
+ *
+ */
+
+
+/*
+ * initialAction
+ *
+ * Called once, before we receive any records.
+ * Initialize variables and write header.
+ * Note that variables may have been created
+ * on a previous run and imported with "import".
+ * If we want to keep, say, a total for all runs
+ * then we should not initialize the variable
+ * if it already exists.
+ */
+
+function initialAction() {
+
+    version = "logscan run on " +new Date();
+    count = 0;
+    start = new Date().getTime();
+    months = new makeArray('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct',
+                               'Nov','Dec');
+                               
+    if (!exists("state")) state = new Object();                                   
+}
+
+/*
+ * Called after all records have been read
+ * but before exporting JavaScript state.
+ * Output summary.
+ */
+function finalAction() {
+
+}
+
+/*
+ * Called to process every record
+ */
+function recordAction() {
+     
+    //
+    //  processing appropriate to log file
+    //
+    //write(LSA_Component,"\n");
+    if (LSA_Component.match(/^WPA/) != null) 
+    {
+    if (typeof(Internal_EventId)!="undefined") {
+    	if (typeof(state[Internal_EventId])=="undefined") 
+    	{
+		    state[Internal_EventId] = new Object();
+    	}
+        state[Internal_EventId].bytesOut = WPA_BytesOut;
+        //write("WPA\n");
+        reconcile(Internal_EventId);
+        }
+    }
+    else if (LSA_Component.match(/^DSP/) != null) 
+    {
+		if (typeof(Internal_EventId)!="undefined") {
+    	if (typeof(state[Internal_EventId])=="undefined") 
+    	{
+		    state[Internal_EventId] = new Object();
+    	}    
+
+        state[Internal_EventId].id = LSA_SequenceNumber;
+        //write("DSP\n");
+        eventTime = new Date((parseFloat(LSA_EventTime) * 1000));
+        state[Internal_EventId].time = eventTime.CLFDateTime();
+        
+		if (exists("DSP_TransactionEndTime") && exists("DSP_TransactionStartTime")) {
+		    state[Internal_EventId].timeTaken  = Math.round((parseFloat(DSP_TransactionEndTime) - 
+			                         parseFloat(DSP_TransactionStartTime)) * 1000);
+		} else {
+		    state[Internal_EventId].timeTaken = "-";
+		} 
+		
+		if (exists("HTG_RequestEndTime") && exists("HTG_RequestStartTime")) {
+		    state[Internal_EventId].requestTimeTaken  = Math.round((parseFloat(HTG_RequestEndTime) - 
+			                         parseFloat(HTG_RequestStartTime)) * 1000);
+		} else {
+		    state[Internal_EventId].requestTimeTaken = "-";
+		}   
+		setDefault("HTA_ResponseStatus","-");
+		setDefault("HTA_ResponseReason","-");
+		setDefault("TCP_RemoteIpAddress","'no user'");
+		setDefault("HTA_Uri","-");
+		setDefault("External_NAI","NO NAI");
+		
+		state[Internal_EventId].status = HTA_ResponseStatus;
+		state[Internal_EventId].reason = HTA_ResponseReason;
+		state[Internal_EventId].ip = TCP_RemoteIpAddress;
+		state[Internal_EventId].uri = HTA_Uri;
+		state[Internal_EventId].nai = External_NAI;
+		
+		reconcile(Internal_EventId);
+		}
+    }
+
+    
+}
+
+
+/*
+ * Check if we have all the data we require for an output
+ * record. If so, then write the record and delete the
+ * accumulated state.
+ */
+function reconcile(id) 
+{
+
+    if ((typeof(state[id].bytesOut) != "undefined") &&
+        (typeof(state[id].timeTaken) != "undefined"))
+    {
+    //if(state[Internal_EventId].ip == "10.200.88.89")
+    //{
+        write(state[id].time," - ",state[id].timeTaken," mS - ",state[Internal_EventId].ip," ",state[Internal_EventId].nai," ",state[Internal_EventId].uri," ",state[id].status," ",state[id].reason," - ",state[id].bytesOut," bytes - ",state[id].requestTimeTaken," mS \n");
+        delete state[id];
+    //}
+    }
+
+}
+
+
+/************************
+ *                      *
+ *   Utility functions  *
+ *                      *
+ ************************/
+
+/*
+ * Function to check if a variable exists
+ */
+ function exists(name)
+ {
+     return this[name] != undefined;
+ }
+
+function makeArray() {
+     for (i = 0; i<makeArray.arguments.length; i++)
+          this[i + 1] = makeArray.arguments[i];
+ }
+ 
+ /*
+  * Function to access a context element
+  * and supply a default if it is empty
+  * or not defined
+  */
+ function setDefault(contextName, defaultValue)
+ {
+     if ((this[contextName] == undefined) ||
+         (this[contextName] == "")) {
+             this[contextName] = defaultValue;
+     }
+ }
+ /*
+  * Set of useful string handling functions from 
+  * http://webdeveloper.earthweb.com/webjs/article.php/640821
+  * Very efficient and concise.
+  * 
+  * Text.as(arg)                       Force arg to a string
+  * Text.is(arg)                       True if arg is a string
+  * Text.no(arg)                       Force arg to number (or zero)
+  * Text.ex(string, multiplier)        Expand (replicate) a string
+  * Text.pad(length, str, fill)        Pad,left justify
+  * Text.pad(str, length, fill)        Pad,right justify
+  * Text.trim(str)                     Remove leadin/gtrailing space
+  */
+ Text = {
+     as:function(a1) { return '' + (a1 || '') },
+     is:function(a1) { return '' + a1 === a1 },
+     no:function(a1) {
+         a1 = isNaN(a1=Number(a1)) ? parseFloat(a1) : a1;
+         return isNaN(a1) ? 0 : a1;
+     },
+     ex:function(a1,a2) {
+         var mo = Math.floor(a2/2);
+         if (mo > 1) return this.ex(a1 + a1, mo) + (a2 % 2 && a1 || '');
+         var fo = '';
+         while (a2 > 0) { fo += a1; a2-- }
+         return fo;
+     },
+     pad:function(a1,a2,a3) {
+     return this.is(a1)
+         ? a1 + this.ex(a3 || ' ', a2 - a1.length)
+         : this.ex(a3 || ' ', a1 - ('' + a2).length) + a2;
+     },
+     trim:function(a1,a2,a3) {
+         a1 = this.as(a1).replace(a3 || /^\s+|\s+$/g, '');
+         return a2 && a1.length > a2 ? a1.substr(0,a2-1) + '\u2026' : a1; 
+     },
+ }
+
+/*
+ * Extend the standard date type to supprt ISO time and date format  
+ */
+ 
+// time as 23:12:42.543
+
+Date.prototype.IsoTime = function() {
+    return Text.pad(2, this.getHours(), '0') + ':' + 
+           Text.pad(2, this.getMinutes(), '0') + ':' +
+           Text.pad(2, this.getSeconds(), '0') + '.' +
+           Text.pad(3, this.getMilliseconds(), '0');
+}
+
+  
+//  date as 2004-02-12 
+
+Date.prototype.IsoDate = function() {
+    return this.getFullYear() + '-' + 
+           Text.pad(2, this.getMonth()+1, '0') + '-' + 
+           Text.pad(2, this.getDate(), '0');
+}
+ 
+// date and time 2004-02-12 23:12:42.543
+
+Date.prototype.IsoDateTime = function() {
+    return this.IsoDate() + ' ' + this.IsoTime();
+}
+ 
+
+Date.prototype.CLFDateTime = function() {
+   return  '[' + 
+           Text.pad(2, this.getDate(), '0') + '/' +
+           months[this.getMonth()+1] + '/' +
+           this.getFullYear() + ':' +  
+           Text.pad(2, this.getHours(), '0') + ':' + 
+           Text.pad(2, this.getMinutes(), '0') + ':' +
+           Text.pad(2, this.getSeconds(), '0') +          
+           ']';
+}
+ 
+
+
+
+

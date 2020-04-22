@@ -1,0 +1,200 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>bz23540</parameter>
+	</function>
+	
+    <description>
+    </description>	
+	
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+      
+    
+      <function name="activeProcessToVar" module="Remote">
+	        <parameter>HTTP-ROUTER</parameter>
+	        <parameter>service</parameter>
+	    </function>
+	    <loop name="processLoop" start="0" stop="service/length" step="1">
+	        <function name="executeRemoteXMSCommand" module="Remote">
+	            <parameter>
+	                <configuration>remote/command</configuration>
+	                <parameter>
+	                    <parameter>cmu -C HTTPCACHE_CFG_CacheInvalidate </parameter>
+	                    <variable>
+	                        <parameter>service/</parameter>
+	                        <variable>processLoop</variable>
+	                    </variable>
+	                    <parameter> true</parameter>
+	                </parameter>
+	            </parameter>
+	        </function>
+	        <function name="queryResponse" module="Remote">
+	            <parameter>Update successful</parameter>
+	            <parameter>response</parameter>
+	        </function>
+	    </loop>  
+	    
+	
+	    <function name="activeProcessToVar" module="Remote">
+	        <parameter>HTTP-CACHE</parameter>
+	        <parameter>service</parameter>
+	    </function>
+	    <loop name="processLoop" start="0" stop="service/length" step="1">
+	        <function name="executeRemoteXMSCommand" module="Remote">
+	            <parameter>
+	                <configuration>remote/command</configuration>
+	                <parameter>
+	                    <parameter>cmu -C HTTPCACHE_CFG_CacheInvalidate </parameter>
+	                    <variable>
+	                        <parameter>service/</parameter>
+	                        <variable>processLoop</variable>
+	                    </variable>
+	                    <parameter> true</parameter>
+	                </parameter>
+	            </parameter>
+	        </function>
+	        <function name="queryResponse" module="Remote">
+	            <parameter>Update successful</parameter>
+	            <parameter>response</parameter>
+</function>
+        </loop>  
+    
+       <!-- Start Target Web Server -->
+        <function name="startWebServer" module="HTTP">
+                <configuration>webserver/port</configuration>
+                <parameter>webroot</parameter>
+                <parameter>30000</parameter>
+        </function>
+
+        <function name="clearServerHeader" module="HTTP">
+        </function>  
+
+       <function name="setClientTimeout" module="HTTP">
+		<parameter>30000</parameter>
+	  </function>	
+	
+        
+        <function name="setServerPartDelayms" module="HTTP">
+                <parameter>4000</parameter>
+        </function>
+        
+
+        <function name="setServerBodyDelayms" module="HTTP">
+                <parameter>7000</parameter>
+        </function>        
+        <!--function name="setServerHeader" module="HTTP">
+                <parameter>Transfer-Encoding</parameter>
+                <parameter>chunked</parameter>
+        </function>
+        
+        <function name="setServerHeader" module="HTTP">
+                <parameter>Transfer-Encoding</parameter>
+                <parameter>chunked</parameter>
+        </function-->        
+
+        <function name="setServerHeader" module="HTTP">
+                <parameter>Connection</parameter>
+                <parameter>keep-alive</parameter>
+        </function>
+        
+        <!--function name="setTransferChunkSize" module="HTTP">
+                <parameter>2</parameter>
+        </function-->
+
+
+
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/multipart</parameter>
+    </function>
+    
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Keep-Alive</parameter>
+        <parameter>timeout=5, max=100</parameter>
+    </function>
+    
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Last-Modified</parameter>
+        <parameter>Wed, 24 Aug 2009 04:58:08 GMT</parameter>
+    </function>
+    
+    <function name="setServerHeader" module="HTTP">
+        <parameter>content-type</parameter>
+        <parameter>text/plain; charset=ISO-8859-1</parameter>
+    </function>
+     <function name="setCacheFile" module="HTTP">
+ 		<parameter>cacheTC001.html</parameter>
+<parameter>
+01This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+02This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+03This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+04This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+05This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+06This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+07This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+08This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+09This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+10This is the file that should not be retrieved AGAINDOTHEFILLXXXX
+</parameter>
+</function>
+
+
+<thread>
+       <function name="sendTextPacket" module="TCP">
+					<configuration>http/proxyip</configuration>
+					<configuration>http/proxyport</configuration>
+					<parameter><parameter>GET http://</parameter>
+					<configuration>system/ip</configuration>
+					<parameter>:</parameter>					
+					<configuration>webserver/port</configuration>
+					<parameter>/cacheTC001.html?chunks=10 HTTP/1.1
+host: 172.20.9.90
+date: Wed, 27 May 2009 11:44:34 GMT
+connection: keep-alive
+accept: text/html, image/gif, image/jpeg, image/png, *; q=.2, */*; q=.2
+user-agent: XTT/2.0.0158 (testing; Java/1.5.0_11-b03; Windows XP x86 5.1; LStrzepka; HTTP; $Revision: 1.1 $)
+
+		</parameter>
+		</parameter>
+		</function>
+  
+  
+</thread>  
+	
+	
+	 	<function name="sleep" module="Basic">
+	 		<parameter>15000</parameter>
+	</function>
+	
+
+	
+	<!-- kill -9  HTTP-ROUTER -->
+	<function name="killProcess" module="Remote">
+		<parameter>HTTP-ROUTER.*1</parameter>
+	</function>
+
+	
+	 	<function name="sleep" module="Basic">
+	 		<parameter>3000</parameter>
+	</function>	
+
+
+
+	<function name="checkProcessRestarts" module="Remote">
+		<parameter>HTTP-CACHE.*</parameter>
+		<parameter>0</parameter>
+	</function>
+
+	
+
+<function name="stopWebServer" module="HTTP" /> 	
+
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+</test>

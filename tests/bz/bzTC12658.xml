@@ -1,0 +1,152 @@
+<test>
+    <name>BZ.TC.12658</name>
+    <description>Test for BZ12658</description>
+    
+    <function name="startWebServer" module="HTTP"/>
+    
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache1</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup1</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>    
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache2</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup2</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>    
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache3</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup3</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache4</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup4</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache5</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup5</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache6</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup6</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache7</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup7</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache8</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup8</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache9</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup9</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache10</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup10</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache11</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup11</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache12</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup12</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache13</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>
+    <function name="setServerHeader" module="HTTP">
+        <parameter>X-Cache-Lookup13</parameter>
+        <parameter>HIT from sq1.wikimedia.org</parameter>
+    </function>    
+    
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Age</parameter>
+        <parameter>35302</parameter>
+    </function>                                            
+
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>Via</parameter>
+        <parameter>1.0 sq5.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq12.wikimedia.org:80(squid/2.6.STABLE9), 1.0 sq15.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq12.wikimedia.org:80 (squid/2.6.STABLE9), 1.0sq1.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq12.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq1.wikimedia.org:80 (squid/2.6.STABLE9), 1.0sq7.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq1.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq5.wikimedia.org:80(squid/2.6.STABLE9), 1.0 sq8.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq7.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq6.wikimedia.org:80(squid/2.6.STABLE9), 1.0 sq5.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq7.wikimedia.org:80 (squid/2.6.STABLE9), 1.0sq5.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq9.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq1.wikimedia.org:80 (squid/2.6.STABLE9), 1.0sq2.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq9.wikimedia.org:80 (squid/2.6.STABLE9), 1.0 sq12.wikimedia.org:80 (squid/2.6.STABLE9)</parameter>
+    </function>          
+    
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>    
+    
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+        	<parameter>http://</parameter>
+        	<configuration>system/ip</configuration>
+        	<parameter>/images/png.png</parameter>
+        </parameter>
+    </function>
+    
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+    <function name="isPng" module="content">
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>	    
+  
+    <function name="stopWebServer" module="HTTP"/>
+    
+    <function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>      
+        
+</test>

@@ -1,0 +1,168 @@
+<test>
+
+	<name>Calendar.TC.049</name>
+    <description>Validate the subscriber can disable the Auto responder feature by sending USSD code to application.
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+Scenario 1
+1. Send USSD request to application for enabling the MMS Autoresponder service.
+    1.1. Here default Auto responder prefix is "3" and to enable/on the service action is "1"
+    For e.g. :- You can send a USSD request using codes "31" for enabling the service.
+2. Validate Notification has been sent to a subscriber via SMS regarding activation of Service.
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. HTTP
+	  2. Remote
+	  3. Basic -->
+</description> 
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>extract data </parameter>
+            <parameter>appconfig default_appconfig.xml</parameter>
+        </parameter>
+    </function>
+
+    <!--  Read the appconfig in a variable-->
+	<function name="readRemoteFile" module="Remote">
+		<parameter>default_appconfig.xml</parameter>
+		<parameter>default_appconfig</parameter>
+	</function>
+
+    <function name="createDocument" module="XML">
+		<parameter>appconfigxmldocument</parameter>
+		<variable>default_appconfig</variable>
+	</function>
+    
+    <!--fetch serviceSmsShortcode from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='serviceSmsShortcode']/value</parameter>
+		<parameter>serviceSmsShortcode</parameter>
+	</function>
+
+    <div comment="serviceSmsShortcode is">
+        <function name="info" module="Basic">
+		    <variable>serviceSmsShortcode</variable>
+	    </function>
+    </div>
+
+    <!--fetch forwardingSmsMessagePrefix from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='oooUssdMessagePrefix']/value</parameter>
+		<parameter>oooUssdMessagePrefix</parameter>
+	</function>
+
+    <!--fetch forwardingSmsOnText from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='serviceUssdOn']/value</parameter>
+		<parameter>serviceUssdOn</parameter>
+	</function>
+
+    <!--fetch forwardingStatusOnText from appconfig-->
+    <function name="getNodeFromDocument" module="XML" >
+		<parameter>appconfigxmldocument</parameter>
+		<parameter>/appConfig/parameter[@name='oooStatusOffText']/value</parameter>
+		<parameter>oooStatusOffText</parameter>
+	</function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>AutoReplyOnussd</parameter>
+		<parameter>
+                <variable>oooUssdMessagePrefix</variable>
+                <parameter> </parameter>
+                <variable>serviceUssdOn</variable>
+        </parameter>
+    </function>
+
+    <div comment="AutoReplyOffUssd is">
+        <function name="info" module="Basic">
+		    <variable>AutoReplyOnussd</variable>
+	    </function>
+    </div>
+    
+    <!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+
+	<function name="waitForBind" module="SMS"/>
+
+  	<!--Saving Server connection for future SMS communication-->
+	<function name="getServerConnection" module="SMPP">
+         <parameter>MMSX</parameter>
+		<parameter>0</parameter>
+    </function>
+
+    <function name="sendSMPPPacket" module="SMPP">
+		<parameter>MMSX</parameter>
+		<parameter>DELIVER_SM</parameter>
+		<parameter>internal</parameter>
+		<parameter>1</parameter>
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+		<parameter>0591155101</parameter><!--source_address-->
+		<parameter>0</parameter>
+		<parameter>1</parameter>
+        <variable>serviceSmsShortcode</variable><!--destination_addr-->
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter></parameter>
+		<parameter></parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<parameter>0</parameter>
+		<variable>AutoReplyOffussd</variable><!--short_message-->
+	</function>
+
+    <!-- wait for confirmation SMS message -->
+	<function name="waitForMessages" module="SMS">
+		<parameter>1</parameter>
+	</function>
+
+    <!-- Print SMS Headers source_addr -->
+    <function name="info" module="Basic">
+        <parameter>smsc/smpp/0591155101/source_addr: </parameter><variable><parameter>smsc/smpp/0591155101/source_addr</parameter></variable>
+    </function>
+
+    <!-- Check SMS Headers source_addr -->
+    <function name="compareString" module="Basic">
+        <variable>smsc/smpp/0591155101/source_addr</variable>
+        <variable>serviceSmsShortcode</variable>
+    </function>
+
+    <!-- Print SMS Headers destination_addr -->
+     <function name="info" module="Basic">
+        <parameter>smsc/smpp/0591155101/destination_addr: </parameter><variable><parameter>smsc/smpp/0591155101/destination_addr</parameter></variable>
+    </function> 
+
+    <!-- Print SMS Headers MESSAGE_PAYLOAD -->
+    <function name="info" module="Basic">
+        <parameter>smsc/smpp/0591155101/MESSAGE_PAYLOAD: </parameter><base64decode><variable>smsc/smpp/0591155101/MESSAGE_PAYLOAD</variable></base64decode>
+    </function> 
+
+    <!-- Check SMS Headers short_message -->
+    <function name="compareString" module="Basic">
+        <base64decode><variable>smsc/smpp/0591155101/MESSAGE_PAYLOAD</variable></base64decode>
+        <variable>oooStatusOffText</variable>
+    </function>
+
+    <!-- lets check in db is the status is turned on or not -->
+   <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>run command querier -y 1 -x 0 -o MMSX -p  F.CEE.DB-ACCESS -m com.mobilgw.intf.uds.mor.MmsxService.getServiceAutoResponder subscriberId=55101
+        </parameter>
+    </function> 
+
+     <!--check serviceEnabled status = true -->
+    <function name="queryResponse" module="Remote">
+												<parameter>^\s*serviceEnabled.*serviceConditional.*defaultEnabled.*alreadySent.*\n.*\n\s*false.*false.*false.*.*</parameter>
+		<parameter>response</parameter>
+	</function> 
+
+    <!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+</test>

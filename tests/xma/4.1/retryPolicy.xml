@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<retryPolicies xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="retrypolicies.xsd">
+    <!--<mm1HlrLookupRetry>-->
+    <!--<mm1ImsiLookupRetry>-->
+    <!--mm1PrepayInsufficientBalanceRetry-->
+    <!--mm1PrepayTemporaryErrorRetry-->
+    <mm1NotificationResend      maximumNumber="2" intervalMinutes="1" />
+    <mm1NotificationRetry                         intervalMinutes="1" />
+    <!--mm1NotificationRetry       maximumNumber="2" intervalMinutes="1" /-->
+    <mm1DeliveryReportRetry     maximumNumber="2" intervalMinutes="1" />
+    <mm1ReadReportRetry         maximumNumber="2" intervalMinutes="1" />
+    <mm3ForwardSubmissionRetry  maximumNumber="2" intervalMinutes="1" />
+    <mm4ForwardSubmissionRetry  maximumNumber="2" intervalMinutes="1" />
+    <mm4AcknowledgementRetry    maximumNumber="2" intervalMinutes="1" />
+    <mm4DeliveryReportRetry     maximumNumber="2" intervalMinutes="1" />
+    <!--<mm4ImsiLookupRetry>-->
+    <mm4ReadReportRetry         maximumNumber="2" intervalMinutes="1" />
+    <mm7DeliveryReportRetry     maximumNumber="2" intervalMinutes="1" />
+    <mm7ReadReportRetry         maximumNumber="2" intervalMinutes="1" />
+    <mm7DeliverRetry            maximumNumber="2" intervalMinutes="1" />
+    <eaifDeliveryReportRetry    maximumNumber="2" intervalMinutes="1" />
+    <eaifReadReportRetry        maximumNumber="2" intervalMinutes="1" />
+    <eaifDeliverRetry           maximumNumber="2" intervalMinutes="1" />
+</retryPolicies>

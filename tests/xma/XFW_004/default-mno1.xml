@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="">
+<self systemDomain="xma.724.com" systemEmailAddress="mms@xma.724.com">
+<!--     <msisdnPrefixes>
+        <msisdnPrefix>44</msisdnPrefix>
+    </msisdnPrefixes> Changes done as per BZ 28537  -->
+</self>
+<partners>
+    <partner name="*" description="Default Partner">
+        <out><mm4 domainToAppend="defaultpartner.724.com" askPartnerForResponses="true"/></out>
+    </partner>
+</partners>
+</mnos>

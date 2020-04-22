@@ -1,0 +1,49 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.8318</parameter>
+	</function>
+   <function name="startWebServer" module="HTTP" />
+
+    <!-- extract current configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>extract data requestmodifications bzTC8318.test.xml</parameter>
+    </function>
+
+    <!-- upload new reqmod configuration-->
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>bzTC8318-reqmod.xml</parameter>
+        <file>bzTC8318-reqmod.xml</file>
+    </function>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+    <!-- load new reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data bzTC8318-reqmod.xml</parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded -->
+    <function name="queryResponse" module="Remote">
+        <parameter>ERROR: Data file bzTC8318-reqmod.xml is not valid</parameter>
+        <parameter>test</parameter>
+    </function>
+
+
+    <!-- load the old reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+         <parameter>load data bzTC8318.test.xml</parameter>
+    </function>
+
+    <!-- remove file -->
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>rm -f bzTC8318-reqmod.xml</parameter>
+    </function>
+    <!-- remove file -->
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>rm -f bzTC8318.test.xml</parameter>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

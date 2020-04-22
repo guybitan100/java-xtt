@@ -1,0 +1,74 @@
+<!-- just check of there are any corefiles -->
+<test>
+
+<!--
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile </parameter>
+        <configuration>XMA/PATH</configuration>
+        <parameter>cfg/SisCorbaClient2.properties </parameter>
+        <file>SisCorbaClient2.properties</file>
+    </function>
+-->
+    <function name="startJacorbNameServer" module="SIS"/>
+    <function name="sleep" module="Basic">
+        <parameter>1000</parameter>
+    </function>
+
+    <!--function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile </parameter>
+        <configuration>XMA/PATH</configuration>
+        <parameter>cfg/NS_Ref </parameter>
+        <file>NS_Ref</file>
+    </function-->
+
+    <function name="startSISServer" module="SIS">
+    </function>
+    <function name="sleep" module="Basic">
+        <parameter>500</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile </parameter>
+        <parameter>sisClientConfig.xml </parameter>
+<parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rainer Aschwanden (724 Solutions Inc.) --&gt;
+&lt;sisclientconfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="S:\source\xsd\sisclientconfig.xsd"&gt;
+	&lt;default&gt;
+		&lt;sisResponseTimeout&gt;60000&lt;/sisResponseTimeout&gt;
+		&lt;sisReconnectTimeout&gt;180000&lt;/sisReconnectTimeout&gt;
+		&lt;nameServerResponseTimeout&gt;60000&lt;/nameServerResponseTimeout&gt;
+		&lt;nameServerReconnectTimeout&gt;60000&lt;/nameServerReconnectTimeout&gt;
+		&lt;primaryNameServerIOR&gt;</parameter>
+        <file>NS_Ref</file>
+		<parameter>&lt;/primaryNameServerIOR&gt;
+		&lt;secondaryNameServerIOR&gt;</parameter>
+        <file>NS_Ref</file>
+		<parameter>&lt;/secondaryNameServerIOR&gt;
+		&lt;initalConnectionPoolCapacity&gt;10&lt;/initalConnectionPoolCapacity&gt;
+		&lt;maxConnectionPoolSize&gt;64&lt;/maxConnectionPoolSize&gt;
+		&lt;maxRetries&gt;0&lt;/maxRetries&gt;
+		&lt;sisServices&gt;
+			&lt;serviceID&gt;SwisscomMobile.Subscription3.AllServers.SIS_Service&lt;/serviceID&gt;
+			&lt;serviceID&gt;SwisscomMobile.Subscription3.Server1.SIS_Service&lt;/serviceID&gt;
+			&lt;serviceID&gt;SwisscomMobile.Subscription3.Server1.SIS_Service&lt;/serviceID&gt;
+		&lt;/sisServices&gt;
+		&lt;java&gt;
+			&lt;property name="jacorb.connection.client.connect_timeout" value="60000"/&gt;
+		&lt;/java&gt;
+	&lt;/default&gt;
+&lt;/sisclientconfig&gt;</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <parameter>load data </parameter>
+        <parameter>sisClientConfig.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+   
+</test>

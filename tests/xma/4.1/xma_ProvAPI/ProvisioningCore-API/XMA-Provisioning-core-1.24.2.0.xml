@@ -1,0 +1,25 @@
+<test>
+
+	<description> SOAP-API-provisioning-core{getUserByGANAttr( )}:Pass non-existing GAN..</description>
+
+	<function name="testName" module="Basic">
+		<parameter>XMA-Provisioning-core-1.24.2.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>getUserByGANAttr-nonexisting.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="SOAP_API">
+		<parameter>200</parameter>
+	</function>
+
+</test>

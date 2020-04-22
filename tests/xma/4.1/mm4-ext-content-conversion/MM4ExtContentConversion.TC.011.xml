@@ -1,0 +1,160 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>MM4ExtContentConversion.TC.007</name>
+    <description>MM7 -> MM4 / Partner has both size and content-type constraints / size fails</description>
+
+    <!-- message size set to zero indicate no size restriction -->
+    <function name="setVariable" module="Basic">
+        <parameter>messageSize</parameter>
+        <parameter>5</parameter>
+    </function> 
+
+   <!-- content type is set only these types are allowed -->
+     <function name="setVariable" module="Basic">
+        <parameter>contentType1</parameter>
+        <parameter>application/smil</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>contentType2</parameter>
+        <parameter>text/plain</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>contentType3</parameter>
+        <parameter>image/gif</parameter>
+    </function>
+
+    <function name="startSMTPServer" module="SMTP"/>
+ 
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+    
+    <!-- Load MNO File -->
+    <subtest>contentMNO.xml</subtest>
+
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMSISDN</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETEMAIL</parameter>
+        <parameter>
+            <variable>OFFNETMMSADDRESS</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>      
+    <function name="setVariable" module="Basic">
+        <parameter>VASPMSISDN</parameter>
+        <configuration>VASP/NUMBER</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>VASPMMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>VASPMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=No, ReadReply=No -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <configuration>VASP/VASPID</configuration>
+        <configuration>VASP/VASID</configuration>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>OFFNETMSISDN</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>False</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>False</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+    <function name="previewRequest" module="VASP" />
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+    </function>
+     <function name="queryBody" module="VASP">
+        <parameter>MessageID</parameter>
+        <parameter>&lt;MessageID&gt;(\p{Alnum}{13})&lt;/MessageID&gt;</parameter>
+    </function>
+    
+     <function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>run command amocli -k -e (MMS_Req_Message-ID=='</parameter>
+            <variable>MessageId</variable>
+			<parameter>') search TI:F.CEE.</parameter>
+            <variable>msp</variable>
+            <parameter>:AMO</parameter>
+        </parameter>
+    </function>
+
+     <function name="queryResponse" module="Remote">
+        <parameter>MMS_DELIVERY_Status=Failed</parameter>
+        <parameter>status</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>MMS_Req_X-Mms-Status-Text=MM4 content size limit exceeded</parameter>
+        <parameter>status</parameter>
+    </function>
+
+    <subtest>../restoreMNO.xml</subtest>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+	<!-- Stop SMSC Server -->
+    <function name="stopSMTPServer" module="SMTP"/>
+  
+    
+</test>

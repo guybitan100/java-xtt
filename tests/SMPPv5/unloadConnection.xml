@@ -1,0 +1,16 @@
+<test>
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>smppEmptyConnection.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;xmpSmsConnections&gt;&lt;/xmpSmsConnections&gt;</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load data </parameter>
+            <parameter>smppEmptyConnection.xml</parameter>
+        </parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded xmpsmsconnections.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+</test>

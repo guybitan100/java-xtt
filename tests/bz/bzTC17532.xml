@@ -1,0 +1,56 @@
+<test>
+	<name>BZ.TC.17532</name>
+
+    <description>Test for BZ 17532</description>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+    <function name="disableFollowRedirects" module="HTTP"/>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>range</parameter>
+        <parameter>bytes=0-136456200</parameter>
+    </function>    
+ 
+    <function name="setServerReturnCode" module="HTTP">
+        <parameter>302</parameter>
+    </function>   
+
+    <function name="setServerReturnMessage" module="HTTP">
+        <parameter> Moved Temporarily</parameter>
+    </function>
+    
+    <function name="setCacheFile" module="HTTP">
+        <parameter>302</parameter>
+        <parameter></parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>location</parameter>
+        <parameter>http://www.gnu.org/</parameter>
+    </function>  
+ 
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+        	<parameter>http://</parameter>
+        	<configuration>system/ip</configuration>
+        	<parameter>/302</parameter>
+        </parameter>
+    </function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>302</parameter>
+	</function>    
+
+    <function name="stopWebServer" module="HTTP"/>
+
+    <function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>    
+</test>

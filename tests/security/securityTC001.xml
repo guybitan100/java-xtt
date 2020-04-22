@@ -1,0 +1,41 @@
+<test>
+
+    <function name="testName" module="Basic">
+        <parameter>SECURITY.TC.001</parameter>
+    </function>
+
+    <subtest>securityTC000.xml</subtest>
+
+    <function name="startSecureWebServer" module="HTTP" />
+
+    <function name="connectGateway" module="WAP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>    
+    
+    <function name="sendGetRequest" module="WAP">
+        <parameter>
+            <parameter>https://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="WAP">
+        <parameter>500</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>    
+
+    <function name="disconnectGateway" module="WAP"/>
+
+    <function name="stopSecureWebServer" module="HTTP" />
+    
+    <subtest>securityTC999.xml</subtest>    
+    
+</test>

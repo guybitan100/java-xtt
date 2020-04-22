@@ -1,0 +1,259 @@
+<test>
+
+	<name>MM1_Msg-EAIF_Msg.TC.013</name>
+	<description>MM Message (text/plain + video) is delivered to EAIF VAS Application [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes] [Sender's DB_Prepaid=false]</description>
+
+	<configuration>../xmaConfig.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Load VASP File -->
+	<subtest>../loadVASP.xml</subtest>
+
+	<function name="setVariable" module="Basic">
+		<parameter>ADDR_TO</parameter>
+		<configuration>EAIF/NUMBER</configuration>
+	</function>
+
+	<function name="setVariable" module="Basic">
+		<parameter>ADDR_FROM</parameter>
+		<configuration>XMA/POSTPAY/ENABLED/MSISDN1</configuration> <!-- Need to check - Actual PREPAY/DISABLE -->
+	</function>
+
+	<!-- Start Web Server -->
+	<function name="startWebServer" module="HTTP"> 
+		<configuration>EAIF/PORT</configuration>
+	</function>
+
+	<!-- Start SMSC Server -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<function name="createMM1Packet" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>M_SEND_REQ</parameter>
+		<parameter>XTTTRANSACTIONID0001</parameter>
+		<parameter>0x17</parameter>
+		<variable>ADDR_TO</variable>
+		<variable>ADDR_FROM</variable>
+		<parameter>application/vnd.wap.multipart.mixed</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_DELIVERY_REPORT</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_READ_REPORT</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>SUBJECT</parameter>
+		<parameter>Funny Movie for you!</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_MESSAGE_CLASS</parameter>
+		<parameter>128</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_PRIORITY</parameter>
+		<parameter>130</parameter>
+	</function>
+
+	<function name="createMM1PacketOptions" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<parameter>X_MMS_SENDER_VISIBILITY</parameter>
+		<parameter>129</parameter>
+	</function>
+
+	<function name="createMM1PacketContentMultipart" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<base64Encode>Oh Very Funny Video:</base64Encode>
+		<parameter>text/plain</parameter>
+		<parameter>plain-text</parameter>
+	</function>
+
+	<function name="createMM1PacketContentMultipart" module="SMS">
+		<parameter>sendPacket1</parameter>
+		<base64file>movie.mpeg</base64file>
+		<parameter>video/mpeg</parameter>
+		<parameter>movie.mpeg</parameter>
+	</function>
+
+	<function name="storeMM1Packet" module="SMS">
+		<parameter>sendPacket1Base64</parameter>
+		<parameter>sendPacket1</parameter>
+	</function>
+
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>PACKET1Request</parameter>
+		<variable>sendPacket1Base64</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+		<variable>ADDR_FROM</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>application/vnd.wap.mms-message</parameter>
+	</function>
+
+	<!-- Set Return Code/Message for Web Server -->
+	<function name="setServerReturnCode" module="HTTP">
+		<parameter>204</parameter>
+	</function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+		<parameter> No Content</parameter>
+	</function>
+
+	<!-- Set Return Headers of Web Server -->
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-From</parameter>
+		<variable>ADDR_FROM</variable>
+	</function>
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-To</parameter>
+		<variable>ADDR_TO</variable>
+	</function>
+
+	<function name="setServerHeader" module="HTTP">
+		<parameter>X-NOKIA-MMSC-Version</parameter>
+		<parameter>1.7</parameter>
+	</function>
+
+	<function name="setBase64PostData" module="HTTP">
+		<variable>sendPacket1Base64</variable>
+	</function>
+
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>SMSCSERVER/MM1Ip</configuration>
+			<parameter>:</parameter>
+			<configuration>SMSCSERVER/MM1Port</configuration>
+			<parameter>/</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>PACKET1Response</parameter>
+		<variable>HTTP/BODY/BASE64</variable>
+	</function>
+
+	<function name="queryVariable" module="BASIC">
+		<parameter>PACKET1Response/MMS/x_mms_response_status</parameter>
+		<parameter>dev/null</parameter>
+		<parameter>Ok</parameter>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>originalMessageId</parameter>
+		<variable>PACKET1Response/MMS/message_id</variable>
+	</function>
+
+	<function name="setVariable" module="BASIC">
+		<parameter>log/messageid</parameter>
+		<variable>originalMessageId</variable>
+	</function>
+
+	<!-- Wait for a EAIF request on the Web Server -->
+	<function name="waitForPOSTs" module="HTTP">
+		<parameter>1</parameter>
+	</function>
+
+	<!-- Check the headers of incoming message -->
+	<function name="checkServerHeader" module="HTTP">
+		<parameter>Content-Type</parameter>
+		<parameter>application/vnd.wap.mms-message</parameter>
+	</function>	
+
+	<function name="queryServerHeader" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>Via</parameter>
+		<parameter>HTTP/1.0.*XMS 724Solutions</parameter>
+	</function>
+
+	<!-- Validate Request and Respone -->
+	<function name="decodeMM1Packet" module="SMS">
+		<parameter>WEBSERVER_POST</parameter>
+		<variable>WEBSERVER/POST/APPLICATION/VND.WAP.MMS-MESSAGE/BASE64</variable>
+	</function>
+
+	<!-- total number of parts -->
+	<function name="compareString" module="Basic">
+		<variable>WEBSERVER_POST/MMS/body/length</variable>
+		<parameter>2</parameter>
+	</function>
+	
+	<!--Compare content in response -->
+	<function name="compareString" module="Basic">
+		<variable>WEBSERVER_POST/MMS/body/0</variable>
+		<base64Encode>Oh Very Funny Video:</base64Encode>
+	</function>
+
+	<!--Compare content in response -->
+	<function name="compareString" module="Basic">
+		<base64tobytestring><variable>WEBSERVER_POST/MMS/body/1</variable></base64tobytestring>
+		<bytestringfile>movie.mpeg</bytestringfile>
+	</function>
+
+	<!-- Wait for Delivery Report-->
+	<function name="waitForWSPMessages" module="SMS">
+		<parameter>1</parameter>
+	</function>
+
+	<function name="compareString" module="BASIC">
+		<variable>originalMessageId</variable>
+		<variable>
+			<parameter>SMSC/</parameter>
+			<configuration>SMSCSERVER/PROTOCOL</configuration>
+			<parameter>/</parameter>
+			<variable>ADDR_FROM</variable>
+			<parameter>/MMS/message_id</parameter>
+		</variable>
+	</function>
+
+	<function name="compareString" module="BASIC">
+		<parameter>Forwarded</parameter>
+		<variable>
+			<parameter>SMSC/</parameter>
+			<configuration>SMSCSERVER/PROTOCOL</configuration>
+			<parameter>/</parameter>
+			<variable>ADDR_FROM</variable>
+			<parameter>/MMS/x_mms_status</parameter>
+		</variable>
+	</function>
+
+	<!-- Stop WebServer -->
+	<function name="stopWebServer" module="HTTP"/>
+
+	<!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+</test>

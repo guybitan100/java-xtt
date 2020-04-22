@@ -1,0 +1,155 @@
+<test>
+
+	<name>MultipleRecipients.TC.009</name>
+	<description>MM7 -> MM1 / MM is sent to 1000 Recipients and distributed across multiple MESSAGE-STORE partitions</description>
+
+	<configuration>../xmaConfig.xml</configuration>
+	<configuration>xmabulkConfig.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessagestoreAll.xml</subtest>
+
+	<!-- Load VASP File -->
+	<subtest>../loadVASP.xml</subtest>
+
+	<!-- Start SMSC Server and wait until it binds to XMA -->
+	<function name="startSMSCServer" module="SMS"/>
+	<function name="waitForBind" module="SMS"/>
+
+	<!-- Start MMSC Server in order to receive & response MM7 Delivery Reports -->
+	<function name="startMMSCServer" module="MMSC">
+		<configuration>VASP/PORT</configuration>
+		<configuration>WEBSERVER/ROOT</configuration>
+		<configuration>WEBSERVER/TIMEOUT</configuration>
+	</function>
+
+	<!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=Yes, ReadReply=Yes -->
+	<function name="createMM7Soap" module="VASP">
+		<parameter>SubmitReq</parameter>
+		<configuration>VASP/VASPID</configuration>
+		<configuration>VASP/VASID</configuration>
+	</function>
+
+	<function name="setMessageBoundary" module="VASP">
+		<parameter>000001message</parameter>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SubmitReq']</parameter>
+		<parameter>Recipients</parameter>
+	</function>
+
+	<loop name="loop" start="0" stop="1000" step="1">
+		<function name="addSoapData" module="VASP">
+			<parameter>//*[local-name()='Recipients']</parameter>
+			<parameter>To</parameter>
+		</function>
+		<function name="setSoapData" module="VASP">
+			<parameter>//*[local-name()='To'][last()]</parameter>
+			<parameter>Number</parameter>
+				<configuration>
+					<parameter>XMA/BULK/PREPAY/ENABLED/MSISDN</parameter>
+					<variable>loop</variable>
+				</configuration>
+		</function>
+	</loop>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SubmitReq']</parameter>
+		<parameter>DeliveryReport</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SubmitReq']</parameter>
+		<parameter>ReadReply</parameter>
+		<parameter>true</parameter>
+	</function>
+
+	<function name="setSoapData" module="VASP">
+		<parameter>//*[local-name()='SubmitReq']</parameter>
+		<parameter>Content</parameter>
+	</function>
+
+	<function name="setSoapAttribute" module="VASP">
+		<parameter>//*[local-name()='Content']</parameter>
+		<parameter>href</parameter>
+		<parameter>cid:xtt-test001</parameter>
+	</function>
+
+	<function name="addContent" module="VASP">
+		<file>sendMM7data.txt</file>
+	</function>
+
+	<function name="previewRequest" module="VASP" />
+	<function name="sendPostRequest" module="VASP"/>
+	<function name="checkResponseCode" module="VASP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="queryBody" module="VASP">
+		<parameter>temp</parameter>
+		<parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+	</function>
+
+	<!-- XMA sends M-Notification.ind to the Target MMS Client -->   
+	<function name="waitForWSPMessages" module="SMS">
+		<parameter>1000</parameter>
+	</function>
+
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MSP</parameter>
+		<parameter>MSP</parameter>
+	</function>
+
+	<loop name="activeprocess" start="0" stop="msp/length">
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>
+				<parameter>msp/</parameter>
+				<variable>activeprocess</variable>
+			</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: \d++ items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>response</variable>
+		<variable>activeprocess</variable>
+		<parameter>\d++</parameter>
+	</function>
+	</loop> 
+
+	<function name="setVariable" module="Basic">
+		<parameter>TOTAL</parameter>
+		<parameter>TOTAL</parameter>
+	</function> 
+
+	<function name="addVariable" module="Basic">
+		<variable>TOTAL</variable>
+		<variable>0</variable>
+		<variable>1</variable>
+		<variable>2</variable>
+	</function>
+
+	<function name="compareString" module="Basic">
+		<variable>TOTAL</variable>
+		<parameter>1000</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+	<!-- Stop SMSC Server -->
+	<function name="stopSMSCServer" module="SMS"/>
+
+</test>

@@ -1,0 +1,128 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>CONNECT.TC.001</parameter>
+	</function>
+	
+    <description>
+    </description>	
+	
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+    
+       <!-- Start Target Web Server -->
+        <function name="startWebServer" module="HTTP">
+                <configuration>webserver/port</configuration>
+                <testpath/>
+                <parameter>30000</parameter>
+        </function>
+
+<function name="disableProxy" module="HTTP" />  
+
+
+
+
+        <function name="setServerHeader" module="HTTP">
+                <parameter>Connection</parameter>
+                <parameter>keep-alive</parameter>
+        </function>
+
+            <function name="setCacheFile" module="HTTP">
+                        <parameter>index.html</parameter>
+                <parameter>
+        <parameter>&lt;html&gt;
+        &lt;body&gt;
+        This is BZ22236 test page
+        &lt;/body&gt;
+        &lt;/html&gt;
+        </parameter>
+                </parameter>
+    </function>
+
+
+	
+
+       <function name="sendTextPacket" module="TCP">
+					<configuration>httpproxy/ip</configuration>
+					<configuration>httpproxy/port</configuration>
+			<parameter><parameter>POST http://</parameter><configuration>system/ip</configuration><parameter>:</parameter><configuration>webserver/port</configuration><parameter>/index.html HTTP/1.1
+accept: */*
+accept-charset: utf-8
+x-msisdn: +86909009090
+host: 172.20.9.49:80
+Content-Type: text/xml
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+68
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;story name="SLM411_SubmitDocument_TC_008a_name"&gt;abcdefg SO_SD_T
+840
+C_008a Sterne's text is filled with allusions and references to the leading thinkers and writers of the 17th and 18th centuries. Pope, Locke, and Swift were all major influences on Sterne and Tristram Shandy. Satires of Pope and Swift formed much of the humour of Tristram Shandy, but Swift's sermons and Locke's Essay Concerning Human Understanding contributed ideas and frameworks that Sterne explored throughout his novel. Sterne's engagement with the science and philosophy of his day was extensive, however, and the sections on obstetrics and fortifications, for instance, indicate that he had a grasp of the main issues then current in those fields.
+Four influences on Tristram Shandy overshadow all others: Rabelais, Cervantes, Montaigne's Essays and John Locke. Sterne had written an earlier piece called A Rabelaisian Fragment, which indicates his familiarity with the work of the French monk. But the earlier work is not needed to see the influence of Rabelais on Tristram Shandy, which is evident in multiple allusions, as well as in the overall tone of bawdy humor centered on the body. The first scene in Tristram Shandy, where Tristram's mother interrupts his father during the sex that leads to Tristram's conception, testifies to Sterne's debt to Rabelais.
+The shade of Cervantes is similarly present throughout Sterne's novel. The frequent references to Rocinante, the character of Uncle Toby (who resembles Don Quixote in many ways) and Sterne's own description of his characters' "Cervantic humour," along with the genre-defying structure of Tristram Shandy, which owes much to the second part of Cervantes' novel, all demonstrate the influence of Cervantes.
+The novel also makes use of John Locke's theories of empiricism, or the way we assemble what we know of ourselves and our world from the "association of ideas" that come to us from our five senses. Sterne is by turns respectful and satirical of Locke's theories, using the association of ideas to construct characters' "hobby-horses," or whimsical obsessions, that both order and disorder their lives in different ways. abc EO_SD_T
+10
+C_008a
+&lt;/story&gt;
+0
+
+</parameter></parameter>
+		</function>
+        
+        	<function name="queryTextResponse" module="TCP">
+			<parameter>test</parameter>
+			<parameter>HTTP/1.1 200</parameter>
+
+	</function>
+	
+
+<function name="sleep" module="Basic">
+	<parameter>31000</parameter>
+</function>
+	
+
+       <function name="sendTextPacket" module="TCP">
+					<configuration>httpproxy/ip</configuration>
+					<configuration>httpproxy/port</configuration>
+			<parameter><parameter>POST http://</parameter><configuration>system/ip</configuration><parameter>:</parameter><configuration>webserver/port</configuration><parameter>/index.html HTTP/1.1
+accept: */*
+accept-charset: utf-8
+x-msisdn: +86909009090
+host: 172.20.9.49:80
+Content-Type: text/xml
+Transfer-Encoding: chunked
+Connection: keep-alive
+
+68
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;story name="SLM411_SubmitDocument_TC_008a_name"&gt;abcdefg SO_SD_T
+840
+C_008a Sterne's text is filled with allusions and references to the leading thinkers and writers of the 17th and 18th centuries. Pope, Locke, and Swift were all major influences on Sterne and Tristram Shandy. Satires of Pope and Swift formed much of the humour of Tristram Shandy, but Swift's sermons and Locke's Essay Concerning Human Understanding contributed ideas and frameworks that Sterne explored throughout his novel. Sterne's engagement with the science and philosophy of his day was extensive, however, and the sections on obstetrics and fortifications, for instance, indicate that he had a grasp of the main issues then current in those fields.
+Four influences on Tristram Shandy overshadow all others: Rabelais, Cervantes, Montaigne's Essays and John Locke. Sterne had written an earlier piece called A Rabelaisian Fragment, which indicates his familiarity with the work of the French monk. But the earlier work is not needed to see the influence of Rabelais on Tristram Shandy, which is evident in multiple allusions, as well as in the overall tone of bawdy humor centered on the body. The first scene in Tristram Shandy, where Tristram's mother interrupts his father during the sex that leads to Tristram's conception, testifies to Sterne's debt to Rabelais.
+The shade of Cervantes is similarly present throughout Sterne's novel. The frequent references to Rocinante, the character of Uncle Toby (who resembles Don Quixote in many ways) and Sterne's own description of his characters' "Cervantic humour," along with the genre-defying structure of Tristram Shandy, which owes much to the second part of Cervantes' novel, all demonstrate the influence of Cervantes.
+The novel also makes use of John Locke's theories of empiricism, or the way we assemble what we know of ourselves and our world from the "association of ideas" that come to us from our five senses. Sterne is by turns respectful and satirical of Locke's theories, using the association of ideas to construct characters' "hobby-horses," or whimsical obsessions, that both order and disorder their lives in different ways. abc EO_SD_T
+10
+C_008a
+&lt;/story&gt;
+0
+
+</parameter></parameter>
+		</function>
+        
+        	<function name="queryTextResponse" module="TCP">
+			<parameter>test</parameter>
+			<parameter>HTTP/1.1 200</parameter>
+
+	</function>
+	
+<function name="stopWebServer" module="HTTP" /> 	
+
+	<function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+    
+</test>

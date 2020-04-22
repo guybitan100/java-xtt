@@ -1,0 +1,154 @@
+<test>
+    <name>SIP-IN_SMS-OUT.TC.001a.xml</name>
+    <description>SIP-IN->SMS-OUT [UDP] [vnd.3gpp.sms] [Content Size less than 160] - 1 Message</description>
+    <configuration>../3rdPartyRegistration/config.xml</configuration>
+    <configuration>lotsofnames.xml</configuration>
+    <!-- Start SMSC Server & Wait for SLM to Bind SMSC -->
+    <function name="startSMSCServer" module="SMS"/>
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createSemaphore" module="Semaphore">
+        <parameter>10</parameter>
+    </function>
+
+    <!-- Start SIP Server -->
+    <function name="startSIPServer" module="SIP"/>
+    <function name="disableAutoNotify" module="SIP"/>
+
+    <loop name="loop" start="0" stop="400">
+        <function name="takeSemaphore" module="Semaphore"/>
+        <thread>
+            <function name="calculate" module="Basic">
+                <parameter>
+                    <parameter>USER</parameter>
+                    <localvariable>loop</localvariable>
+                </parameter>
+                <parameter>
+                    <localvariable>loop</localvariable>
+                    <parameter> % 200</parameter>
+                </parameter>
+            </function>       
+            
+            <!--function name="setVariable" module="Basic">
+                <parameter>
+                    <parameter>USER</parameter>
+                    <localvariable>loop</localvariable>
+                </parameter>
+                <parameter>1</parameter>
+            </function-->                 
+        
+            <function name="setLocalVariable" module="Basic">
+                <parameter>PUBLIC_URI1_1</parameter>
+                <!--parameter>sip:bob@swisscom.com</parameter-->
+                <parameter>
+                    <parameter>sip:</parameter>
+                    <configuration>
+                        <parameter>ims/name</parameter>
+                        <variable>
+                            <parameter>USER</parameter>
+                            <localvariable>loop</localvariable>
+                        </variable>
+                    </configuration>
+                    <parameter>@swisscom.com</parameter>
+                </parameter>
+            </function>
+
+            <function name="setLocalVariable" module="Basic">
+                <parameter>PUBLIC_URI1_2</parameter>
+                <!--parameter>sip:41793454122@swisscom.com</parameter-->
+                <parameter>
+                    <parameter>sip:</parameter>
+                    <configuration>
+                        <parameter>ims/msisdn</parameter>
+                        <variable>
+                            <parameter>USER</parameter>
+                            <localvariable>loop</localvariable>
+                        </variable>
+                    </configuration>
+                    <parameter>@swisscom.com</parameter>
+                </parameter>
+            </function>
+
+            <function name="setLocalVariable" module="Basic">
+                <parameter>NAME_URI1</parameter>
+                <configuration>
+                    <parameter>ims/name</parameter>
+                    <variable>
+                        <parameter>USER</parameter>
+                        <localvariable>loop</localvariable>
+                    </variable>
+                </configuration>
+            </function>
+
+            <function name="setLocalVariable" module="Basic">
+                <parameter>PUBLIC_URI1_NUMBER</parameter>
+                <configuration>
+                    <parameter>ims/msisdn</parameter>
+                    <variable>
+                        <parameter>USER</parameter>
+                        <localvariable>loop</localvariable>
+                    </variable>
+                </configuration>
+            </function>
+
+            <function name="setLocalVariable" module="Basic">
+                <parameter>PUBLIC_URI2_NUMBER</parameter>
+                <configuration>
+                    <parameter>ims/to_msisdn</parameter>
+                    <variable>
+                        <parameter>USER</parameter>
+                        <localvariable>loop</localvariable>
+                    </variable>
+                </configuration>
+            </function>
+
+            <function name="calculate" module="Basic">
+                <parameter>
+                    <parameter>REF</parameter>
+                    <localvariable>loop</localvariable>
+                </parameter>
+                <parameter>
+                    <parameter>(</parameter>
+                    <localvariable>loop</localvariable>
+                    <parameter> + 1) % 255</parameter>
+                </parameter>
+            </function>
+
+            <subtest name="RSN" file="RegisterSubscribeNotifySubTest.xml">
+                <localvariable>PUBLIC_URI1_1</localvariable>
+                <localvariable>PUBLIC_URI1_2</localvariable>
+                <localvariable>NAME_URI1</localvariable>
+                <localvariable>PUBLIC_URI1_NUMBER</localvariable>
+            </subtest>
+
+            <subtest name="MESSAGE" file="MessageSubTest.xml">
+                <localvariable>PUBLIC_URI1_1</localvariable>
+                <inttohex>
+                    <variable>
+                        <parameter>REF</parameter>
+                        <localvariable>loop</localvariable>
+                    </variable>
+                </inttohex>
+                <localvariable>PUBLIC_URI1_NUMBER</localvariable>
+                <localvariable>PUBLIC_URI2_NUMBER</localvariable>
+            </subtest>
+
+            <subtest name="UNREGISTER" file="UnregisterSubTest.xml">
+                <localvariable>PUBLIC_URI1_1</localvariable>
+            </subtest>
+            
+            <function name="returnSemaphore" module="Semaphore"/>
+        </thread>
+    </loop>
+
+    <function name="waitOnThreads" module="Basic"/>
+
+    <subtest name="CheckPSE" file="PSEEmpty.xml"/>
+
+    <!-- Stop SIP Server -->
+    <function name="closeConnection" module="SIP"/>
+    <function name="stopSIPServer" module="SIP"/>
+
+    <!-- Shut Down SMSC Server -->
+    <function name="stopSMSCServer" module="SMS"/>
+</test>

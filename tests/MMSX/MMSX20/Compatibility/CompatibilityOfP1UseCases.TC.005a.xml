@@ -1,0 +1,211 @@
+<test>
+<name>CompatibilityOfP1UseCases.TC.005a</name>
+    <description>Validate "MMS Nick" Feature in combination with "MMS Group", "White/Black Lists", "Unconditional Forwarding" Features
+Test Category: MUST
+Test Steps:
+---------------------------------------------------------------
+Scenario 1: In combination with "MMS Group", "White Lists", "Unconditional Forwarding" Features
+1. Add a nickname for sender(i.e. +412000000001) and enable "Groups" feature through Web Portal.
+3. Recipient enabled "Unconditional Forwarding" feature through Web Portal.
+4. Recipients has a White List and Sender is in the White List.
+5. Send MM1 request to MMS Proxy having group name in the To field .
+6. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request 
+7. MMS Extra after validating the recipient sends a positive response and asks for "send data" to MMS Proxy server.
+8. MMS Proxy then sends body with HTTP post request.
+9. Sender credit balace has been checked, if the sender has balance then the request gets forwarded.
+10. Application gets a nickname(i.e. +412000000001 nickname is abc ) for that subscriber through its database.
+11. From field for that sender gets updated to nickname(i.e. abc)
+12. Application sends a SMS notifying the recipient that a secret MMS is available.
+13. MM7 submit has been sent with nickname via MM7-OUT to the recipient.
+14. Application gets a 200 ok response from the recipient.
+15. Billing for both sender and recipient happened.
+---------------------------------------------------------------
+<!--  Modules Used:
+	  1. MMSC
+	  2. Diameter
+	  3. Remote
+	  4. Basic -->
+  </description>
+ 	
+	<!-- Start MMSC server -->
+	<function name="startMMSCServer" module="MMSC"/>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Existing messages from Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Query the name of the active MESSAGE-STORE process -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MESSAGE-STORE</parameter>
+		<parameter>Message_Store_Process_Name</parameter>
+	</function>
+
+	<!-- Set mandatory headers for request-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/SHORTCODE/MSISDN4</configuration>
+	</function>
+
+	<!-- Set Subject as Group symbol -->
+		<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>group10001 This is test message</parameter>
+	</function>
+
+	<!-- Set From as sender mobile number-->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+	</function>
+	
+	<!-- Send Metadeta  Request to application-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/New-Message-Intercepted</parameter>
+		</parameter>
+	</function>
+
+	<!-- Check response received from application -->
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<!-- Will get response as a New-Message-Intercepted-Response where need to validate X-Proxy-Handle as "send-body" and set X-Proxy-Transaction-Id as X-Application-Context-Id -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>send-body</parameter>
+	</function>
+
+	<function name="queryText" module="BASIC">
+		<variable>HTTP/HEADER/X-Application-Context-Id</variable>
+		<parameter>X-Application-Context-Id</parameter>
+		<parameter>(.*)</parameter>
+	</function>
+
+	<function name="info" module="Basic">
+		<parameter>X-Application-Context-Id=</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Application-Context-Id</parameter>
+		<variable>X-Application-Context-Id</variable>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>ContentType</parameter>
+		<parameter>text/xml; charset="utf-8"; boundary="NextPart_000_0028_01C19839.84698430"</parameter>
+	</function>
+
+	<function name="setPostData" module="HTTP">
+		<file>mm7req.txt</file>
+		<parameter/>
+	</function>
+
+	<!-- Send Body to application -->
+		<function name="sendPostRequest" module="HTTP">
+		<parameter>
+			<parameter>http://</parameter>
+			<configuration>MMS_Extra/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/PORT</configuration>
+			<parameter>/Message-Body</parameter>
+		</parameter>
+	</function>
+
+	<!-- Validate "discard" response from Application to MMS proxy server -->
+	<function name="checkHeader" module="HTTP">
+		<parameter>X-Proxy-Handle</parameter>
+		<parameter>discard</parameter>
+	</function>
+	
+	<!-- Wait for a MM7 request on the MMSC Server -->
+	<function name="waitForRequests" module="MMSC">
+		<parameter>1</parameter>
+	</function>
+
+	<!-- It's a good Idea to check whether the response is actually a correct MM7 request by validating against the standard -->
+	 <function name="validateXML" module="XML">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter></parameter>
+		<configuration>MMSCSERVER/XMLNSENV</configuration>
+		<configuration>MMSCSERVER/SOAPXSD</configuration>
+		<configuration>MMSCSERVER/XMLNSMM7</configuration>
+		<configuration>MMSCSERVER/MM7XSD</configuration>
+	</function>
+
+	<!-- check that at Sender Nickname set correctly -->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+			<parameter>&lt;MM7Version&gt;5.6.0&lt;/MM7Version&gt;</parameter>
+		</parameter>
+	</function>
+
+ <!-- check that the Sender Subject as a nick name set correctly in SOAP response-->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+		<parameter>&lt;Subject&gt;\{MMX:F</parameter>
+		<configuration>MMSX/COMP/SENDER/MSISDN1</configuration>
+		<parameter>,Nnickname1\}Fwd: This is test message&lt;/Subject&gt;</parameter>
+		</parameter>
+	</function>
+	
+	<!-- check that the Recipient Forwarding MSISDN set correctly in SOAP response-->
+	<function name="queryText" module="Basic">
+		<variable>MMSCSERVER/MM7/SOAP</variable>
+		<parameter>mytest</parameter>
+		<parameter>
+		<parameter>&lt;Recipients&gt;(.*)&lt;/Recipients&gt;</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryText" module="Basic">
+		<variable>mytest</variable>
+		<parameter>dev/null</parameter>
+		<parameter>
+		<configuration>MMSX/COMP/FORWARDINGMSISDN/MSISDN1</configuration>
+		</parameter>
+	</function>
+
+	<!-- Check for MMS message stored in Message Store-->
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>run command amocli -k count TI:F.CEE.</parameter>
+			<variable>Message_Store_Process_Name</variable>
+			<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 1 items counted</parameter>
+		<parameter>response</parameter>
+	</function>
+
+	<!-- Stop MMSC Server -->
+	<function name="stopMMSCServer" module="MMSC"/>
+</test>

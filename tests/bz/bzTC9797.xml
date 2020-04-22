@@ -1,0 +1,87 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.9797</parameter>
+    </function>
+    <description>Check that each user has the correct msisdn.</description>
+    
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC9797.rule.xml </parameter>
+        <file>bzTC9797.rule.xml</file>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data bzTC9797.rule.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>00440009797</parameter>
+        <parameter>00440009797</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Proxy-Authorization</parameter>
+        <parameter>Basic </parameter>
+        <parameter>Z2F2aW46c2VjcmV0</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>https://www.paypal.com/</parameter>
+        </parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>00440009797</parameter>
+        <parameter>00440009797</parameter>
+    </function>
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>00440000001</parameter>
+        <parameter>00440000001</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>x-userid</parameter>
+        <parameter>00440000001</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>00440000001</parameter>
+        <parameter>00440000001</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC10033-blank.rule.xml </parameter>
+        <xml>
+            <requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestModifications.xsd">
+            </requestModifications>
+        </xml>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xmg/path</configuration>
+        <parameter>bin/xms load data bzTC10033-blank.rule.xml</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>dev/null</parameter>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

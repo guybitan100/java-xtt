@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <soapenv:Header>
+  <version soapenv:actor="iserver2" soapenv:mustUnderstand="0" xmlns="">2.1.0</version>
+  <request-type soapenv:actor="iserver2" soapenv:mustUnderstand="0" xmlns="">MMSDELIVER.RESP</request-type>
+ </soapenv:Header>
+ <soapenv:Body>
+  <MMSDeliverResponse xmlns:iserver2="soap.iserv2.sicap.ch">
+   <message-type xsi:type="xsd:string">MMSDeliverResponse</message-type>
+   <transaction-id xsi:type="xsd:string">123456789ABCDEF</transaction-id>
+   <state xsi:type="xsd:string">1000</state>
+   <state-text xsi:type="xsd:string">Success</state-text>
+   <tpi-version xsi:type="xsd:string">1.0.0</tpi-version>
+   <service-category xsi:type="xsd:string">sport subscription</service-category>
+  </MMSDeliverResponse>
+ </soapenv:Body>
+</soapenv:Envelope>

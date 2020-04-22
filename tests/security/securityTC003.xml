@@ -1,0 +1,45 @@
+<test>
+
+    <function name="testName" module="Basic">
+        <parameter>SECURITY.TC.003</parameter>
+    </function>
+
+    <subtest>securityTC000.xml</subtest>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data securityCRLOFF.xml</parameter>
+    </function>    
+
+    <function name="startSecureWebServer" module="HTTP" />
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>    
+    
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>https://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/</parameter>         
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>    
+
+    <function name="stopSecureWebServer" module="HTTP" />
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data securityBlank.xml</parameter>
+    </function>
+    
+    <subtest>securityTC999.xml</subtest>        
+    
+</test>

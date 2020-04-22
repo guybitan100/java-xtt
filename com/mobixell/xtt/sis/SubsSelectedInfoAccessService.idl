@@ -1,0 +1,146 @@
+#ifndef SUBSSELECTEDINFOACCESS_SERVICE_IDL
+#define SUBSSELECTEDINFOACCESS_SERVICE_IDL 1
+#include "SubsInfoAccessService.idl"
+module ch
+{
+    module intersys
+    {
+        module sis
+        {
+            module corba
+            {
+                module idl
+                {
+                    module SubsSelectedInfoAccessServiceModul
+                    {
+                        // Interface definitions
+                        //
+                        interface SubsSelectedInfoAccessService :
+                        ch::intersys::sis::corba::idl::SubsInfoAccessServiceModul::SubsInfoAccessService
+                        {
+                        // Returns
+                        // AttributValueStruct List holding:
+                        // mAttribute String
+                        // mValue String
+                        // mValueInfo String
+                        //
+                        // Possible Attributtes are: (there will be additional ones not
+                        // described here)
+                        // ActiveScCustomer : 0 if number is no active Swisscom
+                        // customer
+                        // 1 if number is from a Prepaid Swisscom
+                        // customer
+                        // 2 if number is from a Postpaid Swisscom
+                        // customer
+                        // 3 if number is from TELE2 customer
+                        // SubscriptionType : Stype as defined in HLR
+                        // BarringState : 0 no Barring
+                        // 1 Credit Limit reached
+                        // 2 Barring or pNumber unknown
+                        // UserLanguage : "de" for German
+                        // "fr" for French
+                        // "it" for Italien
+                        // "en" for English
+                        // "?" for unknown
+                        // VasLimitReached : 0 limit not reached
+                        // 1 limit reached, set by SCM
+                        // 2 limit reached, set on customers
+                        // demand
+                        // VasBlocked : 0 no premium services blocked
+                        // 1 all premium services blocked, set by
+                        // SCM
+                        // 2 all premium services blocked, set on
+                        // customers demand
+                        // 3 adult content premium services
+                        // blocked, set by SCM
+                        // 4 adult content premium services
+                        // blocked, set on customers demand
+                        // OppositeNumber : IMSI or MSISDN opposite of given number
+                        // CustomerAge : age of customer; 0 if age is unknown
+                        // CustomerID : SubscriberId
+                        // CompanyID : if unstructerd subscriber then same
+                        // mSubscriberID
+                        // else mSubscriberID without last part
+                        // CustomerType : 0 if subscriber type is undefined
+                        // 1 if subscriber type is RESIDENTIAL
+                        // (Privater Kunde)
+                        // 2 if subscriber type is CORPORATE
+                        // (Firmenkunde)
+                        //
+                        // Throws exception if number is not found
+                        ch::intersys::sis::corba::idl::SubsInfoAccessServiceModul::AttributValues_t
+                        getSelectedSubscriptionInfo (
+                        in
+                        ch::intersys::sis::corba::idl::SubsInfoAccessServiceModul::NrType_t aNumberType,
+                        in string aNumber,
+                        in string aIncludeInfos
+                        ) raises
+                        (ch::intersys::sis::corba::idl::SubsInfoAccessServiceModul::SubsInfoAccessServiceException );
+                        // Returns
+                        // AttributValues holding a list with a List of Attribute Value
+                        // triplets:
+                        // mAttribute String
+                        // mValue String
+                        // mValueInfo String
+                        //
+                        // Possible Attributtes are: (there will be additional ones not
+                        // described here)
+                        // ActiveScCustomer : 0 if number is no active Swisscom
+                        // customer
+                        // 1 if number is from a Prepaid Swisscom
+                        // customer
+                        // 2 if number is from a Postpaid Swisscom
+                        // customer
+                        // 3 if number is from TELE2 customer
+                        // SubscriptionType : Stype as defined in HLR
+                        // BarringState : 0 no Barring
+                        // 1 Credit Limit reached
+                        // 2 Barring or pNumber unknown
+                        // UserLanguage : "de" for German
+                        // "fr" for French
+                        // "it" for Italien
+                        // "en" for English
+                        // "?" for unknown
+                        // VasLimitReached : 0 limit not reached
+                        // 1 limit reached, set by SCM
+                        // 2 limit reached, set on customers
+                        // demand
+                        // VasBlocked : 0 no premium services blocked
+                        // 1 all premium services blocked, set by
+                        // SCM
+                        // 2 all premium services blocked, set on
+                        // customers demand
+                        // 3 adult content premium services
+                        // blocked, set by SCM
+                        // 4 adult content premium services
+                        // blocked, set on customers demand
+                        // OppositeNumber : IMSI or MSISDN opposite of given number
+                        // CustomerAge : age of customer; 0 if age is unknown
+                        // CustomerID : SubscriberId
+                        // CompanyID : if unstructerd subscriber then same
+                        // mSubscriberID
+                        // else mSubscriberID without last part
+                        // CustomerType : 0 if subscriber type is undefined
+                        // 1 if subscriber type is RESIDENTIAL
+                        // (Privater Kunde)
+                        // 2 if subscriber type is CORPORATE
+                        // (Firmenkunde)
+                        //
+                        // Throws exception if number is not found
+                        ch::intersys::sis::corba::idl::SubsInfoAccessServiceModul::AttributValuesList_t
+                        getSelectedSubscriptionInfoList (
+                        in
+                        ch::intersys::sis::corba::idl::SubsInfoAccessServiceModul::NrType_t aNumberType,
+                        in
+                        ch::intersys::sis::corba::idl::SubsInfoAccessServiceModul::NumberList_t aNumberList,
+                        in string aIncludeInfos
+                        ) raises
+                        (ch::intersys::sis::corba::idl::SubsInfoAccessServiceModul::SubsInfoAccessServiceException );
+                        };// interface end
+                    }; //module SubsInfoAccessInfoDepthServiceModul end
+                }; //module idl end
+            }; //module corba end
+        }; //module sis end
+    }; //module intersys end
+}; //module ch end
+#endif

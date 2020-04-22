@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://provisioning.intf.mobilgw.com/">
+  <soap:Body>
+    <tns:removeUserGroupMembers>
+      <arg0>
+        <expiryDate>1235954000000</expiryDate>
+        <userGroupName/>
+        <userId>A01</userId>
+      </arg0>
+      <arg1>0</arg1>
+    </tns:removeUserGroupMembers>
+  </soap:Body>
+</soap:Envelope>

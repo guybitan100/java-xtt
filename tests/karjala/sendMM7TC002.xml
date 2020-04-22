@@ -1,0 +1,159 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SEND.MM7.TC.002</parameter>
+    </function>
+	<description>MMSDeliver with Plain Text Data</description>
+    
+
+    <subtest>sisSTART.xml</subtest>
+
+    <function name="startWebServer" module="HTTP">
+        <parameter>6667</parameter>
+        <testpath/>
+        <parameter>30000</parameter>
+    </function>
+        <function name="sleep" module="basic">
+            <parameter>2000</parameter>
+        </function>
+        <function name="createMM7Soap" module="VASP">
+            <parameter>DeliverReq</parameter>                     
+        </function>
+          <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>MM7Version</parameter>
+            <configuration>VASP/MM7Version</configuration>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>Sender</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Sender']</parameter>
+            <parameter>Number</parameter>
+            <parameter>0041794141411</parameter> 
+        </function>
+
+                
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To']</parameter>
+            <parameter>Number</parameter>
+            <configuration>VASP/VASPID</configuration>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='To']/*[local-name()='Number']</parameter>
+            <parameter>id</parameter>
+            <configuration>VASP/VASID</configuration>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To']</parameter>
+            <parameter>ShortCode</parameter>
+            
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>LinkedID</parameter>
+            <parameter>Personal</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>MessageClass</parameter>
+            <parameter>Informational</parameter>
+        </function>
+        <function name="createDateString" module="VASP">
+            <parameter>TimeStamp</parameter>
+            <parameter>-120</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>TimeStamp</parameter>
+            <variable>TimeStamp</variable>
+        </function>
+        <function name="createDateString" module="VASP">
+            <parameter>ExpiryDate</parameter>
+            <parameter>86400</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>ExpiryDate</parameter>
+            <variable>ExpiryDate</variable>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>DeliveryReport</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>ReadReply</parameter>
+            <parameter>false</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>Priority</parameter>
+            <parameter>Low</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>Subject</parameter>
+            <parameter>Halligalli</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>ChargedParty</parameter>
+            <parameter>Sender</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>ChargedPartyID</parameter>
+            <parameter>Sender-Id</parameter>
+        </function>
+
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>DistributionIndicator</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='DeliverReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>allowAdaptations</parameter>
+            <parameter>true</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>sendMM7data2.txt</file>
+        </function>
+        <function name="previewRequest" module="VASP" />
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+	
+    <subtest>sisSTOP.xml</subtest>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

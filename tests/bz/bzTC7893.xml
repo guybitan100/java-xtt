@@ -1,0 +1,46 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.7236</parameter>
+    </function>
+    <function name="startWebServer" module="HTTP">
+        <configuration>WEBSERVER/PORT</configuration>
+        <parameter>tests/bz</parameter>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Charset</parameter>
+        <parameter>UTF-8</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>system/ip</configuration>
+            <parameter>/bzTC7893.html</parameter>
+        </parameter>
+    </function>
+<!--
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://www.onlinecount.com/trak.php?site=vclips&amp;page=Index</parameter>
+    </function>
+-->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <function name="stopWebServer" module="HTTP"/>
+</test>

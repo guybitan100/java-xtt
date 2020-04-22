@@ -1,0 +1,268 @@
+<!-- $Id: reqmodTC018a.xml,v 1.2 2006/07/21 17:04:56 cvsbuild Exp $ -->
+<!-- # Test Case 1118 aka REQMOD.TC.018a
+     # Check that Rule can be defined that adds client ID as
+     # an POST parameter and not a new header.
+     # post content-type: application/x-www-form-urlencoded-->
+<test>
+    <configuration>reqmodTC000.xml</configuration>
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.018a</parameter>
+    </function>
+    <description>Add client ID as a POST parameter and not a new header
+    post content-type: application/x-www-form-urlencoded</description>
+    
+    <function name="startWebServer" module="HTTP"/>
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <!--<parameter>multipart/form-data</parameter>-->
+        <parameter>application/x-www-form-urlencoded</parameter>
+    </function>
+
+    <!-- Check if the url parameters are added to post data -->
+    <function name="setPostData" module="HTTP">
+        <parameter>moo</parameter>
+        <parameter>boo</parameter>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <!--<parameter>http://localhost/</parameter>-->
+        <parameter>http://test2.xtt724.com</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>moo</parameter>
+        <parameter>boo</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>user</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>bar</parameter>
+    </function>
+
+    <!-- Check if the url parameters are added to a url which already has parameters
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com/index.html?muu=boo</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkServerURL" module="HTTP">
+        <parameter>/index.html?muu=boo&amp;user=</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+        <parameter>&amp;foo=bar</parameter>
+    </function>-->
+
+    <!-- Check if the url parameters replace parameters -->
+    <function name="setPostData" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>hoschipeter</parameter>
+    </function>
+    <function name="sendPostRequest" module="HTTP">
+        <!--<parameter>http://localhost/</parameter>-->
+        <parameter>http://test2.xtt724.com/index.html</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>moo</parameter>
+        <parameter>boo</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>user</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+
+    <!-- Check if the post parameters remove parameters (implementet as setting to empty)-->
+    <function name="setPostData" module="HTTP">
+        <parameter>removeme</parameter>
+        <parameter>removethisparameter</parameter>
+    </function>
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>http://test2.xtt724.com/index.html</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>moo</parameter>
+        <parameter>boo</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>user</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>bar</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>removeme</parameter>
+        <parameter></parameter>
+    </function>
+
+
+    <!-- Check if the url parameters replace parameters only with MATCHING case -->
+    <function name="clearPostData" module="HTTP"/>
+    <function name="setPostData" module="HTTP">
+        <parameter>USER</parameter>
+        <parameter>hoschipeter</parameter>
+    </function>
+    <function name="setPostData" module="HTTP">
+        <parameter>moo</parameter>
+        <parameter>boo</parameter>
+    </function>
+    <function name="setPostData" module="HTTP">
+        <parameter>REMOVEME</parameter>
+        <parameter>removethisparameter</parameter>
+    </function>
+    <function name="sendPostRequest" module="HTTP">
+        <!--<parameter>http://localhost/</parameter>-->
+        <parameter>http://test2.xtt724.com/index.html</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>moo</parameter>
+        <parameter>boo</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>bar</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>REMOVEME</parameter>
+        <parameter>removethisparameter</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>removeme</parameter>
+        <parameter></parameter><!-- yes, that is right this way, a parameter that is not found is added as empty-->
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>user</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>USER</parameter>
+        <parameter>hoschipeter</parameter>
+    </function>
+
+    <!-- Check if the url parameters replace parameters ignoring case -->
+    <function name="sendPostRequest" module="HTTP">
+        <!--<parameter>http://localhost/</parameter>-->
+        <parameter>http://test2.xtt724.com/acme/index.html</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>host</parameter>
+        <parameter>test2.xtt724.com</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>moo</parameter>
+        <parameter>boo</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>foo</parameter>
+        <parameter>bar</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>REMOVEME</parameter>
+        <parameter></parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>removeme</parameter>
+        <parameter>null</parameter>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>USER</parameter>
+        <configuration>REQMOD/EXTERNALNAI</configuration>
+    </function>
+    <function name="checkPostData" module="HTTP">
+        <parameter>user</parameter>
+        <parameter>null</parameter>
+    </function>
+
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

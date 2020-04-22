@@ -1,0 +1,407 @@
+<test>
+    <div comment="Set local variables">
+        <function name="setLocalVariable" module="Basic">
+            <parameter>PUBLIC_URI</parameter>
+            <localvariable>MESSAGE/0</localvariable>
+        </function>
+
+        <function name="setLocalVariable" module="Basic">
+            <parameter>REFERENCE</parameter>
+            <localvariable>MESSAGE/1</localvariable>
+        </function>
+
+        <function name="setLocalVariable" module="Basic">
+            <parameter>PUBLIC_URI1_NUMBER</parameter>
+            <localvariable>MESSAGE/2</localvariable>
+        </function>
+        <function name="setLocalVariable" module="Basic">
+            <parameter>PUBLIC_URI2_NUMBER</parameter>
+            <localvariable>MESSAGE/3</localvariable>
+        </function>
+
+        <function name="randomToVariable" module="Basic">
+            <parameter>
+                <parameter>random/</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+        </function>
+        <function name="setLocalVariable" module="Basic">
+            <parameter>random</parameter>
+            <variable>
+                <parameter>random/</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </variable>
+        </function>        
+        <function name="setLocalVariable" module="Basic">
+            <parameter>callid</parameter>
+            <parameter>
+                <parameter>e7770a8b76fae407e4bb1f4d472b</parameter>
+                <variable>
+                    <parameter>random/</parameter>
+                    <localvariable>PUBLIC_URI</localvariable>
+                </variable>
+                <parameter>@</parameter>
+                <configuration>IMS/IP</configuration>
+            </parameter>
+        </function>
+
+        <function name="randomToVariable" module="Basic">
+            <parameter>
+                <parameter>random/</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+        </function>
+        <function name="setLocalVariable" module="Basic">
+            <parameter>random2</parameter>
+            <variable>
+                <parameter>random/</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </variable>
+        </function>
+
+        <function name="randomToVariable" module="Basic">
+            <parameter>
+                <parameter>random/</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+        </function>
+        <function name="setLocalVariable" module="Basic">
+            <parameter>random3</parameter>
+            <variable>
+                <parameter>random/</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </variable>
+        </function>
+    </div>
+
+    <div comment="Send SMS Submit Message">
+        
+        <function name="removeVariables" module="Basic">
+            <parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable></parameter>
+        </function>
+            
+        <function name="createTPPacket" module="SMS">
+            <parameter>
+                <parameter>tppacket1</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+            <parameter>SMS_SUBMIT</parameter>                           <!-- operation -->
+            <parameter>false</parameter>                                <!-- Reject Duplicates - Parameter indicating whether or not the SC shall accept an SMS SUBMIT for an SM still held in the SC which has the same TP MR and the same TP DA as a previously submitted SM from the same OA -->
+            <parameter>0x03</parameter>                                 <!-- Validity Period Format  - Parameter indicating whether or not the TP VP field is present / Absolute Format-->
+            <parameter>false</parameter>                                <!-- TP Reply Path - Parameter indicating that Reply Path exists -->
+            <parameter>false</parameter>                                <!-- TP User Data Header Indicator - Parameter indicating that the TP UD field contains a Header  -->
+            <parameter>false</parameter>                                <!-- Status Report Request - Parameter indicating if the MS is requesting a status report. -->
+            <parameter>0x01</parameter>                                 <!-- TP MR  TP Message Reference - Parameter identifying the SMS SUBMIT -->
+            <parameter>0x06</parameter>                                 <!-- TP_DA_TYPE / TP Destination Address - Address of the destination SME / Short Messaging Entity: SME is an entity, which may receive or send short messages / 01:International -->
+            <parameter>0x05</parameter>                                 <!-- TP_DA_PLAN / 01:ISDN/Telephony-->
+            <localvariable>PUBLIC_URI2_NUMBER</localvariable>             <!-- TP_DA_NUMBER -->
+            <parameter>0x00</parameter>                                 <!-- Protocol Identifier -  Parameter identifying the coding scheme within the TP User Data -->
+            <parameter>0x00</parameter>                                 <!-- Data Coding Scheme -->
+            <parameter>31123100000000</parameter>                       <!-- TP_VP -->
+            <parameter>31</parameter>                                   <!-- User Data Length -->
+            <base64Encode>Hello World. This is a message.</base64Encode><!-- TP User Data -->
+        </function>
+
+        <function name="createRPPacket" module="SMS">
+            <parameter>
+                <parameter>rppacket1</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+            <parameter>RP-DATA-MSN</parameter>                  <!-- operation -->
+            <parameter><parameter>0x</parameter><localvariable>REFERENCE</localvariable></parameter>           <!-- reference -->
+            <!--parameter>0x07</parameter-->                    <!-- RP OA IEI / 8.2.5.1    Originator address element-->
+            <!--parameter>0x08</parameter-->                    <!-- RP DA IEI / 8.2.5.2    Destination address element-->
+            <parameter>0x06</parameter>                         <!-- DA Type / Internaltional-->
+            <parameter>0x05</parameter>                         <!-- DA Plan / Telephony-->
+            <parameter>41798880000</parameter>                  <!-- DA Number -->
+            <parameter>
+                <parameter>tppacket1</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+        </function>
+        <function name="storeRPPacket" module="SMS">
+            <parameter>
+                <parameter>rppacket1Variable</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+            <parameter>
+                <parameter>rppacket1</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+        </function>
+
+        <!-- Create the MESSAGE Request Body -->
+        <function name="setVariableLines" module="Basic">
+            <parameter>2</parameter>
+            <parameter>
+                <parameter>message_body</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+            <variable>
+                <parameter>rppacket1Variable</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </variable><parameter></parameter>
+            <parameter></parameter><parameter></parameter>
+        </function>
+
+        <function name="setVariableLines" module="Basic">
+            <parameter>2</parameter>
+            <parameter>
+                <parameter>message_headers</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+            <parameter>MESSAGE sip:smsc.swisscom.com SIP/2.0</parameter><parameter></parameter>
+            <parameter>Max-Forwards: </parameter><parameter>19</parameter>
+            <parameter>CSeq: </parameter><parameter>1 MESSAGE</parameter>
+            <parameter>P-Called-Party-ID: </parameter><parameter>&lt;sip:smsc.swisscom.com&gt;</parameter>
+            <parameter>Content-Length: </parameter><parameter><bytelength><variable><parameter>rppacket1Variable</parameter><localvariable>PUBLIC_URI</localvariable></variable></bytelength></parameter>
+            <!--parameter>Content-Length: </parameter><parameter><base64bytelength><variable>rppacket1Variable</variable></base64bytelength></parameter-->
+            <parameter>Record-Route: </parameter><parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;from-tag=</parameter><localvariable>random</localvariable><parameter>;lr&gt;</parameter></parameter>
+            <parameter>P-Asserted-Identity: </parameter><parameter><parameter>&lt;</parameter><localvariable>PUBLIC_URI</localvariable><parameter>&gt;</parameter></parameter>
+            <parameter>Route: </parameter><parameter><parameter>&lt;sip:724.com;lr;call=term_unregistered&gt;,&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;lr;original-dialog-id=</parameter><localvariable>random</localvariable><parameter>-MESSAGE&gt;</parameter></parameter>
+            <parameter>From: </parameter><parameter><parameter> &lt;</parameter><localvariable>PUBLIC_URI</localvariable><parameter>&gt;; tag=</parameter><localvariable>random</localvariable></parameter>
+            <parameter>To: </parameter><parameter>&lt;sip:smsc.swisscom.com&gt;</parameter>
+            <parameter>Call-ID: </parameter><localvariable>callid</localvariable>
+            <parameter>Via: </parameter><parameter><parameter>SIP/2.0/udp </parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;branch=</parameter><localvariable>random</localvariable><parameter>,SIP/2.0/UDP </parameter><configuration>IMS/IP</configuration><parameter>:5060;branch=</parameter><localvariable>random3</localvariable><parameter>;received_port_ext=5081;received=</parameter><configuration>IMS/IP</configuration></parameter>
+            <parameter>Content-Type: </parameter><parameter>application/vnd.3gpp.sms</parameter>
+            <parameter>Content-Encoding: </parameter><parameter>base64</parameter>
+            <parameter></parameter><parameter></parameter>
+        </function>
+
+        <!-- Send MESSAGE Request -->
+        <function name="sendFreeRequest" module="SIP">
+            <configuration>system/remoteip</configuration>
+            <parameter>5060</parameter>
+            <parameter>UDP</parameter>
+            <variable>
+                <parameter>message_headers</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </variable>
+            <base64encode><variable><parameter>rppacket1Variable</parameter><localvariable>PUBLIC_URI</localvariable></variable></base64encode>
+            <!--variable>rppacket1Variable</variable-->
+        </function>
+
+        <!-- Wait for the MESSAGE Response -->
+         <function name="waitForVariable" module="Basic">
+             <parameter><parameter>SIP/UDP/RESPONSE/</parameter><localvariable>callid</localvariable></parameter>
+         </function>
+
+        <!-- Print the MESSAGE Response Code -->
+        <!--function name="info" module="Basic">
+            <variable><parameter>SIP/UDP/RESPONSE/</parameter><localvariable>callid</localvariable></variable>
+        </function>
+        <function name="info" module="Basic">
+            <variable><parameter>SIP/UDP/RESPONSE/smsc.swisscom.com</parameter></variable>
+        </function-->
+
+        <!-- Check the MESSAGE Response Code -->
+        <function name="queryText" module="Basic">
+            <variable><parameter>SIP/UDP/RESPONSE/</parameter><localvariable>callid</localvariable></variable>
+            <parameter>dev/null</parameter>
+            <parameter>202</parameter>
+        </function>
+
+        <!-- Set Received MESSAGE Response Code to null -->
+        <function name="removeVariables" module="Basic">
+            <parameter><parameter>SIP/UDP/RESPONSE/</parameter><localvariable>callid</localvariable></parameter>
+        </function>
+    </div>
+
+    <div comment="Wait for and check incoming SMS">
+        <!-- Wait for the SMS-OUT Message -->
+        <function name="waitForVariable" module="Basic">
+            <parameter><parameter>smsc/ucp/00</parameter><localvariable>PUBLIC_URI2_NUMBER</localvariable><parameter>/OAdc</parameter></parameter>
+        </function>
+        <function name="waitForVariable" module="Basic">
+            <parameter><parameter>smsc/ucp/00</parameter><localvariable>PUBLIC_URI2_NUMBER</localvariable><parameter>/AMsg</parameter></parameter>
+        </function>
+        
+        <!-- Print SMS Headers -->
+        <!--function name="info" module="Basic">
+            <parameter>smsc/ucp/1/AMsg: </parameter><variable><parameter>smsc/ucp/00</parameter><localvariable>TO</localvariable><parameter>/AMsg</parameter></variable>
+        </function>
+        <function name="info" module="Basic">
+            <parameter>smsc/ucp/1/AdC: </parameter><variable><parameter>smsc/ucp/00</parameter><localvariable>TO</localvariable><parameter>/AdC</parameter></variable>
+        </function>
+        <function name="info" module="Basic">
+            <parameter>smsc/ucp/1/OAdC: </parameter><variable><parameter>smsc/ucp/00</parameter><localvariable>TO</localvariable><parameter>/OAdc</parameter></variable>
+        </function-->
+
+        <!-- Check SMS Headers -->
+        <function name="queryText" module="Basic">
+            <variable><parameter>smsc/ucp/00</parameter><localvariable>PUBLIC_URI2_NUMBER</localvariable><parameter>/AMsg</parameter></variable>
+            <parameter>dev/null</parameter>
+            <parameter><bytestringencode>Hello World. This is a message.</bytestringencode></parameter>
+        </function>
+
+        <function name="queryText" module="Basic">
+            <variable><parameter>smsc/ucp/00</parameter><localvariable>PUBLIC_URI2_NUMBER</localvariable><parameter>/AdC</parameter></variable>
+            <parameter>dev/null</parameter>
+           <parameter><parameter>00</parameter><localvariable>PUBLIC_URI2_NUMBER</localvariable></parameter>
+        </function>
+
+        <function name="queryText" module="Basic">
+            <variable><parameter>smsc/ucp/00</parameter><localvariable>PUBLIC_URI2_NUMBER</localvariable><parameter>/OAdc</parameter></variable>
+            <parameter>dev/null</parameter>
+           <parameter><parameter>00</parameter><localvariable>PUBLIC_URI1_NUMBER</localvariable></parameter>
+        </function>
+
+        <function name="removeVariables" module="Basic">
+            <parameter><parameter>smsc/ucp/00</parameter><localvariable>PUBLIC_URI2_NUMBER</localvariable></parameter>
+        </function>
+    </div>
+
+    <div comment="Sms Submit Response">
+        <!-- Wait for the SMS-SUBMIT-REPORT -->
+        <!-- Wait for MESSAGE Request -->
+        <function name="waitForVariable" module="Basic">
+            <parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable><parameter>/FINISHED/REQUEST</parameter></parameter>
+        </function>
+
+         <!-- Acquire Necessary MESSAGE Request Headers -->
+        <function name="setLocalVariable" module="Basic">
+            <parameter>Mesg_CallID</parameter>
+            <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable><parameter>/Call-ID</parameter></parameter></variable>
+        </function>
+
+        <function name="setLocalVariable" module="Basic">
+            <parameter>Mesg_Via</parameter>
+            <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable><parameter>/Via</parameter></parameter></variable>
+        </function>
+        <function name="setLocalVariable" module="Basic">
+            <parameter>Mesg_From</parameter>
+            <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable><parameter>/From</parameter></parameter></variable>
+        </function>
+        <function name="setLocalVariable" module="Basic">
+            <parameter>Mesg_To</parameter>
+            <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable><parameter>/To</parameter></parameter></variable>
+        </function>
+        <function name="queryText" module="Basic">
+            <variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable><parameter>/From</parameter></parameter></variable>
+            <parameter>
+                <parameter>Mesg_FromTag</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+            <parameter>tag=(.*)</parameter>
+        </function>
+        <function name="setLocalVariable" module="Basic">
+            <parameter>Mesg_FromTag</parameter>
+            <variable>
+                <parameter>Mesg_FromTag</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </variable>
+        </function>
+
+        <!-- Print MESSAGE Headers -->
+        <!--function name="info" module="Basic">
+            <parameter>Mesg_CallID: </parameter><variable>Mesg_CallID</variable>
+        </function>
+        <function name="info" module="Basic">
+            <parameter>Mesg_Via: </parameter><variable>Mesg_Via</variable>
+        </function>
+        <function name="info" module="Basic">
+            <parameter>Mesg_From: </parameter><variable>Mesg_From</variable>
+        </function>
+        <function name="info" module="Basic">
+            <parameter>Mesg_To: </parameter><variable>Mesg_To</variable>
+        </function>
+        <function name="info" module="Basic">
+            <parameter>Mesg_FromTag: </parameter><variable>Mesg_FromTag</variable>
+        </function-->
+
+        <!-- Check MESSAGE Headers -->
+        <function name="queryText" module="Basic">
+            <localvariable>Mesg_To</localvariable>
+            <parameter>dev/null</parameter>
+            <localvariable>PUBLIC_URI</localvariable>
+        </function>
+
+        <function name="queryText" module="Basic">
+            <localvariable>Mesg_From</localvariable>
+            <parameter>dev/null</parameter>
+            <parameter><parameter>&lt;sip:724.com&gt;;tag=</parameter></parameter>
+        </function>
+
+        <!--function name="checkServerURL" module="SIP">
+            <localvariable>PUBLIC_URI</localvariable>
+        </function-->
+        
+        <function name="queryText" module="Basic">
+            <variable><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable></variable>
+            <parameter>dev/null</parameter>
+            <localvariable>PUBLIC_URI</localvariable>
+        </function>         
+
+        <function name="waitForVariable" module="Basic">
+            <parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable><parameter>/BODY/PLAIN</parameter></parameter>
+        </function>
+
+        <!--function name="info" module="Basic">
+            <parameter>
+                <parameter>Incoming Data in Binary Format: </parameter>
+                <base64tobytestring><variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>callid</localvariable><parameter>/BODY/PLAIN</parameter></parameter></variable></base64tobytestring>
+            </parameter>
+        </function-->
+
+        <function name="queryText" module="Basic">
+            <base64tobytestring><variable><parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable><parameter>/BODY/PLAIN</parameter></parameter></variable></base64tobytestring>
+            <parameter>dev/null</parameter>
+            <parameter>
+                <parameter>03</parameter>
+                <localvariable>REFERENCE</localvariable>
+                <parameter>410C0107\d\d\d\d\d\d\d\d\d\d\d\d\d\d000000</parameter>
+            </parameter>
+        </function>
+
+        <!--function name="randomToVariable" module="Basic">
+            <parameter>
+                <parameter>random/</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>
+        </function>
+
+        <function name="setLocalVariable" module="Basic">
+            <parameter>random</parameter>
+            <variable>
+                <parameter>random/</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </variable>
+        </function>
+
+        <function name="setVariableLines" module="Basic">
+            <parameter>2</parameter>
+            <parameter>
+                <parameter>message200OK_headers</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </parameter>            
+            <parameter>SIP/2.0 200 OK</parameter><parameter></parameter>
+            <parameter>CSeq: </parameter><parameter>1 MESSAGE</parameter>
+            <parameter>Content-Length: </parameter><parameter>0</parameter>
+            <parameter>p-access-network-info: </parameter><parameter>3GPP-UTRAN-TDD; utran-cell-id-3gpp=00000000</parameter>
+            <parameter>Record-Route: </parameter><parameter><parameter>&lt;sip:</parameter><configuration>IMS/SCSCF_IPPORT</configuration><parameter>;from-tag=</parameter><localvariable>Mesg_FromTag</localvariable><parameter>;lr&gt;</parameter></parameter>
+            <parameter>Contact: </parameter><parameter><parameter>"</parameter><localvariable>PUBLIC_URI</localvariable><parameter>" &lt;sip:</parameter><configuration>IMS/IP</configuration><parameter>:5060&gt;</parameter></parameter>
+            <parameter>User-Agent: </parameter><parameter>Fraunhofer FOKUS/NGNI Java IMS UserEndpoint FoJIE 0.1 (jdk1.3)</parameter>
+            <parameter>To: </parameter><parameter><localvariable>Mesg_To</localvariable><parameter>;tag=</parameter><localvariable>random</localvariable></parameter>
+            <parameter>From: </parameter><parameter><localvariable>Mesg_From</localvariable></parameter>
+            <parameter>Call-ID: </parameter><parameter><localvariable>Mesg_CallID</localvariable></parameter>
+            <parameter>Via: </parameter><parameter><localvariable>Mesg_Via</localvariable><parameter>;received_port_ext=</parameter><configuration>IMS/SCSCF_PORT</configuration><parameter>;received=</parameter><configuration>IMS/SLM_IP</configuration></parameter>
+            <parameter></parameter><parameter></parameter>
+        </function-->
+
+        <!-- Send 200 OK Response against MESSAGE Request -->
+        <!--function name="sendFreeRequest" module="SIP">
+            <configuration>system/remoteip</configuration>
+            <parameter>5060</parameter>
+            <parameter>UDP</parameter>
+            <variable>
+                <parameter>message200OK_headers</parameter>
+                <localvariable>PUBLIC_URI</localvariable>
+            </variable> 
+        </function-->
+
+        <!-- Set Received MESSAGE Request Headers to null -->
+        <function name="removeVariables" module="Basic">
+            <parameter><parameter>SIP/UDP/MESSAGE/</parameter><localvariable>PUBLIC_URI</localvariable></parameter>
+        </function>
+    </div>
+</test>

@@ -1,0 +1,96 @@
+<test>
+
+    <!-- set this before calling the subtest
+    <function name="setVariable" module="Basic">
+        <parameter>SISOPTIMISITC</parameter>
+        <parameter>false</parameter>
+    </function>
+    -->
+
+    <conditional variable="SISOPTIMISITC" targetValue="false" inverted="true">
+        <function name="setVariable" module="Basic">
+            <parameter>SISOPTIMISITC</parameter>
+            <parameter>true</parameter>
+        </function>
+    </conditional>
+    <conditional variable="SISBULKCHUNKSIZEMAX" targetValue="false" inverted="true">
+        <function name="setVariable" module="Basic">
+            <parameter>SISBULKCHUNKSIZEMAX</parameter>
+            <parameter>100</parameter>
+        </function>
+    </conditional>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile vasp.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Rainer Aschwanden (724 Solutions Inc.) --&gt;
+&lt;vasps xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="S:\source\xsd\vasps.xsd"&gt;
+	&lt;tpi&gt;
+		&lt;vasp id="</parameter>
+  <configuration>VASP/VASID</configuration>
+  <parameter>"&gt;
+<!-- old xma 3.0
+			&lt;services&gt;
+				&lt;service id="XTTService001" disabled="false" sisEnabled="true" sisIncludeInfos="1;3;7" sisContinueIfNotAvailable="</parameter>
+  <variable>SISOPTIMISITC</variable>
+  <parameter>" sisBulkTimeout="30000" sisBulkChunkSizeMax="</parameter>
+  <variable>SISBULKCHUNKSIZEMAX</variable>
+  <parameter>" /&gt;
+			&lt;/services&gt;
+-->
+&lt;services&gt;
+    &lt;service id="XTTService001" 
+    aaaEnabled="true" 
+    type="MmsBulk" 
+    subjectDefault="MMS" sisIncludeInfos="1;3;7" 
+    sisBulkTimeout="30000" 
+    sisBulkThreshold="50" sisBulkQueueEntriesMax="1024" sisBulkPriority="10" 
+    sisBulkChunkSizeMax="</parameter>
+  <variable>SISBULKCHUNKSIZEMAX</variable>
+  <parameter>" reportUrlDefault="http://</parameter>
+  <configuration>SYSTEM/IP</configuration>
+  <parameter>:</parameter>
+  <configuration>VASP/PORT</configuration>
+  <parameter>/</parameter>
+  <configuration>VASP/DIRECTORY</configuration>
+  <parameter>" aaaOptimistic="</parameter>
+  <variable>SISOPTIMISITC</variable>
+  <parameter>" 
+    toRecipientsMax="1000" 
+    recipientsMax="1000" 
+    ccRecipientsMax="1000" 
+    bccRecipientsMax="1000" </parameter>
+    <!--parameter>
+    signature="0" serviceClassDefault="Informational" serviceCategoryDefault="1" 
+    testMode="false" taxRateOverride="0.0" taxRateDefault="0.0" supportDRMForwardLock="false" 
+    priorityDefault="10" expiryTimeDefault="36000" earliestDeliveryTimeDefault="10" 
+    distributionIndicatorOverride="false" contentSizeMax="300" chargeTime="12" 
+    chargeAllowedValues="10" billingDestination="1" billingCode="MMS-102-Bulk" 
+    amountFormat="#0.0#" amountAllowedValues="2.0" 
+    allowedContentTypes="multipart/related;text/plain;image/gif;application/smil" 
+    allowReadReport="false" allowPlainMsisdn="true" allowDeliveryReport="false" 
+    allowAdaptionOverride="false" allowAdaptionDefault="false" </parameter-->
+    <parameter> /&gt; 
+&lt;/services&gt;
+		&lt;/vasp&gt;
+	&lt;/tpi&gt;
+&lt;/vasps&gt;
+</parameter>
+    </function>
+
+
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/vasp</configuration>
+        <parameter>vasp.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+</test>

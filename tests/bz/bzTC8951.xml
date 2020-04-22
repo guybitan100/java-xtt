@@ -1,0 +1,16 @@
+<test>
+    <function name="testName" module="Basic">
+		<parameter>BZ.TC.8160</parameter>
+	</function>
+
+    <description>Check CSS on Message Manager.</description>
+
+	<function name="sendGetRequest" module="HTTP">
+        <parameter>http://172.20.9.29:9999/msweb.html</parameter>    
+    </function>
+
+    <function name="queryBody" module="HTTP">
+    	<parameter>dev/null</parameter>
+    	<parameter>href="msweb_style.css"</parameter>    	
+    </function>
+</test>

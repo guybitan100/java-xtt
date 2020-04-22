@@ -1,0 +1,118 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>KasperskyIntegration.TC.031</name>
+    <description>MM7 -> MM3 / Virus Check is enabled / Submitted MMS doesn't contain virus / XMA accepts the submitted MMS and goes on the use case</description>
+
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+    <!-- Start SMTP Server and wait until it binds to XMA -->
+    <function name="startSMTPServer" module="SMTP"/>
+    
+    <!-- Load MNO file -->
+    <subtest>../loadMNO.xml</subtest>
+
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+    
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=No, ReadReply=No -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <configuration>VASP/VASPID</configuration>
+        <configuration>VASP/VASID</configuration>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+
+    <!-- recipient subscriber from database -->
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>MSISDN/1</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>plainMM7data.txt</file>
+    </function>
+
+  <!-- Send Request to MM7 -->
+    <function name="sendPostRequest" module="VASP"/>
+
+    <!-- Check for Response from MM7 -->
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+    </function>    
+
+    <!-- Wait for the MM3 request sent to the SMTP Server -->
+    <function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>
+    
+    <!-- check the from and to in the MM3 request as a minimum test -->
+    <function name="checkServerHeader" module="SMTP">
+        <parameter>
+            <variable>MSISDN/1</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+        <parameter>from</parameter>
+        <parameter>
+            <configuration>VASP/NUMBER</configuration>
+            <!--configuration>XMA/SELFDOMAIN</configuration-->
+        </parameter>
+    </function>
+    <function name="checkServerHeader" module="SMTP">
+        <parameter>
+            <variable>MSISDN/1</variable>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+        <parameter>to</parameter>
+        <parameter>
+            <variable>MSISDN/1</variable>
+            <!--configuration>XMA/SELFDOMAIN</configuration-->
+        </parameter>
+    </function>
+
+
+    <!-- Remove VASP File -->
+    <subtest>../restoreVASP.xml</subtest>
+
+	<!-- Remove MNO File -->
+	<subtest>../restoreMNO.xml</subtest>
+
+    <!-- Stop SMTP Server -->
+    <function name="stopSMTPServer" module="SMTP"/>
+</test>

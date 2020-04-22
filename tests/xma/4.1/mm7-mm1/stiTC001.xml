@@ -1,0 +1,84 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>STI.MM7.TC.001</name>
+    <description>Single MM7 message with STI and MM1 retrieval</description>
+
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+        <parameter>XMA/POSTPAY/ECCENABLED/MSISDN</parameter>
+    </subtest>
+
+    <subtest name="deleteMessagestoreAll" file="../deleteMessagestoreAll.xml"/>
+    <function name="startSMSCServer" module="SMS"/>
+    <function name="startSTIServer" module="STI"/>
+
+
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM7Soap" module="VASP"/>
+    
+     <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>MSISDN/1</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+    
+    <!--function name="previewRequest" module="VASP" /-->
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+    </function>
+    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+   
+
+    <function name="stopSMSCServer" module="SMS"/>    
+
+    <function name="setVariable" module="Basic">
+        <parameter>downloadNumber</parameter>
+        <variable>MSISDN/1</variable>
+    </function>
+    <subtest name="stiDownloadMMS" file="stiDownloadMMS.xml"/>
+
+    <function name="waitForRequests" module="STI">
+        <parameter>1</parameter>
+    </function>
+    <function name="validateXML" module="XML">
+        <variable>STISERVER/STI/SOAP</variable>
+        <parameter></parameter>
+        <parameter>http://schemas.xmlsoap.org/soap/envelope/</parameter>
+        <parameter>soapEnvelope.xsd</parameter>
+        <parameter>http://www.openmobilealliance.org/schema/sti/v1_0</parameter>
+        <parameter>OMA-TS-SCHEMA-STI-V1_0-20050607-C.xsd</parameter>
+    </function>
+    <function name="stopSTIServer" module="STI"/>
+</test>

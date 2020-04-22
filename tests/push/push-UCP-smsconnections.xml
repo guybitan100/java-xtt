@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xmpSmsConnections>
+	<channels>
+		<connectChannel policy="single_connection" settings="UCPConnectSetting" protocol="UCP" name="SmsChannel">
+			<remoteAddress port="" ipAddress=""/>
+			<connection settings="UCPConnectSetting" password="" username="xmp" address="30080" name="PUSH-CONNECTION"/>
+		</connectChannel>
+	</channels>
+	<settings>
+		<ucpSettings throttleIncomingTcp="true" maxConcurrentReq="5" maxPduSize="4096" disableAuthentication="false" use60Open="true" mode="active" linkDownRetryTimeoutSeconds="30" linkDownMaxRetries="1" maxMessagesPerSecond="10" name="UCPConnectSetting">
+			<connectionOptions serverAuthIpPort="" serverAuthIpAddress="" npi="5" ton="6" authenticationCode=""/>
+			<messageOptionSets>
+				<messageOptions sendOperation="51" optionName="NoDN" lastResortId="0539" lastResortAddress="30080" messageClass="0"/>
+			</messageOptionSets>
+		</ucpSettings>
+	</settings>
+</xmpSmsConnections>

@@ -1,0 +1,200 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>MM4ExtContentConversion.TC.017</name>
+    <description>EAIF -> MM4 / Partner has both size and content-type constraints / size fails</description>
+
+    <!-- message size set to zero indicate no size restriction -->
+    <function name="setVariable" module="Basic">
+        <parameter>messageSize</parameter>
+        <parameter>4</parameter>
+    </function> 
+
+    <!-- content type is set only these types are allowed -->
+     <function name="setVariable" module="Basic">
+        <parameter>contentType1</parameter>
+        <parameter>text/plain</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>contentType2</parameter>
+        <parameter>image/gif</parameter>
+    </function>
+     <function name="setVariable" module="Basic">
+        <parameter>contentType3</parameter>
+        <parameter>application/smil</parameter>
+     </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDN</parameter>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>MMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>EMAIL</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>MSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+            <configuration>XMA/SELFDOMAIN</configuration>
+        </parameter>
+    </function>
+    
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMSISDN</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETEMAIL</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>
+
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+		<!-- Set EAIF Address - Request is being hit from -->
+	<function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+        <configuration>VASP/NUMBER</configuration>
+    </function>
+
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <function name="startSMTPServer" module="SMTP"/>
+    <function name="startSMSCServer" module="SMS"/>
+
+    <!-- Load MNO File -->
+    <subtest>contentMNO.xml</subtest>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>OFFNETMSISDN</variable>
+        <parameter>400</parameter>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>false</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>Ola!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>sendMM7data.txt</base64encode>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>MessageID</parameter>
+        <variable>HTTP/HEADER/x-nokia-mmsc-message-id</variable>
+    </function>
+     
+	<function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>run command amocli -k -e (MMS_Req_Message-ID=='</parameter>
+            <variable>MessageID</variable>
+			<parameter>') search TI:F.CEE.</parameter>
+            <variable>msp</variable>
+            <parameter>:AMO</parameter>
+        </parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>MMS_DELIVERY_Status=Failed</parameter>
+        <parameter>status</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>MMS_Req_X-Mms-Status-Text=MM4 content size limit exceeded</parameter>
+        <parameter>status</parameter>
+    </function>
+    <function name="stopSMTPServer" module="SMTP"/>
+    <function name="stopSMSCServer" module="SMS"/>
+
+      <!-- Restore MNO file -->
+    <subtest>../restoreMNO.xml</subtest>
+
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+  
+</test>

@@ -1,0 +1,135 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>LOG.MM1.MM1.TC.022</name>
+    <description>Logcheck for SEND.MM1.MM1.TC.022</description>
+
+    <subtest name="restartProcesses" file="restartProcesses.xml"/>
+
+    <!-- don't do this, we use the standard ones from the test,
+        this makes it possible to call this test again just with diffrent numbers...
+    <function name="setVariable" module="Basic">
+        <parameter>MSISDNNAME</parameter>
+        <parameter>MSISDN</parameter>
+    </function>
+    <subtest name="MSISDN" file="sendMM1MM1TC022.xml">
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN0</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN1</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN2</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN3</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN4</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN5</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN6</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN7</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN8</configuration>
+        <configuration>XMA/POSTPAY/ENABLED/MSISDN9</configuration>
+    </subtest>
+    -->
+    <subtest name="MSISDN" file="sendMM1MM1TC022.xml"/>
+
+    <function name="sleep" module="Basic">
+        <parameter>60000</parameter>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>logscan_script.txt</parameter>
+        <file>logscan_script.txt</file>
+    </function>
+
+    <function name="getNewestRemoteFileName" module="Remote">
+        <parameter>newestlogfile</parameter>
+	    <configuration>remote/logpath</configuration>
+        <parameter>XMA</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+    	<parameter>
+            <configuration>remote/command</configuration>
+    	    <parameter>logscan -in </parameter>
+    	    <variable>newestlogfile</variable>
+            <parameter> -script logscan_script.txt</parameter>
+    	</parameter>
+    </function>
+    <function name="queryresponse" module="Remote">
+        <parameter>
+            <variable>MSISDN/0</variable>
+    	    <parameter>,</parameter>
+    	    <parameter>\d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}</parameter>
+    	    <parameter>,-,m-acknowledge-ind,Notified</parameter>
+        </parameter>
+	    <parameter>acknowledge</parameter>
+    </function>
+    <function name="compareString" module="Basic">
+	    <variable>acknowledge/length</variable>
+	    <parameter>10</parameter>
+    </function>
+    <function name="queryresponse" module="Remote">
+        <parameter>
+            <variable>MSISDN/0</variable>
+    	    <parameter>,</parameter>
+    	    <parameter>\d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}</parameter>
+    	    <parameter>,-,m-notifyresp-ind,Stored</parameter>
+        </parameter>
+	    <parameter>notifyresp</parameter>
+    </function>
+    <function name="compareString" module="Basic">
+	    <variable>notifyresp/length</variable>
+	    <parameter>10</parameter>
+    </function>
+    <function name="queryresponse" module="Remote">
+        <parameter>
+    	    <parameter>-,-</parameter>
+    	    <parameter>,</parameter>
+            <variable>log/messageID</variable>
+	        <parameter>,m-retrieve-req,Notified</parameter>
+        </parameter>
+	    <parameter>retreq</parameter>
+    </function>
+    <function name="compareString" module="Basic">
+	    <variable>retreq/length</variable>
+	    <parameter>10</parameter>
+    </function>
+    <function name="queryresponse" module="Remote">
+        <parameter>
+            <variable>MSISDN/0</variable>
+    	    <parameter>,</parameter>
+    	    <parameter>\d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}</parameter>
+    	    <parameter>,</parameter>
+            <variable>log/messageID</variable>
+	        <parameter>,m-send-req,Stored</parameter>
+        </parameter>
+	    <parameter>dev/null</parameter>
+    </function>
+
+    <function name="queryresponse" module="Remote">
+        <parameter>
+            <variable>MSISDN/0</variable>
+    	    <parameter>,</parameter>
+    	    <parameter>\d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}</parameter>
+    	    <parameter>,</parameter>
+            <variable>log/messageID</variable>
+	        <parameter>,m-notification-ind,Stored</parameter>
+        </parameter>
+	    <parameter>notind</parameter>
+    </function>
+    <function name="compareString" module="Basic">
+	    <variable>notind/length</variable>
+	    <parameter>10</parameter>
+    </function>
+    
+    <function name="queryresponse" module="Remote">
+        <parameter>
+            <variable>MSISDN/0</variable>
+    	    <parameter>,</parameter>
+    	    <parameter>\d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}, \d{11}</parameter>
+    	    <parameter>,</parameter>
+            <variable>log/messageID</variable>
+	        <parameter>,m-delivery-ind,Finished</parameter>
+        </parameter>
+	    <parameter>delind</parameter>
+    </function>
+    <function name="compareString" module="Basic">
+	    <variable>delind/length</variable>
+	    <parameter>10</parameter>
+    </function>
+
+</test>

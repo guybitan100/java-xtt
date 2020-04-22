@@ -1,0 +1,32 @@
+<test>
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>IN.MM1.</parameter>
+        <parameter>IN.MM1</parameter>
+    </function>
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>OUT.MM1.</parameter>
+        <parameter>OUT.MM1</parameter>
+    </function>
+
+    <function name="stopProcess" module="Remote">
+        <variable>IN.MM1</variable>
+    </function>
+    <function name="stopProcess" module="Remote">
+        <variable>OUT.MM1</variable>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+        <parameter>LOGGER</parameter>
+    </function>
+
+    <function name="startProcess" module="Remote">
+        <variable>IN.MM1</variable>
+    </function>
+    <function name="startProcess" module="Remote">
+        <variable>OUT.MM1</variable>
+    </function>
+
+    <function name="sleep" module="Basic">
+        <parameter>2000</parameter>
+    </function>
+</test>

@@ -1,0 +1,116 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.7874</parameter>
+    </function>
+
+   <function name="startWebServer" module="HTTP" />
+
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+    <!-- extract current configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>extract data requestmodifications </parameter>
+            <parameter>bzTC7874.test.xml</parameter>
+        </parameter>
+    </function>
+
+    <!-- check if extraction worked
+    <function name="queryResponse" module="Remote">
+        <parameter>^Extracted.*</parameter>
+        <parameter>test</parameter>
+    </function>-->
+
+    <!-- upload new reqmod configuration-->
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>bzTC7874-reqmod.xml</parameter>
+        <parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;requestModifications&gt;
+  &lt;table name="bz7874"&gt;
+    &lt;selector urlPattern="http://</parameter><configuration>SYSTEM/IP</configuration><parameter>/*"&gt;
+        &lt;modifyParameter name="user" value="Internal_NAI" caseSensitive="false"/&gt;
+        &lt;modifyParameter name="foo" value="'bar'" caseSensitive="false"/&gt;
+        &lt;modifyParameter name="removeme" caseSensitive="false"/&gt;
+    &lt;/selector&gt;
+  &lt;/table&gt;
+&lt;/requestModifications&gt;
+</parameter>
+        </parameter>
+    </function>
+
+    <!-- load new reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>load data bzTC7874-reqmod.xml</parameter>
+        </parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded -->
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>
+
+
+
+        <function name="setVariableLines" module="Basic">
+            <parameter>2</parameter>
+            <parameter>headers</parameter>
+            <parameter>POST http://</parameter>             <parameter><configuration>SYSTEM/IP</configuration><parameter> HTTP/1.1</parameter></parameter>
+            <parameter>User-Agent: </parameter>             <parameter>XTT/0.1</parameter>
+            <parameter>host: </parameter>                   <configuration>SYSTEM/IP</configuration>
+            <parameter>accept-encoding: </parameter>        <parameter>0</parameter>
+            <parameter>accept: </parameter>                 <parameter>*/*</parameter>
+            <parameter>content-type: </parameter>           <parameter>multipart/form-data;boundary=FlPm4LpSXsE</parameter>
+            <parameter>Proxy-connection: </parameter>       <parameter>keep-alive</parameter>
+            <parameter>content-length: </parameter>         <parameter>3140</parameter>
+            <parameter></parameter>                         <parameter></parameter>
+        </function>
+
+    <function name="sendTextPacket" module="TCP">
+        <configuration>HTTPPROXY/ip</configuration>
+        <configuration>HTTPPROXY/Port</configuration>
+        <parameter>
+            <variable>headers</variable>
+            <file>bzTC7874.dat</file>
+        </parameter>
+    </function>
+
+    <function name="queryTextResponse" module="TCP">
+        <parameter>response-code</parameter>
+        <parameter>HTTP/1.1 500 Internal Server Error</parameter>
+    </function>
+
+
+    <!-- load the old reqmod configuration -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data bzTC7874.test.xml</parameter>
+    </function>
+
+    <!-- check if new configuration is successfully loaded
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded requestmodifications.*</parameter>
+        <parameter>test</parameter>
+    </function>-->
+
+    <!-- remove file -->
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>rm -f bzTC7874-reqmod.xml</parameter>
+    </function>
+    <!-- remove file -->
+    <function name="executeRemoteCommand" module="Remote">
+        <parameter>rm -f bzTC7874.test.xml</parameter>
+    </function>
+
+
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+
+   <function name="stopWebServer" module="HTTP" />
+</test>

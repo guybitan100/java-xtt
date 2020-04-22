@@ -1,0 +1,58 @@
+<test>
+	<name>RedundantElementElimination.TC.001</name>
+	<description>Validate Comments are properly removed from the Source HTML Pages</description>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<function name="startWebServer" module="HTTP">
+		<parameter>80</parameter>
+        	<testpath/>
+		<parameter>60000</parameter>
+	</function>
+
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+    		<parameter>http://</parameter>
+    		<configuration>system/ip</configuration>
+    		<parameter>/RedundantElementEliminationTC002.html</parameter>
+		</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="queryBody" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>Redundant Element Elimination</parameter>
+	</function>
+	
+	<function name="queryBodyNegative" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>This the comment1 that should be removed</parameter>
+	</function>
+	
+	<function name="queryBodyNegative" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>This the comment2 that should be removed</parameter>
+	</function>
+	
+	<function name="queryBodyNegative" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>This the comment3 that should be removed</parameter>
+	</function>
+	
+	<function name="queryBodyNegative" module="HTTP">
+		<parameter>dev/null</parameter>
+		<parameter>This the comment4 that should be removed</parameter>
+	</function>
+	
+	<function name="stopWebServer" module="HTTP"/>
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+</test>

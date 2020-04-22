@@ -1,0 +1,6 @@
+<configuration>
+	<pushTestSpecific>
+		<msisdn>000111222</msisdn>
+		<href>wab.sbc.ch</href>
+	</pushTestSpecific>
+</configuration>

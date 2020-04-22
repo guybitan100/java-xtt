@@ -1,0 +1,21 @@
+<test>
+
+	<description> SOAP-API-provisioning-core{addDevice( )}: Test for empty or null value. </description>
+
+	<function name="testName" module="Basic">
+		<parameter>XMA-Provisioning-core-1.1.1.0</parameter>
+	</function>
+
+	<function name="SOAPClient" module="SOAP_API" >
+		<parameter>
+			<configuration>XMA/PROVAPI/PROTOCOL</configuration>
+			<configuration>XMA/PROVAPI/IP</configuration>
+			<parameter>:</parameter>
+			<configuration>XMA/PROVAPI/PORT</configuration>
+			<parameter>/jaxws-provisioning-core/provisioning</parameter>
+		</parameter>
+		<file>addDeviceNull.xml</file>
+		<parameter>Body/return</parameter>
+	</function>
+
+</test>

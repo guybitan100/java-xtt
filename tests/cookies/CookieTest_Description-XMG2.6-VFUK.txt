@@ -1,0 +1,1428 @@
+
+
+=======================================================================================================
+---- XMG2.6    Vodafon-UK  -  Cookie Tests                       CookieTest_Description-XMG2.6-VFUK.txt
+=======================================================================================================
+
+
+
+
+=========================================================================================================
+----
+---- Vodafon-UK  Cookie-Test                >> Test  Listing <<
+----
+=========================================================================================================
+
+---- T0000:	Check Cookie-Test Environment: 	----
+COOKIES.T0000.Sub0000  -  XTT Configuration-File for cookie tests
+COOKIES.WAP1.T0101.Sub0001  -  Test the XTT Cookie-Test-Environment for WAP1.x
+
+---- T0102:	Session cookie tests: 	----
+COOKIES.WAP1.T0102.Sub0001  -  Verify Session-Cookie stored in gwy
+COOKIES.WAP1.T0102.Sub0002  -  Verify Session-Cookie removed after session-end
+COOKIES.WAP1.T0102.Sub0003  -  Verify Session-Cookie update
+COOKIES.WAP1.T0102.Sub0004  -  Verify Session-Cookie ( 3 cookies)
+COOKIES.WAP1.T0102.Sub0005  -  Verify Session-Cookie (20 cookies)
+COOKIES.WAP1.T0102.Sub0006  -  Verify Session-Cookie (set 5 cookies, delete one)
+COOKIES.WAP1.T0102.Sub0007  -  Verify Session-Cookie (set 3 cookies, delete all)
+
+---- T0103:	Persistent cookie tests: 	----
+COOKIES.WAP1.T0103.Sub0001  -  Verify Persistent-Cookie stored in xmg-gwy and injected.
+COOKIES.WAP1.T0103.Sub0002  -  Verify Persistent-Cookie (logoff)
+COOKIES.WAP1.T0103.Sub0003  -  Verify Persistent-Cookie update
+COOKIES.WAP1.T0103.Sub0004  -  Verify Persistent-Cookie delete
+COOKIES.WAP1.T0103.Sub0005  -  Verify Persistent-Cookie ( 3 cookies)
+COOKIES.WAP1.T0103.Sub0006  -  Verify Persistent-Cookie (20 cookies)		
+COOKIES.WAP1.T0103.Sub0007  -  Verify Persistent-Cookie (set 5 cookies, delete one)
+
+---- T0104:	Mixed cookie tests: 	----
+COOKIES.WAP1.T0104.Sub0001  -  Verify Persistent-Cookie & Session-Cookie stored in gwy 
+COOKIES.WAP1.T0104.Sub0002  -  Verify Persistent-Cookie & Session-Cookie ( 3 session &  5 persistent)
+COOKIES.WAP1.T0104.Sub0003  -  Verify Persistent-Cookie & Session-Cookie (20 session & 20 persistent)
+COOKIES.WAP1.T0104.Sub0004  -  Verify Persistent-Cookie & Session-Cookie, session cookie removed after logoff, pers not
+COOKIES.WAP1.T0104.Sub0005  -  Verify Persistent-Cookie & Session-Cookie update some cookies 
+COOKIES.WAP1.T0104.Sub0006  -  Verify Persistent-Cookie & Session-Cookie delete some cookies
+COOKIES.WAP1.T0104.Sub0007  -  Verify Persistent-Cookie & Session-Cookie, HTTP/1.0, HTTP/1.1, secure, non secure
+
+---- T0105:	Multi-User cookie tests: ----
+COOKIES.WAP1.T0105.Sub0001  -  Multi-User & Single-Session: Different Users, same IP address
+COOKIES.WAP1.T0105.Sub0002  -  Multi-User & Single-Session: Different Users, different IP address (manual test, not suported in xtt)
+COOKIES.WAP1.T0105.Sub0003  -  Multi-User & Concurrent-Session:	Different Users, same IP address  (manual test, not suported in xtt)
+COOKIES.WAP1.T0105.Sub0004  -  Multi-User & Concurrent-Session:	Different Users, different IP address (manual test, not suported in xtt)
+(Xtt: Not possible to have two concurrent sessions, Not possible to spoove IP addresses) 
+
+---- T0106:	Multi service process cookie tests: ----
+COOKIES.WAP1.T0106.Sub0001  -  Two service process cookie test
+COOKIES.WAP1.T0106.Sub0002  -  Two service process update cookie test
+COOKIES.WAP1.T0106.Sub0003  -  Two service process delete cookie test
+COOKIES.WAP1.T0106.Sub0004  -  Two service process timeout cookie test
+COOKIES.WAP1.T0106.Sub0005  -  Two service process mixed cookie test
+
+---- T0107:	Cookie live-time tests: 	----
+COOKIES.WAP1.T0107.Sub0001  -  Persistent-Cookies expiration, cookie timout.
+COOKIES.WAP1.T0107.Sub0002  -  Persistent-Cookies expiration, XMG cookie timout.
+COOKIES.WAP1.T0107.Sub0003  -  Persistent-Cookies expiration, cookies NOT removed at session end.
+COOKIES.WAP1.T0107.Sub0004  -  Persistent-Cookies expiration, cookies NOT removed after logoff/logon.
+COOKIES.WAP1.T0107.Sub0005  -  Persistent-Cookies expiration, different cookies expirations.
+COOKIES.WAP1.T0107.Sub0006  -  Persistent-Cookies expiration, cookie timout in RFC 850 format.
+COOKIES.WAP1.T0107.Sub0007  -  Persistent-Cookies expiration, cookie timout in in RFC 1036 format.
+COOKIES.WAP1.T0107.Sub0008  -  Persistent-Cookies expiration, cookie timout in in ANSI C   format.
+COOKIES.WAP1.T0107.Sub0009  -  Persistent-Cookies expiration, wrong expire-value.
+
+---- T0108:	Cookie limitation tests: 	----
+COOKIES.WAP1.T0108.Sub0001  -  Cookies per request, 80 ( 40 session- &  40 persistent-cookies).
+COOKIES.WAP1.T0108.Sub0002  -  Cookies per request, 300 (150 session- &  150 persistent-cookies).
+COOKIES.WAP1.T0108.Sub0003  -  Cookie length, 4096 bytes per cookie.
+COOKIES.WAP1.T0108.Sub0004  -  Cookies per host, 20 cookies.
+COOKIES.WAP1.T0108.Sub0005  -  Cookies per domain, 20 cookies.
+COOKIES.WAP1.T0108.Sub0006  -  Cookie is to long, set cookie 5000 byte.
+COOKIES.WAP1.T0108.Sub0007  -  To many cookies per client, set 320 cookies.
+
+---- T0109:	Special cookie tests: 	----
+COOKIES.WAP1.T0109.Sub0001  -  Cookie path match test.
+COOKIES.WAP1.T0109.Sub0002  -  NO cookie path match test.
+COOKIES.WAP1.T0109.Sub0003  -  Mixed cookie path match test.
+COOKIES.WAP1.T0109.Sub0004  -  No domain match test.
+COOKIES.WAP1.T0109.Sub0005  -  Mixed cookie tests using a HTTP/1.0, HTTP/1.1, secure and non-secure
+
+
+
+===========================================================================================
+---- VODA-Special   Cookie-Test: ----------------------------------------------------------
+===========================================================================================
+
+---- T12xx:	VODA-Special cookie tests:	----
+COOKIES.V1202.Sub0001  -  WAP1: Verify WAP1.x Session-Cookie not stored in WAP gateway if excluded by target URL.
+COOKIES.V1203.Sub0001  -  WAP1: As 1202 but excluded URL includes a port #. 
+COOKIES.V1204.Sub0001  -  WAP1: As 1202 but request URL from device uses different port #. 
+COOKIES.V1205.Sub0001  -  WAP1: As 1202 but excluded URL includes path prefix.
+COOKIES.V1206.Sub0001  -  WAP2.0: Verify that no cookie handling performed for WAP2.0 User Agents.
+COOKIES.V1207.Sub0001  -  HTTP: Verify that no cookie handling performed for HTTP User Agents.
+
+
+
+
+
+=========================================================================================================
+----
+---- Vodafon-UK   Cookie-Test             >> Detail  Test  Description <<
+----
+=========================================================================================================
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.T0000.Sub0000  -  XTT Configuration-File for cookie tests.
+
+Test Description:
+ 1. This is the xtt configuration file for all the cookie tests
+    This file is included by all cookie test cases (xml) file
+
+Expected Result:
+ -  n.a. 
+
+XTT Commands:
+ -  See the xtt test-definition xml-file. 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0101.Sub0002  -  Test the XTT Cookie-Test-Environment for WAP1.x
+
+Test Description:
+ 1. Radius Logon
+ 2. Check if we can reach the xttWebServer via WAP
+ 3. Radius Logoff
+
+Expected Result:
+ -  Send and receive WAP1-Requests via xmg-gwy to/from xttWebServer. 
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0102.Sub0001  - Verify Session-Cookie stored in xmg-gwy and injected.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set a Session-Cookie
+ 4. Check if Session-Cookie is injected
+ 5. Disconnect from WAP gateway
+ 6. Radius Logoff
+
+Expected Result:
+ -  Session-Cookie is stored in xmg-gwy and injected.
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0102.Sub0002  - Verify Session-Cookie is removed after Session-End.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set a Session-Cookie
+ 4. Radius Logon - Logoff
+ 5. Check if Session-Cookie is NOT injected
+ 6. Disconnect from WAP gateway
+ 7. Radius Logoff
+
+Expected Result:
+ -  Session-Cookie is removed and NOT injected after Session-End.
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0102.Sub0003  - Verify Session-Cookie update.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set a Session-Cookie
+ 4. Check if Session-Cookie is injected
+ 5. Update Session-Cookie
+ 6. Check if updated Session-Cookie is injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Updated Session-Cookie is stored in xmg-gwy and injected.
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0102.Sub0004  - Verify Session-Cookie ( 3 cookies)
+
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set three Session-Cookies
+ 4. Check if Session-Cookies are injected
+ 5. Disconnect from WAP gateway
+ 6. Radius Logoff
+
+Expected Result:
+ -  Session-Cookies are stored in xmg-gwy and injected.
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0102.Sub0005  - Verify Session-Cookie (20 cookies)
+
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 20 Session-Cookies
+ 4. Check if Session-Cookies are injected
+ 5. Disconnect from WAP gateway
+ 6. Radius Logoff
+
+Expected Result:
+ -  Session-Cookies are stored in xmg-gwy and injected.
+
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0102.Sub0006  - Verify Session-Cookie (set 5 cookies, delete one)
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Session-Cookies
+ 4. Check if Session-Cookies are injected
+ 5. Delete one Session-Cookie
+ 6. Check if 4 Session-Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ a. Delete one Session-Cookie.
+ b. 4 Session-Cookies are still in xmg-gwy and injected.
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0102.Sub0007  - Verify Session-Cookie (set 3 cookies, delete all)
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 3 Session-Cookies
+ 4. Check if Session-Cookies are injected
+ 5. Delete all Session-Cookie
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  3, then NO session-Cookies stored in xmg-gwy and injected.
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0103.Sub0001  -  Verify Persistent-Cookie stored in xmg-gwy and injected.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set a Persistent-Cookie
+ 4. Check if Persistent-Cookie is injected
+ 5. Remove Persistent-Cookie
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ a.  Persistent-Cookie is stored  in xmg-gwy and injected.
+ b.  Persistent-Cookie is removed in xmg-gwy and NOT injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0103.Sub0002  -  Verify Persistent-Cookie and session logoff/logon.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set a Persistent-Cookie
+ 4. Check if Persistent-Cookie is injected
+ 5. Disconnect from WAP gateway
+ 6. Radius logoff and logon
+ 7. Connect to WAP gateway
+ 8. Check if Persistent-Cookie is injected
+ 9. Remove Persistent-Cookie
+10. Check if NO Cookies are injected
+11. Disconnect from WAP gateway
+12. Radius Logoff
+
+Expected Result:
+ -  Persistent-Cookie is NOT removed in xmg-gwy after logoff/logon
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0103.Sub0003  -  Verify Persistent-Cookie update.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set a Persistent-Cookie
+ 4. Check if Persistent-Cookie is injected
+ 5. Update the Persistent-Cookie
+ 6. Check if updated Persistent-Cookie is injected
+ 7. Remove updated Persistent-Cookie
+ 8. Check if NO Cookies are injected
+ 9. Disconnect from WAP gateway
+10. Radius Logoff
+
+Expected Result:
+ -  Persistent-Cookie is updated in xmg-gwy and injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0103.Sub0004  -  Verify Persistent-Cookie delete.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set a Persistent-Cookie
+ 4. Check if Persistent-Cookie is injected
+ 5. Delete the Persistent-Cookie
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Persistent-Cookie is deleted in xmg-gwy and not injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0103.Sub0005  -  Verify Persistent-Cookie ( 3 cookies).
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 3 Persistent-Cookie
+ 4. Check if Persistent-Cookies are injected
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Persistent-Cookies is stored in xmg-gwy and injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0103.Sub0006  -  Verify Persistent-Cookie ( 20 cookies).
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 20 Persistent-Cookie
+ 4. Check if Persistent-Cookies are injected
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Persistent-Cookies is stored in xmg-gwy and injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0103.Sub0007  -  Verify Persistent-Cookie (set 5 cookies, delete one).
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies
+ 4. Check if Persistent-Cookies are injected
+ 5. Remove one Persistent-Cookie
+ 6. Check if 4 Persistent-Cookies are injected
+ 7. Delete the Persistent-Cookie
+ 8. Check if NO Cookies are injected
+ 9. Disconnect from WAP gateway
+10. Radius Logoff
+
+Expected Result:
+ a. One Persistent-Cookie is removed in xmg-gwy and NOT injected.
+ b. Three Persistent-Cookies are still in xmg-gwy and injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0104.Sub0001  -  Verify Persistent-Cookie & Session-Cookie stored in gwy.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 1 Session-Cookie and 1 Persistent-Cookie 
+ 4. Check if 1 Session-Cookie and 1 Persistent-Cookie is injected
+ 5. Remove all cookies
+ 6. Check if NO cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure mixed cookies can be stored in xmg-gwy and are injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0104.Sub0002  -  Verify Persistent-Cookie & Session-Cookie ( 3 session &  5 persistent).
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 3 Session-Cookies and 5 Persistent-Cookies
+ 4. Check if 3 Session-Cookies and 5 Persistent-Cookies are injected
+ 5. Remove all Persistent-Cookies
+ 6. Disconnect from WAP gateway
+ 7. Radius Logoff - Logon
+ 8. Connect to WAP gateway
+ 9. Check if NO Cookies are injected
+10. Disconnect from WAP gateway
+11. Radius Logoff
+
+Expected Result:
+ -  Ensure mixed cookies can be stored in xmg-gwy and are injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0104.Sub0003  -  Verify Persistent-Cookie & Session-Cookie ( 20 session &  20 persistent).
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 20 Session-Cookies and 20 Persistent-Cookies
+ 4. Check if 20 Session-Cookies and 20 Persistent-Cookies are injected
+ 5. Remove all Persistent-Cookies
+ 6. Disconnect from WAP gateway
+ 7. Radius Logoff - Logon
+ 8. Connect to WAP gateway
+ 9. Check if NO Cookies are injected
+10. Disconnect from WAP gateway
+11. Radius Logoff
+
+Expected Result:
+ -  Ensure mixed cookies can be stored in xmg-gwy and are injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0104.Sub0004  -  Verify Persistent-Cookie & Session-Cookie, Session-Cookies are removed after logoff, Persistent-Cookies not.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 3 Session-Cookies and 5 Persistent-Cookies
+ 4. Check if 3 Session-Cookies and 5 Persistent-Cookies are injected
+ 5. Radius Logon - Logoff
+ 6. Check if 5 Persistent-Cookies are still injected
+ 7. Remove all Persistent-Cookies
+ 8. Check if NO Cookies are injected
+ 9. Disconnect from WAP gateway
+10. Radius Logoff
+
+Expected Result:
+ -  Ensure Persistent-Cookies remain in the xmg-gwy and are injected after logon/logoff.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0104.Sub0005  -  Verify Persistent-Cookie & Session-Cookie update some cookies.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 3 Session-Cookies and 5 Persistent-Cookies
+ 4. Check if 3 Session-Cookies and 5 Persistent-Cookies are injected
+ 5. Update 2 Persistent-Cookies
+ 6. Check if updated Persistent-Cookie is injected
+ 7. Update the 1 Session-Cookie
+ 8. Check if updated Session-Cookie is injected
+ 9. Remove all Persistent-Cookie
+10. Check if NO Persistent-Cookie are injected
+11. Disconnect from WAP gateway
+12. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies remain in the xmg-gwy and are injected after updating some cookies.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0104.Sub0006  -  Verify Persistent-Cookie & Session-Cookie delete some cookies.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 3 Session-Cookies and 5 Persistent-Cookies
+ 4. Check if 3 Session-Cookies and 5 Persistent-Cookies are injected
+ 5. Delete 2 Persistent-Cookies
+ 6. Check if 3 Persistent-Cookie are still injected
+ 7. Selete the 1 Session-Cookie
+ 8. Check if 2 Session-Cookies are still injected
+ 9. Remove all Persistent-Cookie
+10. Check if NO Persistent-Cookie are injected
+11. Disconnect from WAP gateway
+12. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies remain in the xmg-gwy and are injected after deleting some cookies.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0104.Sub0007  -  Verify Persistent-Cookie & Session-Cookie, HTTP/1.0, HTTP/1.1, secure, non secure.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 3 Session-Cookies and 5 Persistent-Cookies, HTTP/1.0, HTTP/1.1, secure, non secure
+ 4. Check if Cookies are injected properly
+ 9. Remove all Persistent-Cookies
+10. Check if NO Persistent-Cookie are injected
+11. Disconnect from WAP gateway
+12. Radius Logoff
+
+Expected Result:
+ -  Ensure mixed cookies are injected properly.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0105.Sub0001  -  Multi-User & Single-Session: Different Users, same IP address.
+
+Test Description:
+ 1. Radius Logon XttUser1
+ 2. Connect to WAP gateway
+ 3. Set 3 Session-Cookies and 5 Persistent-Cookies
+ 4. Check if Cookies are injected properly
+ 5. Disconnect from WAP gateway
+ 6. Radius Logoff XttUser1
+ 7. Radius Logon  XttUser2
+ 8. Connect to WAP gateway
+ 9. Check if NO cookies are injected for the new user
+10. Disconnect from WAP gateway
+11. Radius Logoff XttUser2
+12. Radius Logon XttUser1
+13. Connect to WAP gateway
+14. Check if Persistent-Cookies are injected properly
+15. Remove all Persistent-Cookies
+16. Check if NO Persistent-Cookie are injected
+17. Disconnect from WAP gateway
+18. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies are NOT mixed up between different users with the same IP address.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0105.Sub0002  -  Multi-User & Single-Session: Different Users, different IP address.
+
+Test Description:	(manual test, not suported in xtt)
+
+Expected Result:
+ -  Ensure cookies are NOT mixed up between different users with different IP address.
+ 
+XTT Commands:
+ -  na. (Xtt: Not possible to spoove IP addresses) 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0105.Sub0003  -  Multi-User & Concurrent-Session:	Different Users, same IP address.
+
+Test Description:	(manual test, not suported in xtt)
+
+Expected Result:
+ -  Ensure cookies are NOT mixed up between different users with the same IP address.
+ 
+XTT Commands:
+ -  na. (Xtt: Not possible to have two concurrent sessions) 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0105.Sub0004  -  Multi-User & Concurrent-Session:	Different Users, different IP address.
+
+Test Description:	(manual test, not suported in xtt)
+
+Expected Result:
+ -  Ensure cookies are NOT mixed up between different users with different IP address.
+ 
+XTT Commands:
+ -  na. (Xtt: Not possible to have two concurrent sessions, Not possible to spoove IP addresses) 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0106.Sub0001  -  Two service process cookie test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway SP-1
+ 3. Set 5 Persistent-Cookies
+ 4. Check if 5 Persistent-Cookies are injected
+ 5. Disconnect from WAP gateway SP-1
+
+10. Connect to WAP gateway SP-2
+11. Check if 5 Persistent-Cookie are still injected
+12. Remove all Persistent-Cookie
+13. Check if NO Persistent-Cookie are injected
+14. Disconnect from WAP gateway SP-2
+15. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies are correct injected in both service processes.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0106.Sub0002  -  Two service process update cookie test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway SP-1
+ 3. Set 5 Persistent-Cookies
+ 4. Check 5 Persistent-Cookies are injected
+ 5. Disconnect from WAP gateway SP-1
+
+ 6. Connect to WAP gateway SP-2
+ 7. Check if 5 Persistent-Cookie are still injected
+ 8. Update one Persistent-Cookie
+ 9. Disconnect from WAP gateway SP-2
+
+10. Connect to WAP gateway SP-1
+11. Check if 5 Persistent-Cookie (one updated) are still injected
+
+12. Remove all Persistent-Cookie
+13. Check if NO Persistent-Cookie are injected
+14. Disconnect from WAP gateway SP-1
+15. Radius Logoff
+
+Expected Result:
+ -  Ensure updated cookie is injected in both service processes.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0106.Sub0003  -  Two service process delete cookie test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway SP-1
+ 3. Set 5 Persistent-Cookies
+ 4. Check 5 Persistent-Cookies are injected
+ 5. Disconnect from WAP gateway SP-1
+
+ 6. Connect to WAP gateway SP-2
+ 7. Check if 5 Persistent-Cookie are still injected
+ 8. Delete one Persistent-Cookie
+ 9. Disconnect from WAP gateway SP-2
+
+10. Connect to WAP gateway SP-1
+11. Check if 4 Persistent-Cookies are still injected
+
+12. Remove all Persistent-Cookie
+13. Check if NO Persistent-Cookie are injected
+14. Disconnect from WAP gateway SP-1
+15. Radius Logoff
+
+Expected Result:
+ -  Ensure deleted cookie is NOT injected in both service processes.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0106.Sub0004  -  Two service process timeout cookie test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway SP-1
+ 3. Set 1 Persistent-Cookie timout 1 min.
+ 4. Check 1 Persistent-Cookies is injected
+ 5. Disconnect from WAP gateway SP-1
+ 6. Connect to WAP gateway SP-2
+ 7. Check if 1 Persistent-Cookies is injected
+ 8. Wait 2 min
+ 9. Check if NO Persistent-Cookies are injected
+10. Disconnect from WAP gateway SP-2
+11. Connect to WAP gateway SP-1
+12. Check if NO Persistent-Cookies are injected
+13. Disconnect from WAP gateway SP-1
+14. Radius Logoff
+
+Expected Result:
+ -  Ensure timeout cookie is NOT injected in both service processes.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0106.Sub0005  -  Two service process mixed cookie test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway SP-1
+ 3. Set 3 Session-Cookies and 5 Persistent-Cookies
+ 4. Check if Cookies are injected properly
+ 5. Disconnect from WAP gateway SP-1
+ 
+ 6. Connect to WAP gateway SP-2
+ 7. Check if Cookies are injected properly
+ 8. Delete one Persistent-Cookie
+ 9. Disconnect from WAP gateway SP-2
+10. Connect to WAP gateway SP-1
+11. Check if Cookies are injected properly
+12. Disconnect from WAP gateway SP-1
+13. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies are correct injected in both service processes.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0107.Sub0001  -  Persistent-Cookies expiration, cookie timout.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies (expiration time 2 min).
+ 4. Check if Cookies are injected properly
+ 5. Wait 1 minutes
+ 6. Check if Cookies are still injected properly
+ 7. Wait 2 minutes
+ 8. Check if Cookies are NOT injected anymore
+ 9. Disconnect from WAP gateway
+10. Radius Logoff
+
+Expected Result:
+ -  Ensure a cookie remain in the db for the time specified.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0107.Sub0002  -  Persistent-Cookies expiration, XMG cookie timout.
+
+Test Description:
+
+ 0. Set XMG cookie timout to 2 min
+
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies (expiration time 10 min).
+ 4. Check if Cookies are injected properly
+ 5. Wait 1 minutes
+ 6. Check if Cookies are still injected properly
+ 7. Wait 2 minutes
+ 8. Check if Cookies are NOT injected anymore
+ 9. Disconnect from WAP gateway
+10. Radius Logoff
+
+Expected Result:
+ -  Ensure a cookie is removed after XMG cookie timout.
+ 
+Note:
+ -  Set the cookie timout in the XMG-OC shorter then the timeout in the cookie itself.
+
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0107.Sub0003  -  Persistent-Cookies expiration, cookies NOT removed at session end.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies (expiration time 10 min).
+ 4. Check if Cookies are injected properly
+ 5. Disconnect from WAP gateway
+ 6. Connect to WAP gateway
+ 7. Check if Cookies are still injected properly
+ 8. Remove all Persistent-Cookie
+ 9. Check if NO Cookies are injected
+10. Disconnect from WAP gateway
+11. Radius Logoff
+
+Expected Result:
+ -  Ensure that persistant cookies are NOT removed at session end.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0107.Sub0004  -  Persistent-Cookies expiration, cookies NOT removed after logoff/logon.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies (expiration time 10 min).
+ 4. Check if Cookies are injected properly
+ 5. Disconnect from WAP gateway
+ 6. Radius Logoff - Logon
+ 7. Connect to WAP gateway
+ 8. Check if Cookies are still injected properly
+ 9. Remove all Persistent-Cookie
+10. Check if NO Cookies are injected
+11. Disconnect from WAP gateway
+12. Radius Logoff
+
+Expected Result:
+ -  Ensure that persistant cookies are NOT removed after logoff/logon
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0107.Sub0005  -  Persistent-Cookies expiration, different cookies expirations.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 1 Persistent-Cookies (expiration time 1 min).
+ 4. Set 2 Persistent-Cookies (expiration time 3 min).
+ 5. Set 3 Persistent-Cookies (expiration time 5 min).
+ 6. Check if Cookies are injected properly
+ 7. Wait 2 minutes
+ 8. Check if Cookies are injected properly
+ 9. Wait 2 minutes
+10. Check if Cookies are injected properly
+11. Wait 2 minutes
+12. Check if Cookies are NOT injected anymore
+13. Disconnect from WAP gateway
+14. Radius Logoff
+
+Expected Result:
+ -  Ensure that different cookies expirations are handled correct
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0107.Sub0006  -  Persistent-Cookies expiration, cookie timout in RFC 850 format.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies (expiration time 2 min, timout in RFC 850 format).
+ 4. Check if Cookies are injected properly
+ 5. Wait 1 minutes
+ 6. Check if Cookies are still injected properly
+ 7. Wait 2 minutes
+ 8. Check if Cookies are NOT injected anymore
+ 9. Disconnect from WAP gateway
+10. Radius Logoff
+
+Expected Result:
+ -  Ensure cookie expiration is handled correct.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0107.Sub0007  -  Persistent-Cookies expiration, cookie timout in RFC 1036 format.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies (expiration time 2 min, timout in RFC 1036 format).
+ 4. Check if Cookies are injected properly
+ 5. Wait 1 minutes
+ 6. Check if Cookies are still injected properly
+ 7. Wait 2 minutes
+ 8. Check if Cookies are NOT injected anymore
+ 9. Disconnect from WAP gateway
+10. Radius Logoff
+
+Expected Result:
+ -  Ensure cookie expiration is handled correct.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0107.Sub0008  -  Persistent-Cookies expiration, cookie timout in ANSI C format.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies (expiration time 2 min, timout in ANSI C format).
+ 4. Check if Cookies are injected properly
+ 5. Wait 1 minutes
+ 6. Check if Cookies are still injected properly
+ 7. Wait 2 minutes
+ 8. Check if Cookies are NOT injected anymore
+ 9. Disconnect from WAP gateway
+10. Radius Logoff
+
+Expected Result:
+ -  Ensure cookie expiration is handled correct.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0107.Sub0009  -  Persistent-Cookies expiration, wrong expire-value.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 5 Persistent-Cookies (expiration time 2 min, wrong expire-value).
+ 4. Check if we get a proper error message
+ 5. Disconnect from WAP gateway
+ 6. Radius Logoff
+
+Expected Result:
+ -  Ensure we get a proper error message. xxxx need to be tested xxxx
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0108.Sub0001  -  Cookies per request, 80 (40 session- &  40 persistent-cookies).
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 40 Session-Cookies and 40 Persistent-Cookies
+ 4. Check if 40 Session-Cookies and 40 Persistent-Cookies are injected
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure that 40 + 40 mixed cookies can be stored in xmg-gwy and are injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0108.Sub0002  -  300 Cookies per request, 300 (150 session- &  150 persistent-cookies).
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 150 Session-Cookies and 150 Persistent-Cookies
+ 4. Check if 150 Session-Cookies and 150 Persistent-Cookies are injected
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we can have at least 300 cookies per client.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0108.Sub0003  -  Cookie lengh, 4096 bytes per cookie.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 1 Persistent-Cookie byte-length 4096
+ 4. Check if cookie is injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we can have 4096 bytes per cookie.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0108.Sub0004  -  Cookies per host, 20 cookies.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 20 Persistent-Cookie (same host name)
+ 4. Check if cookies are injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we can have 20 cookies per unique host name.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0108.Sub0005  -  Cookies per domain, 20 cookies.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 20 Persistent-Cookie (same domain name)
+ 4. Check if cookies are injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we can have 20 cookies per unique domain name.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0108.Sub0006  -  Cookie is to long, set cookie 5000 byte.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 1 Persistent-Cookie byte-length 5000
+ 4. Check if we get a proper error message
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we get a proper error message. xxxx need to be tested xxxx.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0108.Sub0007  -  To many cookies per client, set 320 cookies.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 320 Persistent-Cookies
+ 4. Check if we get a proper error message
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we get a proper error message. xxxx need to be tested xxxx.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0109.Sub0001  -  Cookie path match test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 1 Persistent-Cookies (path match)
+ 4. Check if cookie is injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we have a match and cookie is injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0109.Sub0002  -  NO cookie path match test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 1 Persistent-Cookies (path NO match)
+ 4. Check if cookie is NOT injected
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we don't have a match and cookie is NOT injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0109.Sub0003  -  Mixed cookie path match test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 2 Persistent-Cookies (one path match, one NO path match)
+ 4. Check if cookie is injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we have a match and cookie is injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.WAP1.T0109.Sub0004  -  No domain match test.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set 1 Persistent-Cookies (domain NO match)
+ 4. Check if cookie is NOT injected
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure we don't have a match and cookie is NOT injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.WAP1.T0109.Sub0005  -  Mixed cookie tests using a HTTP/1.0, HTTP/1.1, secure and non-secure.
+
+Test Description:
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set some different Session- and Persistent-Cookies
+ 4. Check if Cookies is injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies are correct injected.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+
+
+
+
+===========================================================================================
+---- VODA-Special   Cookie-Test: ----------------------------------------------------------
+===========================================================================================
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.V1202.Sub0001  -  WAP1: Verify Cookies are not stored in WAP gateway if excluded by target URL.
+
+Test Description:
+
+ 0. Set some target URL exclusion
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set some mixed Cookies
+ 4. Check if Cookies is injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies are not stored in WAP gateway if excluded by target URL.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.V1203.Sub0001  -  WAP1: As 1202 but excluded URL includes a port #. 
+Test Description:
+
+ 0. Set some target URL exclusion, including a port #
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set some mixed cookies
+ 4. Check if Cookies is injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies are not stored in WAP gateway if excluded by target URL.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.V1204.Sub0001  -  WAP1: As 1202 but request URL from device uses different port #. 
+Test Description:
+
+ 0. Set some target URL exclusion, with different port #
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set some mixed cookies
+ 4. Check if Cookies is injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies are not stored in WAP gateway if excluded by target URL.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+COOKIES.V1205.Sub0001  -  WAP1: As 1202 but excluded URL includes path prefix.
+Test Description:
+
+ 0. Set some target URL exclusion, with path prefix.
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set some mixed cookies
+ 4. Check if Cookies is injected correct
+ 5. Remove all Persistent-Cookies
+ 6. Check if NO Cookies are injected
+ 7. Disconnect from WAP gateway
+ 8. Radius Logoff
+
+Expected Result:
+ -  Ensure cookies are not stored in WAP gateway if excluded by target URL.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.V1205.Sub0001  -  WAP2.0: Verify that no cookie handling performed for WAP2.0 User Agents.
+Test Description:
+
+ 0. Set some target URL exclusion
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set some mixed cookies
+ 4. Check if NO Cookies are injected
+ 5. Disconnect from WAP gateway
+ 6. Radius Logoff
+
+
+Expected Result:
+ -  Ensure NO cookies are stored in xmg-gwy for WAP2.0 requests.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+COOKIES.V1207.Sub0001  -  HTTP: Verify that no cookie handling performed for HTTP User Agents.
+Test Description:
+
+ 0. Set some target URL exclusion
+ 1. Radius Logon
+ 2. Connect to WAP gateway
+ 3. Set some mixed cookies
+ 4. Check if NO Cookies are injected
+ 5. Disconnect from WAP gateway
+ 6. Radius Logoff
+
+Expected Result:
+ -  Ensure NO cookies are stored in xmg-gwy for HTTP requests.
+ 
+XTT Commands:
+ -  See the xtt test-definition xml-file.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+
+
+
+

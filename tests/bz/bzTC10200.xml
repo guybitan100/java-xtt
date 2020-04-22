@@ -1,0 +1,96 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.10200</parameter>
+	</function>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+	<function name="stopProcess" module="Remote">
+		<parameter>push</parameter>
+	</function>
+
+	<function name="restartProcess" module="Remote">
+		<parameter>logger</parameter>
+	</function>
+
+	<function name="startProcess" module="Remote">
+		<parameter>push</parameter>
+	</function>
+
+	<function name="setPostData" module="Push">
+		<file>bzTC10200-post.txt</file>
+	</function>
+
+    <function name="timeToVariable" module="Basic">
+        <parameter>currentTime</parameter>
+    </function>    
+    
+    <function name="replaceAttribute" module="Push">
+        <parameter>push-id</parameter>
+        <parameter>
+            <parameter>XTT</parameter>
+            <variable>currentTime</variable>
+        </parameter>
+    </function>
+
+	<function name="replaceAttribute" module="Push">
+		<parameter>address-value</parameter>
+		<parameter>447990903075/TYPE=PLMN@xtt.724.com</parameter>
+	</function>
+
+	<function name="replaceAttribute" module="Push">
+		<parameter>href</parameter>
+		<parameter>wab.sbc.ch</parameter>
+	</function>
+
+	<function name="waitForBind" module="SMS"/>
+
+	<function name="sendPushRequest" module="Push"/>
+
+	<function name="sleep" module="Basic">
+		<parameter>20000</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>bzTC10200-script.txt</parameter>
+		<file>bzTC10200-script.txt</file>
+    </function>
+
+       <function name="getNewestRemoteFileName" module="Remote">
+        <parameter>logTC005/newest</parameter>
+	<configuration>xmg/logpath</configuration>
+        <parameter>XMP</parameter>
+    </function>
+
+
+
+    <function name="queryResponse" module="Remote">
+    	<parameter>Newest file was: (.*)</parameter>
+    	<parameter>logTC005/newest</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+	    <parameter>
+		    <configuration>remote/command</configuration>
+    		<parameter>logscan -in </parameter>
+    	   	<variable>logTC005/newest</variable>
+    	</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+    	<parameter>(.*\Z)</parameter>
+    	<parameter>logTC005/pullResult</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+		<parameter>447990903075</parameter>
+    	<parameter>logTC005/tmp</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+		<parameter>447990903075/TYPE=PLMN@xtt.724.com</parameter>
+    	<parameter>logTC005/tmp</parameter>
+    </function>
+
+    <function name="stopSMSCServer" module="SMS"/>
+
+</test>

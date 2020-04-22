@@ -1,0 +1,23 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.6946</parameter>
+    </function>
+
+    <function name="startWebServer" module="HTTP"/>
+    <function name="radiusLogon" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://dnstimeout1.xtt724.com/</parameter>
+    </function>
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="radiusLogoff" module="Radius">
+        <parameter>xttuser</parameter>
+        <parameter>12346</parameter>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+
+</test>

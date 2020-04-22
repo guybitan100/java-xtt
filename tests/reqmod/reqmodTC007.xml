@@ -1,0 +1,89 @@
+<!-- $Id: reqmodTC007.xml,v 1.2 2006/07/21 17:04:55 cvsbuild Exp $ -->
+<!--# Test Case 1107 aka REQMOD.TC.007
+    # Check that rules can insert values based
+    # on value of a context element.-->
+<test>
+    <!-- Load reqmod configuration file -->
+    <configuration>reqmodTC000.xml</configuration>
+    <!-- set the test name -->
+    <function name="testName" module="Basic">
+        <parameter>REQMOD.TC.007</parameter>
+    </function>
+    <description>Insert values based on value of a context element</description>
+        
+    <!-- start the internal webserver -->
+    <function name="startWebServer" module="HTTP"/>
+    <!-- Accept no encodings -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept-Encoding</parameter>
+        <parameter>0</parameter>
+    </function>
+    <!-- Accept all filetypes -->
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>*/*</parameter>
+    </function>
+    <!-- set user agent -->
+    <function name="setHeader" module="HTTP">
+        <parameter>User-Agent</parameter>
+        <parameter>XTT/0.1</parameter>
+    </function>
+
+    <!-- do a radius logon for user 1-->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test4.xtt724.com/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did NOT receive the header -->
+    <!-- which means user was not the correct one -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC007</parameter>
+        <parameter>null</parameter>
+    </function>
+    <!-- logoff  user 1-->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER</configuration>
+        <configuration>RADIUS/PHONE</configuration>
+    </function>
+
+    <!-- do a radius logon for user 2-->
+    <function name="radiusLogon" module="Radius">
+        <configuration>RADIUS/USER2</configuration>
+        <configuration>RADIUS/PHONE2</configuration>
+    </function>
+    <!-- download the webpage -->
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>http://test4.xtt724.com/</parameter>
+    </function>
+    <!-- check if the download was successfull -->
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <!-- check that the server did receive the header -->
+    <!-- which means user was the correct one -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC007</parameter>
+        <parameter>UserSuccessfullyFound</parameter>
+    </function>
+    <!-- check that the server did receive the header -->
+    <!-- which means user was the correct one -->
+    <!-- and setting of context variable was sucessfull -->
+    <function name="checkServerHeader" module="HTTP">
+        <parameter>reqmodTC007PartC</parameter>
+        <parameter>ExternalNAISuccessfullySET</parameter>
+    </function>
+    <!-- logoff  user 2-->
+    <function name="radiusLogoff" module="Radius">
+        <configuration>RADIUS/USER2</configuration>
+        <configuration>RADIUS/PHONE2</configuration>
+    </function>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

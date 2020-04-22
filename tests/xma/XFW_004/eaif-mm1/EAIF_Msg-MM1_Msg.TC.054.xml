@@ -1,0 +1,258 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>EAIF_Msg-MM1_Msg.TC.054</name>
+    <description>MM Message is removed from the MESSAGE-STORE when it expires (X-Mms-Expiry is absolute) 
+				[X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes]
+				[Sn's DB_Prepaid=true]
+				[Rc's DB_MmsDisabled=false]
+				[Rc's DB_ExternalContentConversionDisabled=true] 
+				[Rc's DB_UseEmail=false]
+				[Rc's DB_Email=user@domain]
+	</description>
+
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+	<function name="setVariable" module="Basic">
+        <parameter>ADDR_FROM</parameter>
+        <configuration>EAIF/NUMBER</configuration>
+    </function>
+
+	<function name="setVariable" module="Basic">
+        <parameter>ADDR_TO</parameter>
+        <configuration>XMA/PREPAY/ENABLED/MSISDN1</configuration>
+    </function>
+
+     <function name="startWebServer" module="HTTP">
+        <configuration>EAIF/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function> 
+
+	<function name="setServerReturnCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<function name="setServerReturnMessage" module="HTTP">
+        <parameter> No content</parameter>
+    </function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>newreaper.ski</parameter>
+		<file>newreaper.ski</file>
+	</function>
+    
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <function name="startSMSCServer" module="SMS"/>
+
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <variable>ADDR_TO</variable>
+        <variable>ADDR_FROM</variable>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+
+    <function name="getRemoteSystemTime" module="Remote">
+        <parameter>datetime</parameter>
+    </function>
+   <function name="addVariable" module="Basic">
+        <parameter>datetime</parameter>
+        <variable>datetime</variable>
+        <parameter>1</parameter>
+    </function>
+    
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_EXPIRY</parameter>
+        <parameter>true</parameter>
+        <variable>datetime</variable>
+    </function>
+    <function name="addVariable" module="Basic">
+        <parameter>datetime</parameter>
+        <variable>datetime</variable>
+        <parameter>1</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_TIME</parameter>
+        <parameter>true</parameter>
+        <variable>datetime</variable>
+    </function>
+
+    <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World!</base64encode>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+        
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+    
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>XMA/EAIFIP</configuration>
+            <parameter>:</parameter>
+            <configuration>XMA/EAIFPORT</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>204</parameter>
+    </function>
+
+	<!-- Wait for DN -->
+	<function name="waitForPOSTs" module="HTTP">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="setVariable" module="BASIC">
+        <parameter>MessageID</parameter>
+        <variable>HTTP/HEADER/x-nokia-mmsc-message-id</variable>
+    </function>
+
+	<function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>msp</parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+            <parameter>run command amocli -k -e (MMS_Req_Message-ID=='</parameter>
+            <variable>MessageID</variable>
+            <parameter>') search TI:F.CEE.</parameter>
+            <variable>msp</variable>
+            <parameter>:AMO</parameter>
+        </parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>MMS_Req_X-Mms-Message-Type=m-delivery-ind</parameter>
+        <parameter>status</parameter>
+    </function>
+
+    <function name="queryResponse" module="Remote">
+        <parameter>MMS_Req_X-Mms-Status=Expired</parameter>
+        <parameter>status</parameter>
+    </function>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>MSP</parameter>
+        <parameter>MSP</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>
+			<parameter>run command cmu -C AMO_CFG_StatisticsReset </parameter>
+			<variable>MSP</variable>
+			<parameter> true</parameter>
+		</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+				<parameter>run command cmu -C AMO_CFG_Reapers -x newreaper.ski </parameter>
+				<variable>MSP</variable>
+		</parameter>
+    </function>
+
+	<!-- Validate the MESSAGE-STORE is empty. / After MMS message expired, the message should be removed from message store. -->
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MSP</parameter>
+		<parameter>MSP</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+		<parameter>run command amocli count TI:F.CEE.</parameter>
+		<variable>MSP</variable>
+		<parameter>:AMO</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: 0 items counted</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>originalreaper.ski</parameter>
+		<file>originalreaper.ski</file>
+	</function>
+
+	<function name="activeProcessToVar" module="Remote">
+		<parameter>MSP</parameter>
+		<parameter>MSP</parameter>
+	</function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+				<parameter>run command cmu -C AMO_CFG_Reapers -x originalreaper.ski </parameter>
+				<variable>MSP</variable>
+		</parameter>
+    </function> 
+
+	 <!-- Restore VASP File -->
+    <subtest>../restoreVASP.xml</subtest>
+
+    <function name="stopSMSCServer" module="SMS"/>
+	
+    <function name="stopWebServer" module="HTTP"/>
+
+</test>

@@ -1,0 +1,7 @@
+<!-- Test Database Conenction Settings -->
+<Configuration> 
+	<Database>
+		<!-- ConnectionString Format: user/pass@TNSNAME -->
+		<ConnectionString>BUILD_XMP_40_XMP_JAVA/integration@PANGAN</ConnectionString>
+	</Database>
+</Configuration> 

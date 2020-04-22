@@ -1,0 +1,22 @@
+<!-- just check of there are any corefiles -->
+<test>
+    <function name="testName" module="Basic">
+        <parameter>SIS.TEST</parameter>
+    </function>
+
+    <function name="startJacorbNameServer" module="SIS"/>
+
+    <function name="startSISServer" module="SIS">
+    </function>
+
+    <function name="sleep" module="Basic">
+        <parameter>5000</parameter>
+    </function>
+
+
+    <function name="stopSISServer" module="SIS"/>
+
+    <function name="stopJacorbNameServer" module="SIS"/>
+
+
+</test>

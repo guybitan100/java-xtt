@@ -1,0 +1,200 @@
+<test>
+	<name>PreventingURLClassificationBeingMissed.TC.001.xml</name>
+	<description>Validate URL Strings containing escape characters are properly classified</description>
+	
+	<!-- Execute Web Server & Set its Parameters -->
+	<function name="startWebServer" module="HTTP"> 
+		<parameter>80</parameter>
+		<testpath/>
+ 		<parameter>30000</parameter>
+ 	</function>
+
+	<function name="disableKeepAlive" module="HTTP" />
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept-Encoding</parameter>
+		<parameter>0</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>*/*</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>User-Agent</parameter>
+		<parameter>XTT/0.1</parameter>
+	</function>
+	
+	<!-- Log in Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<!-- Prepare the Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>REQMOD_PreventingURLClassificationBeingMissedTC001.xml</parameter>
+		<xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+	<table name="SetMobileAccelerationDefaults">
+		<selector urlPattern="http://*.bad.xtt724.com/bad/*">
+			<denyAccess reason="'Site blocked because the URL is not proper!'"/>
+		</selector>
+	</table>
+</requestModifications>
+		</xml>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>REQMOD_PreventingURLClassificationBeingMissedTC001.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<!-- HTTP GET Requests -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.bad.xtt724.com/bad/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>null</parameter>
+		<parameter>HTTP/1.1 403 Site blocked because the URL is not proper!</parameter>
+	</function>
+	
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.bad.xtt724.com/%62%61%64/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>null</parameter>
+		<parameter>HTTP/1.1 403 Site blocked because the URL is not proper!</parameter>
+	</function>
+
+<function name="sleep" module="basic"><parameter>45000</parameter></function>
+	
+	<!-- HTTP POST Requests -->
+	<function name="setPostData" module="HTTP">
+		<parameter>dummyparametername</parameter>
+		<parameter>dummyvalue!!!</parameter>
+	</function>
+	
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>http://test.bad.xtt724.com/bad/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>null</parameter>
+		<parameter>HTTP/1.1 403 Site blocked because the URL is not proper!</parameter>
+	</function>
+
+	<function name="sendPostRequest" module="HTTP">
+		<parameter>http://test.bad.xtt724.com/%62%61%64/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>null</parameter>
+		<parameter>HTTP/1.1 403 Site blocked because the URL is not proper!</parameter>
+	</function>
+	
+	<!-- WAP GET Requests -->
+	<function name="connectGateway" module="WAP"/>
+	
+	<function name="sendGetRequest" module="WAP">
+		<parameter>http://test.bad.xtt724.com/bad/test.html</parameter>
+    </function>
+    
+	<function name="checkResponseCode" module="WAP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="disconnectGateway" module="WAP" />
+	<function name="connectGateway" module="WAP"/>
+	
+	<function name="sendGetRequest" module="WAP">
+		<parameter>http://test.bad.xtt724.com/%62%61%64/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="WAP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="disconnectGateway" module="WAP" />
+	
+	<!-- WAP POST Requests -->
+	<function name="connectGateway" module="WAP"/>
+	
+	<function name="sendPostRequest" module="WAP">
+		<parameter>text/plain</parameter>
+		<parameter>test=test!!!</parameter>
+		<parameter>http://test.bad.xtt724.com/bad/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="WAP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="disconnectGateway" module="WAP" />
+	<function name="connectGateway" module="WAP"/>
+	
+	<function name="sendPostRequest" module="WAP">
+		<parameter>text/plain</parameter>
+		<parameter>test=test!!!</parameter>
+		<parameter>http://test.bad.xtt724.com/%62%61%64/test.html</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="WAP">
+		<parameter>403</parameter>
+	</function>
+	
+	<function name="disconnectGateway" module="WAP" />
+	
+	<!-- Purge the Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>REQMOD_EmptyRules.xml</parameter>
+		<parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>REQMOD_EmptyRules.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<!-- Log off Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>	
+
+	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>	
+</test>

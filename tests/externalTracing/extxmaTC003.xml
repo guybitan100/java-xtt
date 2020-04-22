@@ -1,0 +1,172 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>EXT.XMA.TC.003</parameter>
+    </function>
+    <description>XMA external tracing in path MM7/MM4</description>
+
+    <function name="startSMTPServer" module="SMTP"/>
+
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>OUT.MM4</parameter>
+        <parameter>outmm4</parameter>
+    </function>
+
+    <function name="restartProcess" module="Remote">
+        <variable>outmm4</variable>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>XMA/PATH</configuration>
+        <configuration>XMA/XMS</configuration>
+        <parameter>enable tracing -external E://</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/command</configuration>
+        <parameter>amocli -k dm TI:F.CEE.MSP.1:AMO</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>amocli: \d++ items deleted</parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC004-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+                &lt;domains&gt;
+                    &lt;domain&gt;xma.724.com&lt;/domain&gt;
+                &lt;/domains&gt;
+                &lt;msisdnPrefixes&gt;
+                    &lt;msisdnPrefix&gt;0&lt;/msisdnPrefix&gt;
+                    &lt;msisdnPrefix&gt;1&lt;/msisdnPrefix&gt;
+                    &lt;msisdnPrefix&gt;2&lt;/msisdnPrefix&gt;
+                    &lt;msisdnPrefix&gt;447879&lt;/msisdnPrefix&gt;
+                &lt;/msisdnPrefixes&gt;
+                &lt;imsiPrefixes&gt;
+                    &lt;imsiPrefix&gt;23415&lt;/imsiPrefix&gt;
+                &lt;/imsiPrefixes&gt;
+            &lt;/self&gt;
+            &lt;partners&gt;
+                &lt;partner name="*" description="Default Partner"&gt;
+                &lt;domains&gt;
+                    &lt;domain&gt;defaultpartner.724.com&lt;/domain&gt;
+                &lt;/domains&gt;
+                &lt;out&gt;
+                    &lt;mm4 smtpFromAddress="xma@xma.724.com" domainToAppend="defaultpartner.724.com" askPartnerForResponses="false"
+                    transactionIdSuffix="/xtttx" messageIdSuffix="/xttmsg" sendDeliveryReportsOnForwarding="false"/&gt;
+                &lt;/out&gt;
+                &lt;/partner&gt;
+            &lt;/partners&gt;
+            &lt;/mnos&gt;
+        </parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC004-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <thread>
+        <function name="sleep" module="basic">
+            <parameter>500</parameter>
+        </function>
+        <function name="setMessageBoundary" module="VASP">
+            <parameter>000001message</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Recipients</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='Recipients']</parameter>
+            <parameter>To</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='To'][last()]</parameter>
+            <parameter>Number</parameter>
+            <parameter>333333@defaultpartner.724.com</parameter>
+        </function>
+        <function name="setSoapData" module="VASP">
+            <parameter>//*[local-name()='SubmitReq']</parameter>
+            <parameter>Content</parameter>
+        </function>
+        <function name="setSoapAttribute" module="VASP">
+            <parameter>//*[local-name()='Content']</parameter>
+            <parameter>href</parameter>
+            <parameter>cid:xtt-test001</parameter>
+        </function>
+        <function name="addContent" module="VASP">
+            <file>xmaMMdata.txt</file>
+        </function>
+        <function name="previewRequest" module="VASP" />
+        <function name="sendPostRequest" module="VASP"/>
+        <function name="checkResponseCode" module="VASP">
+            <parameter>200</parameter>
+        </function>
+        <function name="queryBody" module="VASP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+
+    <function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>
+
+    <function name="stopSMTPServer" module="SMTP"/>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile sendMM4TC004-mno.xml </parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>sendMM4TC004-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>/bin/grep E:// </parameter>
+        <configuration>XMA/PROCPATH</configuration>
+        <parameter>/</parameter>
+        <variable>outmm4</variable>
+        <parameter>/</parameter>
+        <variable>outmm4</variable>
+        <parameter>.out</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://MM4/SENT/SUBMISSION-REQUEST</parameter>
+        <parameter>response</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://STORE/UPDATED/DELIVERY-ITEM</parameter>
+        <parameter>response</parameter>
+    </function>
+    <!-- removed convert from config
+    <function name="queryResponse" module="Remote">
+        <parameter>:E://MODIFY/CONVERTED/RESPONSE</parameter>
+        <parameter>response</parameter>
+    </function>
+    -->
+
+</test>

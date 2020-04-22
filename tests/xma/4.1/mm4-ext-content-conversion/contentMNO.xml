@@ -1,0 +1,80 @@
+<test>
+    <function name="setVariable" module="Basic">
+        <parameter>domain</parameter>
+        <parameter>xma.724.com</parameter>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>partnerDomain</parameter>
+        <parameter>defaultpartner.724.com</parameter>
+    </function> 
+    <function name="setVariable" module="Basic">
+        <parameter>msisdnPrefixValue</parameter>
+        <parameter>4179</parameter>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>contentMNO.xml</parameter>
+        <parameter>
+            <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;</parameter>
+
+            <parameter>&lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;</parameter>
+            <parameter>&lt;domains&gt;</parameter>
+                <parameter>&lt;domain&gt;</parameter>
+                <variable>domain</variable>
+                <parameter>&lt;/domain&gt;</parameter>
+            <parameter>&lt;/domains&gt;</parameter>
+
+            <parameter>&lt;msisdnPrefixes&gt;</parameter>
+                <parameter>&lt;msisdnPrefix&gt;</parameter>
+                    <variable>msisdnPrefixValue</variable>
+                <parameter>&lt;/msisdnPrefix&gt;</parameter>
+            <parameter>&lt;/msisdnPrefixes&gt;</parameter>
+            <parameter>&lt;/self&gt;</parameter>
+
+            <parameter>&lt;partners&gt;</parameter>
+                <parameter>&lt;partner name="XTT" description="XTT"&gt;</parameter>
+                <parameter>&lt;domains&gt;</parameter>
+                    <parameter>&lt;domain&gt;</parameter>
+                    <variable>partnerDomain</variable>
+                    <parameter>&lt;/domain&gt;</parameter>
+                <parameter>&lt;/domains&gt;</parameter>
+                <parameter>&lt;out&gt;</parameter>
+                    <parameter>&lt;mm4 smtpFromAddress="xma@xma.724.com" domainToAppend="defaultpartner.724.com"  maxMessageSizeBytes="</parameter>
+                    <variable>messageSize</variable>
+                    <parameter>" askPartnerForResponses="true" transactionIdSuffix="/xtttx" messageIdSuffix="/xttmsg" sendDeliveryReportsOnForwarding="false"&gt;</parameter>
+                    <parameter>&lt;allowedContentTypes&gt;</parameter>
+                        <parameter>&lt;type&gt;</parameter>
+                            <variable>contentType1</variable>
+                        <parameter>&lt;/type&gt;</parameter>
+                         <parameter>&lt;type&gt;</parameter>
+                            <variable>contentType2</variable>
+                        <parameter>&lt;/type&gt;</parameter>
+                          <parameter>&lt;type&gt;</parameter>
+                            <variable>contentType3</variable>
+                        <parameter>&lt;/type&gt;</parameter>
+                    <parameter>&lt;/allowedContentTypes&gt;&lt;/mm4&gt;</parameter>
+
+                <parameter>&lt;/out&gt;</parameter>
+                <parameter>&lt;/partner&gt;</parameter>
+
+
+                <parameter>&lt;partner name="*" description="Default Partner"&gt;</parameter>
+               
+                <parameter>&lt;out&gt;</parameter>
+                    <parameter>&lt;mm4 smtpFromAddress="xma@xma.724.com" domainToAppend="defaultpartner.724.com"  askPartnerForResponses="true" transactionIdSuffix="/xtttx" messageIdSuffix="/xttmsg" sendDeliveryReportsOnForwarding="false"/&gt;</parameter>
+                <parameter>&lt;/out&gt;</parameter>
+                <parameter>&lt;/partner&gt;</parameter>
+            <parameter>&lt;/partners&gt;</parameter>              
+            <parameter>&lt;/mnos&gt;</parameter>
+         </parameter>
+    </function>
+
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data contentMNO.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded</parameter>
+        <parameter>response</parameter>
+    </function>
+</test>

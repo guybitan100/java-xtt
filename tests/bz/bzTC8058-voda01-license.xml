@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<license xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="license.xsd"
+         number="TEST1"
+         type="B"
+         issuer="Gavin Cattell, 724 Solutions Inc., Bahnhofstrasse 15, CH-5600 Lenzburg"
+         issuedOn="2006-07-14T07:21:26Z"
+         licensee="724 Solutions, internal use only"
+         product="XMA"
+         platform="hpux"
+         version="724Solutions CEE XMA-30"
+         validFrom="2006-07-14"
+         validUntil="2006-08-01"
+         signature="032406207E7379E9BE6931F69791AB682260B2E7BAE51761C7EF631559BBDB5D">
+    <machine name="voda01"/>
+</license>

@@ -1,0 +1,50 @@
+<test>
+    <description>Check Presence Store is empty Sub-test</description>
+	
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>PRESENCE-STORE_</parameter>
+        <parameter>presencestore</parameter>
+    </function>
+    
+    <function name="activeProcessToVar" module="Remote">
+        <parameter>MESSAGE-STORE</parameter>
+        <parameter>messagestore</parameter>
+    </function>    
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+			<parameter>
+    			<parameter>pse3cli rbng TI:F.CEE.</parameter>
+    			<variable>presencestore</variable>
+    			<parameter>:PSE3</parameter>
+			</parameter>
+		</parameter>
+	</function>
+		
+	<function name="queryResponse" module="Remote">
+		<parameter>&lt;value&gt;terminated&lt;/value&gt;</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<function name="queryResponseNegative" module="Remote">
+		<parameter>&lt;value&gt;active&lt;/value&gt;</parameter>
+	</function>
+	
+    <!-- Check the Message-Store -->
+    <function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<configuration>remote/command</configuration>
+            <parameter>
+			    <parameter>amocli s TI:F.CEE.</parameter>
+    			<variable>messagestore</variable>
+    			<parameter>:AMO</parameter>
+    	    </parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>amocli: No items found</parameter>
+		<parameter>dev/null</parameter>
+	</function>    
+</test>

@@ -1,0 +1,44 @@
+<test>
+	<name>URLListsForURLClassification.TC.001</name>
+	<description>Validate White List could be properly loaded into the CONFIG-SERVER</description>
+	
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>WhiteList.txt</parameter>
+		<file>WhiteList.txt</file>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load file </parameter>
+			<parameter>WhiteList.txt /url/WhiteList.txt</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Loaded '/url/WhiteList.txt' from 'WhiteList.txt'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>extract file </parameter>
+			<parameter>/url/WhiteList.txt WL.txt</parameter>
+		</parameter>
+	</function>
+	
+	<function name="queryResponse" module="Remote">
+		<parameter>Extracted  '/url/WhiteList.txt' into file 'WL.txt'</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<function name="readRemoteFile" module="Remote">
+		<parameter>WL.txt</parameter>
+		<parameter>WL</parameter>
+	</function>
+	
+	<function name="compareString" module="Basic">
+		<file>WhiteList.txt</file>
+		<variable>WL</variable>
+	</function>
+	
+</test>

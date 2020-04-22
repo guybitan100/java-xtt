@@ -1,0 +1,85 @@
+<test>
+
+		<function name="testName" module="Basic">
+			<parameter>HTTP-IN-Channel.TC.048</parameter>
+		</function>
+	
+		<description> Validate Intercepted MMS Request X-Proxy-Subscriber-MSISDN Proxy Server through MM1/ X-Proxy-MMS-Message-Type header content(i.e. MM1_remove.REQ) not present in Proxy App Interface doc list(3.3.1.1 New-Message-Intercepted-Request)/ Application should reject such type of content
+		<!-- Test Description 
+		1. Send MM1 Message to MMS Proxy
+		2. MMS Proxy should intercept this message and send "New-Message-Intercepted" Request to Application as HTTP GET Request and X-Proxy-MMS-Message-Type header consists content other then following content : 
+		m-send-req , 
+		m-send-conf , 
+		m-acknowledge-ind ,
+		m-notifyresp-ind
+		3. Validate that Application rejects such type of requests.  -->
+		</description>
+
+		<!-- Available MSISDN -->
+		<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+		<!-- Set mandatory headers -->
+
+		<!-- Send corrupted header -->
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-MMS-Message-Type</parameter>
+			<parameter> MM1_remove.REQ </parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Region</parameter>
+			<parameter>Siberia</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Session-Id</parameter>
+			<parameter>987654</parameter>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>To</parameter>
+				<configuration>MMSX/SECRET/RECIPIENT/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+			<configuration>MMSX/SECRET/SENDER/MSISDN1</configuration>
+		</function>
+
+		<function name="setHeader" module="HTTP">
+			<parameter>Subject</parameter>
+			<parameter>#Invalid MM1 request</parameter>
+		</function>
+
+		<!-- Send Metadeta  Request -->
+
+		<function name="sendGetRequest" module="HTTP">
+				<parameter>
+				<parameter>http://</parameter>
+				<configuration>MMS_Extra/Ip</configuration>
+				<parameter>:</parameter>
+				<configuration>MMS_Extra/Port</configuration>
+				<parameter>/New-Message-Intercepted</parameter>
+			</parameter>
+		</function>
+
+		<function name="checkResponseCode" module="HTTP">
+			<parameter>200</parameter>
+		</function>
+	
+		<!-- Validating the response of X-Proxy-Handle. It should return error -->
+		<function name="checkHeader" module="HTTP">
+			<parameter>X-Proxy-Handle</parameter>
+			<parameter>error</parameter>
+		</function>
+
+		<!-- Validating the response of x-mmsx-error-text -->
+		<function name="checkHeader" module="HTTP">
+			<parameter>x-mmsx-error-text</parameter>
+			<parameter>unsupported message type: MM1_remove.REQ</parameter>
+		</function>
+
+</test>

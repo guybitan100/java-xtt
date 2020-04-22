@@ -1,0 +1,35 @@
+module com
+{
+    module _mobilgw
+    {
+	module _xtt
+	{
+	    module _jacorbtest
+	    {
+
+		struct Node {
+		    string name;
+		    sequence<Node> next;
+		};
+
+		union Nums	switch (char)
+		{
+		    case 'f': float f;
+		    case 'l': long l;
+		    default: short s;
+		};
+
+		typedef string strings[3];
+		typedef wstring myWString;
+
+		typedef sequence< string > MyStringSeq;
+
+		interface TestServer 
+		    {
+			string generic(in any a);
+		    };
+
+	    };
+    	};
+    };
+};

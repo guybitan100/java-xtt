@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<soapenv:Body>
+		<Remove xmlns="http://mts.qmobile.ru/api/">
+			<msisdn>+79100000000</msisdn>			
+		</Remove>
+	</soapenv:Body>
+</soapenv:Envelope>

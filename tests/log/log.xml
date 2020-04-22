@@ -1,0 +1,15 @@
+<configuration>
+	<logTestSpecific>
+		<msisdn>000111222</msisdn>
+		<href>wab.sbc.ch</href>
+	</logTestSpecific>
+    <Webserver>
+        <Timeout>60000</Timeout>
+    </Webserver>
+    <xmg>
+        <wap>
+            <!-- the timeout on wap requests -->
+            <connectionTimeout>60000</connectionTimeout>
+        </wap>
+    </xmg>
+</configuration>

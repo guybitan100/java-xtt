@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by resource01 (724) -->
+<!--
+$Source: /cvs/CorePlatform/Repository/xtt/tests/bz/bzTC8318-reqmod.xml,v $
+%Revision$
+$Date: 2006/09/06 08:14:01 $
+
+Sample REQMOD config file.
+-->
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+    <table name="ChangeUrl">
+        <selector urlPattern="http://aaa.bbb.ccc/ddd*">
+            <modifyUrl newUrl="http://mmm.nnn.ooo/ppp/qqq" appendPath="true"/>
+        </selector>
+        <selector urlPattern="http://eee.fff.ggg/hhh">
+            <modifyUrl newUrl="/////" method="rewrite"/>
+        </selector>
+        <selector context="Internal_Groups matches 'blah*'" >
+            <denyAccess reason="'Users in this group are not allowed to access this URL'" />
+        </selector>
+    </table>
+</requestModifications>

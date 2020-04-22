@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requestModifications>
+<!-- $Id: bzTC6904-reqmod.xml,v 1.2 2006/07/21 17:04:36 cvsbuild Exp $ -->
+    <table name="ifBlank1">
+        <selector context="TCP_LocalIpPort equals ''">
+        <modifyContext name="TCP_LocalIpPort" value="''" />
+    <!-- added by John Sullivan 2005-02-13 -->
+        <modifyContext name="TCP_LocalIpPort2" value="''" />
+    </selector>
+    </table>
+    <table name="ifBlank2">
+        <selector context="TCP_RemoteIpPort equals ''">
+        <modifyContext name="TCP_RemoteIpPort" value="''" />
+    </selector>
+    </table>
+    <table name="ifBlank3">
+        <selector context="Internal_NAI equals ''">
+        <modifyContext name="Internal_NAI" value="' '" />
+    </selector>
+    </table>
+    <table name="ifBlank4">
+        <selector context="NTW_CalledStationId equals ''">
+        <modifyContext name="NTW_CalledStationId" value="' '" />
+    </selector>
+    </table>
+    <table name="ifBlank5">
+        <selector context="NTW_NASIPAddress equals ''">
+        <modifyContext name="NTW_NASIPAddress" value="' '" />
+    </selector>
+    </table>
+    <table name="ifBlank6">
+        <selector context="NTW_NASIdentifier equals ''">
+        <modifyContext name="NTW_NASIdentifier" value="' '" />
+    </selector>
+    </table>
+
+
+    <table name="ifBlank7">
+        <selector context="WPA_WTLSClass equals ''">
+            <modifyContext name="WPA_WTLSClass" value="''" />
+        </selector>
+    </table>
+    <table name="ifBlank8">
+        <selector context="WPA_WTLSKeyRefresh equals ''">
+            <modifyContext name="WPA_WTLSKeyRefresh" value="''" />
+        </selector>
+    </table>
+    <table name="ifBlank9">
+        <selector context="WPA_WTLSKeyExchange2 equals ''">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="''" />
+        </selector>
+    </table>
+    <table name="ifBlank10">
+        <selector context="WPA_WTLSMACAlgorithm2 equals ''">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="''" />
+        </selector>
+    </table>
+    <table name="ifBlank11">
+        <selector context="WPA_WTLSBulkAlgorithm2 equals ''">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="''" />
+        </selector>
+    </table>
+    <table name="ifBlank11">
+        <selector context="WPA_WTLSSecurity_Level equals ''">
+            <modifyContext name="WPA_WTLSSecurity_Level" value="''" />
+        </selector>
+    </table>
+
+
+
+    <!-- added for John Sullivan 2005-02-07 -->
+    <table name="changePort">
+        <selector context=" TCP_LocalIpPort equals ''" />
+    <!-- added by John Sullivan 2005-02-13 -->
+        <selector context="(TCP_LocalIpPort matches '9210') or (TCP_LocalIpPort matches '9220') or (TCP_LocalIpPort matches '9230') or (TCP_LocalIpPort matches '9240')">
+            <modifyContext name="TCP_LocalIpPort2" value="'9200'" />
+        </selector>
+    <!-- added by John Sullivan 2005-02-13 -->
+        <selector context="(TCP_LocalIpPort matches '9211') or (TCP_LocalIpPort matches '9221') or (TCP_LocalIpPort matches '9231') or (TCP_LocalIpPort matches '9241')">
+            <modifyContext name="TCP_LocalIpPort2" value="'9201'" />
+        </selector>
+        <selector context="(TCP_LocalIpPort matches '9212') or (TCP_LocalIpPort matches '9222') or (TCP_LocalIpPort matches '9232') or (TCP_LocalIpPort matches '9242')">
+            <modifyContext name="TCP_LocalIpPort2" value="'9202'" />
+        </selector>
+        <selector context="(TCP_LocalIpPort matches '9213') or (TCP_LocalIpPort matches '9223') or (TCP_LocalIpPort matches '9233') or (TCP_LocalIpPort matches '9243')">
+            <modifyContext name="TCP_LocalIpPort2" value="'9203'" />
+        </selector>
+    <!-- added by John Sullivan 2005-02-13 -->
+        <selector context="(TCP_LocalIpPort matches '8080') or (TCP_LocalIpPort matches '8081') or (TCP_LocalIpPort matches '8082') or (TCP_LocalIpPort matches '8083')">
+            <modifyContext name="TCP_LocalIpPort2" value="'8799'" />
+        </selector>
+    <!-- added by John Sullivan 2005-02-13(If tcp local port is diff port than wap1 or wap2, keep it the same as originating port) -->
+        <selector context="TCP_LocalIpPort matches '.*'">
+            <modifyContext name="TCP_LocalIpPort2" value="TCP_LocalIpPort" />
+        </selector>
+    </table>
+
+    <table name="mapKeyExchange">
+        <selector context="WPA_WTLSKeyExchange equals ''" />
+        <selector context="WPA_WTLSKeyExchange equals 'Null'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'0'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'SharedSecret'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'1'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'DHAnon'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'2'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'DHAnon512'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'3'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'DHAnon768'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'4'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'RSAAnon'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'5'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'RSAanon512'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'6'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'RSAanon768'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'7'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'RSA'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'8'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'RSA512'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'9'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'RSA768'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'10'" />
+        </selector>
+        <!--
+        <selector context="WPA_WTLSKeyExchange equals 'EC_DH_Anon'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'11'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'EC_DH_Anon_113'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'12'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'EC_DH_Anon_131'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'13'" />
+        </selector>
+        <selector context="WPA_WTLSKeyExchange equals 'EC_DH_EC_DSA'">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="'14'" />
+        </selector>
+        -->
+        <selector context="not WPA_WTLSKeyExchange equals ''">
+            <modifyContext name="WPA_WTLSKeyExchange2" value="' '" />
+        </selector>
+    </table>
+
+    <table name="mapBulkAlgorithm">
+        <selector context="WPA_WTLSBulkAlgorithm equals ''" />
+        <selector context="WPA_WTLSBulkAlgorithm equals 'Null'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'0'" />
+        </selector>
+        <selector context="WPA_WTLSBulkAlgorithm equals 'RC5CBC40'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'1'" />
+        </selector>
+        <selector context="WPA_WTLSBulkAlgorithm equals 'RC5CBC56'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'2'" />
+        </selector>
+        <selector context="WPA_WTLSBulkAlgorithm equals 'RC5CBC'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'3'" />
+        </selector>
+        <selector context="WPA_WTLSBulkAlgorithm equals 'DESCBC40'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'4'" />
+        </selector>
+        <selector context="WPA_WTLSBulkAlgorithm equals 'DESCBC'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'5'" />
+        </selector>
+        <selector context="WPA_WTLSBulkAlgorithm equals '3DESCBC'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'6'" />
+        </selector>
+        <!--
+        <selector context="WPA_WTLSBulkAlgorithm equals 'IDEACBC40'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'7'" />
+        </selector>
+        <selector context="WPA_WTLSBulkAlgorithm equals 'IDEACBC56'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'8'" />
+        </selector>
+        <selector context="WPA_WTLSBulkAlgorithm equals 'IDEACBC'">
+            <modifyContext name="WPA_WTLSBulkAlgorithm2" value="'9'" />
+        </selector>
+        -->
+    </table>
+
+    <table name="mapMACAlgorithm">
+        <selector context="WPA_WTLSMACAlgorithm equals ''" />
+        <selector context="WPA_WTLSMACAlgorithm equals 'SHA0'">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="'0'" />
+        </selector>
+        <selector context="WPA_WTLSMACAlgorithm equals 'SHA40'">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="'1'" />
+        </selector>
+        <selector context="WPA_WTLSMACAlgorithm equals 'SHA80'">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="'2'" />
+        </selector>
+        <selector context="WPA_WTLSMACAlgorithm equals 'SHA'">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="'3'" />
+        </selector>
+        <selector context="WPA_WTLSMACAlgorithm equals 'SHAXOR40'">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="'4'" />
+        </selector>
+        <selector context="WPA_WTLSMACAlgorithm equals 'MD540'">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="'5'" />
+        </selector>
+        <selector context="WPA_WTLSMACAlgorithm equals 'MD580'">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="'6'" />
+        </selector>
+        <selector context="WPA_WTLSMACAlgorithm equals 'MD5'">
+            <modifyContext name="WPA_WTLSMACAlgorithm2" value="'7'" />
+        </selector>
+    </table>
+
+    <table name="set external NAI">
+        <selector context="Internal_NAI matches '999.*'">
+        <modifyContext name="External_NAI" value="'447771771771'" />
+    </selector>
+    <selector>
+        <modifyContext name="External_NAI" value="Internal_NAI" />
+    </selector>
+    </table>
+
+<table name="WTLS_params">
+        <selector urlPattern="*://*:*/*" context="(TCP_LocalIpPort2 equals '9202') or (TCP_LocalIpPort2 equals '9203')">
+        </selector>
+        <selector urlPattern="*://*:*/*">
+            <modifyHeader name="wtls_class" />
+            <modifyHeader name="wtls_keyrefresh" />
+            <modifyHeader name="wtls_keyexchangesuite" />
+            <modifyHeader name="wtls_macalgorithm" />
+            <!-- added by John Sullivan 2005-02-24-->
+            <modifyHeader name="wtls_security_level" />
+            <!-- added by John Sullivan 2005-02-24-->
+            <modifyHeader name="wtls_bulkalgorithm" />
+            <modifyParameter name="wtls_class" caseSensitive="false" />
+            <modifyParameter name="wtls_keyrefresh" caseSensitive="false" />
+            <modifyParameter name="wtls_keyexchangesuite" caseSensitive="false" />
+            <modifyParameter name="wtls_macalgorithm" caseSensitive="false" />
+            <modifyParameter name="wtls_bulkalgorithm" caseSensitive="false" />
+            <!-- added by John Sullivan 2005-02-24-->
+            <modifyParameter name="wtls_security_level" caseSensitive="false" />
+        </selector>
+</table>
+
+    <!-- requested by John Dring 2005-02-07 -->
+    <table name="finalcatchall">
+        <selector urlPattern="*://*:*/*">
+            <modifyHeader name="x-wsb-msisdn-content-filter" value="External_NAI" />
+            <!-- requested by John Sullivan 2005-02-15
+            <modifyHeader name="local_port" value="TCP_LocalIpPort2" />
+            -->
+        </selector>
+    </table>
+
+</requestModifications>

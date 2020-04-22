@@ -1,0 +1,147 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM7.MM4.TC.007</name>
+    <description>MM Message is not sent after ExpiryDate (absolute) 
+    [DeliveryReport=Yes, ReadReply=Yes] 
+    [Sn's DB_Prepaid=true]</description>
+    
+    <!-- Delete Message Store -->
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+    
+    <!-- Load VASP File -->
+    <subtest>../loadVASP.xml</subtest>
+
+    <subtest>../loadMNO.xml</subtest>
+    <subtest>../loadRetryPolicy.xml</subtest>
+    
+	<!-- Start Web Server in order to receive & response MM7 Read Reply Reports -->
+    <function name="startWebServer" module="HTTP">
+        <configuration>VASP/PORT</configuration>
+        <configuration>WEBSERVER/ROOT</configuration>
+        <configuration>WEBSERVER/TIMEOUT</configuration>
+    </function>    
+    
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMSISDN</parameter>
+        <configuration>XMA/UNKNOWN/PARTNER/MSISDN1</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETMMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>OFFNETMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    <function name="setVariable" module="Basic">
+        <parameter>OFFNETEMAIL</parameter>
+        <parameter>
+            <variable>OFFNETMMSADDRESS</variable>
+            <configuration>XMA/PARTNERDOMAIN</configuration>
+        </parameter>
+    </function>    
+    
+    <function name="setVariable" module="Basic">
+        <parameter>VASPMSISDN</parameter>
+        <configuration>VASP/NUMBER</configuration>
+    </function>
+    <function name="setVariable" module="Basic">
+        <parameter>VASPMMSADDRESS</parameter>
+        <parameter>
+            <parameter>+</parameter>
+            <variable>VASPMSISDN</variable>
+            <parameter>/TYPE=PLMN</parameter>
+        </parameter>
+    </function>    
+    
+    <!-- Originator VASP server sends MM7_submit.REQ to XMA. In MM7_submit.REQ please set the following attributes: DeliveryReport=No, ReadReply=No -->
+    <function name="createMM7Soap" module="VASP">
+        <parameter>SubmitReq</parameter>
+        <configuration>VASP/VASPID</configuration>
+        <configuration>VASP/VASID</configuration>
+    </function>
+    <function name="setMessageBoundary" module="VASP">
+        <parameter>000001message</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Recipients</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='Recipients']</parameter>
+        <parameter>To</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='To'][last()]</parameter>
+        <parameter>Number</parameter>
+        <variable>OFFNETMSISDN</variable>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>DeliveryReport</parameter>
+        <parameter>True</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ReadReply</parameter>
+        <parameter>False</parameter>
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>Content</parameter>
+    </function>
+    <function name="setSoapAttribute" module="VASP">
+        <parameter>//*[local-name()='Content']</parameter>
+        <parameter>href</parameter>
+        <parameter>cid:xtt-test001</parameter>
+    </function>
+    <function name="getRemoteSystemTime" module="Remote">
+        <parameter>ExpiryDate</parameter>
+    </function>    
+    <function name="createEpochDateString" module="Basic">
+        <variable>ExpiryDate</variable>
+        <parameter>yyyy'-'MM'-'dd'T'HH':'mm':'ss</parameter>
+        <parameter>ExpiryDate</parameter>
+        <parameter>40</parameter>
+        <parameter>GMT</parameter> 
+    </function>
+    <function name="setSoapData" module="VASP">
+        <parameter>//*[local-name()='SubmitReq']</parameter>
+        <parameter>ExpiryDate</parameter>
+        <variable>ExpiryDate</variable>
+    </function>    
+    <function name="addContent" module="VASP">
+        <file>sendMM7data.txt</file>
+    </function>
+    <function name="previewRequest" module="VASP" />
+    <function name="sendPostRequest" module="VASP"/>
+    <function name="checkResponseCode" module="VASP">
+        <parameter>200</parameter>
+    </function>
+    <function name="queryBody" module="VASP">
+        <parameter>temp</parameter>
+        <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+    </function>
+    
+    <function name="waitForTimeoutPosts" module="HTTP">
+        <parameter>35000</parameter>
+    </function>
+    <function name="startSMTPServer" module="SMTP"/>
+    <function name="waitForPosts" module="HTTP">
+        <parameter>1</parameter>
+    </function>
+    <function name="queryText" module="Basic">
+        <variable>WEBSERVER/POST/TEXT/XML</variable>
+        <parameter>temp</parameter>
+        <parameter>&lt;MMStatus&gt;Expired&lt;/MMStatus&gt;</parameter>
+    </function>
+    <subtest>../restoreMNO.xml</subtest>
+    <subtest>../restoreRetryPolicy.xml</subtest>
+	<!-- Remove VASP File -->
+	<subtest>../restoreVASP.xml</subtest>
+
+
+	<!-- Stop SMSC Server -->
+    <function name="stopSMTPServer" module="SMTP"/>
+    <function name="stopWebServer" module="HTTP"/>
+</test>

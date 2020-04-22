@@ -1,0 +1,48 @@
+<test>
+    <function name="testName" module="Basic">
+        <parameter>BZ.TC.8373</parameter>
+    </function>
+    
+    <function name="startSMTPServer" module="SMTP"/>
+
+    <function name="sendRemoteCommand" module="Remote">
+        <parameter>writeFile bzTC8373-mno.xml </parameter>
+        <file>bzTC8373-mno.xml</file>
+    </function>
+    <function name="sendRemoteCommand" module="Remote">
+        <configuration>xma/path</configuration>
+        <configuration>xma/xms</configuration>
+        <configuration>xma/mno</configuration>
+        <parameter>bzTC8373-mno.xml</parameter>
+    </function>
+    
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+
+    <subtest>deleteMessagestoreAll.xml</subtest>
+
+    <thread>
+        <function name="sendPacketFromFile" module="TCP">
+            <parameter>172.20.9.29</parameter>
+            <parameter>4007</parameter>
+            <parameter>bzTC8373-data.bin</parameter>
+        </function>
+        <function name="queryTextResponse" module="TCP">
+            <parameter>temp</parameter>
+            <parameter>HTTP/1.1 200</parameter>
+        </function>        
+        <function name="queryTextResponse" module="TCP">
+            <parameter>temp</parameter>
+            <parameter>&lt;StatusCode&gt;1000&lt;/StatusCode&gt;</parameter>
+        </function>
+    </thread>
+    
+    <function name="waitForMails" module="SMTP">
+        <parameter>1</parameter>
+    </function>   
+
+    <function name="stopSMTPServer" module="SMTP"/>
+
+</test>

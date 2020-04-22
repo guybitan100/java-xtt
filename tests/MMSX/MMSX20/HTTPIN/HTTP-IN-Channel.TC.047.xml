@@ -1,0 +1,71 @@
+<test>
+
+	<function name="testName" module="Basic">
+		<parameter>HTTP-IN-Channel.TC.047</parameter>
+	</function>
+
+	<description>Application should send 404-Not Found Error if the requested HTTPS URL is invalid</description>
+
+	<!-- Available MSISDN -->
+	<configuration>../subscriber_config.xml</configuration>
+
+	<!-- Delete Message Store -->
+	<subtest>../deleteMessageStoreAll.xml</subtest>
+
+	<!-- Set mandatory headers -->
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-MMS-Message-Type</parameter>
+		<parameter>m-send-req</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Region</parameter>
+		<parameter>Siberia</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Session-Id</parameter>
+		<parameter>987654</parameter>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>To</parameter>
+		<configuration>MMSX/FORWARD/RECIPIENT/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>X-Proxy-Subscriber-MSISDN</parameter>
+		<configuration>MMSX/FORWARD/SENDER/MSISDN1</configuration>
+	</function>
+
+	<function name="setHeader" module="HTTP">
+		<parameter>Subject</parameter>
+		<parameter>This HTTPS URL is invalid </parameter>
+	</function>
+
+	<!-- Send Metadeta  Request to invalid URL-->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>
+			<parameter>https://</parameter>
+			<configuration>MMS_Extra/Ip</configuration>
+			<parameter>:</parameter>
+			<configuration>MMS_Extra/securePort</configuration>
+			<parameter>/New-Message-Intercepted-request-123</parameter>
+		</parameter>
+	</function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-mmsx-error-text</parameter>
+		<parameter>Unexpected value of path: New-Message-Intercepted-request-123</parameter>
+	</function>
+
+	<function name="checkHeader" module="HTTP">
+		<parameter>x-proxy-handle</parameter>
+		<parameter>error</parameter>
+	</function>
+
+</test>

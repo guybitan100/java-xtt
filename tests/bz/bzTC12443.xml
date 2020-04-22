@@ -1,0 +1,48 @@
+<test>
+	<function name="testName" module="Basic">
+		<parameter>BZ.TC.12443</parameter>
+	</function>
+
+    <description>Check responses without Response Reason work</description>
+
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>
+
+    <function name="disableFollowRedirects" module="HTTP"/>
+
+    <function name="startWebServer" module="HTTP"/>
+
+    <function name="setServerReturnMessage" module="HTTP">
+        <parameter></parameter>
+    </function>    
+
+    <function name="setServerReturnCode" module="HTTP">
+        <parameter>302</parameter>
+    </function>
+
+    <function name="setServerHeader" module="HTTP">
+        <parameter>location</parameter>
+        <parameter>http://www.gnu.org/</parameter>
+    </function>
+
+    <function name="sendGetRequest" module="HTTP">
+        <parameter>
+        	<parameter>http://</parameter>
+        	<configuration>system/ip</configuration>
+        	<parameter>/</parameter>
+        </parameter>
+    </function>
+
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>302</parameter>
+	</function>    
+
+    <function name="stopWebServer" module="HTTP"/>
+
+    <function name="radiusLogoff" module="Radius">
+	    <parameter>xttuser</parameter>
+	    <parameter>12346</parameter>
+    </function>    
+</test>

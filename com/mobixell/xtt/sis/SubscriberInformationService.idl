@@ -1,0 +1,89 @@
+#ifndef SUBSCRIBERINFORMATION_SERVICE_IDL
+#define SUBSCRIBERINFORMATION_SERVICE_IDL 1
+// no includes
+module ch
+{
+	module intersys
+	{
+		module sis
+		{
+			module corba
+			{
+				module idl
+				{
+					module SubscriberInformationServiceModul
+					{
+						// Struct definitionen
+						//AttributValueStruct
+						struct AttributValueStruct 
+						{
+							long id;
+							string attrName;
+							string value;
+							string description;
+							long info;
+							long infoIndex; 
+						};
+						
+						// Typedefinitions
+						typedef long NrType_t;
+						typedef sequence<string> NumberList_t;
+						typedef sequence<AttributValueStruct> AttributValues_t;
+						typedef sequence<AttributValues_t> AttributValuesList_t;
+						
+						// Exception definitions
+						//
+						exception SubscriberInformationServiceException
+						{ 
+							unsigned long reasonCode;
+							string reason; 
+						};
+
+						// Interface definitions
+						//
+						interface SubscriberInformationService
+						{
+						// Returns
+						// AttributValueStruct List
+						//
+						AttributValues_t getSelectedSubscriptionInfo(
+							in NrType_t numberType,
+							in string number,
+							in string includeInfo
+						) raises (SubscriberInformationServiceException);
+
+						// Returns
+						// AttributValueStruct List holding:
+						//
+						AttributValues_t getSelectedStatusSubscriptionInfo(
+							in NrType_t numberType,
+							in string number,
+							in string includeInfo
+						) raises (SubscriberInformationServiceException);
+
+						// Returns
+						// AttributValues holding a list with a List of Attribute Value triplets:
+						//
+						AttributValuesList_t getSelectedSubscriptionInfoList(
+							in NrType_t numberType,
+							in NumberList_t numberList,
+							in string includeInfo
+						) raises (SubscriberInformationServiceException);
+
+						// Returns
+						// AttributValues holding a list with a List of Attribute Value triplets:
+						//
+						AttributValuesList_t getSelectedStatusSubscriptionInfoList(
+							in NrType_t numberType,
+							in NumberList_t numberList,
+							in string includeInfo
+						) raises (SubscriberInformationServiceException);
+
+						};// interface end
+
+					}; //module SubscriberInformationServiceModul end
+				}; //module idl end
+			}; //module corba end
+		}; //module sis end
+	}; //module intersys end
+}; //module ch end

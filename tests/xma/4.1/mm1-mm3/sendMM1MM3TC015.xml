@@ -1,0 +1,581 @@
+<test>
+    <configuration>../xmaConfig.xml</configuration>
+    <name>SEND.MM1.MM3.TC.015</name>
+    <description>10 On-Net Recipients in multiple To Headers / Legacy Recipients / 5 Success + 5 Fails [X-Mms-Delivery-Report=Yes, X-Mms-Read-Report=Yes] 
+    [Sn's DB_Prepaid=false] 
+    [Rc's DB_MmsDisabled=false] 
+    [Rc's DB_ExternalContentConversionDisabled=true] 
+    [Rc's DB_UseEmail=false] 
+    [Rc's DB_Email=user@domain]</description>
+
+    <subtest name="loadVariables" file="loadVariables.xml">
+        <parameter>MSISDN</parameter>
+    </subtest>
+
+    <subtest>../deleteMessagestoreAll.xml</subtest>
+
+    <function name="startSMSCServer" module="SMS"/>
+    <function name="setNextMessageDelay" module="SMS">
+        <parameter>100</parameter>
+    </function>
+    <function name="startSMTPServer" module="SMTP"/>
+    <function name="setPerWorkerDelay" module="SMTP">
+        <parameter>500</parameter>
+    </function>
+
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>default-mno.xml</parameter>
+        <file>../default-mno.xml</file>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data default-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>
+    
+    <function name="waitForBind" module="SMS"/>
+
+    <function name="createMM1Packet" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>M_SEND_REQ</parameter>
+        <parameter>XTTTRANSACTIONID0001</parameter>
+        <parameter>0x17</parameter>
+        <parameter></parameter>
+        <parameter></parameter>
+        <parameter>text/plain</parameter>
+        <parameter>utf-8</parameter>
+    </function>
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN1</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN2</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN3</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN4</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN5</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN1</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN2</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN3</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN4</configuration>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>TO</parameter>
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN5</configuration>
+    </function>
+
+    <function name="setVariable" module="Basic">
+        <parameter>to_list</parameter>
+        <parameter>
+            <configuration>XMA/POSTPAY/USEEMAIL/MSISDN1</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/USEEMAIL/MSISDN2</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/USEEMAIL/MSISDN3</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/USEEMAIL/MSISDN4</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/USEEMAIL/MSISDN5</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN1</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN2</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN3</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN4</configuration>
+            <parameter>, </parameter>
+            <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN5</configuration>
+        </parameter>
+    </function>
+
+
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_READ_REPORT</parameter>
+        <parameter>true</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>SUBJECT</parameter>
+        <parameter>No, they're all going to laugh at you!</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_MESSAGE_CLASS</parameter>
+        <parameter>128</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_PRIORITY</parameter>
+        <parameter>130</parameter>
+    </function>
+    <function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_SENDER_VISIBILITY</parameter>
+        <parameter>129</parameter>
+    </function>
+    <!--function name="createMM1PacketOptions" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <parameter>X_MMS_DELIVERY_TIME</parameter>
+        <parameter>false</parameter>
+        <parameter>0</parameter>
+    </function-->
+    <function name="createMM1PacketContent" module="SMS">
+        <parameter>sendPacket1</parameter>
+        <base64encode>Hello World!</base64encode>
+    </function>
+    <function name="storeMM1Packet" module="SMS">
+        <parameter>sendPacket1Base64</parameter>
+        <parameter>sendPacket1</parameter>
+    </function>
+
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Request</parameter>
+        <variable>sendPacket1Base64</variable>
+    </function>
+        
+    <function name="setHeader" module="HTTP">
+        <configuration>SMSCSERVER/MM1MSISDNHEADER</configuration>
+        <variable>MSISDN/FROM</variable>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Accept</parameter>
+        <parameter>text/vnd.wap.wml, application/xml, image/gif, image/jpeg, application/vnd.wap.mms-message</parameter>
+    </function>
+    <function name="setHeader" module="HTTP">
+        <parameter>Content-Type</parameter>
+        <parameter>application/vnd.wap.mms-message</parameter>
+    </function>
+
+    <function name="setBase64PostData" module="HTTP">
+        <variable>sendPacket1Base64</variable>
+    </function>
+    
+
+    <function name="sendPostRequest" module="HTTP">
+        <parameter>
+            <parameter>http://</parameter>
+            <configuration>SMSCSERVER/MM1Ip</configuration>
+            <parameter>:</parameter>
+            <configuration>SMSCSERVER/MM1Port</configuration>
+            <parameter>/</parameter>
+        </parameter>
+    </function>
+
+    <function name="checkResponseCode" module="HTTP">
+        <parameter>200</parameter>
+    </function>
+    <function name="decodeMM1Packet" module="SMS">
+        <parameter>PACKET1Response</parameter>
+        <variable>HTTP/BODY/BASE64</variable>
+    </function>
+    <function name="queryVariable" module="BASIC">
+        <parameter>PACKET1Response/MMS/x_mms_response_status</parameter>
+        <parameter>dev/null</parameter>
+        <parameter>Ok</parameter>
+    </function>
+    <function name="setVariable" module="BASIC">
+        <parameter>log/messageid</parameter>
+        <variable>PACKET1Response/MMS/message_id</variable>
+    </function>
+        
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>1</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Rejected</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN1</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>2</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Rejected</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN2</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>3</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Rejected</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN3</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>4</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Rejected</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN4</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>5</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Rejected</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/DISABLEDUSEEMAIL/MSISDN5</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+
+    <thread>
+        <function name="waitForMails" module="SMTP">
+            <parameter>5</parameter>
+        </function>
+        <thread>
+            <function name="waitForTimeoutMails" module="SMTP">
+                <parameter>119000</parameter>
+                <parameter>5</parameter>
+            </function>
+        </thread>
+
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN1</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>from</parameter>
+            <parameter>
+                <variable>MSISDN/FROM</variable>
+                <!--configuration>XMA/SELFDOMAIN</configuration-->
+            </parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN1</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>to</parameter>
+            <variable>to_list</variable>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN2</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>from</parameter>
+            <parameter>
+                <variable>MSISDN/FROM</variable>
+                <!--configuration>XMA/SELFDOMAIN</configuration-->
+            </parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN2</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>to</parameter>
+            <variable>to_list</variable>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN3</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>from</parameter>
+            <parameter>
+                <variable>MSISDN/FROM</variable>
+                <!--configuration>XMA/SELFDOMAIN</configuration-->
+            </parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN3</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>to</parameter>
+            <variable>to_list</variable>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN4</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>from</parameter>
+            <parameter>
+                <variable>MSISDN/FROM</variable>
+                <!--configuration>XMA/SELFDOMAIN</configuration-->
+            </parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN4</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>to</parameter>
+            <variable>to_list</variable>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN5</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>from</parameter>
+            <parameter>
+                <variable>MSISDN/FROM</variable>
+                <!--configuration>XMA/SELFDOMAIN</configuration-->
+            </parameter>
+        </function>
+        <function name="checkServerHeader" module="SMTP">
+            <parameter>
+                <configuration>XMA/POSTPAY/USEEMAIL/MSISDN5</configuration>
+                <configuration>XMA/SELFDOMAIN</configuration>
+            </parameter>
+            <parameter>to</parameter>
+            <variable>to_list</variable>
+        </function>
+    </thread>
+
+
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>6</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Forwarded</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN1</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>7</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Forwarded</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN2</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>8</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Forwarded</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN3</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>9</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Forwarded</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN4</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+    <function name="waitForWSPMessages" module="SMS">
+        <parameter>10</parameter>
+    </function>
+    <function name="compareString" module="BASIC">
+        <parameter>Forwarded</parameter>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/x_mms_status</parameter>
+        </variable>
+    </function>
+    <function name="compareString" module="BASIC">
+        <configuration>XMA/POSTPAY/USEEMAIL/MSISDN5</configuration>
+        <variable>
+            <parameter>SMSC/</parameter>
+            <configuration>SMSCSERVER/PROTOCOL</configuration>
+            <parameter>/</parameter>
+            <variable>MSISDN/FROM</variable>
+            <parameter>/MMS/to</parameter>
+        </variable>
+    </function>    
+
+    <function name="stopSMSCServer" module="SMS"/>
+    <function name="stopSMTPServer" module="SMTP"/>
+    <function name="writeRemoteFile" module="Remote">
+        <parameter>empty-mno.xml</parameter>
+        <parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;mnos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="mnos.xsd"&gt;
+            &lt;self systemEmailAddress="mms@xma.724.com" systemDomain="xma.724.com"&gt;
+            &lt;/self&gt;
+            &lt;/mnos&gt;</parameter>
+    </function>
+    <function name="executeRemoteXMSCommand" module="Remote">
+        <parameter>load data empty-mno.xml</parameter>
+    </function>
+    <function name="queryResponse" module="Remote">
+        <parameter>^Loaded </parameter>
+        <parameter>response</parameter>
+    </function>    
+</test>

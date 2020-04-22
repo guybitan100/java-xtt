@@ -1,0 +1,155 @@
+<test>
+	<name>CacheHeaderOverrides.TC.002</name>
+	<description>Validate Cache Header Overriding is configurable for different content types (i.e. content markup/images/javascript)</description>
+	
+	<!-- Execute Web Server & Set its Parameters -->
+	<function name="startWebServer" module="HTTP"/> 
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept-Encoding</parameter>
+		<parameter>0</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>Accept</parameter>
+		<parameter>*/*</parameter>
+	</function>
+	
+	<function name="setHeader" module="HTTP">
+		<parameter>User-Agent</parameter>
+		<parameter>XTT/0.1</parameter>
+	</function>
+	
+	<function name="setServerHeader" module="HTTP">
+		<parameter>Cache-Control</parameter>
+		<parameter>max-age=30000</parameter>
+	</function>
+	
+	<function name="setCacheFile" module="HTTP">
+	<parameter>test.js</parameter>
+	<xml>
+<SCRIPT LANGUAGE="JavaScript">
+function validateForms()
+{	abc = "This is a nice file that should be always received by HTTP User Agent!";
+}
+</SCRIPT>
+	</xml>
+	</function>
+	
+	<!-- Log in Subscriber -->
+	<function name="radiusLogon" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>
+	
+	<!-- Prepare the Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>REQMOD_CacheHeaderOverridesTC002.xml</parameter>
+		<xml>
+<requestModifications xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="requestmodifications.xsd">
+	<table name="SetMobileAccelerationDefaults" phase="response">
+		<selector urlPattern="http://*.cacheheaderoverride.xtt724.com/*">
+			<modifyContext name="HTA_RespHdr_cache-control" value="'no-cache'"/>
+		</selector>
+		<selector urlPattern="http://*.cacheheaderremove.xtt724.com/*">
+			<modifyContext name="HTA_RespHdr_cache-control"/>
+		</selector>
+	</table>
+</requestModifications>
+		</xml>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>REQMOD_CacheHeaderOverridesTC002.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<!-- HTTP GET Requests -->
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.cacheheaderoverride.xtt724.com/test.js</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>Cache-Control</parameter>
+		<parameter>no-cache</parameter>
+	</function>	
+	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is a nice file that should be always received by HTTP User Agent!</parameter>
+    </function>
+	
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.cacheheaderremove.xtt724.com/test.js</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>Cache-Control</parameter>
+		<parameter>null</parameter>
+	</function>	
+	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is a nice file that should be always received by HTTP User Agent!</parameter>
+    </function>
+	
+	<function name="sendGetRequest" module="HTTP">
+		<parameter>http://test.standard.xtt724.com/test.js</parameter>
+	</function>
+	
+	<function name="checkResponseCode" module="HTTP">
+		<parameter>200</parameter>
+	</function>
+	
+	<function name="checkHeader" module="HTTP">
+		<parameter>Cache-Control</parameter>
+		<parameter>max-age=30000</parameter>
+	</function>	
+	
+    <function name="queryBody" module="HTTP">
+        <parameter>dev/null</parameter>
+        <parameter>This is a nice file that should be always received by HTTP User Agent!</parameter>
+    </function>
+        
+	<!-- Purge the Request Modification File -->
+	<function name="writeRemoteFile" module="Remote">
+		<parameter>REQMOD_EmptyRules.xml</parameter>
+		<parameter>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;requestModifications&gt;&lt;/requestModifications&gt;</parameter>
+    </function>
+
+	<function name="executeRemoteXMSCommand" module="Remote">
+		<parameter>
+			<parameter>load data </parameter>
+			<parameter>REQMOD_EmptyRules.xml</parameter>
+		</parameter>
+	</function>
+
+	<function name="queryResponse" module="Remote">
+		<parameter>^Loaded requestmodifications.*</parameter>
+		<parameter>dev/null</parameter>
+	</function>
+	
+	<!-- Log off Subscriber -->
+	<function name="radiusLogoff" module="Radius">
+		<parameter>xttuser</parameter>
+		<parameter>12346</parameter>
+	</function>	
+
+	<!-- Stop Web Server -->
+	<function name="stopWebServer" module="HTTP"/>	
+</test>
