@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a50a2eea-f1f4-4671-af4f-6ffefacc5aba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/xtt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/xtt.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/com/mobixell/xtt/gui/main/XTTGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/com/mobixell/xtt/gui/main/XTTGui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Patches/XMP/XFW002_B190/BZ24191/XTTCustModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Patches/XMP/XFW002_B190/BZ24191/XTTCustModule.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +18,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/sdk" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -107,8 +103,16 @@
       <updated>1587561834727</updated>
       <workItem from="1587561836034" duration="1747000" />
       <workItem from="1587563599944" duration="8000" />
-      <workItem from="1587563622863" duration="769000" />
+      <workItem from="1587563622863" duration="1064000" />
     </task>
+    <task id="LOCAL-00001" summary="Done">
+      <created>1587564473965</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587564473965</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,5 +130,20 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Done" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/com/mobixell/xtt/XTT.java</url>
+          <line>428</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

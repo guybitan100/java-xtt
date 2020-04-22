@@ -29,13 +29,15 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
-//import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.mobixell.xtt.FunctionModule;
-//import com.mobixell.xtt.FunctionModule_Remote;
+import com.mobixell.xtt.FunctionModule_Remote;
 import com.mobixell.xtt.ModuleList;
 import com.mobixell.xtt.Parser;
 import com.mobixell.xtt.XTT;
@@ -93,14 +95,14 @@ public class XTTGui extends JFrame implements WindowListener,ActionListener
     public final static int SUBWINDOWX=1800;
     public final static int SUBWINDOWY=900;
     private MessageListener messagelistener=new MessageListener(this);
-    //private JToolBar toolBar;
+    private JToolBar toolBar;
     public static JButton upButton, topButton, downButton, bottomButton, deleteButton;
 	public static JButton openTestButton, saveTestButton, saveAsTestButton,deleteAllButton,stopTestButton;
 	public static JButton showLogButton;
 	public static JCheckBox repeatCheckBox;
 	public static JTextField repeatAmount;
 	public static JTextField repeatAmountLeft;
-   //private JLabel repAmountLeft;
+   private JLabel repAmountLeft;
     public ProgressPanel progressPanel;
     public ProgressController progressController;
     public Image im;
@@ -109,7 +111,7 @@ public class XTTGui extends JFrame implements WindowListener,ActionListener
        updateIcon(true);
 
     	try {
-			//UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
+			UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
 			SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e) {
 			System.out.println("Error setting UI Look and Feel");
